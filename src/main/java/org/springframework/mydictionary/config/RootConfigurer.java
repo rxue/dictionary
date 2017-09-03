@@ -8,7 +8,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @Configuration
 @EnableWebMvc
 @ComponentScan("org.springframework.mydictionary")
-@EnableJpaRepositories(basePackages = "org.springframework.mydictionary.jparepository")
+@EnableJpaRepositories(basePackages = "org.springframework.mydictionary.repository")
 public class RootConfigurer {
 
 }
