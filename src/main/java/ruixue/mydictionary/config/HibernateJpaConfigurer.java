@@ -10,6 +10,7 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -18,6 +19,7 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 
 @Configuration
+@EnableJpaRepositories(basePackages = "ruixue.mydictionary.repository")
 public class HibernateJpaConfigurer {
 	@Bean
 	public DataSource dataSource() {
@@ -32,7 +34,7 @@ public class HibernateJpaConfigurer {
     public EntityManagerFactory entityManagerFactory() throws SQLException {
         LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
         factory.setJpaVendorAdapter(hibernateJpaVendorAdapter());
-        factory.setPackagesToScan(new String[]{"org.springframework.mydictionary.entity"});
+        factory.setPackagesToScan(new String[]{"ruixue.mydictionary.entity"});
         factory.setDataSource(dataSource());
         factory.setJpaProperties(hibernateProperties());
         factory.afterPropertiesSet();
@@ -51,7 +53,7 @@ public class HibernateJpaConfigurer {
 //	   }
 	private Properties hibernateProperties() {
 		Properties properties = new Properties();
-		properties.put("hibernate.dialect", "org.springframework.dependencies.fix.hibernate5.MyHSQLDialect");
+		properties.put("hibernate.dialect", "ruixue.dependencies.fix.hibernate5.MyHSQLDialect");
 		//properties.put("hibernate.show_sql", "true");
 		//properties.put("hibernate.format_sql", "false");
 		properties.put("hibernate.hbm2ddl.auto", "create");
