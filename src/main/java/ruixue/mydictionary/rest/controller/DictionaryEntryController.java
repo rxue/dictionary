@@ -18,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 
 @RestController
-@RequestMapping("/words")
 public class DictionaryEntryController extends CommonController<ExplanationMapping,DictionaryEntryDTO> {
 	@Autowired
 	private ExplanationMappingService service;
@@ -39,11 +38,11 @@ public class DictionaryEntryController extends CommonController<ExplanationMappi
 		};
 	}
 	
-	@RequestMapping(value={"/{lan}/{explainedLan}/{word}"})
+	@RequestMapping(value={"/{lang}/{explainedLang}/words/{word}"})
 	public ResponseEntity<DictionaryEntryDTO> getAllExplanation(
-			@PathVariable("lan") String languageCode,
-			@PathVariable("explainedLan") String explainedLanguageCode,
+			@PathVariable("lang") String languageCode,
+			@PathVariable("explainedLang") String explainedLanguageCode,
 			@PathVariable("word") String word) {
-		return super.getDTO(service.getExplanationMappingByWordAndLanguageCode(languageCode, word, explainedLanguageCode));
+		return super.getDTO(service.getExplanationMappingByWordAndLanguageCode(languageCode, explainedLanguageCode, word));
 	}
 }

@@ -21,7 +21,7 @@ public class ExplanationMappingService {
 	@Autowired
 	private RepositoryLanguage repositoryLanguage;
 	
-	public ExplanationMapping getExplanationMappingByWordAndLanguageCode(String languageCode, String word, String explanationLanguageCode) {
+	public ExplanationMapping getExplanationMappingByWordAndLanguageCode(String languageCode, String explanationLanguageCode, String word) {
 		Language language = repositoryLanguage.findByLanguageCodeIgnoreCase(languageCode);
 		Language explanationLanguage = repositoryLanguage.findByLanguageCodeIgnoreCase(explanationLanguageCode);
 		Word pertinentWord = repositoryWord.findByLanguageAndWord(language, word);

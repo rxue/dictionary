@@ -1,0 +1,6 @@
+INSERT INTO PARTOFSPEECH(partofspeach) VALUES ('int.');
+INSERT INTO PARTOFSPEECH(partofspeech) VALUES ('n.');
+INSERT INTO WORD_EN (word, partofspeech_id) VALUES ('hello', 1);
+INSERT INTO WORD_EN (word, partofspeech_id) VALUES ('world', 2);
+INSERT INTO WORD_FI (word, partofspeech_id) VALUES ('terve', 1);
+INSERT INTO WORD_FI (word, partofspeech_id) VALUES ('maailma', 2);

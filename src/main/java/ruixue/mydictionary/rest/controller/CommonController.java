@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import ruixue.mydictionary.mapper.EntityToDTO;
 
-@RequestMapping("/rest/mydictionary")
+@RequestMapping("/rest")
 public abstract class CommonController<E,D> {
 	protected EntityToDTO<E,D> dtoConverter; 
 	protected ResponseEntity<D> getDTO(E entity) {
@@ -23,5 +23,10 @@ public abstract class CommonController<E,D> {
 				.map(e -> dtoConverter.apply(e)).collect(Collectors.toList()))
 				.map(d -> new ResponseEntity<>(d, HttpStatus.OK))
 				.orElse(new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
+	}
+	protected ResponseEntity<E> getEntity(E entity) {
+		return Optional.ofNullable(entity)
+			.map(e -> new ResponseEntity<>(e, HttpStatus.OK))
+			.orElse(new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
 	}
 }

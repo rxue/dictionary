@@ -53,7 +53,7 @@ public class HibernateJpaConfigurer {
 //	   }
 	private Properties hibernateProperties() {
 		Properties properties = new Properties();
-		properties.put("hibernate.dialect", "ruixue.dependencies.fix.hibernate5.MyHSQLDialect");
+		properties.put("hibernate.dialect", "ruixue.dependency.hibernate5.fix.MyHSQLDialect");
 		//properties.put("hibernate.show_sql", "true");
 		//properties.put("hibernate.format_sql", "false");
 		properties.put("hibernate.hbm2ddl.auto", "create");

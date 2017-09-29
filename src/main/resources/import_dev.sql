@@ -1,0 +1,10 @@
+INSERT INTO PARTOFSPEECH(partofspeech) VALUES ('int.');
+INSERT INTO PARTOFSPEECH(partofspeech) VALUES ('n.');
+INSERT INTO LANGUAGE(language, languagecode) VALUES ('Finnish','fi');
+INSERT INTO LANGUAGE(language, languagecode) VALUES ('Simplified Chinese','zh-Hans');
+INSERT INTO WORD(word, language_id) VALUES ('kuu', 1);
+INSERT INTO EXPLANATION(partofspeech_id, explanation) VALUES (2, '月亮');;
+INSERT INTO EXPLANATION(partofspeech_id, explanation) VALUES (2, '月份');;
+INSERT INTO EXPLANATIONMAPPING(word_id, explanation_language_id) VALUES (1,2);
+INSERT INTO EXPLANATIONMAPPING_EXPLANATION(explanationmapping_id, explanations_id) VALUES (1, 1);
+INSERT INTO EXPLANATIONMAPPING_EXPLANATION(explanationmapping_id, explanations_id) VALUES (1, 2);
