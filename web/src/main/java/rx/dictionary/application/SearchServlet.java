@@ -13,12 +13,15 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name="search", urlPatterns="/search")
 public class SearchServlet extends HttpServlet {
 	@Override
-	protected void	doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException { 
+	protected void	doGet(HttpServletRequest req, HttpServletResponse resp) { 
 		resp.setContentType("image/jpeg");
 		try(OutputStream os = resp.getOutputStream()) {
 			System.out.println("Going to write of IO");
 			long bytes = Files.copy(Paths.get("resources","img","bucket.jpg"), os);
 			System.out.println("Number of bytes read and wrote is " + bytes);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 }
