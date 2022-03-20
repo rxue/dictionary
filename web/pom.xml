@@ -171,6 +171,12 @@
             <scope>provided</scope>
         </dependency>
 
+		<!-- Pure third party dependencies -->
+ 		<dependency>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-lang3</artifactId>
+		    <version>3.12.0</version>
+		</dependency>
         <!-- Needed for running tests (you may also use TestNG) -->
         <dependency>
             <groupId>junit</groupId>
