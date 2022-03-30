@@ -1,0 +1,14 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:jsf="http://xmlns.jcp.org/jsf">
+		<head>
+			<title>Search for Word</title>
+		</head>
+		<body>
+			<div>
+			    <form method="get" action="#{dictionary.search()}" id="search">
+					<input jsf:id="keyword" value="#{dictionary.keyword}" />
+				</form>
+				<button type="submit" form="search" value="Submit">Submit</button>
+		    </div>
+		</body>
+</html>
