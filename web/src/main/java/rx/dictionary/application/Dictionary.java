@@ -16,6 +16,7 @@ public class Dictionary {
 		hasImage = true;
 	}
 	public void setKeyword(String keyword) {
+		System.out.println("set keyword: " + keyword);
 		this.keyword = keyword;
 	}
 	public String getKeyword() {
