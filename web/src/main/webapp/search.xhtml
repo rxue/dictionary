@@ -8,10 +8,10 @@
 		</head>
 		<body>
 			<div>
-				<form jsf:id="form">
-					<input type="text" jsf:value="#{dictionary.keyword}" />
-					<button jsf:action="#{dictionary.search}">Search</button>
-				</form>
+				<h:form>
+					<h:inputText value="#{dictionary.keyword}" />
+					<h:commandButton value="Search" action="#{dictionary.search}"/>
+				</h:form>
 				<ui:debug hotkey="j" />
 		    </div>
 		</body>
