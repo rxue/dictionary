@@ -9,7 +9,7 @@
 			<div>
 				<h:form>
 					<h:inputText pt:placeholder="keyword here" value="#{dictionary.keyword}" pt:autofocus="true" />
-					<h:commandButton value="Search" action="#{dictionary.search}" />
+					<h:commandButton value="Search" action="#{dictionary.search()}" />
 				</h:form>
 				<ui:fragment rendered="#{dictionary.hasImage}">
 					<h:graphicImage url="#{dictionary.imageUrl}" />
