@@ -11,12 +11,14 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 		</head>
 		<body>
 			<div>
-				<h:selectOneMenu value="2019" onchange="submit()">
-					<f:valueChangeListener type="rx.dictionary.application.SearchHistory" />
-					<f:selectItem itemValue="2022" itemLabel="Year 2022" />
-					<f:selectItem itemValue="2021" itemLabel="Year 2021" />
-					<f:selectItem itemValue="2020" itemLabel="Year 2020" />
-				</h:selectOneMenu>
+				<h:form>
+					<h:selectOneMenu value="2019" onchange="submit()">
+						<f:valueChangeListener type="rx.dictionary.application.SearchHistory" />
+						<f:selectItem itemValue="2022" itemLabel="Year 2022" />
+						<f:selectItem itemValue="2021" itemLabel="Year 2021" />
+						<f:selectItem itemValue="2020" itemLabel="Year 2020" />
+					</h:selectOneMenu>
+				</h:form>
 				<ui:debug hotkey="j" />
 		    </div>
 		</body>
