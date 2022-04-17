@@ -1,5 +1,5 @@
 package rx.dictionary;
 
 public enum Language {
-	EN, FIN
+	EN, FI, CN
 }
