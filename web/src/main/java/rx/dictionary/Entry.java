@@ -1,5 +1,9 @@
 package rx.dictionary;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
+import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -18,28 +22,26 @@ import javax.persistence.UniqueConstraint;
 @SequenceGenerator(sequenceName = "entry_id_seq", name = "sequence_entry", allocationSize=1)
 @Entity
 public class Entry extends AbstractEntity {
-	private String entry;
-	private Language language;
+	@AttributeOverrides({
+	    @AttributeOverride(name = "entry", column = @Column(name = "entry")),
+	    @AttributeOverride(name = "language", column = @Column(name = "language"))
+	})
+	@Embedded
+	private EntryValue value;
 	private PartOfSpeech poS;
 	@Id @GeneratedValue(generator="sequence_entry", strategy=GenerationType.IDENTITY)
 	public int getId() {
 		return id;
 	}
-	public String getEntry() {
-		return entry;
+
+	public EntryValue getValue() {
+		return value;
 	}
 
-	public void setEntry(String entry) {
-		this.entry = entry;
-	}
-	@Enumerated(EnumType.STRING)
-	public Language getLanguage() {
-		return language;
+	public void setValue(EntryValue value) {
+		this.value = value;
 	}
 
-	public void setLanguage(Language language) {
-		this.language = language;
-	}
 	@Enumerated(EnumType.STRING)
 	public PartOfSpeech getPoS() {
 		return poS;
@@ -48,7 +50,5 @@ public class Entry extends AbstractEntity {
 	public void setPoS(PartOfSpeech poS) {
 		this.poS = poS;
 	}
-	
-	
 
 }
