@@ -3,20 +3,28 @@
 PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
 		<head>
 			<title>Search for Word</title>
+			<meta http-equiv="Content-Type" content="text/html;charset=UTF8" />
 		</head>
 		<body>
 			<div>
 				<h:form>
-					<h:inputText pt:placeholder="keyword here" value="#{dictionary.keyword}" pt:autofocus="true" />
-					<h:commandButton value="Search" action="#{dictionary.search()}" />
+					<h:selectOneMenu value="#{dictionary.fromLanguage}">
+			            <f:selectItems value="#{dictionary.languageMap}"/>
+			        </h:selectOneMenu>
+					<h:inputText pt:placeholder="keyword here" value="#{dictionary.keyword}" pt:autofocus="true" pt:required="true" />
+					<h:selectOneMenu value="#{dictionary.toLanguage}">
+			            <f:selectItems value="#{dictionary.languageMap}"/>
+			        </h:selectOneMenu>
+					<h:commandButton value="Search" action="#{dictionary.search}" />
 				</h:form>
-				<ui:fragment rendered="#{dictionary.hasImage}">
-					<h:graphicImage url="#{dictionary.imageUrl}" />
+				<ui:fragment rendered="#{dictionary.hasResult}">
+					<h:outputText value="#{dictionary.result}" />
 		    	</ui:fragment>
 				<ui:debug hotkey="j" />
 		    </div>
