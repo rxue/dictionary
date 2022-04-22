@@ -10,8 +10,11 @@ import javax.inject.Inject;
 public class SearchService {
 	@Inject
 	private DefinitionRepository definitionRepo;
-	public Map<PartOfSpeech,List<String>> search(EntryValue entryValue, Language toLanguage) {
-		return definitionRepo.find(entryValue, toLanguage).stream()
+	public List<DefinitionItemViewDTO> search(EntryValue entryValue, Language toLanguage) {
+		Map<PartOfSpeech,List<String>> rawResult = definitionRepo.find(entryValue, toLanguage).stream()
 				.collect(groupingBy(d -> d.getEntry().getPoS(), mapping(Definition::getDefinition, toList())));
+		return rawResult.entrySet().stream()
+				.map(e -> new DefinitionItemViewDTO(e.getKey(), e.getValue()))
+				.collect(toList());
 	}
 }

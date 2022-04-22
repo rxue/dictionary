@@ -1,0 +1,17 @@
+package rx.dictionary;
+
+import java.util.List;
+
+public class DefinitionItemViewDTO {
+	private final PartOfSpeech partOfSpeech;
+	private final List<String> definitions;
+	public DefinitionItemViewDTO(PartOfSpeech partOfSpeech, List<String> definitions) {
+		this.partOfSpeech = partOfSpeech;
+		this.definitions = definitions;
+	}
+	@Override
+	public String toString() {
+		return "(" + partOfSpeech + ")" + String.join(", ", definitions);
+	}
+	
+}

@@ -9,9 +9,10 @@ import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+
+import rx.dictionary.DefinitionItemViewDTO;
 import rx.dictionary.EntryValue;
 import rx.dictionary.Language;
-import rx.dictionary.PartOfSpeech;
 import rx.dictionary.SearchService;
 
 @RequestScoped
@@ -21,7 +22,7 @@ public class Dictionary {
 	private Language fromLanguage;
 	private Language toLanguage;
 	private SearchService searchService;
-	private String result;
+	private List<DefinitionItemViewDTO> result;
 	
 	@Inject
 	public Dictionary(SearchService searchService) {
@@ -30,15 +31,7 @@ public class Dictionary {
 	public void search() {
 		FacesContext context = FacesContext.getCurrentInstance();
 		System.out.println("current phase: " + context.getCurrentPhaseId().getName());
-		Map<PartOfSpeech,List<String>> definitions = searchService.search(getEntryValue(), toLanguage);
-		System.out.println("Definition: " + definitions.size());
-		StringBuilder resultBuilder = new StringBuilder();
-		for (PartOfSpeech poS : definitions.keySet()) {
-			resultBuilder.append(poS.toString())
-				.append(String.join(",", definitions.get(poS)))
-				.append(". ");
-		}
-		result = resultBuilder.toString();
+		result = searchService.search(getEntryValue(), toLanguage);
 	}
 	private EntryValue getEntryValue() {
 		EntryValue ev = new EntryValue();
@@ -71,7 +64,7 @@ public class Dictionary {
 	public boolean getHasResult() {
 		return result != null;
 	}
-	public String getResult() {
+	public List<DefinitionItemViewDTO> getResult() {
 		return result;
 	} 
 

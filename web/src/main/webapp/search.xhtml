@@ -24,7 +24,9 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 					<h:commandButton value="Search" action="#{dictionary.search}" />
 				</h:form>
 				<ui:fragment rendered="#{dictionary.hasResult}">
-					<h:outputText value="#{dictionary.result}" />
+					<h:dataTable value="#{dictionary.result}" var="r">
+						<h:column>#{r.toString()}</h:column>
+					</h:dataTable>
 		    	</ui:fragment>
 				<ui:debug hotkey="j" />
 		    </div>
