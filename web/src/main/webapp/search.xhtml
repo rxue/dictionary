@@ -14,18 +14,18 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 		<body>
 			<div>
 				<h:form>
-					<h:selectOneMenu value="#{dictionary.fromLanguage}">
-			            <f:selectItems value="#{dictionary.languageMap}"/>
+					<h:selectOneMenu value="#{searchCriteria.fromLanguage}">
+			            <f:selectItems value="#{search.languageMap}"/>
 			        </h:selectOneMenu>
-					<h:inputText pt:placeholder="keyword here" value="#{dictionary.keyword}" pt:autofocus="true" pt:required="true" />
-					<h:selectOneMenu value="#{dictionary.toLanguage}">
-			            <f:selectItems value="#{dictionary.languageMap}"/>
+					<h:inputText pt:placeholder="keyword here" value="#{searchCriteria.keyword}" pt:autofocus="true" pt:required="true" />
+					<h:selectOneMenu value="#{searchCriteria.toLanguage}">
+			            <f:selectItems value="#{search.languageMap}"/>
 			        </h:selectOneMenu>
-					<h:commandButton value="Search" action="#{dictionary.search}" />
+					<h:commandButton value="Search" action="#{search.search}" />
 				</h:form>
-				<ui:fragment rendered="#{dictionary.hasResult}">
-					<h:dataTable value="#{dictionary.result}" var="r">
-						<h:column>#{r.toString()}</h:column>
+				<ui:fragment rendered="#{searchResult.isPresent()}">
+					<h:dataTable value="#{searchResult}" var="r">
+						<h:column>#{r}</h:column>
 					</h:dataTable>
 		    	</ui:fragment>
 				<ui:debug hotkey="j" />
