@@ -3,6 +3,7 @@
 PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
@@ -15,19 +16,24 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 			<div>
 				<h:form>
 					<h:selectOneMenu value="#{searchCriteria.fromLanguage}">
-			            <f:selectItems value="#{search.languageMap}"/>
+			            <f:selectItems value="#{searchUIComponent.languageMap}"/>
 			        </h:selectOneMenu>
 					<h:inputText pt:placeholder="keyword here" value="#{searchCriteria.keyword}" pt:autofocus="true" pt:required="true" />
 					<h:selectOneMenu value="#{searchCriteria.toLanguage}">
-			            <f:selectItems value="#{search.languageMap}"/>
+			            <f:selectItems value="#{searchUIComponent.languageMap}"/>
 			        </h:selectOneMenu>
 					<h:commandButton value="Search" action="#{search.search}" />
 				</h:form>
-				<ui:fragment rendered="#{searchResult.isPresent()}">
-					<h:dataTable value="#{searchResult}" var="r">
-						<h:column>#{r}</h:column>
-					</h:dataTable>
-		    	</ui:fragment>
+				<c:choose>
+					<c:when test="#{searchResult.isNotEmpty()}">
+						<h:dataTable value="#{searchResult}" var="r">
+							<h:column>#{r}</h:column>
+						</h:dataTable>
+			    	</c:when>
+			    	<c:when test="#{searchResult.isSetButEmpty()}">
+						no result
+			    	</c:when>
+		    	</c:choose>
 				<ui:debug hotkey="j" />
 		    </div>
 		</body>

@@ -11,7 +11,14 @@ import rx.dictionary.DefinitionItemViewDTO;
 @RequestScoped
 @Named
 public class SearchResult extends ArrayList<DefinitionItemViewDTO> {
-	public boolean isPresent() {
+	private boolean isPresent;
+	public boolean isNotEmpty() {
 		return size() > 0;
+	}
+	void setAsPresent() {
+		isPresent = true;
+	}
+	public boolean isSetButEmpty() {
+		return isPresent && size() == 0;
 	}
 }
