@@ -1,24 +1,23 @@
 package rx.dictionary;
 
+import java.util.Locale;
+
 import javax.persistence.Embeddable;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 
 @Embeddable
 public class EntryValue {
 	private String entry;
-	private Language language;
+	private Locale language;
 	public String getEntry() {
 		return entry;
 	}
 	public void setEntry(String entry) {
 		this.entry = entry;
 	}
-	@Enumerated(EnumType.STRING)
-	public Language getLanguage() {
+	public Locale getLanguage() {
 		return language;
 	}
-	public void setLanguage(Language language) {
+	public void setLanguage(Locale language) {
 		this.language = language;
 	}
 	

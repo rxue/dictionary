@@ -1,6 +1,7 @@
 package rx.dictionary;
 
 import java.util.List;
+import java.util.Locale;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -16,7 +17,7 @@ public class DefinitionRepository {
 	 * @param lang
 	 * @return list of entries matching exactly. NOTE! Return type is list due to the fact that a word could have several parts of speech
 	 */
-	public List<Definition> find(EntryValue entryValue, Language toLang) {
+	public List<Definition> find(EntryValue entryValue, Locale toLang) {
 		return em.createQuery("SELECT d FROM Definition d WHERE d.entry.value = :entryValue and d.language = :language", Definition.class)
 				.setParameter("entryValue", entryValue)
 				.setParameter("language", toLang)

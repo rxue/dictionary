@@ -28,6 +28,7 @@
 				<supported-locale>en-US</supported-locale>
 				<supported-locale>fi</supported-locale>
 				<supported-locale>zh-TW</supported-locale>
+				<supported-locale>zh-CN</supported-locale>
 				<supported-locale>fr</supported-locale>
 			</locale-config>
 		</application>

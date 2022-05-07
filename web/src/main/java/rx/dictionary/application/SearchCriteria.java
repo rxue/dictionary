@@ -1,32 +1,33 @@
 package rx.dictionary.application;
 
+import java.util.Locale;
+
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 
 import rx.dictionary.EntryValue;
-import rx.dictionary.Language;
 @RequestScoped
 @Named
 public class SearchCriteria {
 	private String keyword;
-	private Language fromLanguage;
-	private Language toLanguage;
+	private Locale fromLanguage;
+	private Locale toLanguage;
 	public String getKeyword() {
 		return keyword;
 	}
 	public void setKeyword(String keyword) {
 		this.keyword = keyword;
 	}
-	public Language getFromLanguage() {
+	public Locale getFromLanguage() {
 		return fromLanguage;
 	}
-	public void setFromLanguage(Language fromLanguage) {
+	public void setFromLanguage(Locale fromLanguage) {
 		this.fromLanguage = fromLanguage;
 	}
-	public Language getToLanguage() {
+	public Locale getToLanguage() {
 		return toLanguage;
 	}
-	public void setToLanguage(Language toLanguage) {
+	public void setToLanguage(Locale toLanguage) {
 		this.toLanguage = toLanguage;
 	}
 	EntryValue getEntryValue() {
@@ -35,4 +36,5 @@ public class SearchCriteria {
 		ev.setLanguage(fromLanguage);
 		return ev;
 	}
+
 }

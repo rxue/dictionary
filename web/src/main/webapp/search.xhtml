@@ -15,12 +15,12 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 		<body>
 			<div>
 				<h:form>
-					<h:selectOneMenu value="#{searchCriteria.fromLanguage}">
-			            <f:selectItems value="#{searchUIComponent.languageMap}"/>
+					<h:selectOneMenu value="#{searchCriteria.fromLanguage}" converter="languageLocaleConverter">
+			            <f:selectItems value="#{searchUIComponent.languageMap}" />
 			        </h:selectOneMenu>
 					<h:inputText pt:placeholder="keyword here" value="#{searchCriteria.keyword}" pt:autofocus="true" pt:required="true" />
-					<h:selectOneMenu value="#{searchCriteria.toLanguage}">
-			            <f:selectItems value="#{searchUIComponent.languageMap}"/>
+					<h:selectOneMenu value="#{searchCriteria.toLanguage}" converter="languageLocaleConverter">
+			            <f:selectItems value="#{searchUIComponent.languageMap}" />
 			        </h:selectOneMenu>
 					<h:commandButton value="Search" action="#{search.search}" />
 				</h:form>

@@ -1,8 +1,8 @@
 package rx.dictionary;
 
+import java.util.Locale;
+
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,7 +17,7 @@ import javax.persistence.UniqueConstraint;
 @Entity
 public class Definition extends AbstractEntity {
 	private Entry entry;
-	private Language language;
+	private Locale language;
 	private String definition;
 	@Id @GeneratedValue(generator="sequence_definition", strategy=GenerationType.IDENTITY)
 	public int getId() {
@@ -31,11 +31,10 @@ public class Definition extends AbstractEntity {
 	public void setEntry(Entry entry) {
 		this.entry = entry;
 	}
-	@Enumerated(EnumType.STRING)
-	public Language getLanguage() {
+	public Locale getLanguage() {
 		return language;
 	}
-	public void setLanguage(Language language) {
+	public void setLanguage(Locale language) {
 		this.language = language;
 	}
 	public String getDefinition() {
