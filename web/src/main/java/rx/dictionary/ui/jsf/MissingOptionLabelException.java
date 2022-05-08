@@ -1,4 +1,4 @@
-package rx.dictionary.jsfuicomponent;
+package rx.dictionary.ui.jsf;
 
 import java.util.Locale;
 

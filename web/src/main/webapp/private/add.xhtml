@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html
+PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+		<head>
+			<title>Add Word</title>
+			<meta http-equiv="Content-Type" content="text/html;charset=UTF8" />
+		</head>
+		<body>
+			<div>
+				<h:form>
+			        <h:panelGrid columns="2">
+			        	<h:selectOneMenu value="#{searchCriteria.fromLanguage}" converter="languageLocaleConverter">
+			            	<f:selectItems value="#{searchUIComponent.languageMap}" />
+			        	</h:selectOneMenu>
+			        	<h:inputText pt:placeholder="word here" value="" pt:autofocus="true" pt:required="true" />
+			        	<h:outputText value="To Language:" />
+				        <h:selectOneMenu value="--To Language" converter="languageLocaleConverter">
+				            <f:selectItems value="#{searchUIComponent.languageMap}" />
+				        </h:selectOneMenu>
+			        </h:panelGrid>
+			        <h:panelGrid columns="3">
+				        <c:forEach begin="0" end="10" varStatus="i">
+				        	<h:outputText value="Explanation:" />
+				        	<h:selectOneMenu value="--part of speech">
+				            	<f:selectItems value="#{add.partOfSpeech}" />
+				        	</h:selectOneMenu>
+	            			<h:inputText pt:placeholder="explanation here" value="" pt:autofocus="true" pt:required="true" />
+	          			</c:forEach>
+          			</h:panelGrid>
+			        <br />
+					<h:commandButton value="Add" action="#{search.search}" />
+				</h:form>
+				<ui:debug hotkey="j" />
+		    </div>
+		</body>
+</html>
