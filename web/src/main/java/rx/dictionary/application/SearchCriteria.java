@@ -2,39 +2,46 @@ package rx.dictionary.application;
 
 import java.util.Locale;
 
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Named;
-
-import rx.dictionary.EntryValue;
-@RequestScoped
-@Named
-public class SearchCriteria {
+import rx.dictionary.jpaentity.EntryValue;
+class SearchCriteria {
 	private String keyword;
 	private Locale fromLanguage;
 	private Locale toLanguage;
-	public String getKeyword() {
-		return keyword;
+	private SearchCriteria(Builder builder) {
+		this.keyword = builder.keyword;
+		this.fromLanguage = builder.fromLanguage;
+		this.toLanguage = builder.toLanguage;
 	}
-	public void setKeyword(String keyword) {
-		this.keyword = keyword;
-	}
-	public Locale getFromLanguage() {
-		return fromLanguage;
-	}
-	public void setFromLanguage(Locale fromLanguage) {
-		this.fromLanguage = fromLanguage;
-	}
-	public Locale getToLanguage() {
+	Locale getToLanguage() {
 		return toLanguage;
 	}
-	public void setToLanguage(Locale toLanguage) {
-		this.toLanguage = toLanguage;
-	}
+
 	EntryValue getEntryValue() {
 		EntryValue ev = new EntryValue();
 		ev.setEntry(keyword);
 		ev.setLanguage(fromLanguage);
 		return ev;
+	}
+	static class Builder {
+		private String keyword;
+		private Locale fromLanguage;
+		private Locale toLanguage;
+		public Builder setKeyword(String keyword) {
+			this.keyword = keyword;
+			return this;
+		}
+		public Builder setFromLanguage(Locale fromLanguage) {
+			this.fromLanguage = fromLanguage;
+			return this;
+		}
+		public Builder setToLanguage(Locale toLanguage) {
+			this.toLanguage = toLanguage;
+			return this;
+		}
+		public SearchCriteria build() {
+			return new SearchCriteria(this);
+		}
+	
 	}
 
 }

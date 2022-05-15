@@ -1,7 +1,8 @@
-package rx.dictionary;
+package rx.dictionary.jpaentity;
 
 import java.util.Locale;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,7 +24,7 @@ public class Definition extends AbstractEntity {
 	public int getId() {
 		return id;
 	}
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="entry_id")
 	public Entry getEntry() {
 		return entry;

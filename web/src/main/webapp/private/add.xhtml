@@ -16,26 +16,32 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 			<div>
 				<h:form>
 			        <h:panelGrid columns="2">
-			        	<h:selectOneMenu value="#{searchCriteria.fromLanguage}" converter="languageLocaleConverter">
-			            	<f:selectItems value="#{searchUIComponent.languageMap}" />
+			        	<h:selectOneMenu value="#{addComponent.sourceLanguage}" converter="languageLocaleConverter">
+			            	<f:selectItems value="#{addComponent.languageMap}" />
 			        	</h:selectOneMenu>
-			        	<h:inputText pt:placeholder="word here" value="" pt:autofocus="true" pt:required="true" />
+			        	<h:inputText pt:placeholder="word here" value="#{addComponent.entryValue}" pt:autofocus="true" pt:required="true" />
 			        	<h:outputText value="To Language:" />
-				        <h:selectOneMenu value="--To Language" converter="languageLocaleConverter">
-				            <f:selectItems value="#{searchUIComponent.languageMap}" />
+				        <h:selectOneMenu value="#{addComponent.explainLanguage}" converter="languageLocaleConverter">
+				            <f:selectItems value="#{addComponent.languageMap}" />
 				        </h:selectOneMenu>
 			        </h:panelGrid>
-			        <h:panelGrid columns="3">
-				        <c:forEach begin="0" end="10" varStatus="i">
-				        	<h:outputText value="Explanation:" />
-				        	<h:selectOneMenu value="--part of speech">
-				            	<f:selectItems value="#{add.partOfSpeech}" />
+			        <h:dataTable var="explain" value="#{addComponent.explanations}">
+			        	<h:column>
+                         	<h:selectOneMenu value="#{explain.partOfSpeech}">
+				            	<f:selectItems value="#{addComponent.partOfSpeechOptions}" />
 				        	</h:selectOneMenu>
-	            			<h:inputText pt:placeholder="explanation here" value="" pt:autofocus="true" pt:required="true" />
-	          			</c:forEach>
-          			</h:panelGrid>
+                        </h:column>
+                		<h:column>
+                			<c:when test="#{explain.required}">
+                				<h:inputText pt:placeholder="Compulsory explanation here" value="#{explain.explanation}" pt:required="#{explain.required}" />
+                			</c:when>
+                			<c:otherwise>
+                				<h:inputText pt:placeholder="explanation here" value="#{explain.explanation}" />
+                			</c:otherwise>
+                		</h:column>
+					</h:dataTable>
 			        <br />
-					<h:commandButton value="Add" action="#{search.search}" />
+					<h:commandButton value="Add" action="#{addComponent.action()}" />
 				</h:form>
 				<ui:debug hotkey="j" />
 		    </div>

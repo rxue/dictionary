@@ -5,24 +5,30 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import rx.dictionary.SearchService;
+import rx.dictionary.DictionaryService;
+import rx.dictionary.ui.jsf.SearchComponent;
 
 @RequestScoped
 @Named
 public class Search {
-	private SearchService searchService;
+	private DictionaryService searchService;
 	@Inject
-	private SearchCriteria searchCriteria;
+	private SearchComponent searchComponent;
 	@Inject
 	private SearchResult result;
 	@Inject
-	public Search(SearchService searchService) {
+	public Search(DictionaryService searchService) {
 		this.searchService = searchService;
 	}
-	public void search() {
+	public void action() {
 		FacesContext context = FacesContext.getCurrentInstance();
 		System.out.println("current phase: " + context.getCurrentPhaseId().getName());
 		result.setAsPresent();
+		SearchCriteria searchCriteria = new SearchCriteria.Builder()
+				.setFromLanguage(searchComponent.getFromLanguage())
+				.setKeyword(searchComponent.getKeyword())
+				.setToLanguage(searchComponent.getToLanguage())
+				.build();
 		result.addAll(searchService.search(searchCriteria.getEntryValue(), searchCriteria.getToLanguage()));
 	}
 	

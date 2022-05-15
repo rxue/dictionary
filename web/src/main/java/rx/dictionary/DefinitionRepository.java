@@ -6,6 +6,9 @@ import java.util.Locale;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
+import rx.dictionary.jpaentity.Definition;
+import rx.dictionary.jpaentity.EntryValue;
+
 public class DefinitionRepository {
 	@Inject
 	private EntityManager em;
@@ -24,4 +27,11 @@ public class DefinitionRepository {
 				.getResultList();
 	} 
 
+	public void add(List<Definition> definitions) {
+		System.out.println(definitions.size() + " definitions:" + definitions);
+		for (Definition definition : definitions) {
+			System.out.println("ADD definition: " + definition);
+			em.merge(definition);
+		}
+	}
 }

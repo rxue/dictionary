@@ -1,4 +1,4 @@
-package rx.dictionary;
+package rx.dictionary.jpaentity;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;

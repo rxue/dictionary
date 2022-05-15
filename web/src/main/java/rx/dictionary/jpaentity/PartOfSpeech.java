@@ -1,4 +1,4 @@
-package rx.dictionary;
+package rx.dictionary.jpaentity;
 
 public enum PartOfSpeech {
 	ADJ, N, VI, VT, ADV;

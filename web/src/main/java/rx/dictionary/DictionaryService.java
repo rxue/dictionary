@@ -5,10 +5,13 @@ import java.util.Locale;
 import java.util.Map;
 import static java.util.stream.Collectors.*;
 
-
 import javax.inject.Inject;
 
-public class SearchService {
+import rx.dictionary.jpaentity.Definition;
+import rx.dictionary.jpaentity.EntryValue;
+import rx.dictionary.jpaentity.PartOfSpeech;
+
+public class DictionaryService {
 	@Inject
 	private DefinitionRepository definitionRepo;
 	public List<DefinitionItemViewDTO> search(EntryValue entryValue, Locale toLanguage) {
@@ -17,5 +20,9 @@ public class SearchService {
 		return rawResult.entrySet().stream()
 				.map(e -> new DefinitionItemViewDTO(e.getKey(), e.getValue()))
 				.collect(toList());
+	}
+	
+	public void add(List<Definition> definitions) {
+		definitionRepo.add(definitions);
 	}
 }

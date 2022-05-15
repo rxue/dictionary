@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+
 final class Language {
 	private final Locale locale;
 	private static final Map<Locale,String> LOCALE_TO_LANGUAGE;

@@ -2,6 +2,8 @@ package rx.dictionary;
 
 import java.util.List;
 
+import rx.dictionary.jpaentity.PartOfSpeech;
+
 public class DefinitionItemViewDTO {
 	private final PartOfSpeech partOfSpeech;
 	private final List<String> definitions;

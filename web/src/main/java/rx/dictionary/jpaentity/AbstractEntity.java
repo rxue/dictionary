@@ -1,4 +1,4 @@
-package rx.dictionary;
+package rx.dictionary.jpaentity;
 
 import java.time.LocalDate;
 
