@@ -6,11 +6,13 @@ import java.util.Map;
 import static java.util.stream.Collectors.*;
 
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 
 import rx.dictionary.jpaentity.Definition;
 import rx.dictionary.jpaentity.EntryValue;
 import rx.dictionary.jpaentity.PartOfSpeech;
 
+@Transactional
 public class DictionaryService {
 	@Inject
 	private DefinitionRepository definitionRepo;
