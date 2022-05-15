@@ -32,12 +32,8 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 				        	</h:selectOneMenu>
                         </h:column>
                 		<h:column>
-                			<c:when test="#{explain.required}">
-                				<h:inputText pt:placeholder="Compulsory explanation here" value="#{explain.explanation}" pt:required="#{explain.required}" />
-                			</c:when>
-                			<c:otherwise>
-                				<h:inputText pt:placeholder="explanation here" value="#{explain.explanation}" />
-                			</c:otherwise>
+                			<h:inputText pt:placeholder="Compulsory explanation here" value="#{explain.explanation}" pt:required="#{explain.required}" rendered="#{explain.required}" />
+                			<h:inputText pt:placeholder="explanation here" value="#{explain.explanation}" rendered="#{not explain.required}" />
                 		</h:column>
 					</h:dataTable>
 			        <br />
