@@ -14,7 +14,7 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 @Table(uniqueConstraints = { @UniqueConstraint(columnNames = { "entry_id", "language", "definition"}) })
-@SequenceGenerator(sequenceName = "definition_id_seq", name = "sequence_definition")
+@SequenceGenerator(sequenceName = "definition_id_seq", initialValue=1, name = "sequence_definition")
 @Entity
 public class Definition extends AbstractEntity {
 	private Entry entry;

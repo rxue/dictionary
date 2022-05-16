@@ -19,7 +19,7 @@ import javax.persistence.UniqueConstraint;
  *
  */
 @Table(uniqueConstraints = { @UniqueConstraint(columnNames = { "entry", "language", "pos"}) })
-@SequenceGenerator(sequenceName = "entry_id_seq", name = "sequence_entry", allocationSize=1)
+@SequenceGenerator(sequenceName = "entry_id_seq", initialValue= 1, name = "sequence_entry", allocationSize=1)
 @Entity
 public class Entry extends AbstractEntity {
 	@AttributeOverrides({
