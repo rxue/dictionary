@@ -12,7 +12,6 @@ import java.util.stream.StreamSupport;
 import javax.faces.context.FacesContext;
 
 public class CommonComponent {
-	private CommonComponent() {}
 	public static final Map<String,String> FRONTEND_LANGUAGE_OPTIONS = getFrontendLanguageOptions();
 	private static Map<String,String> getFrontendLanguageOptions() {
 		Iterator<Locale> supportedLocales = FacesContext.getCurrentInstance().getApplication().getSupportedLocales();

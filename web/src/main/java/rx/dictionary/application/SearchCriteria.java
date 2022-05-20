@@ -3,7 +3,7 @@ package rx.dictionary.application;
 import java.util.Locale;
 
 import rx.dictionary.jpaentity.EntryValue;
-class SearchCriteria {
+public class SearchCriteria {
 	private String keyword;
 	private Locale fromLanguage;
 	private Locale toLanguage;
@@ -22,7 +22,7 @@ class SearchCriteria {
 		ev.setLanguage(fromLanguage);
 		return ev;
 	}
-	static class Builder {
+	public static class Builder {
 		private String keyword;
 		private Locale fromLanguage;
 		private Locale toLanguage;

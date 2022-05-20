@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html
+PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+		<head>
+			<title>Update Word</title>
+			<meta http-equiv="Content-Type" content="text/html;charset=UTF8" />
+		</head>
+		<body>
+			<div>
+				<h:form>
+					<h:selectOneMenu value="#{searchComponent.fromLanguage}" converter="languageLocaleConverter">
+			            <f:selectItems value="#{searchComponent.languageMap}" />
+			        </h:selectOneMenu>
+					<h:inputText pt:placeholder="keyword here" value="#{searchComponent.keyword}" pt:autofocus="true" pt:required="true" />
+					<h:selectOneMenu value="#{searchComponent.toLanguage}" converter="languageLocaleConverter">
+			            <f:selectItems value="#{searchComponent.languageMap}" />
+			        </h:selectOneMenu>
+					<h:commandButton value="Search for update" action="#{updateComponent.search()}" />
+					<ui:fragment rendered="#{updateComponent.explanations != null}">
+				        <h:panelGrid columns="1">
+				        	<h:outputText value="From Language:English" />
+				        	<h:outputText value="#{commonSearchComponent.keyword}" pt:required="true" />
+				        	<h:outputText value="To Language:Suomi" />
+				        </h:panelGrid>
+				        <h:dataTable var="explain" value="#{updateComponent.explanations}">
+				        	<h:column>
+	                         	<h:selectOneMenu value="#{explain.partOfSpeech}">
+					            	<f:selectItems value="#{updateComponent.partOfSpeechOptions}" />
+					        	</h:selectOneMenu>
+	                        </h:column>
+	                		<h:column>
+	                			<h:inputText pt:placeholder="Compulsory explanation here" value="#{explain.explanation}" pt:required="#{explain.required}" rendered="#{explain.required}" />
+	                			<h:inputText pt:placeholder="explanation here" value="#{explain.explanation}" rendered="#{not explain.required}" />
+	                		</h:column>
+						</h:dataTable>
+				        <br />
+						<h:commandButton value="Update" action="#{updateComponent.action()}" />
+					</ui:fragment>
+				</h:form>
+				<ui:debug hotkey="j" />
+		    </div>
+		</body>
+</html>

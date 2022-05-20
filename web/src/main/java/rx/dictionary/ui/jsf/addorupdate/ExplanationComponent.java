@@ -1,4 +1,4 @@
-package rx.dictionary.ui.jsf.add;
+package rx.dictionary.ui.jsf.addorupdate;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;

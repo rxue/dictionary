@@ -1,11 +1,9 @@
-package rx.dictionary.ui.jsf.add;
+package rx.dictionary.ui.jsf.addorupdate;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.stream.IntStream;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -17,25 +15,16 @@ import rx.dictionary.application.Add;
 import rx.dictionary.jpaentity.Definition;
 import rx.dictionary.jpaentity.Entry;
 import rx.dictionary.jpaentity.EntryValue;
-import rx.dictionary.jpaentity.PartOfSpeech;
 import rx.dictionary.ui.jsf.CommonComponent;
-
-
 
 @RequestScoped
 @Named
-public class AddComponent {
+public class AddComponent extends AbstractFillInComponent {
 	private Locale sourceLanguage;
 	private String entryValue;
 	private Locale explainLanguage;
-	private List<ExplanationComponent> explanations;
 	@Inject
 	private Add addService;
-	public AddComponent() {
-		explanations = new ArrayList<>();
-		explanations.add(new ExplanationComponent(true));
-		IntStream.range(0, 5).forEach(e -> explanations.add(new ExplanationComponent()));
-	}
 	
 	public Locale getSourceLanguage() {
 		return sourceLanguage;
@@ -65,22 +54,6 @@ public class AddComponent {
 	public void setExplainLanguage(Locale explainLanguage) {
 		this.explainLanguage = explainLanguage;
 	}
-	public void setExplanations(List<ExplanationComponent> explanations) {
-		this.explanations = explanations;
-	}
-
-	public List<ExplanationComponent> getExplanations() {
-		return explanations;
-	}
-	
-	public Map<String,String> getPartOfSpeechOptions() {
-		PartOfSpeech[] partOfSpeeches = PartOfSpeech.values();
-		Map<String,String> result = new HashMap<>();
-		for (PartOfSpeech partOfSpeech : partOfSpeeches) {
-			result.put(partOfSpeech.name(), partOfSpeech.name());
-		}
-		return result;
-	}
 	
 	private List<Definition> getDefinitions() {
 		EntryValue entryValue = new EntryValue();
@@ -103,8 +76,10 @@ public class AddComponent {
 		}
 		return definitions;
 		
-	}	
+	}
+	
 	public void action() {
 		addService.add(getDefinitions());
-	} 
+	}
+	
 }

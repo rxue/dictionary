@@ -11,14 +11,14 @@ import rx.dictionary.ui.jsf.SearchComponent;
 @RequestScoped
 @Named
 public class Search {
-	private DictionaryService searchService;
+	private DictionaryService service;
 	@Inject
 	private SearchComponent searchComponent;
 	@Inject
 	private SearchResult result;
 	@Inject
 	public Search(DictionaryService searchService) {
-		this.searchService = searchService;
+		this.service = searchService;
 	}
 	public void action() {
 		FacesContext context = FacesContext.getCurrentInstance();
@@ -29,7 +29,10 @@ public class Search {
 				.setKeyword(searchComponent.getKeyword())
 				.setToLanguage(searchComponent.getToLanguage())
 				.build();
-		result.addAll(searchService.search(searchCriteria.getEntryValue(), searchCriteria.getToLanguage()));
+		result.addAll(service.search(searchCriteria.getEntryValue(), searchCriteria.getToLanguage()));
+	}
+	public void search(SearchCriteria searchCriteria) {
+		result.addAll(service.search(searchCriteria.getEntryValue(), searchCriteria.getToLanguage()));
 	}
 	
 }
