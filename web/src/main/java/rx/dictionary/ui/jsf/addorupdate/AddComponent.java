@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.stream.IntStream;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -25,6 +26,11 @@ public class AddComponent extends AbstractFillInComponent {
 	private Locale explainLanguage;
 	@Inject
 	private Add addService;
+	public AddComponent() {
+		explanations = new ArrayList<>();
+		explanations.add(new ExplanationComponent(true));
+		IntStream.range(0, 5).forEach(e -> explanations.add(new ExplanationComponent()));
+	}
 	
 	public Locale getSourceLanguage() {
 		return sourceLanguage;

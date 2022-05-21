@@ -16,7 +16,7 @@ import rx.dictionary.jpaentity.PartOfSpeech;
 import rx.dictionary.ui.jsf.SearchComponent;
 @RequestScoped
 @Named
-public class UpdateComponent {
+public class UpdateComponent extends AbstractFillInComponent {
 	@Inject
 	private SearchComponent searchComponent;
 	@Inject
