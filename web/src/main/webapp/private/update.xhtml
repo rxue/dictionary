@@ -15,21 +15,21 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 		<body>
 			<div>
 				<h:form>
-					<h:selectOneMenu value="#{searchComponent.fromLanguage}" converter="languageLocaleConverter">
-			            <f:selectItems value="#{searchComponent.languageMap}" />
+					<h:selectOneMenu value="#{updateComponent.fromLanguage}" converter="languageLocaleConverter">
+			            <f:selectItems value="#{updateComponent.languageMap}" />
 			        </h:selectOneMenu>
-					<h:inputText pt:placeholder="keyword here" value="#{searchComponent.keyword}" pt:autofocus="true" pt:required="true" />
-					<h:selectOneMenu value="#{searchComponent.toLanguage}" converter="languageLocaleConverter">
-			            <f:selectItems value="#{searchComponent.languageMap}" />
+					<h:inputText pt:placeholder="keyword here" value="#{updateComponent.word}" pt:autofocus="true" pt:required="true" />
+					<h:selectOneMenu value="#{updateComponent.toLanguage}" converter="languageLocaleConverter">
+			            <f:selectItems value="#{updateComponent.languageMap}" />
 			        </h:selectOneMenu>
 					<h:commandButton value="Search for update" action="#{updateComponent.search()}" />
-					<ui:fragment rendered="#{updateComponent.explanations != null}">
+					<ui:fragment rendered="#{updateComponent.hasExplanations()}">
 				        <h:panelGrid columns="1">
 				        	<h:outputText value="From Language:English" />
-				        	<h:outputText value="#{commonSearchComponent.keyword}" pt:required="true" />
+				        	<h:outputText value="#{updateComponent.word}" pt:required="true" />
 				        	<h:outputText value="To Language:Suomi" />
 				        </h:panelGrid>
-				        <h:dataTable var="explain" value="#{updateComponent.explanations}">
+				        <h:dataTable var="explain" value="#{updateComponent.explanationComponents}">
 				        	<h:column>
 	                         	<h:selectOneMenu value="#{explain.partOfSpeech}">
 					            	<f:selectItems value="#{updateComponent.partOfSpeechOptions}" />
@@ -41,7 +41,7 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 	                		</h:column>
 						</h:dataTable>
 				        <br />
-						<h:commandButton value="Update" action="#{updateComponent.action()}" />
+				        <h:commandButton value="Update" action="#{updateComponent.update()}" />
 					</ui:fragment>
 				</h:form>
 				<ui:debug hotkey="j" />

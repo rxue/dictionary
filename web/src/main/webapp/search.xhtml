@@ -18,22 +18,22 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 					<h:selectOneMenu value="#{searchComponent.fromLanguage}" converter="languageLocaleConverter">
 			            <f:selectItems value="#{searchComponent.languageMap}" />
 			        </h:selectOneMenu>
-					<h:inputText pt:placeholder="keyword here" value="#{searchComponent.keyword}" pt:autofocus="true" pt:required="true" />
+					<h:inputText pt:placeholder="keyword here" value="#{searchComponent.word}" pt:autofocus="true" pt:required="true" />
 					<h:selectOneMenu value="#{searchComponent.toLanguage}" converter="languageLocaleConverter">
 			            <f:selectItems value="#{searchComponent.languageMap}" />
 			        </h:selectOneMenu>
-					<h:commandButton value="Search" action="#{search.action()}" />
+					<h:commandButton value="Search" action="#{searchComponent.action()}" />
 				</h:form>
 				<c:choose>
-					<c:when test="#{searchResult.isNotEmpty()}">
-						<h:dataTable value="#{searchResult}" var="r">
+					<c:when test="#{searchComponent.result.isActionedAndNotEmpty()}">
+						<h:dataTable value="#{searchComponent.result}" var="r">
 							<h:column>#{r}</h:column>
 						</h:dataTable>
-			    	</c:when>
-			    	<c:when test="#{searchResult.isSetButEmpty()}">
-						no result
-			    	</c:when>
-		    	</c:choose>
+					</c:when>
+					<c:when test="#{searchComponent.result.isActionedAndEmpty()}">
+						<h:outputText value="Not result!" />
+					</c:when>
+				</c:choose>
 				<ui:debug hotkey="j" />
 		    </div>
 		</body>

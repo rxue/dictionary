@@ -16,12 +16,12 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 			<div>
 				<h:form>
 			        <h:panelGrid columns="2">
-			        	<h:selectOneMenu value="#{addComponent.sourceLanguage}" converter="languageLocaleConverter">
+			        	<h:selectOneMenu value="#{addComponent.fromLanguage}" converter="languageLocaleConverter">
 			            	<f:selectItems value="#{addComponent.languageMap}" />
 			        	</h:selectOneMenu>
-			        	<h:inputText pt:placeholder="word here" value="#{addComponent.entryValue}" pt:autofocus="true" pt:required="true" />
+			        	<h:inputText pt:placeholder="word here" value="#{addComponent.word}" pt:autofocus="true" pt:required="true" />
 			        	<h:outputText value="To Language:" />
-				        <h:selectOneMenu value="#{addComponent.explainLanguage}" converter="languageLocaleConverter">
+				        <h:selectOneMenu value="#{addComponent.toLanguage}" converter="languageLocaleConverter">
 				            <f:selectItems value="#{addComponent.languageMap}" />
 				        </h:selectOneMenu>
 			        </h:panelGrid>

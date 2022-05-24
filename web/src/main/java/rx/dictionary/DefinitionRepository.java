@@ -5,6 +5,7 @@ import java.util.Locale;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
 
 import rx.dictionary.jpaentity.Definition;
 import rx.dictionary.jpaentity.EntryValue;
@@ -26,12 +27,18 @@ public class DefinitionRepository {
 				.setParameter("language", toLang)
 				.getResultList();
 	} 
-
+	@Transactional
 	public void add(List<Definition> definitions) {
 		System.out.println(definitions.size() + " definitions:" + definitions);
 		for (Definition definition : definitions) {
 			System.out.println("ADD definition: " + definition);
 			em.merge(definition);
+		}
+	}
+	@Transactional
+	public void update(List<Definition> updatedDefinitions) {
+		for (Definition updatedDef : updatedDefinitions) {
+			em.merge(updatedDef);
 		}
 	}
 }
