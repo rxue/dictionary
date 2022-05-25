@@ -8,8 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -22,7 +22,7 @@ import rx.dictionary.ui.jsf.InputComponent;
 import rx.dictionary.ui.jsf.addorupdate.ExplanationComponent;
 
 @Named
-@RequestScoped
+@ViewScoped
 public class UpdateComponent extends InputComponent implements Serializable {
 	@Inject
 	private DefinitionRepository definitionRepo;
@@ -70,17 +70,14 @@ public class UpdateComponent extends InputComponent implements Serializable {
 		}
 		return explanations;
 	}
-	public String update() {
+	public void update() {
 		int i = 0;
-		System.out.println("::::::::::::::::updated explanations have ");
 		for (ExplanationComponent explanationComp : explanations) {
-			Definition defToUpdate = definitions.get(i);
+			Definition defToUpdate = definitions.get(i++);
 			Entry entry = defToUpdate.getEntry();
 			entry.setPoS(explanationComp.getPartOfSpeech());
-			System.out.println("update with new explanation: " + explanationComp.getExplanation());
 			defToUpdate.setDefinition(explanationComp.getExplanation());
 		}
-		//definitionRepo.update(definitions);		
-		return "add";
+		definitionRepo.update(definitions);		
 	}
 }

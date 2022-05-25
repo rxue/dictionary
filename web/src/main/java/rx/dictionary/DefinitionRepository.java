@@ -1,5 +1,6 @@
 package rx.dictionary;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Locale;
 
@@ -10,7 +11,7 @@ import javax.transaction.Transactional;
 import rx.dictionary.jpaentity.Definition;
 import rx.dictionary.jpaentity.EntryValue;
 
-public class DefinitionRepository {
+public class DefinitionRepository implements Serializable {
 	@Inject
 	private EntityManager em;
 	/**
