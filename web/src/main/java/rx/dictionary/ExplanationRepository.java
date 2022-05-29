@@ -22,9 +22,9 @@ public class ExplanationRepository implements Serializable {
 	 * @param lang
 	 * @return list of entries matching exactly. NOTE! Return type is list due to the fact that a word could have several parts of speech
 	 */
-	public List<Explanation> find(ItemValue entryValue, Locale toLang) {
-		return em.createQuery("SELECT d FROM Definition d WHERE d.entry.value = :entryValue and d.language = :language", Explanation.class)
-				.setParameter("entryValue", entryValue)
+	public List<Explanation> find(ItemValue itemValue, Locale toLang) {
+		return em.createQuery("SELECT e FROM Explanation e WHERE e.lexicalItem.itemValue = :itemValue and e.language = :language", Explanation.class)
+				.setParameter("itemValue", itemValue)
 				.setParameter("language", toLang)
 				.getResultList();
 	} 
