@@ -18,27 +18,27 @@ import javax.persistence.UniqueConstraint;
  * @author rui
  *
  */
-@Table(uniqueConstraints = { @UniqueConstraint(columnNames = { "entry", "language", "pos"}) })
-@SequenceGenerator(sequenceName = "entry_id_seq", initialValue= 1, name = "sequence_entry", allocationSize=1)
+@Table(uniqueConstraints = { @UniqueConstraint(columnNames = { "value", "language", "pos"}) })
+@SequenceGenerator(sequenceName = "item_id_seq", initialValue= 1, name = "item_sequence", allocationSize=1)
 @Entity
-public class Entry extends AbstractEntity {
-	@AttributeOverrides({
+public class LexicalItem extends AbstractEntity {
+	/*@AttributeOverrides({
 	    @AttributeOverride(name = "entry", column = @Column(name = "entry")),
 	    @AttributeOverride(name = "language", column = @Column(name = "language"))
-	})
+	})*/
 	@Embedded
-	private EntryValue value;
+	private ItemValue value;
 	private PartOfSpeech poS;
-	@Id @GeneratedValue(generator="sequence_entry", strategy=GenerationType.IDENTITY)
+	@Id @GeneratedValue(generator="item_sequence", strategy=GenerationType.IDENTITY)
 	public int getId() {
 		return id;
 	}
 
-	public EntryValue getValue() {
+	public ItemValue getItemValue() {
 		return value;
 	}
 
-	public void setValue(EntryValue value) {
+	public void setItemValue(ItemValue value) {
 		this.value = value;
 	}
 

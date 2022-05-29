@@ -11,9 +11,9 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import rx.dictionary.DefinitionRepository;
-import rx.dictionary.jpaentity.Definition;
-import rx.dictionary.jpaentity.EntryValue;
+import rx.dictionary.ExplanationRepository;
+import rx.dictionary.jpaentity.ItemValue;
+import rx.dictionary.jpaentity.Explanation;
 import rx.dictionary.jpaentity.PartOfSpeech;
 import rx.dictionary.ui.jsf.CommonComponent;
 import rx.dictionary.ui.jsf.InputComponent;
@@ -22,7 +22,7 @@ import rx.dictionary.ui.jsf.InputComponent;
 @Named
 public class SearchComponent extends InputComponent {
 	@Inject
-	private DefinitionRepository definitionRepo;
+	private ExplanationRepository definitionRepo;
 	private SearchResult searchResult = SearchResult.newWithoutAction();
 	public Map<String,String> getLanguageMap() {
 		return CommonComponent.FRONTEND_LANGUAGE_OPTIONS;
@@ -40,11 +40,11 @@ public class SearchComponent extends InputComponent {
 
 
 	public void action() {
-		EntryValue entryVal = new EntryValue();
-		entryVal.setLanguage(getFromLanguage());
-		entryVal.setEntry(getWord());
-		Map<PartOfSpeech,List<String>> rawResult = definitionRepo.find(entryVal, getToLanguage()).stream()
-				.collect(groupingBy(d -> d.getEntry().getPoS(), mapping(Definition::getDefinition, toList())));
+		ItemValue itemVal = new ItemValue();
+		itemVal.setLanguage(getFromLanguage());
+		itemVal.setValue(getWord());
+		Map<PartOfSpeech,List<String>> rawResult = definitionRepo.find(itemVal, getToLanguage()).stream()
+				.collect(groupingBy(d -> d.getLexicalItem().getPoS(), mapping(Explanation::getExplanation, toList())));
 		searchResult = SearchResult.newWithAction();
 		if (rawResult.size() > 0) 
 			rawResult.entrySet().forEach(e -> searchResult.add(new DefinitionItemViewDTO(e.getKey(), e.getValue())));

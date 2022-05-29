@@ -8,10 +8,10 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
-import rx.dictionary.jpaentity.Definition;
-import rx.dictionary.jpaentity.EntryValue;
+import rx.dictionary.jpaentity.Explanation;
+import rx.dictionary.jpaentity.ItemValue;
 
-public class DefinitionRepository implements Serializable {
+public class ExplanationRepository implements Serializable {
 	@Inject
 	private EntityManager em;
 	/**
@@ -22,23 +22,23 @@ public class DefinitionRepository implements Serializable {
 	 * @param lang
 	 * @return list of entries matching exactly. NOTE! Return type is list due to the fact that a word could have several parts of speech
 	 */
-	public List<Definition> find(EntryValue entryValue, Locale toLang) {
-		return em.createQuery("SELECT d FROM Definition d WHERE d.entry.value = :entryValue and d.language = :language", Definition.class)
+	public List<Explanation> find(ItemValue entryValue, Locale toLang) {
+		return em.createQuery("SELECT d FROM Definition d WHERE d.entry.value = :entryValue and d.language = :language", Explanation.class)
 				.setParameter("entryValue", entryValue)
 				.setParameter("language", toLang)
 				.getResultList();
 	} 
 	@Transactional
-	public void add(List<Definition> definitions) {
+	public void add(List<Explanation> definitions) {
 		System.out.println(definitions.size() + " definitions:" + definitions);
-		for (Definition definition : definitions) {
+		for (Explanation definition : definitions) {
 			System.out.println("ADD definition: " + definition);
 			em.merge(definition);
 		}
 	}
 	@Transactional
-	public void update(List<Definition> updatedDefinitions) {
-		for (Definition updatedDef : updatedDefinitions) {
+	public void update(List<Explanation> updatedDefinitions) {
+		for (Explanation updatedDef : updatedDefinitions) {
 			em.merge(updatedDef);
 		}
 	}

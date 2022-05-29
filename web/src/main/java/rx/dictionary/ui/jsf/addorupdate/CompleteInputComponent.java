@@ -8,14 +8,14 @@ import java.util.stream.IntStream;
 
 import javax.inject.Inject;
 
-import rx.dictionary.DefinitionRepository;
+import rx.dictionary.ExplanationRepository;
 import rx.dictionary.jpaentity.PartOfSpeech;
 import rx.dictionary.ui.jsf.InputComponent;
 
 abstract class CompleteInputComponent extends InputComponent {
 	private List<ExplanationComponent> explanations;
 	@Inject
-	DefinitionRepository definitionRepo;
+	ExplanationRepository definitionRepo;
 	public CompleteInputComponent() {
 		explanations = new ArrayList<>();
 		explanations.add(new ExplanationComponent(true));

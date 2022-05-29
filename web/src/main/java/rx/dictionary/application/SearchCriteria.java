@@ -2,7 +2,7 @@ package rx.dictionary.application;
 
 import java.util.Locale;
 
-import rx.dictionary.jpaentity.EntryValue;
+import rx.dictionary.jpaentity.ItemValue;
 public class SearchCriteria {
 	private String keyword;
 	private Locale fromLanguage;
@@ -16,9 +16,9 @@ public class SearchCriteria {
 		return toLanguage;
 	}
 
-	EntryValue getEntryValue() {
-		EntryValue ev = new EntryValue();
-		ev.setEntry(keyword);
+	ItemValue getEntryValue() {
+		ItemValue ev = new ItemValue();
+		ev.setValue(keyword);
 		ev.setLanguage(fromLanguage);
 		return ev;
 	}

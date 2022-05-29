@@ -5,14 +5,14 @@ import java.util.Locale;
 import javax.persistence.Embeddable;
 
 @Embeddable
-public class EntryValue {
-	private String entry;
+public class ItemValue {
+	private String value;
 	private Locale language;
-	public String getEntry() {
-		return entry;
+	public String getValue() {
+		return value;
 	}
-	public void setEntry(String entry) {
-		this.entry = entry;
+	public void setValue(String value) {
+		this.value = value;
 	}
 	public Locale getLanguage() {
 		return language;

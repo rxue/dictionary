@@ -10,43 +10,43 @@ import javax.inject.Named;
 
 import org.apache.commons.lang3.StringUtils;
 
-import rx.dictionary.DefinitionRepository;
-import rx.dictionary.jpaentity.Definition;
-import rx.dictionary.jpaentity.Entry;
-import rx.dictionary.jpaentity.EntryValue;
+import rx.dictionary.ExplanationRepository;
+import rx.dictionary.jpaentity.Explanation;
+import rx.dictionary.jpaentity.ItemValue;
+import rx.dictionary.jpaentity.LexicalItem;
 
 @RequestScoped
 @Named
 public class AddComponent extends CompleteInputComponent {
 	@Inject
-	DefinitionRepository definitionRepo;
-	private List<ExplanationComponent> explanations;
+	ExplanationRepository definitionRepo;
+	private List<ExplanationComponent> explanationComponents;
 	public AddComponent() {
-		explanations = new ArrayList<>();
-		explanations.add(new ExplanationComponent(true));
-		IntStream.range(0, 5).forEach(e -> explanations.add(new ExplanationComponent()));
+		explanationComponents = new ArrayList<>();
+		explanationComponents.add(new ExplanationComponent(true));
+		IntStream.range(0, 5).forEach(e -> explanationComponents.add(new ExplanationComponent()));
 	}
 	
-	private List<Definition> getDefinitions() {
-		EntryValue entryValue = new EntryValue();
-		entryValue.setEntry(this.getWord());
-		entryValue.setLanguage(getFromLanguage());
-		List<Definition> definitions = new ArrayList<>();
-		for (ExplanationComponent explanationComp : explanations) {
+	private List<Explanation> getDefinitions() {
+		ItemValue itemValue = new ItemValue();
+		itemValue.setValue(this.getWord());
+		itemValue.setLanguage(getFromLanguage());
+		List<Explanation> explanations = new ArrayList<>();
+		for (ExplanationComponent explanationComp : explanationComponents) {
 			String explanation = explanationComp.getExplanation();
 			if (!StringUtils.isEmpty(explanation)) {
 				System.out.println("explanation: " + explanation);
-				Definition def = new Definition();
-				def.setDefinition(explanation);
-				Entry entry = new Entry();
-				entry.setPoS(explanationComp.getPartOfSpeech());
-				entry.setValue(entryValue);
-				def.setEntry(entry);
-				def.setLanguage(getToLanguage());
-				definitions.add(def);
+				Explanation newExplanation = new Explanation();
+				newExplanation.setExplanation(explanation);
+				LexicalItem item = new LexicalItem();
+				item.setPoS(explanationComp.getPartOfSpeech());
+				item.setItemValue(itemValue);
+				newExplanation.setLexicalItem(item);
+				newExplanation.setLanguage(getToLanguage());
+				explanations.add(newExplanation);
 			}
 		}
-		return definitions;
+		return explanations;
 		
 	}
 	

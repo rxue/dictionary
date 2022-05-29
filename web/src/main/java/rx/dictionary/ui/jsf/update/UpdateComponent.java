@@ -13,10 +13,10 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import rx.dictionary.DefinitionRepository;
-import rx.dictionary.jpaentity.Definition;
-import rx.dictionary.jpaentity.Entry;
-import rx.dictionary.jpaentity.EntryValue;
+import rx.dictionary.ExplanationRepository;
+import rx.dictionary.jpaentity.Explanation;
+import rx.dictionary.jpaentity.ItemValue;
+import rx.dictionary.jpaentity.LexicalItem;
 import rx.dictionary.jpaentity.PartOfSpeech;
 import rx.dictionary.ui.jsf.InputComponent;
 import rx.dictionary.ui.jsf.addorupdate.ExplanationComponent;
@@ -25,8 +25,8 @@ import rx.dictionary.ui.jsf.addorupdate.ExplanationComponent;
 @ViewScoped
 public class UpdateComponent extends InputComponent implements Serializable {
 	@Inject
-	private DefinitionRepository definitionRepo;
-	private List<Definition> definitions = Collections.emptyList();
+	private ExplanationRepository definitionRepo;
+	private List<Explanation> definitions = Collections.emptyList();
 	private List<ExplanationComponent> explanations = Collections.emptyList();
 	public void setExplanationComponents(List<ExplanationComponent> explanations) {
 		this.explanations = explanations;
@@ -49,34 +49,34 @@ public class UpdateComponent extends InputComponent implements Serializable {
 	
 	public void search() {
 		System.out.println("Search action at JSF phace: " + FacesContext.getCurrentInstance().getCurrentPhaseId());
-		EntryValue entryVal = new EntryValue();
-		entryVal.setLanguage(getFromLanguage());
-		entryVal.setEntry(getWord());
-		definitions = definitionRepo.find(entryVal, getToLanguage());
+		ItemValue itemVal = new ItemValue();
+		itemVal.setLanguage(getFromLanguage());
+		itemVal.setValue(getWord());
+		definitions = definitionRepo.find(itemVal, getToLanguage());
 		explanations = toExplanationComponents(definitions);
 	}
 	
-	private static List<ExplanationComponent> toExplanationComponents(List<Definition> definitions) {
+	private static List<ExplanationComponent> toExplanationComponents(List<Explanation> explanations) {
 		int i = 0;
-		List<ExplanationComponent> explanations = new ArrayList<>();
-		for(Definition definition : definitions) {
+		List<ExplanationComponent> explanationComponents = new ArrayList<>();
+		for(Explanation explanation : explanations) {
 			ExplanationComponent newExplanation;
 			if (i++ == 0) {
 				newExplanation = new ExplanationComponent(true);
 			} else newExplanation = new ExplanationComponent(false);
-			newExplanation.setPartOfSpeech(definition.getEntry().getPoS());
-			newExplanation.setExplanation(definition.getDefinition());
-			explanations.add(newExplanation);
+			newExplanation.setPartOfSpeech(explanation.getLexicalItem().getPoS());
+			newExplanation.setExplanation(explanation.getExplanation());
+			explanationComponents.add(newExplanation);
 		}
-		return explanations;
+		return explanationComponents;
 	}
 	public void update() {
 		int i = 0;
 		for (ExplanationComponent explanationComp : explanations) {
-			Definition defToUpdate = definitions.get(i++);
-			Entry entry = defToUpdate.getEntry();
-			entry.setPoS(explanationComp.getPartOfSpeech());
-			defToUpdate.setDefinition(explanationComp.getExplanation());
+			Explanation explanationToUpdate = definitions.get(i++);
+			LexicalItem item = explanationToUpdate.getLexicalItem();
+			item.setPoS(explanationComp.getPartOfSpeech());
+			explanationToUpdate.setExplanation(explanationComp.getExplanation());
 		}
 		definitionRepo.update(definitions);		
 	}
