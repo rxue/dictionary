@@ -16,7 +16,7 @@ abstract class CompleteInputComponent extends InputComponent {
 	private List<ExplanationComponent> explanations;
 	@Inject
 	ExplanationRepository definitionRepo;
-	public CompleteInputComponent() {
+	protected CompleteInputComponent() {
 		explanations = new ArrayList<>();
 		explanations.add(new ExplanationComponent(true));
 		IntStream.range(0, 5).forEach(e -> explanations.add(new ExplanationComponent()));

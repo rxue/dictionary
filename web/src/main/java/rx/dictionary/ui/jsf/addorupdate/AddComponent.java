@@ -2,8 +2,6 @@ package rx.dictionary.ui.jsf.addorupdate;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.IntStream;
-
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -20,11 +18,8 @@ import rx.dictionary.jpaentity.LexicalItem;
 public class AddComponent extends CompleteInputComponent {
 	@Inject
 	ExplanationRepository definitionRepo;
-	private List<ExplanationComponent> explanationComponents;
 	public AddComponent() {
-		explanationComponents = new ArrayList<>();
-		explanationComponents.add(new ExplanationComponent(true));
-		IntStream.range(0, 5).forEach(e -> explanationComponents.add(new ExplanationComponent()));
+		super();
 	}
 	
 	private List<Explanation> getDefinitions() {
@@ -32,7 +27,7 @@ public class AddComponent extends CompleteInputComponent {
 		itemValue.setValue(this.getWord());
 		itemValue.setLanguage(getFromLanguage());
 		List<Explanation> explanations = new ArrayList<>();
-		for (ExplanationComponent explanationComp : explanationComponents) {
+		for (ExplanationComponent explanationComp : getExplanations()) {
 			String explanation = explanationComp.getExplanation();
 			if (!StringUtils.isEmpty(explanation)) {
 				System.out.println("explanation: " + explanation);
