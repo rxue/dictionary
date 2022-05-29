@@ -1,4 +1,3 @@
 .*
 !/.gitignore
-/web/.*
-/web/docker_config
+/web/target
