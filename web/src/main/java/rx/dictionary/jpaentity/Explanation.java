@@ -13,14 +13,14 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
-@Table(uniqueConstraints = { @UniqueConstraint(columnNames = { "item_id", "language", "definition"}) })
-@SequenceGenerator(sequenceName = "definition_id_seq", initialValue=1, name = "sequence_definition")
+@Table(uniqueConstraints = { @UniqueConstraint(columnNames = { "item_id", "language", "explanation"}) })
+@SequenceGenerator(sequenceName = "explanation_id_seq", initialValue=1, name = "explanation_sequence")
 @Entity
 public class Explanation extends AbstractEntity {
 	private LexicalItem lexicalItem;
 	private Locale language;
 	private String explanation;
-	@Id @GeneratedValue(generator="sequence_definition", strategy=GenerationType.IDENTITY)
+	@Id @GeneratedValue(generator="explanation_sequence", strategy=GenerationType.IDENTITY)
 	public int getId() {
 		return id;
 	}
