@@ -13,6 +13,9 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 /**
  * At the beginning, assume it as word entry, i.e. not a phrase
  * @author rui
@@ -50,5 +53,24 @@ public class LexicalItem extends AbstractEntity {
 	public void setPoS(PartOfSpeech poS) {
 		this.poS = poS;
 	}
-
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof LexicalItem) {
+			LexicalItem that = (LexicalItem) obj;
+			return new EqualsBuilder()
+					.append(value, that.value)
+					.append(poS, that.poS)
+					.build();
+		}
+		return false;
+	}
+	
+	@Override
+	public int hashCode() {
+		return new HashCodeBuilder(17,37)
+				.append(value)
+				.append(poS)
+				.hashCode();
+	}
+	
 }

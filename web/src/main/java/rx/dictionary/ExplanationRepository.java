@@ -10,6 +10,7 @@ import javax.transaction.Transactional;
 
 import rx.dictionary.jpaentity.Explanation;
 import rx.dictionary.jpaentity.ItemValue;
+import rx.dictionary.jpaentity.LexicalItem;
 
 public class ExplanationRepository implements Serializable {
 	@Inject
@@ -33,7 +34,9 @@ public class ExplanationRepository implements Serializable {
 		System.out.println(definitions.size() + " definitions:" + definitions);
 		for (Explanation definition : definitions) {
 			System.out.println("ADD definition: " + definition);
-			em.merge(definition);
+			LexicalItem li = definition.getLexicalItem();
+			em.persist(definition);
+			System.out.println("lexical item ID is " + li.getId());
 		}
 	}
 	@Transactional
