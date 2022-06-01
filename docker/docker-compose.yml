@@ -5,4 +5,5 @@ services:
     build: ../web
     ports: 
     - "80:80"
+    - "8787:8787"
     container_name: dictionary-web
