@@ -6,7 +6,6 @@ import java.util.Locale;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.transaction.Transactional;
 
 import rx.dictionary.jpaentity.Explanation;
 import rx.dictionary.jpaentity.ItemValue;
@@ -29,17 +28,12 @@ public class ExplanationRepository implements Serializable {
 				.setParameter("language", toLang)
 				.getResultList();
 	} 
-	@Transactional
 	public void add(List<Explanation> definitions) {
-		System.out.println(definitions.size() + " definitions:" + definitions);
 		for (Explanation definition : definitions) {
-			System.out.println("ADD definition: " + definition);
 			LexicalItem li = definition.getLexicalItem();
 			em.persist(definition);
-			System.out.println("lexical item ID is " + li.getId());
 		}
 	}
-	@Transactional
 	public void update(List<Explanation> updatedDefinitions) {
 		for (Explanation updatedDef : updatedDefinitions) {
 			em.merge(updatedDef);

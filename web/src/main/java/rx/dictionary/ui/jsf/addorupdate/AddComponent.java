@@ -10,7 +10,7 @@ import javax.inject.Named;
 
 import org.apache.commons.lang3.StringUtils;
 
-import rx.dictionary.ExplanationRepository;
+import rx.dictionary.DictionaryService;
 import rx.dictionary.jpaentity.Explanation;
 import rx.dictionary.jpaentity.ItemValue;
 import rx.dictionary.jpaentity.LexicalItem;
@@ -19,7 +19,7 @@ import rx.dictionary.jpaentity.LexicalItem;
 @Named
 public class AddComponent extends CompleteInputComponent {
 	@Inject
-	ExplanationRepository definitionRepo;
+	DictionaryService dictionaryService;
 	public AddComponent() {
 		super();
 	}
@@ -57,7 +57,7 @@ public class AddComponent extends CompleteInputComponent {
 	}
 	
 	public void action() {
-		definitionRepo.add(getDefinitions());
+		dictionaryService.add(getDefinitions());
 	}
 	
 }
