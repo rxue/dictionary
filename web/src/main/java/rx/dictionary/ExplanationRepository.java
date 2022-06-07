@@ -9,7 +9,6 @@ import javax.persistence.EntityManager;
 
 import rx.dictionary.jpaentity.Explanation;
 import rx.dictionary.jpaentity.ItemValue;
-import rx.dictionary.jpaentity.LexicalItem;
 
 public class ExplanationRepository implements Serializable {
 	@Inject
@@ -30,7 +29,6 @@ public class ExplanationRepository implements Serializable {
 	} 
 	public void add(List<Explanation> definitions) {
 		for (Explanation definition : definitions) {
-			LexicalItem li = definition.getLexicalItem();
 			em.persist(definition);
 		}
 	}

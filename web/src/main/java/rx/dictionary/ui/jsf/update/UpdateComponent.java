@@ -13,7 +13,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import rx.dictionary.ExplanationRepository;
+import rx.dictionary.DictionaryService;
 import rx.dictionary.jpaentity.Explanation;
 import rx.dictionary.jpaentity.ItemValue;
 import rx.dictionary.jpaentity.LexicalItem;
@@ -25,7 +25,7 @@ import rx.dictionary.ui.jsf.addorupdate.ExplanationComponent;
 @ViewScoped
 public class UpdateComponent extends InputComponent implements Serializable {
 	@Inject
-	private ExplanationRepository definitionRepo;
+	private DictionaryService dictionaryService;
 	private List<Explanation> definitions = Collections.emptyList();
 	private List<ExplanationComponent> explanations = Collections.emptyList();
 	public void setExplanationComponents(List<ExplanationComponent> explanations) {
@@ -52,7 +52,7 @@ public class UpdateComponent extends InputComponent implements Serializable {
 		ItemValue itemVal = new ItemValue();
 		itemVal.setLanguage(getFromLanguage());
 		itemVal.setValue(getWord());
-		definitions = definitionRepo.find(itemVal, getToLanguage());
+		definitions = dictionaryService.find(itemVal, getToLanguage());
 		explanations = toExplanationComponents(definitions);
 	}
 	
@@ -78,6 +78,6 @@ public class UpdateComponent extends InputComponent implements Serializable {
 			item.setPoS(explanationComp.getPartOfSpeech());
 			explanationToUpdate.setExplanation(explanationComp.getExplanation());
 		}
-		definitionRepo.update(definitions);		
+		dictionaryService.update(definitions);		
 	}
 }

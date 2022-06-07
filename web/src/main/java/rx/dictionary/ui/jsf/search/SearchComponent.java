@@ -11,7 +11,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import rx.dictionary.ExplanationRepository;
+import rx.dictionary.DictionaryService;
 import rx.dictionary.jpaentity.ItemValue;
 import rx.dictionary.jpaentity.Explanation;
 import rx.dictionary.jpaentity.PartOfSpeech;
@@ -22,7 +22,7 @@ import rx.dictionary.ui.jsf.InputComponent;
 @Named
 public class SearchComponent extends InputComponent {
 	@Inject
-	private ExplanationRepository definitionRepo;
+	private DictionaryService dictionaryService;
 	private SearchResult searchResult = SearchResult.newWithoutAction();
 	public Map<String,String> getLanguageMap() {
 		return CommonComponent.FRONTEND_LANGUAGE_OPTIONS;
@@ -43,7 +43,7 @@ public class SearchComponent extends InputComponent {
 		ItemValue itemVal = new ItemValue();
 		itemVal.setLanguage(getFromLanguage());
 		itemVal.setValue(getWord());
-		Map<PartOfSpeech,List<String>> rawResult = definitionRepo.find(itemVal, getToLanguage()).stream()
+		Map<PartOfSpeech,List<String>> rawResult = dictionaryService.find(itemVal, getToLanguage()).stream()
 				.collect(groupingBy(d -> d.getLexicalItem().getPoS(), mapping(Explanation::getExplanation, toList())));
 		searchResult = SearchResult.newWithAction();
 		if (rawResult.size() > 0) 
