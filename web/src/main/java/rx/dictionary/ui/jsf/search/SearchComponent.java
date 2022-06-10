@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -23,6 +24,8 @@ import rx.dictionary.ui.jsf.InputComponent;
 public class SearchComponent extends InputComponent {
 	@Inject
 	private DictionaryService dictionaryService;
+	@Inject
+	private Event<ItemValue> lexicalItemEvent;
 	private SearchResult searchResult = SearchResult.newWithoutAction();
 	public Map<String,String> getLanguageMap() {
 		return CommonComponent.FRONTEND_LANGUAGE_OPTIONS;
@@ -43,6 +46,7 @@ public class SearchComponent extends InputComponent {
 		ItemValue itemVal = new ItemValue();
 		itemVal.setLanguage(getFromLanguage());
 		itemVal.setValue(getWord());
+		lexicalItemEvent.fire(itemVal);
 		Map<PartOfSpeech,List<String>> rawResult = dictionaryService.find(itemVal, getToLanguage()).stream()
 				.collect(groupingBy(d -> d.getLexicalItem().getPoS(), mapping(Explanation::getExplanation, toList())));
 		searchResult = SearchResult.newWithAction();

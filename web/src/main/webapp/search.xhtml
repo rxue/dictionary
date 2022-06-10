@@ -11,29 +11,48 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 		<head>
 			<title>Search for Word</title>
 			<meta http-equiv="Content-Type" content="text/html;charset=UTF8" />
+			<style>
+			.left_right_layout {
+		      display: inline-block; 
+		      width: 100%;
+		    }
+		    .left_main {
+		      float: left;
+		    }
+		    .right_section {
+		      float: right;
+		    }
+			</style>
 		</head>
 		<body>
-			<div>
-				<h:form>
-					<h:selectOneMenu value="#{searchComponent.fromLanguage}" converter="languageLocaleConverter">
-			            <f:selectItems value="#{searchComponent.languageMap}" />
-			        </h:selectOneMenu>
-					<h:inputText pt:placeholder="keyword here" value="#{searchComponent.word}" pt:autofocus="true" pt:required="true" />
-					<h:selectOneMenu value="#{searchComponent.toLanguage}" converter="languageLocaleConverter">
-			            <f:selectItems value="#{searchComponent.languageMap}" />
-			        </h:selectOneMenu>
-					<h:commandButton value="Search" action="#{searchComponent.action()}" />
-				</h:form>
-				<c:choose>
-					<c:when test="#{searchComponent.result.isActionedAndNotEmpty()}">
-						<h:dataTable value="#{searchComponent.result}" var="r">
-							<h:column>#{r}</h:column>
-						</h:dataTable>
-					</c:when>
-					<c:when test="#{searchComponent.result.isActionedAndEmpty()}">
-						<h:outputText value="Not result!" />
-					</c:when>
-				</c:choose>
+			<div class="left_right_layout">
+				<div class="left_main">
+					<h:form>
+						<h:selectOneMenu value="#{searchComponent.fromLanguage}" converter="languageLocaleConverter">
+				            <f:selectItems value="#{searchComponent.languageMap}" />
+				        </h:selectOneMenu>
+						<h:inputText pt:placeholder="keyword here" value="#{searchComponent.word}" pt:autofocus="true" pt:required="true" />
+						<h:selectOneMenu value="#{searchComponent.toLanguage}" converter="languageLocaleConverter">
+				            <f:selectItems value="#{searchComponent.languageMap}" />
+				        </h:selectOneMenu>
+						<h:commandButton value="Search" action="#{searchComponent.action()}" />
+					</h:form>
+					<c:choose>
+						<c:when test="#{searchComponent.result.isActionedAndNotEmpty()}">
+							<h:dataTable value="#{searchComponent.result}" var="r">
+								<h:column>#{r}</h:column>
+							</h:dataTable>
+						</c:when>
+						<c:when test="#{searchComponent.result.isActionedAndEmpty()}">
+							<h:outputText value="Not result!" />
+						</c:when>
+					</c:choose>
+				</div>
+				<div class="right_section">
+					<h:dataTable value="#{searchedLexicalItems}" var="item">
+						<h:column>#{item}</h:column>
+					</h:dataTable>
+				</div>
 				<ui:debug hotkey="j" />
 		    </div>
 		</body>
