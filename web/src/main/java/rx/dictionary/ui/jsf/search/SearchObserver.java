@@ -13,7 +13,7 @@ import javax.inject.Named;
 
 import rx.dictionary.jpaentity.ItemValue;
 @SessionScoped
-public class SearchObserver {
+public class SearchObserver implements Serializable {
     private List<ItemValue> searchedLexicalItemValues;
     
     public void onSearch(@Observes(notifyObserver = Reception.IF_EXISTS) final ItemValue searchedLexicalItem) {
