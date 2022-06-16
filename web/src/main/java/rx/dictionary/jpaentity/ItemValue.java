@@ -41,5 +41,4 @@ public class ItemValue {
 				.append(language)
 				.hashCode();
 	}
-	
 }

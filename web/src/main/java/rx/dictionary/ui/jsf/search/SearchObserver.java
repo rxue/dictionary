@@ -14,19 +14,19 @@ import javax.inject.Named;
 import rx.dictionary.jpaentity.ItemValue;
 @SessionScoped
 public class SearchObserver implements Serializable {
-    private List<ItemValue> searchedLexicalItemValues;
+    private List<ItemValueDTO> searchedLexicalItemValues;
+    @PostConstruct
+    public void initSearchedItems() {
+    	searchedLexicalItemValues = new ArrayList<>();	
+    }
     
     public void onSearch(@Observes(notifyObserver = Reception.IF_EXISTS) final ItemValue searchedLexicalItem) {
-    	if (searchedLexicalItemValues == null)
-    		searchedLexicalItemValues = new ArrayList<>();
-    	searchedLexicalItemValues.add(searchedLexicalItem);
+    	searchedLexicalItemValues.add(new ItemValueDTO(searchedLexicalItem));
     }
     
     @Produces
     @Named
-    public List<ItemValue> getSearchedLexicalItems() {
-    	if (searchedLexicalItemValues == null)
-    		searchedLexicalItemValues = new ArrayList<>();
+    public List<ItemValueDTO> getSearchedLexicalItems() {
 		return searchedLexicalItemValues;
 	}
 

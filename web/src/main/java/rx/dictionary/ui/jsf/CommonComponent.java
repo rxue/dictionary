@@ -2,6 +2,7 @@ package rx.dictionary.ui.jsf;
 
 import static java.util.stream.Collectors.toMap;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
@@ -18,5 +19,18 @@ public class CommonComponent {
 		return StreamSupport.stream(Spliterators.spliteratorUnknownSize(supportedLocales, Spliterator.ORDERED), false)
 				.map(Language::new)
 				.collect(toMap(Language::label, Language::value));
+	}
+	private static Map<Locale,String> LOCALE_TO_LANGUAGE;
+	public static Map<Locale,String> getLocaleToLanguage() {
+		if (LOCALE_TO_LANGUAGE == null) {
+		Map<Locale,String> result = new HashMap<>();
+		result.put(Locale.TAIWAN, "繁體中文");
+		result.put(Locale.CHINA, "简体中文");
+		result.put(Locale.US, "English");
+		result.put(new Locale("fi"), "Suomi");
+		result.put(Locale.FRENCH, "français");
+		return (LOCALE_TO_LANGUAGE = result);
+		}
+		return LOCALE_TO_LANGUAGE;
 	}
 }
