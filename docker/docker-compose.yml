@@ -1,5 +1,4 @@
 version: '3.4'
-
 services:
   web:
     build: ../web
@@ -11,5 +10,6 @@ services:
     build: ../mom
     ports: 
     - "8081:8081"
+    - "9990:9990"
     container_name: message-queue
 
