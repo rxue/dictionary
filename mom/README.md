@@ -1,1 +1,0 @@
-# mom - Message-Oriented Middleware

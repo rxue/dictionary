@@ -6,19 +6,4 @@ services:
     - "80:80"
     - "8787:8787"
     container_name: dictionary-web
-  mom:
-    build: ../mom
-    ports: 
-    - "8081:8081"
-    - "9990:9990"
-    container_name: message-queue
-    networks:
-      dictionary-network:
-        ipv4_address: 172.22.0.2
 
-networks:
-  dictionary-network:
-    ipam:
-      driver: default
-      config:
-        - subnet: "172.22.0.0/16"
