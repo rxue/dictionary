@@ -15,6 +15,16 @@ services:
     networks:
       dictionary-network:
         ipv4_address: 172.22.0.2
+  backoffice:
+    build: ../backoffice
+    ports:
+    - "8082:8082"
+    - "9991:9991"
+    container_name: backoffice
+    networks:
+      dictionary-network:
+        ipv4_address: 172.22.0.3
+
 
 networks:
   dictionary-network:
