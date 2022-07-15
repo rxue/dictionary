@@ -455,6 +455,7 @@
                     <param name="batch-delay" value="50"/>
                     <param name="direct-deliver" value="false"/>
                 </http-acceptor>
+                <remote-acceptor name="netty" socket-binding="messaging"/>
                 <in-vm-acceptor name="in-vm" server-id="0">
                     <param name="buffer-pooling" value="false"/>
                 </in-vm-acceptor>
@@ -553,6 +554,7 @@
         <socket-binding name="iiop-ssl" interface="unsecure" port="3529"/>
         <socket-binding name="management-http" interface="management" port="${jboss.management.http.port:9990}"/>
         <socket-binding name="management-https" interface="management" port="${jboss.management.https.port:9993}"/>
+        <socket-binding name="messaging" port="5445"/>
         <socket-binding name="txn-recovery-environment" port="4712"/>
         <socket-binding name="txn-status-manager" port="4713"/>
         <outbound-socket-binding name="mail-smtp">
