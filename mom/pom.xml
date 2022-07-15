@@ -20,10 +20,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>rx</groupId>
-    <artifactId>backoffice</artifactId>
+    <artifactId>ejb-executor</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
-    <name>WildFly Quickstarts: backoffice</name>
+    <name>WildFly Quickstarts: ejb-executor</name>
     <description>A starter Java EE 7 webapp project for use on JBoss WildFly / WildFly, generated from the jboss-javaee6-webapp archetype</description>
 
     <url>http://wildfly.org</url>
@@ -48,7 +48,7 @@
         <!-- Define the version of the JBoss BOMs we want to import to specify 
             tested stacks. -->
         <version.jboss.bom>8.2.1.Final</version.jboss.bom>
-		<wildfly.version>24.0.0.Final</wildfly.version>
+
         <!-- other plugin versions -->
         <version.compiler.plugin>3.1</version.compiler.plugin>
         <version.surefire.plugin>2.16</version.surefire.plugin>
@@ -70,13 +70,6 @@
                 for your project, such as Arquillian for testing) and the jboss-javaee-7.0-with-hibernate
                 stack you can read this as the JBoss stack of the Java EE 7 APIs, with extras
                 from the Hibernate family of projects) -->
-                			<dependency>
-				<groupId>org.wildfly</groupId>
-				<artifactId>wildfly-ejb-client-bom</artifactId>
-				<version>${wildfly.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
             <dependency>
                 <groupId>org.wildfly.bom</groupId>
                 <artifactId>jboss-javaee-7.0-with-tools</artifactId>
@@ -192,17 +185,6 @@
 		    <scope>provided</scope>
 		    <version>2.1.0</version>
 		</dependency>
-		
-	  	<dependency>
-	        <groupId>org.jboss.spec.javax.servlet</groupId>
-	        <artifactId>jboss-servlet-api_3.1_spec</artifactId>
-	        <scope>provided</scope>
-	 	</dependency>
-	 	<dependency>
-		  <groupId>org.wildfly</groupId>
-		  <artifactId>wildfly-naming-client</artifactId>
-	  </dependency>
-	 	
 
         <!-- Needed for running tests (you may also use TestNG) -->
         <dependency>

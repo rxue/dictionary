@@ -10,6 +10,7 @@ services:
     build: ../mom
     ports:
     - "8081:8081"
+      #- "5445:5445"
     - "9990:9990"
     container_name: mom
     networks:
@@ -19,7 +20,6 @@ services:
     build: ../backoffice
     ports:
     - "8082:8082"
-    - "9991:9991"
     container_name: backoffice
     networks:
       dictionary-network:

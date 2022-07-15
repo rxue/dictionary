@@ -224,7 +224,7 @@
             <default-missing-method-permissions-deny-access value="true"/>
             <statistics enabled="${wildfly.ejb3.statistics-enabled:${wildfly.statistics-enabled:false}}"/>
             <log-system-exceptions value="true"/>
-        </subsystem>
+          </subsystem>
         <subsystem xmlns="urn:wildfly:elytron:15.1" final-providers="combined-providers" disallowed-providers="OracleUcrypto">
             <providers>
                 <aggregate-providers name="combined-providers">
@@ -349,6 +349,14 @@
                     <server-ssl-context name="applicationSSC" key-manager="applicationKM"/>
                 </server-ssl-contexts>
             </tls>
+            <authentication-client>
+              <authentication-configuration name="auth-conf" authentication-name="jmsuser" host="172.22.0.2" port="8081" forwarding-mode="authentication">
+                <credential-reference clear-text="jmspassword" />
+              </authentication-configuration>
+              <authentication-context name="remote_ejb">
+                    <match-rule match-host="172.22.0.2" match-port="8081" authentication-configuration="auth-conf"/>
+              </authentication-context>
+            </authentication-client>
         </subsystem>
         <subsystem xmlns="urn:wildfly:elytron-oidc-client:1.0"/>
         <subsystem xmlns="urn:wildfly:health:1.0" security-enabled="false"/>
@@ -464,7 +472,7 @@
                 <!--connection-factory name="InVmConnectionFactory" entries="java:/ConnectionFactory" connectors="in-vm"/-->
                 <!--connection-factory name="RemoteConnectionFactory" entries="java:jboss/exported/jms/RemoteConnectionFactory" connectors="http-connector"/ -->
                 <pooled-connection-factory name="activemq-ra" entries="java:/JmsXA java:jboss/DefaultJMSConnectionFactory" connectors="in-vm" transaction="xa"/>
-                <pooled-connection-factory name="remote-artemis" entries="java:/jms/RemoteCF" connectors="remote-artemis" transaction="xa" user="jmsuser" password="jmspassword"/>
+                <pooled-connection-factory name="remote-artemis" entries="java:/jms/remoteCF java:jboss/exported/jms/remoteCF" connectors="remote-artemis" user="jmsuser" password="jmspassword"/>
             </server>
         </subsystem>
         <subsystem xmlns="urn:wildfly:metrics:1.0" security-enabled="false" exposed-subsystems="*" prefix="${wildfly.metrics.prefix:wildfly}"/>
@@ -476,21 +484,29 @@
             </jaeger-tracer>
         </subsystem>
         <subsystem xmlns="urn:jboss:domain:naming:2.0">
-            <!--bindings>
-                <external-context name="java:global/federation/messaging/broker" module="org.apache.activemq.artemis" class="javax.naming.InitialContext">
+            <bindings>
+                <!-- external-context name="java:global/federation/messaging/broker" module="org.apache.activemq.artemis" class="javax.naming.InitialContext">
                     <environment>
                         <property name="java.naming.factory.initial" value="org.apache.activemq.artemis.jndi.ActiveMQInitialContextFactory"/>
-                        <property name="java.naming.provider.url" value="http-remoting://172.22.0.2:8081"/>
-                        <property name="java.naming.security.principal" value="jmsuser" />
-                        <property name="java.naming.security.credentials" value="jmspassword" />
+                        <property name="java.naming.provider.url" value="tcp://172.22.0.2:8081"/>
+                        <property name="java.naming.security.principal" value="admin" />
+                        <property name="java.naming.security.credentials" value="admin" />
                     </environment>
-                </external-context>
-                <lookup name="java:/jms/queue/ExampleQueue" lookup="java:jms/queue/DataExportQueue"/>
-            </bindings-->
+                </external-context -->
+                <!--lookup name="java:/jms/queue/ExampleQueue" lookup="java:jms/queue/DataExportQueue"/-->
+            </bindings>
         </subsystem>
         <subsystem xmlns="urn:jboss:domain:pojo:1.0"/>
         <subsystem xmlns="urn:jboss:domain:remoting:4.0">
             <http-connector name="http-remoting-connector" connector-ref="default" sasl-authentication-factory="application-sasl-authentication"/>
+            <outbound-connections>
+                <remote-outbound-connection name="remote-ejb-connection" outbound-socket-binding-ref="remote-ejb" authentication-context="remote_ejb">
+                    <properties>
+                        <property name="SASL_POLICY_NOANONYMOUS" value="false"/>
+                        <property name="SSL_ENABLED" value="false"/>
+                    </properties>
+                </remote-outbound-connection>
+            </outbound-connections>
         </subsystem>
         <subsystem xmlns="urn:jboss:domain:request-controller:1.0"/>
         <subsystem xmlns="urn:jboss:domain:resource-adapters:6.1"/>
@@ -569,8 +585,11 @@
         <outbound-socket-binding name="mail-smtp">
             <remote-destination host="${jboss.mail.server.host:localhost}" port="${jboss.mail.server.port:25}"/>
         </outbound-socket-binding>
-        <outbound-socket-binding name="remote-artemis">
+        <outbound-socket-binding name="remote-ejb">
             <remote-destination host="172.22.0.2" port="8081"/>
+          </outbound-socket-binding>
+        <outbound-socket-binding name="remote-artemis">
+            <remote-destination host="172.22.0.2" port="5445"/>
         </outbound-socket-binding>
     </socket-binding-group>
 </server>
