@@ -554,7 +554,7 @@
         <socket-binding name="iiop-ssl" interface="unsecure" port="3529"/>
         <socket-binding name="management-http" interface="management" port="${jboss.management.http.port:9990}"/>
         <socket-binding name="management-https" interface="management" port="${jboss.management.https.port:9993}"/>
-        <socket-binding name="messaging" port="5445"/>
+        <socket-binding name="messaging" port="5446"/>
         <socket-binding name="txn-recovery-environment" port="4712"/>
         <socket-binding name="txn-status-manager" port="4713"/>
         <outbound-socket-binding name="mail-smtp">
