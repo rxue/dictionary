@@ -560,7 +560,7 @@
             <remote-destination host="${jboss.mail.server.host:localhost}" port="${jboss.mail.server.port:25}"/>
         </outbound-socket-binding>
         <outbound-socket-binding name="remote-artemis">
-            <remote-destination host="172.22.0.2" port="5446"/>
+            <remote-destination host="mom" port="5446"/>
         </outbound-socket-binding>
     </socket-binding-group>
 </server>
