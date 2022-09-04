@@ -7,15 +7,15 @@ import javax.servlet.http.Part;
 @Named
 @RequestScoped
 public class FileUploader {
-	private Part uploadedFile;
+	private Part file;
 	public void upload() {
 		System.out.println("going to UPLOAD FILE");
 	}
-	public Part getUploadedFile() {
-		return uploadedFile;
+	public Part getFile() {
+		return file;
 	}
-	public void setUploadedFile(Part uploadedFile) {
-		this.uploadedFile = uploadedFile;
+	public void setFile(Part file) {
+		this.file = file;
 	}
 	
 }
