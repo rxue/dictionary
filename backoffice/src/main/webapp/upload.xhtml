@@ -14,7 +14,10 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 		</head>
 		<body>
 			<div>
-				<h:outputText>upload files</h:outputText>
+				<h:form enctype="multipart/form-data">
+				    <h:inputFile value="#{managedBean.uploadedFile}"></h:inputFile>
+				    <h:commandButton value="Upload" action="#{managedBean.upload()}" />
+				</h:form>
 		    </div>
 		</body>
 </html>
