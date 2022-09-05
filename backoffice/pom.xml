@@ -190,7 +190,6 @@
 		    <groupId>org.jboss.ejb3</groupId>
 		    <artifactId>jboss-ejb3-ext-api</artifactId>
 		    <scope>provided</scope>
-		    <version>2.1.0</version>
 		</dependency>
 		
 	  	<dependency>
@@ -201,7 +200,12 @@
 	 	<dependency>
 		  <groupId>org.wildfly</groupId>
 		  <artifactId>wildfly-naming-client</artifactId>
-	  </dependency>
+	  	</dependency>
+	  	<dependency>
+		    <groupId>org.jboss.spec.javax.enterprise.concurrent</groupId>
+		    <artifactId>jboss-concurrency-api_1.0_spec</artifactId>
+		</dependency>
+
 	 	
 
         <!-- Needed for running tests (you may also use TestNG) -->
