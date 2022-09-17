@@ -1,9 +1,9 @@
 package rx.backoffice;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Callable;
@@ -15,6 +15,7 @@ import static rx.backoffice.FileUploadListener.FILE_NAME;
 public class FileUploader implements Callable<Boolean>, ManagedTask {
 	private final Part file;
 	private final Map<String,String> executionProperties;
+	private static final int BYTE_SIZE_1M = 1024*1024; 
 	public FileUploader(Part file) {
 		this.file = file;
 		this.executionProperties = new HashMap<>();
@@ -23,9 +24,15 @@ public class FileUploader implements Callable<Boolean>, ManagedTask {
 	@Override
 	public Boolean call() throws Exception {
 		String fileName = file.getSubmittedFileName();
-		try(InputStream is = file.getInputStream();
-			OutputStream os = new FileOutputStream(fileName)) {
-			os.write(is.read());
+		try(BufferedInputStream bufferedInputStream = new BufferedInputStream(file.getInputStream());
+				BufferedOutputStream bufferedOS = new BufferedOutputStream(new FileOutputStream(fileName))) {
+			int availableSize = 0;
+            while ((availableSize = bufferedInputStream.available())>0) {
+                int buffSize = BYTE_SIZE_1M >= availableSize ? availableSize : BYTE_SIZE_1M;
+                byte[] data = new byte[buffSize];
+                bufferedInputStream.read(data);
+                bufferedOS.write(data);
+            }
 		} catch (IOException e) {
 			e.printStackTrace();
 			return false;
