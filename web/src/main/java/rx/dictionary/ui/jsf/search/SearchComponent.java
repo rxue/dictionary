@@ -13,7 +13,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import rx.dictionary.DictionaryService;
-import rx.dictionary.jpaentity.ItemValue;
+import rx.dictionary.SearchKeyword;
 import rx.dictionary.jpaentity.Explanation;
 import rx.dictionary.jpaentity.PartOfSpeech;
 import rx.dictionary.ui.jsf.CommonComponent;
@@ -25,7 +25,7 @@ public class SearchComponent extends InputComponent {
 	@Inject
 	private DictionaryService dictionaryService;
 	@Inject
-	private Event<ItemValue> lexicalItemEvent;
+	private Event<SearchKeyword> lexicalItemEvent;
 	private SearchResult searchResult = SearchResult.newWithoutAction();
 	public Map<String,String> getLanguageMap() {
 		return CommonComponent.FRONTEND_LANGUAGE_OPTIONS;
@@ -43,11 +43,9 @@ public class SearchComponent extends InputComponent {
 
 
 	public void action() {
-		ItemValue itemVal = new ItemValue();
-		itemVal.setLanguage(getFromLanguage());
-		itemVal.setValue(getWord());
-		lexicalItemEvent.fire(itemVal);
-		Map<PartOfSpeech,List<String>> rawResult = dictionaryService.find(itemVal, getToLanguage()).stream()
+		SearchKeyword searchKeyword = new SearchKeyword(super.getWord(), super.getFromLanguage());
+		lexicalItemEvent.fire(searchKeyword);
+		Map<PartOfSpeech,List<String>> rawResult = dictionaryService.find(searchKeyword, super.getToLanguage()).stream()
 				.collect(groupingBy(d -> d.getLexicalItem().getPoS(), mapping(Explanation::getExplanation, toList())));
 		searchResult = SearchResult.newWithAction();
 		if (rawResult.size() > 0) 

@@ -8,7 +8,6 @@ import javax.inject.Inject;
 import javax.transaction.Transactional;
 
 import rx.dictionary.jpaentity.Explanation;
-import rx.dictionary.jpaentity.ItemValue;
 
 public class DictionaryService implements Serializable {
 	@Inject
@@ -26,7 +25,7 @@ public class DictionaryService implements Serializable {
 		explanationRepository.update(explanations);
 	}
 	@Transactional
-	public List<Explanation> find(ItemValue itemValue, Locale toLang) {
-		return explanationRepository.find(itemValue, toLang);
+	public List<Explanation> find(SearchKeyword searchKeyword, Locale toLang) {
+		return explanationRepository.find(searchKeyword, toLang);
 	}
 }

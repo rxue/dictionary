@@ -1,32 +1,30 @@
-package rx.dictionary.jpaentity;
+package rx.dictionary;
 
 import java.util.Locale;
-
-import javax.persistence.Embeddable;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
-@Embeddable
-public class ItemValue {
-	private String value;
-	private Locale language;
+public final class SearchKeyword {
+	private final String value;
+	private final Locale language;
+	
+	public SearchKeyword(String value, Locale language) {
+		this.value = value;
+		this.language = language;
+	}
+
 	public String getValue() {
 		return value;
 	}
-	public void setValue(String value) {
-		this.value = value;
-	}
+
 	public Locale getLanguage() {
 		return language;
 	}
-	public void setLanguage(Locale language) {
-		this.language = language;
-	}
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof ItemValue) {
-			ItemValue that = (ItemValue) obj;
+		if (obj instanceof SearchKeyword) {
+			SearchKeyword that = (SearchKeyword) obj;
 			return new EqualsBuilder()
 					.append(value, that.value)
 					.append(language, that.language)

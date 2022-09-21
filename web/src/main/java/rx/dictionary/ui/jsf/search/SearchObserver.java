@@ -11,7 +11,7 @@ import javax.enterprise.event.Reception;
 import javax.enterprise.inject.Produces;
 import javax.inject.Named;
 
-import rx.dictionary.jpaentity.ItemValue;
+import rx.dictionary.SearchKeyword;
 @SessionScoped
 public class SearchObserver implements Serializable {
     private List<ItemValueDTO> searchedLexicalItemValues;
@@ -20,7 +20,7 @@ public class SearchObserver implements Serializable {
     	searchedLexicalItemValues = new ArrayList<>();	
     }
     
-    public void onSearch(@Observes(notifyObserver = Reception.IF_EXISTS) final ItemValue searchedLexicalItem) {
+    public void onSearch(@Observes(notifyObserver = Reception.IF_EXISTS) final SearchKeyword searchedLexicalItem) {
     	searchedLexicalItemValues.add(new ItemValueDTO(searchedLexicalItem));
     }
     

@@ -1,12 +1,12 @@
 package rx.dictionary.ui.jsf.search;
 
-import rx.dictionary.jpaentity.ItemValue;
+import rx.dictionary.SearchKeyword;
 import rx.dictionary.ui.jsf.CommonComponent;
 
 public class ItemValueDTO {
-	private final ItemValue itemValue;
+	private final SearchKeyword itemValue;
 
-	public ItemValueDTO(ItemValue itemValue) {
+	public ItemValueDTO(SearchKeyword itemValue) {
 		this.itemValue = itemValue;
 	}
 	@Override

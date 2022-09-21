@@ -8,7 +8,6 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
 import rx.dictionary.jpaentity.Explanation;
-import rx.dictionary.jpaentity.ItemValue;
 
 public class ExplanationRepository implements Serializable {
 	@Inject
@@ -21,10 +20,12 @@ public class ExplanationRepository implements Serializable {
 	 * @param lang
 	 * @return list of entries matching exactly. NOTE! Return type is list due to the fact that a word could have several parts of speech
 	 */
-	public List<Explanation> find(ItemValue itemValue, Locale toLang) {
-		return em.createQuery("SELECT e FROM Explanation e WHERE e.lexicalItem.itemValue = :itemValue and e.language = :language", Explanation.class)
-				.setParameter("itemValue", itemValue)
-				.setParameter("language", toLang)
+	public List<Explanation> find(SearchKeyword searchKeyword, Locale toLanguage) {
+		return em.createQuery("SELECT e FROM Explanation e WHERE e.lexicalItem.language = :fromLanguage and e.lexicalItem.value = :value and e.language = :toLanguage", 
+				Explanation.class)
+				.setParameter("fromLanguage", searchKeyword.getLanguage())
+				.setParameter("value", searchKeyword.getValue())
+				.setParameter("toLanguage", toLanguage)
 				.getResultList();
 	} 
 	public void add(List<Explanation> definitions) {

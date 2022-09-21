@@ -1,6 +1,7 @@
 package rx.dictionary.jpaentity;
 
-import javax.persistence.Embedded;
+import java.util.Locale;
+
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -22,25 +23,34 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 @SequenceGenerator(sequenceName = "item_id_seq", initialValue= 1, name = "item_sequence", allocationSize=1)
 @Entity
 public class LexicalItem extends AbstractEntity {
-	/*@AttributeOverrides({
-	    @AttributeOverride(name = "entry", column = @Column(name = "entry")),
-	    @AttributeOverride(name = "language", column = @Column(name = "language"))
-	})*/
-	@Embedded
-	private ItemValue value;
+	private String value;
+	private Locale language;
 	private PartOfSpeech poS;
 	@Id @GeneratedValue(generator="item_sequence", strategy=GenerationType.IDENTITY)
 	public int getId() {
 		return id;
 	}
+	
 
-	public ItemValue getItemValue() {
+	public String getValue() {
 		return value;
 	}
 
-	public void setItemValue(ItemValue value) {
+
+	public void setValue(String value) {
 		this.value = value;
 	}
+
+
+	public Locale getLanguage() {
+		return language;
+	}
+
+
+	public void setLanguage(Locale language) {
+		this.language = language;
+	}
+
 
 	@Enumerated(EnumType.STRING)
 	public PartOfSpeech getPoS() {

@@ -1,4 +1,4 @@
-package rx.dictionary.application;
+package rx.dictionary.ui.jsf;
 
 import javax.faces.event.AbortProcessingException;
 import javax.faces.event.ValueChangeEvent;

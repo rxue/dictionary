@@ -14,8 +14,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import rx.dictionary.DictionaryService;
+import rx.dictionary.SearchKeyword;
 import rx.dictionary.jpaentity.Explanation;
-import rx.dictionary.jpaentity.ItemValue;
 import rx.dictionary.jpaentity.LexicalItem;
 import rx.dictionary.jpaentity.PartOfSpeech;
 import rx.dictionary.ui.jsf.InputComponent;
@@ -49,9 +49,7 @@ public class UpdateComponent extends InputComponent implements Serializable {
 	
 	public void search() {
 		System.out.println("Search action at JSF phace: " + FacesContext.getCurrentInstance().getCurrentPhaseId());
-		ItemValue itemVal = new ItemValue();
-		itemVal.setLanguage(getFromLanguage());
-		itemVal.setValue(getWord());
+		SearchKeyword itemVal = new SearchKeyword(super.getWord(), super.getFromLanguage());
 		definitions = dictionaryService.find(itemVal, getToLanguage());
 		explanations = toExplanationComponents(definitions);
 	}

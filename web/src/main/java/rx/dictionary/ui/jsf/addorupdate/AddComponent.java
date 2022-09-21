@@ -11,8 +11,8 @@ import javax.inject.Named;
 import org.apache.commons.lang3.StringUtils;
 
 import rx.dictionary.DictionaryService;
+import rx.dictionary.SearchKeyword;
 import rx.dictionary.jpaentity.Explanation;
-import rx.dictionary.jpaentity.ItemValue;
 import rx.dictionary.jpaentity.LexicalItem;
 
 @RequestScoped
@@ -25,9 +25,7 @@ public class AddComponent extends CompleteInputComponent {
 	}
 	
 	private List<Explanation> getDefinitions() {
-		ItemValue itemValue = new ItemValue();
-		itemValue.setValue(this.getWord());
-		itemValue.setLanguage(getFromLanguage());
+		SearchKeyword itemValue = new SearchKeyword(super.getWord(), super.getFromLanguage());
 		List<Explanation> explanations = new ArrayList<>();
 		List<LexicalItem> newLexicalItems = new ArrayList<>();
 		for (ExplanationComponent explanationComp : getExplanations()) {
@@ -38,7 +36,8 @@ public class AddComponent extends CompleteInputComponent {
 				newExplanation.setExplanation(explanation);
 				LexicalItem item = new LexicalItem();
 				item.setPoS(explanationComp.getPartOfSpeech());
-				item.setItemValue(itemValue);
+				item.setValue(this.getWord());
+				item.setLanguage(getFromLanguage());
 				Optional<LexicalItem> existingItem = newLexicalItems.stream().filter(li -> li.equals(item))
 						.findAny();
 				if (existingItem.isPresent()) {
