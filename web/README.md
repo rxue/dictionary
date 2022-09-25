@@ -1,5 +1,5 @@
 # [User Stories](https://www.atlassian.com/agile/project-management/user-stories)
-## User Search
+## A client searches for a word
  * A user should be able to search for a word with criteria such as keyword, language
  * Search keyword should be CASE-INSENSITIVE
  * Some word, esp. noun, should also be explained with pictures
