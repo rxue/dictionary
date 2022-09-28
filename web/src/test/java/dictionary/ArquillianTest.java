@@ -14,19 +14,20 @@ import org.junit.runner.RunWith;
 
 import rx.dictionary.ExplanationRepository;
 import rx.dictionary.SearchKeyword;
+import rx.dictionary.util.Resources;
 
 @RunWith(Arquillian.class)
 public class ArquillianTest {
 	@Deployment
     public static JavaArchive createDeployment() {
         return ShrinkWrap.create(JavaArchive.class)
-            .addClass(ExplanationRepository.class)
+            .addClasses(ExplanationRepository.class, Resources.class)
             .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
     }
 	
 	@Inject
 	ExplanationRepository tested;
-
+	
     @Test
     public void should_create_greeting() {
     	SearchKeyword searchKeyword = new SearchKeyword("take", Locale.ENGLISH);
