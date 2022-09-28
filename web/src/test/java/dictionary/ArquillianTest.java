@@ -22,6 +22,7 @@ public class ArquillianTest {
     public static JavaArchive createDeployment() {
         return ShrinkWrap.create(JavaArchive.class)
             .addClasses(ExplanationRepository.class, Resources.class)
+            .addAsResource("persistence-IT.xml", "META-INF/persistence.xml")
             .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
     }
 	
