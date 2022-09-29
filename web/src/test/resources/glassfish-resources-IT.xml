@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE resources PUBLIC
+    "-//GlassFish.org//DTD GlassFish Application Server 3.1 Resource Definitions//EN"
+    "http://glassfish.org/dtds/glassfish-resources_1_5.dtd">
+<resources>
+    <jdbc-resource pool-name="ArquillianEmbeddedH2Pool"
+        jndi-name="jdbc/arquillian"/>
+    <jdbc-connection-pool name="ArquillianEmbeddedH2Pool"
+        res-type="javax.sql.DataSource"
+        datasource-classname="org.h2.jdbcx.JdbcDataSource"
+        is-isolation-level-guaranteed="false">
+        <property name="databaseName" value="target/databases/derby" />
+        <property name="createDatabase" value="create" />
+        <property name="URL" value="jdbc:h2:mem:dictionary-test;DB_CLOSE_ON_EXIT=FALSE;DB_CLOSE_DELAY=-1" />
+        <property name="User" value="sa" />
+        <property name="Password" value="sa" />
+    </jdbc-connection-pool>
+</resources>
