@@ -47,7 +47,6 @@
         <!-- Define the version of the JBoss BOMs we want to import to specify 
             tested stacks. -->
         <version.jboss.bom>8.2.1.Final</version.jboss.bom>
-
         <!-- other plugin versions -->
         <version.compiler.plugin>3.1</version.compiler.plugin>
         <version.surefire.plugin>2.16</version.surefire.plugin>
@@ -313,6 +312,11 @@
 				    <artifactId>h2</artifactId>
 				    <version>1.4.197</version>
 				    <scope>test</scope>
+				</dependency>
+				<dependency>
+				    <groupId>org.hibernate</groupId>
+				    <artifactId>hibernate-entitymanager</artifactId>
+				    <version>4.3.11.Final</version>
 				</dependency>
 			</dependencies>
         </profile>
