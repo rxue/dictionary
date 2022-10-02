@@ -1,5 +1,8 @@
 package dictionary;
 
+import static org.junit.Assert.assertFalse;
+
+import java.util.List;
 import java.util.Locale;
 
 import javax.inject.Inject;
@@ -14,6 +17,7 @@ import org.junit.runner.RunWith;
 
 import rx.dictionary.ExplanationRepository;
 import rx.dictionary.SearchKeyword;
+import rx.dictionary.jpaentity.Explanation;
 import rx.dictionary.util.Resources;
 
 @RunWith(Arquillian.class)
@@ -33,6 +37,7 @@ public class ArquillianTest {
     @Test
     public void should_create_greeting() {
     	SearchKeyword searchKeyword = new SearchKeyword("take", Locale.ENGLISH);
-    	tested.find(searchKeyword, Locale.SIMPLIFIED_CHINESE);
+    	List<Explanation> actual = tested.find(searchKeyword, Locale.SIMPLIFIED_CHINESE);
+    	assertFalse(actual.isEmpty());
     }
 }

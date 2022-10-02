@@ -32,8 +32,10 @@
          <property name="hibernate.show_sql" value="true" />
          <property name="hibernate.hbm2ddl.auto" value="create" />
          <property name="hibernate.transaction.jta.platform" value="org.hibernate.service.jta.platform.internal.SunOneJtaPlatform" />
+         <property name="hibernate.id.new_generator_mappings" value="true" />       
+         <property name="hibernate.hbm2ddl.import_files" value="initial_import.sql" />
          <!-- property name="javax.persistence.schema-generation.database.action" value="create"/ --><!-- NOTE! Hibernate 4 cannot recognize this JPA property yet -->
-         <property name="javax.persistence.sql-load-script-source" value="initial_import.sql" />
+         
          <!--  property name="hibernate.hbm2ddl.charset_name" value="UTF-8" / -->
       </properties>
    </persistence-unit>
