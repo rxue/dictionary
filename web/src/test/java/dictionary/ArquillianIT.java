@@ -17,7 +17,7 @@ import rx.dictionary.SearchKeyword;
 import rx.dictionary.util.Resources;
 
 @RunWith(Arquillian.class)
-public class ArquillianTest {
+public class ArquillianIT {
 	@Deployment
     public static JavaArchive createDeployment() {
         return ShrinkWrap.create(JavaArchive.class)
