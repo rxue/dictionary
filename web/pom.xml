@@ -292,7 +292,7 @@
 				<dependency>
 				  <groupId>org.wildfly.arquillian</groupId>
 				  <artifactId>wildfly-arquillian-container-embedded</artifactId>
-				  <version>2.1.1.Final</version>
+				  <version>3.0.1.Final</version>
 				  <scope>test</scope>
 				</dependency>
 			</dependencies>
@@ -313,7 +313,7 @@
 					                <artifactItems>
 					                    <artifactItem>
 					                        <groupId>org.wildfly</groupId>
-					                        <artifactId>wildfly-preview-dist</artifactId>
+					                        <artifactId>wildfly-dist</artifactId>
 					                        <version>${version.wildfly}</version>
 					                        <type>zip</type>
 					                        <overWrite>false</overWrite>
@@ -336,11 +336,11 @@
 					    </executions>
 					    <configuration>
 					        <environmentVariables>
-					            <JBOSS_HOME>${project.build.directory}/wildfly-preview-${version-wildfly}</JBOSS_HOME>
+					            <JBOSS_HOME>${project.build.directory}/wildfly-${version.wildfly}</JBOSS_HOME>
 					        </environmentVariables>
 					        <systemPropertyVariables>
-					            <arquillian.launch>wildfly-managed</arquillian.launch>
-					            <serverConfig>standalone-full.xml</serverConfig>
+					            <arquillian.launch>wildfly-embedded</arquillian.launch>
+					            <serverConfig>standalone.xml</serverConfig>
 					            <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
 					        </systemPropertyVariables>
 					    </configuration>

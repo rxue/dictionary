@@ -6,8 +6,7 @@
         http://jboss.org/schema/arquillian/arquillian_1_0.xsd">
     <container qualifier="wildfly-embedded" default="true">
         <configuration>
-        <property name="jbossHome">${jbossHome:target/wildfly-25.0.0.Final}</property>
-        	<property name="serverConfig">standalone.xml</property>
+        	<!--  property name="serverConfig">standalone.xml</property -->
         	<property name="resourcesXml">src/test/resources/glassfish-resources-IT.xml</property>
     	</configuration>
     </container>
