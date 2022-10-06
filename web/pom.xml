@@ -43,7 +43,7 @@
 
         <!-- JBoss dependency versions -->
         <version.wildfly.maven.plugin>1.0.2.Final</version.wildfly.maven.plugin>
-        <version.wildfly>25.0.0.Final</version.wildfly>
+        <version.wildfly>26.1.1.Final</version.wildfly>
 
         <!-- Define the version of the JBoss BOMs we want to import to specify 
             tested stacks. -->
@@ -292,7 +292,7 @@
 				<dependency>
 				  <groupId>org.wildfly.arquillian</groupId>
 				  <artifactId>wildfly-arquillian-container-embedded</artifactId>
-				  <version>3.0.1.Final</version>
+				  <version>5.0.0.Alpha5</version>
 				  <scope>test</scope>
 				</dependency>
 			</dependencies>
@@ -340,8 +340,9 @@
 					        </environmentVariables>
 					        <systemPropertyVariables>
 					            <arquillian.launch>wildfly-embedded</arquillian.launch>
-					            <serverConfig>standalone.xml</serverConfig>
-					            <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
+					            <connectionTimeout>30000</connectionTimeout>
+					            <managementAddress>0.0.0.0</managementAddress>
+					            <!-- java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager -->
 					        </systemPropertyVariables>
 					    </configuration>
 					</plugin>
