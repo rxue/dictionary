@@ -22,5 +22,11 @@ services:
     networks:
     - dictionary-network
 
+  web-it:
+    build: ../web/it
+    ports:
+    - "8080:8080"
+    container_name: dictionary-web-it
+
 networks:
   dictionary-network:

@@ -265,68 +265,25 @@
                 </dependency>
             </dependencies>
         </profile>
-
         <profile>
             <!-- An optional Arquillian testing profile that executes tests
                 in a remote WildFly instance -->
             <!-- Run with: mvn clean test -Parq-wildfly-remote -->
-            <id>arq-wildfly-remote</id>
-            <dependencies>
-                <dependency>
-                    <groupId>org.wildfly</groupId>
-                    <artifactId>wildfly-arquillian-container-remote</artifactId>
-                    <scope>test</scope>
-                </dependency>
-            </dependencies>
-        </profile>
-        <profile>
-
-            <!-- An optional Arquillian testing profile that executes tests
-                in your WildFly instance -->
-            <!-- This profile will start a new Glasshfish instance, and execute the
-                test, shutting it down when done -->
-            <!-- Run with: mvn clean test -Parq-glassfish-embedded -->
             <!-- LEARNING: based on reference: https://www.baeldung.com/arquillian -->
-            <id>arq-wildfly-embedded</id>
+            <id>arq-wildfly-remote</id>
             <dependencies>
 				<dependency>
 				  <groupId>org.wildfly.arquillian</groupId>
-				  <artifactId>wildfly-arquillian-container-embedded</artifactId>
+				  <artifactId>wildfly-arquillian-container-remote</artifactId>
 				  <version>3.0.1.Final</version>
 				  <scope>test</scope>
 				</dependency>
 			</dependencies>
 			<build>
 		        <plugins>
-			        <plugin>
-					    <groupId>org.apache.maven.plugins</groupId>
-					    <artifactId>maven-dependency-plugin</artifactId>
-					    <!-- version>${maven-dependency-plugin.version}</version -->
-					    <executions>
-					        <execution>
-					            <id>unpack</id>
-					            <phase>pre-integration-test</phase>
-					            <goals>
-					                <goal>unpack</goal>
-					            </goals>
-					            <configuration>
-					                <artifactItems>
-					                    <artifactItem>
-					                        <groupId>org.wildfly</groupId>
-					                        <artifactId>wildfly-dist</artifactId>
-					                        <version>${version.wildfly}</version>
-					                        <type>zip</type>
-					                        <overWrite>false</overWrite>
-					                        <outputDirectory>${project.build.directory}</outputDirectory>
-					                    </artifactItem>
-					                </artifactItems>
-					            </configuration>
-					        </execution>
-					    </executions>
-					</plugin>
 					<plugin>
 					    <artifactId>maven-failsafe-plugin</artifactId>
-					    <!-- version>${maven-failsafe-plugin.version}</version -->
+					    <!--  version>${maven-failsafe-plugin.version}</version -->
 					    <executions>
 					    	<execution>
 					    		<goals>
@@ -336,10 +293,10 @@
 					    </executions>
 					    <configuration>
 					        <environmentVariables>
-					            <JBOSS_HOME>${project.build.directory}/wildfly-${version.wildfly}</JBOSS_HOME>
+					            <!-- JBOSS_HOME>${project.build.directory}/wildfly-${version.wildfly}</JBOSS_HOME -->
 					        </environmentVariables>
 					        <systemPropertyVariables>
-					            <arquillian.launch>wildfly-embedded</arquillian.launch>
+					            <arquillian.launch>wildfly-remote</arquillian.launch>
 					            <serverConfig>standalone.xml</serverConfig>
 					            <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
 					        </systemPropertyVariables>
