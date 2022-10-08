@@ -28,6 +28,7 @@ public class ArquillianIT {
         	.addPackage("rx.dictionary.jpaentity")
             .addClasses(ExplanationRepository.class, Resources.class, SearchKeyword.class)
             .addAsResource("persistence-IT.xml", "META-INF/persistence.xml")
+            .addAsResource("initial_import_IT.sql", "initial_import.sql")
             .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
     }
 	
@@ -35,8 +36,8 @@ public class ArquillianIT {
 	ExplanationRepository tested;
     @Test
     public void should_create_greeting() {
-    	SearchKeyword searchKeyword = new SearchKeyword("crux", Locale.ENGLISH);
-    	List<Explanation> result = tested.find(searchKeyword, Locale.ENGLISH);
+    	SearchKeyword searchKeyword = new SearchKeyword("crux", Locale.US);
+    	List<Explanation> result = tested.find(searchKeyword, Locale.US);
     	assertFalse(result.isEmpty());
     }
 }
