@@ -25,15 +25,16 @@
          data source, this example data source is just for development and testing! -->
       <!-- The datasource is deployed as WEB-INF/web-ds.xml, you
          can find it in the source at src/main/webapp/WEB-INF/web-ds.xml -->
-      <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-      <jta-data-source>jdbc/arquillian</jta-data-source>  
+      <!--  provider>org.hibernate.jpa.HibernatePersistenceProvider</provider-->
+      <!-- jta-data-source>jdbc/arquillian</jta-data-source-->  
       <properties>
          <!-- Properties for Hibernate -->
-         <property name="hibernate.show_sql" value="true" />
          <property name="hibernate.hbm2ddl.auto" value="create" />
-         <property name="hibernate.transaction.jta.platform" value="org.hibernate.service.jta.platform.internal.SunOneJtaPlatform" />
-         <!-- property name="javax.persistence.schema-generation.database.action" value="create"/ --><!-- NOTE! Hibernate 4 cannot recognize this JPA property yet -->
+         <property name="hibernate.show_sql" value="true" />
          <property name="javax.persistence.sql-load-script-source" value="initial_import.sql" />
+         <property name="hibernate.hbm2ddl.charset_name" value="UTF-8" />
+         <!-- Properties for Hibernate -->
+         <!-- property name="javax.persistence.schema-generation.database.action" value="create"/ --><!-- NOTE! Hibernate 4 cannot recognize this JPA property yet -->
          <!--  property name="hibernate.hbm2ddl.charset_name" value="UTF-8" / -->
       </properties>
    </persistence-unit>
