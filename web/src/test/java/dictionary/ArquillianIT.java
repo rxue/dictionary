@@ -1,5 +1,8 @@
 package dictionary;
 
+import static org.junit.Assert.assertFalse;
+
+import java.util.List;
 import java.util.Locale;
 
 import javax.inject.Inject;
@@ -14,6 +17,7 @@ import org.junit.runner.RunWith;
 
 import rx.dictionary.ExplanationRepository;
 import rx.dictionary.SearchKeyword;
+import rx.dictionary.jpaentity.Explanation;
 import rx.dictionary.util.Resources;
 
 @RunWith(Arquillian.class)
@@ -22,17 +26,17 @@ public class ArquillianIT {
     public static JavaArchive createDeployment() {
         return ShrinkWrap.create(JavaArchive.class)
         	.addPackage("rx.dictionary.jpaentity")
-            .addClasses(ExplanationRepository.class, Resources.class)
+            .addClasses(ExplanationRepository.class, Resources.class, SearchKeyword.class)
             .addAsResource("persistence-IT.xml", "META-INF/persistence.xml")
             .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
     }
 	
 	@Inject
 	ExplanationRepository tested;
-	
     @Test
     public void should_create_greeting() {
-    	SearchKeyword searchKeyword = new SearchKeyword("take", Locale.ENGLISH);
-    	tested.find(searchKeyword, Locale.SIMPLIFIED_CHINESE);
+    	SearchKeyword searchKeyword = new SearchKeyword("crux", Locale.ENGLISH);
+    	List<Explanation> result = tested.find(searchKeyword, Locale.ENGLISH);
+    	assertFalse(result.isEmpty());
     }
 }

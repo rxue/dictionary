@@ -8,7 +8,7 @@
     <container qualifier="wildfly-remote" default="true">
         <configuration>
         	<!--  property name="serverConfig">standalone.xml</property -->
-        	<!--  property name="resourcesXml">src/test/resources/glassfish-resources-IT.xml</property -->
+        	<!-- property name="resourcesXml">src/test/resources/glassfish-resources-IT.xml</property -->
         	<property name="managementAddress">172.18.0.2</property>
 	        <property name="username">admin</property>
 	        <property name="password">admin</property>
