@@ -84,6 +84,20 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <dependency>
+              <groupId>org.jboss.arquillian</groupId>
+			  <artifactId>arquillian-bom</artifactId>
+			  <version>1.6.0.Final</version>
+			  <type>pom</type>
+			  <scope>import</scope>
+            </dependency>
+            <dependency>
+				<groupId>org.wildfly</groupId>
+				<artifactId>wildfly-ejb-client-bom</artifactId>
+				<version>24.0.0.Final</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -297,7 +311,7 @@
 					        </environmentVariables>
 					        <systemPropertyVariables>
 					            <arquillian.launch>wildfly-remote</arquillian.launch>
-					            <serverConfig>standalone.xml</serverConfig>
+					            <serverConfig>standalone-full.xml</serverConfig>
 					            <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
 					        </systemPropertyVariables>
 					    </configuration>

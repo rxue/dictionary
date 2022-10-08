@@ -26,6 +26,8 @@ services:
     build: ../web/it
     ports:
     - "8080:8080"
+    - "9990:9990"
+    - "19990:19990"
     container_name: dictionary-web-it
 
 networks:
