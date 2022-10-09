@@ -1,6 +1,7 @@
 package dictionary;
 
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 import java.util.Locale;
@@ -46,6 +47,12 @@ public class ExplanationRepositoryIT {
     	SearchKeyword searchKeyword = new SearchKeyword("Crux", Locale.US);
     	List<Explanation> result = tested.find(searchKeyword, Locale.US);
     	assertFalse(result.isEmpty());
-    } 
+    }
+    @Test
+    public void find_like() {
+    	SearchKeyword searchKeyword = new SearchKeyword("me", Locale.US);
+    	List<Explanation> result = tested.find(searchKeyword, Locale.SIMPLIFIED_CHINESE);
+    	assertTrue(result.size() > 1);
+    }
     
 }

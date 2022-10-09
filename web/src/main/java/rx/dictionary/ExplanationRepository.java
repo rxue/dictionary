@@ -21,11 +21,11 @@ public class ExplanationRepository implements Serializable {
 	 * @return list of entries matching exactly. NOTE! Return type is list due to the fact that a word could have several parts of speech
 	 */
 	public List<Explanation> find(SearchKeyword searchKeyword, Locale toLanguage) {
-		return em.createQuery("SELECT e FROM Explanation e WHERE e.lexicalItem.language = :fromLanguage and UPPER(e.lexicalItem.value) = UPPER(:value) and e.language = :toLanguage", 
+		return em.createQuery("SELECT e FROM Explanation e WHERE e.lexicalItem.language = :fromLanguage AND e.language = :toLanguage AND UPPER(e.lexicalItem.value) like CONCAT(UPPER(:value),'%')",
 				Explanation.class)
 				.setParameter("fromLanguage", searchKeyword.getLanguage())
-				.setParameter("value", searchKeyword.getValue())
 				.setParameter("toLanguage", toLanguage)
+				.setParameter("value", searchKeyword.getValue())
 				.getResultList();
 	} 
 	public void add(List<Explanation> definitions) {
