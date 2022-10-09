@@ -7,6 +7,7 @@
         <defaultProtocol type="Servlet 3.0" />
     <container qualifier="wildfly-remote" default="true">
         <configuration>
+        	<property name="managementPort">9998</property>
 	        <property name="username">admin</property>
 	        <property name="password">admin</property>
     	</configuration>
