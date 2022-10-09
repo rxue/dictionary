@@ -34,10 +34,18 @@ public class ExplanationRepositoryIT {
 	
 	@Inject
 	ExplanationRepository tested;
+	
     @Test
     public void find_withExactMatch() {
     	SearchKeyword searchKeyword = new SearchKeyword("crux", Locale.US);
     	List<Explanation> result = tested.find(searchKeyword, Locale.US);
     	assertFalse(result.isEmpty());
     }
+    @Test
+    public void find_caseInsensitive() {
+    	SearchKeyword searchKeyword = new SearchKeyword("Crux", Locale.US);
+    	List<Explanation> result = tested.find(searchKeyword, Locale.US);
+    	assertFalse(result.isEmpty());
+    } 
+    
 }
