@@ -1,3 +1,20 @@
+# How to Run
+## Steps to run
+1. `git clone git@github.com:rxue/dictionary.git` to a directory
+2. open termimal in the directory, where the project is downloaded to, then `cd dictionary/docker`
+3. execute `source run_web.sh` for a simple run
+## User Guide
+1. open `localhost/dictionary/search.jsf` in a browser
+2. search for a word, e.g. type "crux" then click the search button
+
+## How to Test
+### Steps to Run Integration Test
+1. `git clone git@github.com:rxue/dictionary.git` to a directory
+2. open termimal in the directory, where the project is downloaded to, then `cd dictionary/docker`
+3. execute `source run_integration_test_web.sh`
+
+
+
 # [User Stories](https://www.atlassian.com/agile/project-management/user-stories)
 ## A client searches for a word
  * A user should be able to search for a word with criteria such as keyword, language
