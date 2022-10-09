@@ -21,21 +21,21 @@ import rx.dictionary.jpaentity.Explanation;
 import rx.dictionary.util.Resources;
 
 @RunWith(Arquillian.class)
-public class ArquillianIT {
+public class ExplanationRepositoryIT {
 	@Deployment
     public static JavaArchive createDeployment() {
         return ShrinkWrap.create(JavaArchive.class)
         	.addPackage("rx.dictionary.jpaentity")
             .addClasses(ExplanationRepository.class, Resources.class, SearchKeyword.class)
             .addAsResource("persistence-IT.xml", "META-INF/persistence.xml")
-            .addAsResource("initial_import_IT.sql", "initial_import.sql")
+            .addAsResource("initial_import-IT.sql", "initial_import.sql")
             .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
     }
 	
 	@Inject
 	ExplanationRepository tested;
     @Test
-    public void should_create_greeting() {
+    public void find_withExactMatch() {
     	SearchKeyword searchKeyword = new SearchKeyword("crux", Locale.US);
     	List<Explanation> result = tested.find(searchKeyword, Locale.US);
     	assertFalse(result.isEmpty());
