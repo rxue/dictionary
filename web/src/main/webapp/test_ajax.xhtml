@@ -13,8 +13,11 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 	<h:body>
 		<h:form>
 			<h:inputText value="#{ajaxSearchComponent.keyword}">
-				<f:ajax listener="#{ajaxSearchComponent.fuzzy}" event="keyup" delay="4000" />
+				<f:ajax listener="#{ajaxSearchComponent.fuzzySearch}" event="keyup" delay="4000" render="candidates" />
 			</h:inputText>
+			<h:selectOneMenu id="candidates">
+    			<f:selectItems value="#{ajaxSearchComponent.matchedResults}" var="m" itemLabel="#{m}" itemValue="#{m}"  />
+			</h:selectOneMenu>
 		</h:form>
 	</h:body>
 </html>

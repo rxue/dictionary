@@ -1,15 +1,19 @@
 package rx.dictionary.ui.jsf.search;
 
+import java.util.Arrays;
+import java.util.List;
+
 import javax.enterprise.context.RequestScoped;
-import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Named;
 
 @RequestScoped
 @Named
 public class AjaxSearchComponent {
 	private String keyword;
-	public void fuzzy(AjaxBehaviorEvent e) {
-		System.out.println("::::::::::::::::!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+	private List<String> matchedResults;
+	public void fuzzySearch() {
+		System.out.println("::::::::::::::::!!!!!!!!!!!!!!!!!!!!!!!!!!! keyword is " + keyword);
+		matchedResults = Arrays.asList("x","y");
 	}
 	public String getKeyword() {
 		return keyword;
@@ -17,6 +21,10 @@ public class AjaxSearchComponent {
 	public void setKeyword(String keyword) {
 		this.keyword = keyword;
 	}
-	
-
+	public List<String> getMatchedResults() {
+		return matchedResults;
+	}
+	public void setMatchedResults(List<String> matchedResults) {
+		this.matchedResults = matchedResults;
+	}
 }
