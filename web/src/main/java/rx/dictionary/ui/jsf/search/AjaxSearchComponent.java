@@ -13,7 +13,7 @@ public class AjaxSearchComponent {
 	private List<String> matchedResults;
 	public void fuzzySearch() {
 		System.out.println("::::::::::::::::!!!!!!!!!!!!!!!!!!!!!!!!!!! keyword is " + keyword);
-		matchedResults = Arrays.asList("x","y");
+		matchedResults = Arrays.asList("x","y","z","K","a");
 	}
 	public String getKeyword() {
 		return keyword;
@@ -26,5 +26,8 @@ public class AjaxSearchComponent {
 	}
 	public void setMatchedResults(List<String> matchedResults) {
 		this.matchedResults = matchedResults;
+	}
+	public int candidateSize() {
+		return 3;
 	}
 }
