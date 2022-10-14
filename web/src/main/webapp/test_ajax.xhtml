@@ -18,10 +18,13 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 			</h:inputText>
 			<h:panelGroup layout="block" id="searchCandidates">
 				<h:panelGroup rendered="#{ajaxSearchComponent.getMatchedResults() != null}">
-					<select jsf:size="#{ajaxSearchComponent.candidateSize()}">
+					<select jsf:size="2" jsf:onchange="#{ajaxSearchComponent.search()}">
 					    <f:selectItems value="#{ajaxSearchComponent.matchedResults}" var="m" itemLabel="#{m}" itemValue="#{m}" />
 					</select>
 				</h:panelGroup>
+			</h:panelGroup>
+			<h:panelGroup layout="block" id="searchResult">
+					
 			</h:panelGroup>
 		</h:form>
 	</h:body>
