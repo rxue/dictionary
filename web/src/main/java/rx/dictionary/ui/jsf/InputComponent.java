@@ -7,7 +7,7 @@ import javax.faces.context.FacesContext;
 
 public abstract class InputComponent {
 	private Locale fromLanguage;
-	private String word;
+	private String keyword;
 	private Locale toLanguage;
 	public Map<String,String> getLanguageMap() {
 		return CommonComponent.FRONTEND_LANGUAGE_OPTIONS;
@@ -22,12 +22,12 @@ public abstract class InputComponent {
 		this.fromLanguage = fromLanguage;
 	}
 
-	public String getWord() {
-		return word;
+	public String getKeyword() {
+		return keyword;
 	}
-
-	public void setWord(String word) {
-		this.word = word;
+	
+	public void setKeyword(String word) {
+		this.keyword = word;
 	}
 
 	public Locale getToLanguage() {

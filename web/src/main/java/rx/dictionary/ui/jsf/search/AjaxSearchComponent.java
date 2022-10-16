@@ -1,29 +1,62 @@
 package rx.dictionary.ui.jsf.search;
-
-import java.util.Arrays;
 import java.util.List;
-
+import java.util.Locale;
+import java.util.stream.Collectors;
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
+
+import rx.dictionary.ExplanationRepository;
+import rx.dictionary.SearchKeyword;
+import rx.dictionary.jpaentity.Explanation;
+import rx.dictionary.jpaentity.LexicalItem;
+import rx.dictionary.ui.jsf.InputComponent;
 
 @RequestScoped
 @Named
-public class AjaxSearchComponent {
+public class AjaxSearchComponent extends InputComponent {
 	private String keyword;
 	private List<String> matchedResults;
-	private List<String> matchedResultsTest = Arrays.asList("first","fiiit");
+	private List<String> resultCandidates;
+	private String chosenCandidate;
+	@Inject
+	private ExplanationRepository explanationRepo;
 	public void fuzzySearch() {
 		System.out.println("::::::::::::::::!!!!!!!!!!!!!!!!!!!!!!!!!!! keyword is " + keyword);
-		matchedResults = Arrays.asList("xxx","yyy","zzz","KKK","aaa");
+		//NOTE! atm fromLanguage and toLanguage is hard-coded
+		SearchKeyword keyword = new SearchKeyword(getKeyword(), Locale.US);
+		List<Explanation> explanationCandidates = explanationRepo.find(keyword, Locale.SIMPLIFIED_CHINESE);
+		System.out.println("result explanation candidate " + explanationCandidates.size());
+		resultCandidates = explanationCandidates.stream()
+				.map(Explanation::getLexicalItem)
+				.map(LexicalItem::getValue)
+				.distinct()
+				.collect(Collectors.toList());
 	}
-	public void search() {
-		System.out.println("real search::::::::::::::");
+	public void exactSearch() {
+		System.out.println("select matached search result::::::::::::::" + chosenCandidate);
+	}
+	public boolean hasResultCandidates() {
+		return resultCandidates != null && !resultCandidates.isEmpty();
 	}
 	public String getKeyword() {
 		return keyword;
 	}
 	public void setKeyword(String keyword) {
 		this.keyword = keyword;
+	}
+	
+	public String getChosenCandidate() {
+		return chosenCandidate;
+	}
+	public void setChosenCandidate(String chosenCandidate) {
+		this.chosenCandidate = chosenCandidate;
+	}
+	public List<String> getResultCandidates() {
+		return resultCandidates;
+	}
+	public void setResultCandidates(List<String> resultCandidates) {
+		this.resultCandidates = resultCandidates;
 	}
 	public List<String> getMatchedResults() {
 		return matchedResults;
@@ -32,12 +65,6 @@ public class AjaxSearchComponent {
 		this.matchedResults = matchedResults;
 	}
 	
-	public List<String> getMatchedResultsTest() {
-		return matchedResultsTest;
-	}
-	public void setMatchedResultsTest(List<String> matchedResultsTest) {
-		this.matchedResultsTest = matchedResultsTest;
-	}
 	public int candidateSize() {
 		return 3;
 	}

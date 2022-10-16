@@ -14,17 +14,16 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 	<h:body>
 		<h:form>
 			<h:inputText value="#{ajaxSearchComponent.keyword}">
-				<f:ajax listener="#{ajaxSearchComponent.fuzzySearch}" event="keyup" delay="2000" render="searchCandidates" />
+				<f:ajax event="keyup" listener="#{ajaxSearchComponent.fuzzySearch}" delay="2000" render="searchCandidates" />
 			</h:inputText>
 			<h:panelGroup layout="block" id="searchCandidates">
-				<h:panelGroup rendered="#{ajaxSearchComponent.getMatchedResults() != null}">
-					<select jsf:size="2" jsf:onchange="#{ajaxSearchComponent.search()}">
-					    <f:selectItems value="#{ajaxSearchComponent.matchedResults}" var="m" itemLabel="#{m}" itemValue="#{m}" />
-					</select>
-				</h:panelGroup>
+				<h:selectOneListbox size="3" value="#{ajaxSearchComponent.chosenCandidate}" rendered="#{ajaxSearchComponent.hasResultCandidates()}">
+					<f:selectItems value="#{ajaxSearchComponent.resultCandidates}" var="c" itemLabel="#{c}" itemValue="#{c}" />
+					<f:ajax event="change" listener="#{ajaxSearchComponent.exactSearch}" />
+				</h:selectOneListbox>
 			</h:panelGroup>
 			<h:panelGroup layout="block" id="searchResult">
-					
+				<h:outputText value="dummy result" />	
 			</h:panelGroup>
 		</h:form>
 	</h:body>

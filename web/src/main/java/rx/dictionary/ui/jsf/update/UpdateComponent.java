@@ -49,7 +49,7 @@ public class UpdateComponent extends InputComponent implements Serializable {
 	
 	public void search() {
 		System.out.println("Search action at JSF phace: " + FacesContext.getCurrentInstance().getCurrentPhaseId());
-		SearchKeyword itemVal = new SearchKeyword(super.getWord(), super.getFromLanguage());
+		SearchKeyword itemVal = new SearchKeyword(super.getKeyword(), super.getFromLanguage());
 		definitions = dictionaryService.find(itemVal, getToLanguage());
 		explanations = toExplanationComponents(definitions);
 	}

@@ -43,7 +43,7 @@ public class SearchComponent extends InputComponent {
 
 
 	public void action() {
-		SearchKeyword searchKeyword = new SearchKeyword(super.getWord(), super.getFromLanguage());
+		SearchKeyword searchKeyword = new SearchKeyword(super.getKeyword(), super.getFromLanguage());
 		lexicalItemEvent.fire(searchKeyword);
 		Map<PartOfSpeech,List<String>> rawResult = dictionaryService.find(searchKeyword, super.getToLanguage()).stream()
 				.collect(groupingBy(d -> d.getLexicalItem().getPoS(), mapping(Explanation::getExplanation, toList())));

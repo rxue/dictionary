@@ -25,7 +25,7 @@ public class AddComponent extends CompleteInputComponent {
 	}
 	
 	private List<Explanation> getDefinitions() {
-		SearchKeyword itemValue = new SearchKeyword(super.getWord(), super.getFromLanguage());
+		SearchKeyword itemValue = new SearchKeyword(super.getKeyword(), super.getFromLanguage());
 		List<Explanation> explanations = new ArrayList<>();
 		List<LexicalItem> newLexicalItems = new ArrayList<>();
 		for (ExplanationComponent explanationComp : getExplanations()) {
@@ -36,7 +36,7 @@ public class AddComponent extends CompleteInputComponent {
 				newExplanation.setExplanation(explanation);
 				LexicalItem item = new LexicalItem();
 				item.setPoS(explanationComp.getPartOfSpeech());
-				item.setValue(this.getWord());
+				item.setValue(this.getKeyword());
 				item.setLanguage(getFromLanguage());
 				Optional<LexicalItem> existingItem = newLexicalItems.stream().filter(li -> li.equals(item))
 						.findAny();
