@@ -1,4 +1,5 @@
 package rx.dictionary.ui.jsf.search;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
@@ -15,7 +16,7 @@ import rx.dictionary.ui.jsf.InputComponent;
 
 @ViewScoped
 @Named
-public class AjaxSearchComponent extends InputComponent {
+public class AjaxSearchComponent extends InputComponent implements Serializable {
 	private String keyword;
 	private List<String> matchedResults;
 	private List<String> resultCandidates;
