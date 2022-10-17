@@ -2,7 +2,8 @@ package rx.dictionary.ui.jsf.search;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
-import javax.enterprise.context.RequestScoped;
+
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -12,7 +13,7 @@ import rx.dictionary.jpaentity.Explanation;
 import rx.dictionary.jpaentity.LexicalItem;
 import rx.dictionary.ui.jsf.InputComponent;
 
-@RequestScoped
+@ViewScoped
 @Named
 public class AjaxSearchComponent extends InputComponent {
 	private String keyword;
