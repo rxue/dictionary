@@ -15,6 +15,9 @@ INSERT INTO explanation VALUES(NEXT VALUE FOR explanation_id_seq, PARSEDATETIME(
 -- en_US: media
 INSERT INTO lexicalitem (id, createdDate, value, language, poS) VALUES(NEXT VALUE FOR item_id_seq, PARSEDATETIME('09-10-2022', 'dd-MM-yyyy'), 'media','en_US','N');
 INSERT INTO explanation VALUES(NEXT VALUE FOR explanation_id_seq, PARSEDATETIME('09-10-2022', 'dd-MM-yyyy'), '媒体','zh_CN', item_id_seq.currval);
+-- en_US: recluse
+INSERT INTO lexicalitem (id, createdDate, value, language, poS) VALUES(NEXT VALUE FOR item_id_seq, PARSEDATETIME('20-10-2022', 'dd-MM-yyyy'), 'recluse','en_US','N');
+INSERT INTO explanation VALUES(NEXT VALUE FOR explanation_id_seq, PARSEDATETIME('20-10-2022', 'dd-MM-yyyy'), '隐士','zh_CN', item_id_seq.currval);
 
 -- fi: palapeli
 INSERT INTO lexicalitem (id, createdDate, value, language, poS) VALUES(NEXT VALUE FOR item_id_seq, PARSEDATETIME('17-04-2022', 'dd-MM-yyyy'), 'palapeli','fi','N');

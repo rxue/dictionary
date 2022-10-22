@@ -2,8 +2,10 @@ package rx.dictionary.ui.jsf.search;
 
 import java.util.ArrayList;
 
+import rx.dictionary.ui.ExplanationItemViewDTO;
+
 @SuppressWarnings("serial")
-public class SearchResult extends ArrayList<DefinitionItemViewDTO> {
+public class SearchResult extends ArrayList<ExplanationItemViewDTO> {
 	private final boolean isActioned;
 	private SearchResult(boolean isActioned) {
 		this.isActioned = isActioned;

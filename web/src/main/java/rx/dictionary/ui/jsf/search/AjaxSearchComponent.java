@@ -1,73 +1,66 @@
 package rx.dictionary.ui.jsf.search;
-import java.io.Serializable;
-import java.util.List;
-import java.util.Locale;
-import java.util.stream.Collectors;
 
+import java.io.IOException;
+import java.io.Serializable;
+import java.util.Collections;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
+
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import rx.dictionary.ExplanationRepository;
 import rx.dictionary.SearchKeyword;
-import rx.dictionary.jpaentity.Explanation;
-import rx.dictionary.jpaentity.LexicalItem;
+import rx.dictionary.ui.SearchResult;
+import rx.dictionary.ui.SearchService;
 import rx.dictionary.ui.jsf.InputComponent;
 
 @ViewScoped
 @Named
 public class AjaxSearchComponent extends InputComponent implements Serializable {
-	private String keyword;
-	private List<String> matchedResults;
-	private List<String> resultCandidates;
-	private String chosenCandidate;
+	@SuppressWarnings("unchecked")
+	private Map<String,SearchResult> resultCandidates = Collections.EMPTY_MAP;
 	@Inject
-	private ExplanationRepository explanationRepo;
-	public void fuzzySearch() {
-		System.out.println("::::::::::::::::!!!!!!!!!!!!!!!!!!!!!!!!!!! keyword is " + keyword);
+	private SearchService searchService;
+	private SearchResult searchResult = null;
+	public void searchCandidates() {
 		//NOTE! atm fromLanguage and toLanguage is hard-coded
 		SearchKeyword keyword = new SearchKeyword(getKeyword(), Locale.US);
-		List<Explanation> explanationCandidates = explanationRepo.find(keyword, Locale.SIMPLIFIED_CHINESE);
-		System.out.println("result explanation candidate " + explanationCandidates.size());
-		resultCandidates = explanationCandidates.stream()
-				.map(Explanation::getLexicalItem)
-				.map(LexicalItem::getValue)
-				.distinct()
-				.collect(Collectors.toList());
+		resultCandidates = searchService.searchCandidates(keyword, Locale.SIMPLIFIED_CHINESE);
 	}
-	public void exactSearch() {
-		System.out.println("select matached search result::::::::::::::" + chosenCandidate);
+	public void navigate(AjaxBehaviorEvent evt) throws IOException {
+		FacesContext fc = FacesContext.getCurrentInstance();
+		String viewId = fc.getViewRoot().getViewId();
+		ExternalContext ec = fc.getExternalContext();
+		ec.redirect(ec.getApplicationContextPath() + viewId + "?keyword=" + getKeyword());
 	}
+	/**
+	 * Action
+	 */
+	public void search() {
+		String keywordValue = getKeyword();
+		if (keywordValue != null) {
+			searchResult = resultCandidates.get(keywordValue);
+		}
+	}
+	
 	public boolean hasResultCandidates() {
-		return resultCandidates != null && !resultCandidates.isEmpty();
+		return !resultCandidates.isEmpty();
 	}
-	public String getKeyword() {
-		return keyword;
+	public Set<String> getResultCandidateWords() {
+		return resultCandidates.keySet();
 	}
-	public void setKeyword(String keyword) {
-		this.keyword = keyword;
+	public SearchResult getSearchResult() {
+		return searchResult;
 	}
-	
-	public String getChosenCandidate() {
-		return chosenCandidate;
+	public void setSearchResult(SearchResult searchResult) {
+		this.searchResult = searchResult;
 	}
-	public void setChosenCandidate(String chosenCandidate) {
-		this.chosenCandidate = chosenCandidate;
-	}
-	public List<String> getResultCandidates() {
-		return resultCandidates;
-	}
-	public void setResultCandidates(List<String> resultCandidates) {
-		this.resultCandidates = resultCandidates;
-	}
-	public List<String> getMatchedResults() {
-		return matchedResults;
-	}
-	public void setMatchedResults(List<String> matchedResults) {
-		this.matchedResults = matchedResults;
-	}
-	
-	public int candidateSize() {
-		return 3;
+	public boolean showResult() {
+		return getKeyword() != null;
 	}
 }

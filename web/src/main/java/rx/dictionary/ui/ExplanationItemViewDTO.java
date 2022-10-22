@@ -1,15 +1,15 @@
-package rx.dictionary.ui.jsf.search;
+package rx.dictionary.ui;
 
 import java.util.List;
 
 import rx.dictionary.jpaentity.PartOfSpeech;
 
-public class DefinitionItemViewDTO {
+public class ExplanationItemViewDTO {
 	private final PartOfSpeech partOfSpeech;
 	private final List<String> definitions;
-	public DefinitionItemViewDTO(PartOfSpeech partOfSpeech, List<String> definitions) {
+	public ExplanationItemViewDTO(PartOfSpeech partOfSpeech, List<String> explanations) {
 		this.partOfSpeech = partOfSpeech;
-		this.definitions = definitions;
+		this.definitions = explanations;
 	}
 	@Override
 	public String toString() {

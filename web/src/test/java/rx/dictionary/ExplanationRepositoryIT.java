@@ -1,4 +1,4 @@
-package dictionary;
+package rx.dictionary;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -53,6 +53,12 @@ public class ExplanationRepositoryIT {
     	SearchKeyword searchKeyword = new SearchKeyword("me", Locale.US);
     	List<Explanation> result = tested.find(searchKeyword, Locale.SIMPLIFIED_CHINESE);
     	assertTrue(result.size() > 1);
+    }
+    @Test
+    public void find_noMatch() {
+    	SearchKeyword searchKeyword = new SearchKeyword("x", Locale.US);
+    	List<Explanation> result = tested.find(searchKeyword, Locale.SIMPLIFIED_CHINESE);
+    	assertTrue(result.isEmpty());	
     }
     
 }

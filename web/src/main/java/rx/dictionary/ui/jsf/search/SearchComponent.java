@@ -16,6 +16,7 @@ import rx.dictionary.DictionaryService;
 import rx.dictionary.SearchKeyword;
 import rx.dictionary.jpaentity.Explanation;
 import rx.dictionary.jpaentity.PartOfSpeech;
+import rx.dictionary.ui.ExplanationItemViewDTO;
 import rx.dictionary.ui.jsf.CommonComponent;
 import rx.dictionary.ui.jsf.InputComponent;
 
@@ -49,6 +50,6 @@ public class SearchComponent extends InputComponent {
 				.collect(groupingBy(d -> d.getLexicalItem().getPoS(), mapping(Explanation::getExplanation, toList())));
 		searchResult = SearchResult.newWithAction();
 		if (rawResult.size() > 0) 
-			rawResult.entrySet().forEach(e -> searchResult.add(new DefinitionItemViewDTO(e.getKey(), e.getValue())));
+			rawResult.entrySet().forEach(e -> searchResult.add(new ExplanationItemViewDTO(e.getKey(), e.getValue())));
 	}
 }

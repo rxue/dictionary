@@ -10,20 +10,27 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:jsf="http://xmlns.jcp.org/jsf" >
 	<h:head>
+		<title>Search for Word with Ajax</title>
+		<f:metadata>
+    		<f:viewParam name="keyword" value="#{ajaxSearchComponent.keyword}"/>
+    		<f:event type="preRenderView" listener="#{ajaxSearchComponent.search}" />
+		</f:metadata>
 	</h:head>
 	<h:body>
 		<h:form>
 			<h:inputText value="#{ajaxSearchComponent.keyword}">
-				<f:ajax event="keyup" listener="#{ajaxSearchComponent.fuzzySearch}" delay="2000" render="searchCandidates" />
+				<f:ajax event="keyup" listener="#{ajaxSearchComponent.searchCandidates}" delay="2000" render="searchCandidates" />
 			</h:inputText>
 			<h:panelGroup layout="block" id="searchCandidates">
-				<h:selectOneListbox size="3" value="#{ajaxSearchComponent.chosenCandidate}" rendered="#{ajaxSearchComponent.hasResultCandidates()}">
-					<f:selectItems value="#{ajaxSearchComponent.resultCandidates}" var="c" itemLabel="#{c}" itemValue="#{c}" />
-					<f:ajax event="change" listener="#{ajaxSearchComponent.exactSearch}" />
+				<h:selectOneListbox size="3" value="#{ajaxSearchComponent.keyword}" rendered="#{ajaxSearchComponent.hasResultCandidates()}">
+					<f:selectItems value="#{ajaxSearchComponent.resultCandidateWords}" var="c" itemLabel="#{c}" itemValue="#{c}" />
+					<f:ajax event="change" listener="#{ajaxSearchComponent.navigate}" render="result" />
 				</h:selectOneListbox>
 			</h:panelGroup>
-			<h:panelGroup layout="block" id="searchResult">
-				<h:outputText value="dummy result" />	
+			<h:panelGroup layout="block" id="result">
+				<h:dataTable value="#{ajaxSearchComponent.searchResult}" var="r">
+					<h:column>#{r}</h:column>
+				</h:dataTable>
 			</h:panelGroup>
 		</h:form>
 	</h:body>
