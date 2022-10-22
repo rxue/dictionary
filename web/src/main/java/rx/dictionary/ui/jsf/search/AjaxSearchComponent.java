@@ -44,7 +44,8 @@ public class AjaxSearchComponent extends InputComponent implements Serializable 
 	public void search() {
 		String keywordValue = getKeyword();
 		if (keywordValue != null) {
-			searchResult = resultCandidates.get(keywordValue);
+			SearchKeyword keyword = new SearchKeyword(keywordValue, Locale.US);
+			searchResult = searchService.search(keyword, Locale.SIMPLIFIED_CHINESE);
 		}
 	}
 	
