@@ -20,14 +20,22 @@ public class ExplanationRepository implements Serializable {
 	 * @param lang
 	 * @return list of entries matching exactly. NOTE! Return type is list due to the fact that a word could have several parts of speech
 	 */
-	public List<Explanation> find(SearchKeyword searchKeyword, Locale toLanguage) {
+	public List<Explanation> findLike(SearchKeyword searchKeyword, Locale toLanguage) {
 		return em.createQuery("SELECT e FROM Explanation e WHERE e.lexicalItem.language = :fromLanguage AND e.language = :toLanguage AND UPPER(e.lexicalItem.value) like CONCAT(UPPER(:value),'%')",
 				Explanation.class)
 				.setParameter("fromLanguage", searchKeyword.getLanguage())
 				.setParameter("toLanguage", toLanguage)
 				.setParameter("value", searchKeyword.getValue())
 				.getResultList();
-	} 
+	}
+	public List<Explanation> find(SearchKeyword searchKeyword, Locale toLanguage) {
+		return em.createQuery("SELECT e FROM Explanation e WHERE e.lexicalItem.language = :fromLanguage AND e.language = :toLanguage AND e.lexicalItem.value = :value",
+				Explanation.class)
+				.setParameter("fromLanguage", searchKeyword.getLanguage())
+				.setParameter("toLanguage", toLanguage)
+				.setParameter("value", searchKeyword.getValue())
+				.getResultList();
+	}
 	public void add(List<Explanation> definitions) {
 		for (Explanation definition : definitions) {
 			em.persist(definition);

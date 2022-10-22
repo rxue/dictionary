@@ -22,10 +22,10 @@ import rx.dictionary.ui.jsf.InputComponent;
 @ViewScoped
 @Named
 public class AjaxSearchComponent extends InputComponent implements Serializable {
-	@SuppressWarnings("unchecked")
-	private Map<String,SearchResult> resultCandidates = Collections.EMPTY_MAP;
 	@Inject
 	private SearchService searchService;
+	@SuppressWarnings("unchecked")
+	private Map<String,SearchResult> resultCandidates = Collections.EMPTY_MAP;
 	private SearchResult searchResult = null;
 	public void searchCandidates() {
 		//NOTE! atm fromLanguage and toLanguage is hard-coded

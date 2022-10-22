@@ -43,21 +43,21 @@ public class ExplanationRepositoryIT {
     	assertFalse(result.isEmpty());
     }
     @Test
-    public void find_caseInsensitive() {
+    public void findLike_caseInsensitive() {
     	SearchKeyword searchKeyword = new SearchKeyword("Crux", Locale.US);
-    	List<Explanation> result = tested.find(searchKeyword, Locale.US);
+    	List<Explanation> result = tested.findLike(searchKeyword, Locale.US);
     	assertFalse(result.isEmpty());
     }
     @Test
-    public void find_like() {
+    public void findLike() {
     	SearchKeyword searchKeyword = new SearchKeyword("me", Locale.US);
-    	List<Explanation> result = tested.find(searchKeyword, Locale.SIMPLIFIED_CHINESE);
+    	List<Explanation> result = tested.findLike(searchKeyword, Locale.SIMPLIFIED_CHINESE);
     	assertTrue(result.size() > 1);
     }
     @Test
-    public void find_noMatch() {
+    public void findLike_noMatch() {
     	SearchKeyword searchKeyword = new SearchKeyword("x", Locale.US);
-    	List<Explanation> result = tested.find(searchKeyword, Locale.SIMPLIFIED_CHINESE);
+    	List<Explanation> result = tested.findLike(searchKeyword, Locale.SIMPLIFIED_CHINESE);
     	assertTrue(result.isEmpty());	
     }
     
