@@ -24,7 +24,7 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 			<h:panelGroup layout="block" id="searchCandidates">
 				<h:selectOneListbox size="3" value="#{ajaxSearchComponent.keyword}" rendered="#{ajaxSearchComponent.hasResultCandidates()}">
 					<f:selectItems value="#{ajaxSearchComponent.resultCandidateWords}" var="c" itemLabel="#{c}" itemValue="#{c}" />
-					<f:ajax event="change" listener="#{ajaxSearchComponent.navigate}" render="result" />
+					<f:ajax event="click" listener="#{ajaxSearchComponent.navigate}" render="result" />
 				</h:selectOneListbox>
 			</h:panelGroup>
 			<h:panelGroup layout="block" id="result">
