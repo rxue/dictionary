@@ -16,10 +16,13 @@
 # Project Management
 ## Epic: Release a dictionary web application
 ### [User Stories](https://www.atlassian.com/agile/project-management/user-stories)
-## As a language learner, when meeting with a new word, I want to search for it with this dictionary we application and get the expected result
+#### As a user, I want to search for a word so that I get the explanation
  * A user should be able to search for a word with criteria such as keyword, language
  * Search keyword should be CASE-INSENSITIVE
  * Some word, esp. noun, should also be explained with pictures
+##### As a user, when searching for a keyword, I want to get a a list of candidates to select from
+##### the searched result should be bookmarkable
+
 ### Issues
  * [Make the 1st servlet for getting the image on base of a searched word #1](https://github.com/rxue/dictionary/issues/1)
  * [Make a simple GUI with JSF for input a word and display image on base of the input](https://github.com/rxue/dictionary/issues/4)
