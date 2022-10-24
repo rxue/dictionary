@@ -32,11 +32,16 @@ public class AjaxSearchComponent extends InputComponent implements Serializable 
 		SearchKeyword keyword = new SearchKeyword(getKeyword(), Locale.US);
 		resultCandidates = searchService.searchCandidates(keyword, Locale.SIMPLIFIED_CHINESE);
 	}
-	public void navigate(AjaxBehaviorEvent evt) throws IOException {
+	
+	public void redirectToSearch() throws IOException {
+		System.out.println("::::::::::::::::search, actual navigate()!!!!!!!!");
 		FacesContext fc = FacesContext.getCurrentInstance();
 		String viewId = fc.getViewRoot().getViewId();
 		ExternalContext ec = fc.getExternalContext();
 		ec.redirect(ec.getApplicationContextPath() + viewId + "?keyword=" + getKeyword());
+	}
+	public void searchAction() throws IOException {
+		redirectToSearch();
 	}
 	/**
 	 * Action

@@ -24,9 +24,10 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 			<h:panelGroup layout="block" id="searchCandidates">
 				<h:selectOneListbox size="3" value="#{ajaxSearchComponent.keyword}" rendered="#{ajaxSearchComponent.hasResultCandidates()}">
 					<f:selectItems value="#{ajaxSearchComponent.resultCandidateWords}" var="c" itemLabel="#{c}" itemValue="#{c}" />
-					<f:ajax event="click" listener="#{ajaxSearchComponent.navigate}" render="result" />
+					<f:ajax event="click" listener="#{ajaxSearchComponent.redirectToSearch}" render="result" />
 				</h:selectOneListbox>
 			</h:panelGroup>
+			<h:commandButton value="Search" action="#{ajaxSearchComponent.searchAction}" render="result" />
 			<h:panelGroup layout="block" id="result">
 				<h:dataTable value="#{ajaxSearchComponent.searchResult}" var="r">
 					<h:column>#{r}</h:column>
