@@ -16,11 +16,12 @@
 # Project Management
 ## Epic: Release a dictionary web application
 ### [User Stories](https://www.atlassian.com/agile/project-management/user-stories)
-#### As a user, I want to search for a word so that I get the explanation
+#### [As a user, I want to search for a word so that I get the explanation](https://github.com/rxue/dictionary/issues/60)
  * A user should be able to search for a word with criteria such as keyword, language
  * Search keyword should be CASE-INSENSITIVE
  * Some word, esp. noun, should also be explained with pictures
-##### As a user, when searching for a keyword, I want to get a a list of candidates to select from
+##### Subtask: As a user, when searching for a keyword, I want to get a a list of candidates to select from
+##### [Subtask: As a user, after giving a keyword in the input field, I want to get the result](https://github.com/rxue/dictionary/issues/61) 
 ##### the searched result should be bookmarkable
 
 ### Issues
