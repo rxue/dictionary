@@ -13,10 +13,10 @@
 2. open termimal in the directory, where the project is downloaded to, then `cd dictionary/docker`
 3. execute `source run_integration_test_web.sh`
 
-
-
-# [User Stories](https://www.atlassian.com/agile/project-management/user-stories)
-## A client searches for a word
+# Project Management
+## Epic: Release a dictionary web application
+### [User Stories](https://www.atlassian.com/agile/project-management/user-stories)
+## As a language learner, when meeting with a new word, I want to search for it with this dictionary we application and get the expected result
  * A user should be able to search for a word with criteria such as keyword, language
  * Search keyword should be CASE-INSENSITIVE
  * Some word, esp. noun, should also be explained with pictures
