@@ -12,7 +12,7 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 	<h:head>
 		<title>Search for Word with Ajax</title>
 		<f:metadata>
-    		<f:viewParam name="keyword" value="#{ajaxSearchComponent.keyword}"/>
+    		<f:viewParam name="keyword" value="#{ajaxSearchComponent.keyword}" />
     		<f:event type="preRenderView" listener="#{ajaxSearchComponent.search}" />
 		</f:metadata>
 	</h:head>
@@ -21,13 +21,14 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 			<h:inputText value="#{ajaxSearchComponent.keyword}">
 				<f:ajax event="keyup" listener="#{ajaxSearchComponent.searchCandidates}" delay="2000" render="searchCandidates" />
 			</h:inputText>
+			<h:inputHidden value="#{ajaxSearchComponent.fromLanguageStr}"></h:inputHidden>
 			<h:panelGroup layout="block" id="searchCandidates">
 				<h:selectOneListbox size="3" value="#{ajaxSearchComponent.keyword}" rendered="#{ajaxSearchComponent.hasResultCandidates()}">
 					<f:selectItems value="#{ajaxSearchComponent.resultCandidateWords}" var="c" itemLabel="#{c}" itemValue="#{c}" />
-					<f:ajax event="click" listener="#{ajaxSearchComponent.redirectToSearch}" render="result" />
+					<f:ajax event="click" listener="#{ajaxSearchComponent.redirectToSearch}" />
 				</h:selectOneListbox>
 			</h:panelGroup>
-			<h:commandButton value="Search" action="#{ajaxSearchComponent.searchAction}" render="result" />
+			<h:commandButton value="Search" action="#{ajaxSearchComponent.redirectToSearch}" />
 			<h:panelGroup layout="block" id="result">
 				<h:dataTable value="#{ajaxSearchComponent.searchResult}" var="r">
 					<h:column>#{r}</h:column>
