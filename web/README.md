@@ -21,7 +21,8 @@
  * Search keyword should be CASE-INSENSITIVE
  * Some word, esp. noun, should also be explained with pictures
 ##### Subtask: As a user, when searching for a keyword, I want to get a a list of candidates to select from
-##### [Subtask: As a user, after giving a keyword in the input field, I want to get the result](https://github.com/rxue/dictionary/issues/61) 
+##### Subtask: [As a user, after giving a keyword in the input field, I want to get the result](https://github.com/rxue/dictionary/issues/61) 
+##### Subtask: [As a user, I want to search a word with a pre-defined source language and explanation language](https://github.com/rxue/dictionary/issues/62)
 ##### the searched result should be bookmarkable
 
 ### Issues
