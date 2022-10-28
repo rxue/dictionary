@@ -14,10 +14,10 @@ import rx.dictionary.jpaentity.PartOfSpeech;
 public class SearchResultTest {
 	@Test(expected = UnsupportedOperationException.class)
 	public void testAdd() {
-		LexicalItem lexicalItem = newLexicalItem(Locale.US, PartOfSpeech.VT, "take");
+		LexicalItem lexicalItem = newLexicalItem(Locale.ENGLISH, PartOfSpeech.VT, "take");
 		List<Explanation> explanations = new ArrayList<>();
-		explanations.add(newExplanation(lexicalItem, Locale.US, "contrive (a plan) by mutual agreement"));
-		explanations.add(newExplanation(lexicalItem, Locale.US, "settle by agreement"));
+		explanations.add(newExplanation(lexicalItem, Locale.ENGLISH, "contrive (a plan) by mutual agreement"));
+		explanations.add(newExplanation(lexicalItem, Locale.ENGLISH, "settle by agreement"));
 		SearchResult tested = new SearchResult(explanations);
 		ExplanationItemViewDTO dtoToAdd = new ExplanationItemViewDTO(PartOfSpeech.N, Arrays.asList("a performance of music by players or singers not involving theatrical staging"));
 		tested.add(dtoToAdd);

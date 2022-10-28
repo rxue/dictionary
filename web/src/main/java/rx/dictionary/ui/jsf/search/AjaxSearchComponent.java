@@ -47,18 +47,16 @@ public class AjaxSearchComponent extends InputComponent implements Serializable 
 	 * Pre-render view Action
 	 */
 	public void search() {
-		FacesContext fc = FacesContext.getCurrentInstance();
-		ExternalContext ec = fc.getExternalContext();
 		String keywordValue = getKeyword();
 		if (keywordValue != null) {
 			if (fromLanguageStr == null)
-				fromLanguageStr = getFromLanguage(ec).orElse("");
+				fromLanguageStr = getFromLanguage(FacesContext.getCurrentInstance()).orElse("");
 			SearchKeyword keyword = new SearchKeyword(keywordValue, Locale.US);
 			searchResult = searchService.search(keyword, Locale.SIMPLIFIED_CHINESE);
 		}
 	}
-	private static Optional<String> getFromLanguage(ExternalContext ec) {
-		Object forwardServletPathStr = ec.getRequestMap().get("javax.servlet.forward.servlet_path");
+	private static Optional<String> getFromLanguage(FacesContext fc) {
+		Object forwardServletPathStr = fc.getExternalContext().getRequestMap().get("javax.servlet.forward.servlet_path");
 		if (forwardServletPathStr != null) {
 			return Optional.of(Paths.get(""+forwardServletPathStr).getName(0).toString());
 		}

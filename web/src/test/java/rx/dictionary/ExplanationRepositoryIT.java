@@ -15,9 +15,6 @@ import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import rx.dictionary.ExplanationRepository;
-import rx.dictionary.SearchKeyword;
 import rx.dictionary.jpaentity.Explanation;
 import rx.dictionary.util.Resources;
 
@@ -38,25 +35,25 @@ public class ExplanationRepositoryIT {
 	
     @Test
     public void find_withExactMatch() {
-    	SearchKeyword searchKeyword = new SearchKeyword("crux", Locale.US);
-    	List<Explanation> result = tested.find(searchKeyword, Locale.US);
+    	SearchKeyword searchKeyword = new SearchKeyword("crux", Locale.ENGLISH);
+    	List<Explanation> result = tested.find(searchKeyword, Locale.ENGLISH);
     	assertFalse(result.isEmpty());
     }
     @Test
     public void findLike_caseInsensitive() {
-    	SearchKeyword searchKeyword = new SearchKeyword("Crux", Locale.US);
-    	List<Explanation> result = tested.findLike(searchKeyword, Locale.US);
+    	SearchKeyword searchKeyword = new SearchKeyword("Crux", Locale.ENGLISH);
+    	List<Explanation> result = tested.findLike(searchKeyword, Locale.ENGLISH);
     	assertFalse(result.isEmpty());
     }
     @Test
     public void findLike() {
-    	SearchKeyword searchKeyword = new SearchKeyword("me", Locale.US);
+    	SearchKeyword searchKeyword = new SearchKeyword("me", Locale.ENGLISH);
     	List<Explanation> result = tested.findLike(searchKeyword, Locale.SIMPLIFIED_CHINESE);
     	assertTrue(result.size() > 1);
     }
     @Test
     public void findLike_noMatch() {
-    	SearchKeyword searchKeyword = new SearchKeyword("x", Locale.US);
+    	SearchKeyword searchKeyword = new SearchKeyword("x", Locale.ENGLISH);
     	List<Explanation> result = tested.findLike(searchKeyword, Locale.SIMPLIFIED_CHINESE);
     	assertTrue(result.isEmpty());	
     }
