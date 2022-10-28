@@ -12,11 +12,9 @@ import java.util.Set;
 
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.servlet.ServletRequest;
 
 import rx.dictionary.SearchKeyword;
 import rx.dictionary.ui.SearchResult;
@@ -39,19 +37,14 @@ public class AjaxSearchComponent extends InputComponent implements Serializable 
 	}
 	
 	public void redirectToSearch() throws IOException {
-		System.out.println("::::::::::::::::search, actual navigate()!!!!!!!!");
 		FacesContext fc = FacesContext.getCurrentInstance();
 		String viewId = fc.getViewRoot().getViewId();
 		ExternalContext ec = fc.getExternalContext();
-		Map<String,Object> reqMap = ec.getRequestMap();
-		System.out.println(":::::::::::::from language " + fromLanguageStr);
-		ServletRequest req = (ServletRequest) ec.getRequest();
-		System.out.println("::::::::::::::req hashcode is " + req.hashCode());
 		Path redirectPath = Paths.get(ec.getApplicationContextPath(), fromLanguageStr, "cn", viewId);
 		ec.redirect(redirectPath + "?keyword=" + getKeyword());
 	}
 	/**
-	 * Action
+	 * Pre-render view Action
 	 */
 	public void search() {
 		FacesContext fc = FacesContext.getCurrentInstance();
@@ -92,8 +85,5 @@ public class AjaxSearchComponent extends InputComponent implements Serializable 
 	}
 	public void setSearchResult(SearchResult searchResult) {
 		this.searchResult = searchResult;
-	}
-	public boolean showResult() {
-		return getKeyword() != null;
 	}
 }
