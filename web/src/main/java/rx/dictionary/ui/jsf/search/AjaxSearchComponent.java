@@ -56,9 +56,10 @@ public class AjaxSearchComponent extends InputComponent implements Serializable 
 	public void search() {
 		FacesContext fc = FacesContext.getCurrentInstance();
 		ExternalContext ec = fc.getExternalContext();
-		fromLanguageStr = getFromLanguage(ec).orElse("");
 		String keywordValue = getKeyword();
 		if (keywordValue != null) {
+			if (fromLanguageStr == null)
+				fromLanguageStr = getFromLanguage(ec).orElse("");
 			SearchKeyword keyword = new SearchKeyword(keywordValue, Locale.US);
 			searchResult = searchService.search(keyword, Locale.SIMPLIFIED_CHINESE);
 		}
