@@ -24,7 +24,6 @@ public final class SearchResult extends AbstractList<ExplanationItemViewDTO> {
 	}
 	@Override
 	public ExplanationItemViewDTO get(int index) {
-		// TODO Auto-generated method stub
 		return explanationItemViewDTOs.get(index);
 	}
 	@Override

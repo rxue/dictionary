@@ -44,12 +44,12 @@ public class SearchComponent extends InputComponent {
 
 
 	public void action() {
-		SearchKeyword searchKeyword = new SearchKeyword(super.getKeyword(), super.getFromLanguage());
-		lexicalItemEvent.fire(searchKeyword);
-		Map<PartOfSpeech,List<String>> rawResult = dictionaryService.find(searchKeyword, super.getToLanguage()).stream()
-				.collect(groupingBy(d -> d.getLexicalItem().getPoS(), mapping(Explanation::getExplanation, toList())));
-		searchResult = SearchResult.newWithAction();
-		if (rawResult.size() > 0) 
-			rawResult.entrySet().forEach(e -> searchResult.add(new ExplanationItemViewDTO(e.getKey(), e.getValue())));
+//		SearchKeyword searchKeyword = new SearchKeyword(super.getKeyword(), super.searchLanguage);
+//		lexicalItemEvent.fire(searchKeyword);
+//		Map<PartOfSpeech,List<String>> rawResult = dictionaryService.find(searchKeyword, super.getToLanguage()).stream()
+//				.collect(groupingBy(d -> d.getLexicalItem().getPoS(), mapping(Explanation::getExplanation, toList())));
+//		searchResult = SearchResult.newWithAction();
+//		if (rawResult.size() > 0) 
+//			rawResult.entrySet().forEach(e -> searchResult.add(new ExplanationItemViewDTO(e.getKey(), e.getValue())));
 	}
 }

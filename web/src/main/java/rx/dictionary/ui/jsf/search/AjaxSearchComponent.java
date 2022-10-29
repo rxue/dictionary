@@ -7,8 +7,8 @@ import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
+
 
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -29,19 +29,27 @@ public class AjaxSearchComponent extends InputComponent implements Serializable 
 	@SuppressWarnings("unchecked")
 	private Map<String,SearchResult> resultCandidates = Collections.EMPTY_MAP;
 	private SearchResult searchResult = null;
-	private String fromLanguageStr;
+	public AjaxSearchComponent() {
+		FacesContext fc = FacesContext.getCurrentInstance();
+		Path forwardPath = Paths.get("" + fc.getExternalContext().getRequestMap().get("javax.servlet.forward.servlet_path"));
+		super.searchLanguage = Locale.forLanguageTag(forwardPath.getName(0).toString());
+		super.explainLanguage = Locale.forLanguageTag(forwardPath.getName(1).toString());
+	}
 	public void searchCandidates() {
-		//NOTE! atm fromLanguage and toLanguage is hard-coded
-		SearchKeyword keyword = new SearchKeyword(getKeyword(), Locale.US);
-		resultCandidates = searchService.searchCandidates(keyword, Locale.SIMPLIFIED_CHINESE);
+		SearchKeyword keyword = new SearchKeyword(getKeyword(), super.searchLanguage);
+		System.out.println(":::::::::::::search candidates, search language is " + searchLanguage);
+		resultCandidates = searchService.searchCandidates(keyword, super.explainLanguage);
 	}
 	
 	public void redirectToSearch() throws IOException {
 		FacesContext fc = FacesContext.getCurrentInstance();
-		String viewId = fc.getViewRoot().getViewId();
-		ExternalContext ec = fc.getExternalContext();
-		Path redirectPath = Paths.get(ec.getApplicationContextPath(), fromLanguageStr, "cn", viewId);
-		ec.redirect(redirectPath + "?keyword=" + getKeyword());
+		String redirectPath = new StringBuilder(fc.getExternalContext().getApplicationContextPath())
+					.append("/" + super.searchLanguage.toLanguageTag())
+					.append("/" + super.explainLanguage.toLanguageTag())
+					.append(fc.getViewRoot().getViewId())
+					.append("?keyword=" + getKeyword())
+					.toString();
+		fc.getExternalContext().redirect(redirectPath);
 	}
 	/**
 	 * Pre-render view Action
@@ -49,18 +57,9 @@ public class AjaxSearchComponent extends InputComponent implements Serializable 
 	public void search() {
 		String keywordValue = getKeyword();
 		if (keywordValue != null) {
-			if (fromLanguageStr == null)
-				fromLanguageStr = getFromLanguage(FacesContext.getCurrentInstance()).orElse("");
-			SearchKeyword keyword = new SearchKeyword(keywordValue, Locale.US);
-			searchResult = searchService.search(keyword, Locale.SIMPLIFIED_CHINESE);
+			SearchKeyword keyword = new SearchKeyword(keywordValue, searchLanguage);
+			searchResult = searchService.search(keyword, explainLanguage);
 		}
-	}
-	private static Optional<String> getFromLanguage(FacesContext fc) {
-		Object forwardServletPathStr = fc.getExternalContext().getRequestMap().get("javax.servlet.forward.servlet_path");
-		if (forwardServletPathStr != null) {
-			return Optional.of(Paths.get(""+forwardServletPathStr).getName(0).toString());
-		}
-		return Optional.empty();
 	}
 	
 	public boolean hasResultCandidates() {
@@ -68,14 +67,6 @@ public class AjaxSearchComponent extends InputComponent implements Serializable 
 	}
 	public Set<String> getResultCandidateWords() {
 		return resultCandidates.keySet();
-	}
-	
-	public String getFromLanguageStr() {
-		return fromLanguageStr;
-	}
-
-	public void setFromLanguageStr(String fromLanguageStr) {
-		this.fromLanguageStr = fromLanguageStr;
 	}
 
 	public SearchResult getSearchResult() {
