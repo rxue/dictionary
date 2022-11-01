@@ -16,13 +16,13 @@ final class Language {
 	 * TODO: give corresponding error message in case there is no language with the giben locale (NPE)
 	 * @return
 	 */
-	final String label() {
-		String label = CommonComponent.getLocaleToLanguage().get(locale);
-		if (label == null)
-			throw new MissingOptionLabelException(locale);
-		return label;
-	}
-	final Locale locale() {
-		return locale;
-	}
+//	final String label() {
+//		String label = CommonComponent.getLocaleToLanguage().get(locale);
+//		if (label == null)
+//			throw new MissingOptionLabelException(locale);
+//		return label;
+//	}
+//	final Locale locale() {
+//		return locale;
+//	}
 }

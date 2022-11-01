@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
-import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -18,6 +18,7 @@ import rx.dictionary.SearchKeyword;
 import rx.dictionary.jpaentity.Explanation;
 import rx.dictionary.jpaentity.LexicalItem;
 import rx.dictionary.jpaentity.PartOfSpeech;
+import rx.dictionary.ui.jsf.CommonComponent;
 import rx.dictionary.ui.jsf.InputComponent;
 import rx.dictionary.ui.jsf.addorupdate.ExplanationComponent;
 
@@ -43,15 +44,33 @@ public class UpdateComponent extends InputComponent implements Serializable {
 		}
 		return result;
 	}
+
+	public Map<String,String> getLanguageNameToTag() {
+		return CommonComponent.getLanguageNameToTag();
+	}
 	public boolean hasExplanations() {
 		return !explanations.isEmpty();
 	}
+	public void setSearchLanguage(Locale searchLanguage) {
+		super.searchLanguage = searchLanguage;
+	}
+	public Locale getSearchLanguage() {
+		return super.searchLanguage;
+	}
+	
+	public void setExplainLanguage(Locale explainLanguage) {
+		super.explainLanguage = explainLanguage;
+	}
+	public Locale getExplainLanguage() {
+		return super.explainLanguage;
+	}
 	
 	public void search() {
-		System.out.println("Search action at JSF phace: " + FacesContext.getCurrentInstance().getCurrentPhaseId());
-//		SearchKeyword itemVal = new SearchKeyword(super.getKeyword(), super.searchLanguage);
-//		definitions = dictionaryService.find(itemVal, getToLanguage());
-//		explanations = toExplanationComponents(definitions);
+		SearchKeyword itemVal = new SearchKeyword(super.getWord(), getSearchLanguage());
+		System.out.println("::::::::::::search word is " + super.getWord() + ", search language is " + getSearchLanguage());
+		definitions = dictionaryService.find(itemVal, getExplainLanguage());
+		System.out.println("::::::::::::::::::::::::definitions: " + definitions.size());
+		explanations = toExplanationComponents(definitions);
 	}
 	
 	private static List<ExplanationComponent> toExplanationComponents(List<Explanation> explanations) {

@@ -11,7 +11,7 @@ public class ItemValueDTO {
 	}
 	@Override
 	public String toString() {
-		return CommonComponent.getLocaleToLanguage().get(itemValue.getLanguage()) 
+		return itemValue.getLanguage() 
 				+ " : " +  itemValue.getValue();
 	}
 	

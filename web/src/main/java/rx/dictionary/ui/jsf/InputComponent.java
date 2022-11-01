@@ -3,23 +3,17 @@ package rx.dictionary.ui.jsf;
 import java.util.Locale;
 import java.util.Map;
 
-import javax.faces.context.FacesContext;
-
 public abstract class InputComponent {
-	private String keyword;
+	private String word;
 	protected Locale searchLanguage;
 	protected Locale explainLanguage;
-	public Map<String,String> getLanguageMap() {
-		return CommonComponent.FRONTEND_LANGUAGE_OPTIONS;
+	public String getWord() {
+		return word;
+	}
+	public void setWord(String word) {
+		this.word = word;
 	}
 
-	public String getKeyword() {
-		return keyword;
-	}
-	
-	public void setKeyword(String word) {
-		this.keyword = word;
-	}
 
 //	public Locale getToLanguage() {
 //		if (explainLanguage == null)

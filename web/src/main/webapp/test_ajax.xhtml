@@ -12,17 +12,17 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 	<h:head>
 		<title>Search for Word with Ajax</title>
 		<f:metadata>
-    		<f:viewParam name="keyword" value="#{ajaxSearchComponent.keyword}" />
+    		<f:viewParam name="word" value="#{ajaxSearchComponent.word}" />
     		<f:event type="preRenderView" listener="#{ajaxSearchComponent.search}" />
 		</f:metadata>
 	</h:head>
 	<h:body>
 		<h:form>
-			<h:inputText value="#{ajaxSearchComponent.keyword}">
+			<h:inputText value="#{ajaxSearchComponent.word}">
 				<f:ajax event="keyup" listener="#{ajaxSearchComponent.searchCandidates}" delay="2000" render="searchCandidates" />
 			</h:inputText>
 			<h:panelGroup layout="block" id="searchCandidates">
-				<h:selectOneListbox size="3" value="#{ajaxSearchComponent.keyword}" rendered="#{ajaxSearchComponent.hasResultCandidates()}">
+				<h:selectOneListbox size="3" value="#{ajaxSearchComponent.word}" rendered="#{ajaxSearchComponent.hasResultCandidates()}">
 					<f:selectItems value="#{ajaxSearchComponent.resultCandidateWords}" var="c" itemLabel="#{c}" itemValue="#{c}" />
 					<f:ajax event="click" listener="#{ajaxSearchComponent.redirectToSearch}" />
 				</h:selectOneListbox>

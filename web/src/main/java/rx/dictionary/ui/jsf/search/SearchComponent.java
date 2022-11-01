@@ -29,7 +29,8 @@ public class SearchComponent extends InputComponent {
 	private Event<SearchKeyword> lexicalItemEvent;
 	private SearchResult searchResult = SearchResult.newWithoutAction();
 	public Map<String,String> getLanguageMap() {
-		return CommonComponent.FRONTEND_LANGUAGE_OPTIONS;
+		//return CommonComponent.FRONTEND_LANGUAGE_OPTIONS;
+		return null;
 	}
 	
 	

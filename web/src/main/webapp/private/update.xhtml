@@ -15,14 +15,14 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 		<body>
 			<div>
 				<h:form>
-					<h:selectOneMenu value="#{updateComponent.fromLanguage}" converter="languageLocaleConverter">
-			            <f:selectItems value="#{updateComponent.languageMap}" />
+					<h:selectOneMenu value="#{updateComponent.searchLanguage}" converter="languageLocaleConverter">
+			            <f:selectItems value="#{updateComponent.languageNameToTag}" />
 			        </h:selectOneMenu>
 					<h:inputText pt:placeholder="keyword here" value="#{updateComponent.word}" pt:autofocus="true" pt:required="true" />
-					<h:selectOneMenu value="#{updateComponent.toLanguage}" converter="languageLocaleConverter">
-			            <f:selectItems value="#{updateComponent.languageMap}" />
+					<h:selectOneMenu value="#{updateComponent.explainLanguage}" converter="languageLocaleConverter">
+			            <f:selectItems value="#{updateComponent.languageNameToTag}" />
 			        </h:selectOneMenu>
-					<h:commandButton value="Search for update" action="#{updateComponent.search()}" />
+					<h:commandButton value="Search for update" action="#{updateComponent.search}" />
 					<ui:fragment rendered="#{updateComponent.hasExplanations()}">
 				        <h:panelGrid columns="1">
 				        	<h:outputText value="From Language:English" />
