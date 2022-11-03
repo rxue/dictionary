@@ -13,19 +13,19 @@ import rx.dictionary.jpaentity.PartOfSpeech;
 import rx.dictionary.ui.jsf.InputComponent;
 
 abstract class CompleteInputComponent extends InputComponent {
-	private List<ExplanationComponent> explanations;
+	private List<ExplanationDTO> explanations;
 	@Inject
 	ExplanationRepository definitionRepo;
 	protected CompleteInputComponent() {
 		explanations = new ArrayList<>();
-		explanations.add(new ExplanationComponent(true));
-		IntStream.range(0, 5).forEach(e -> explanations.add(new ExplanationComponent()));
+		//explanations.add(new ExplanationDTO());
+		//IntStream.range(0, 5).forEach(e -> explanations.add(new ExplanationDTO()));
 	}
-	public void setExplanations(List<ExplanationComponent> explanations) {
+	public void setExplanations(List<ExplanationDTO> explanations) {
 		this.explanations = explanations;
 	}
 
-	public List<ExplanationComponent> getExplanations() {
+	public List<ExplanationDTO> getExplanations() {
 		return explanations;
 	}
 	

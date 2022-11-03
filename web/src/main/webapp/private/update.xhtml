@@ -29,16 +29,14 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 				        	<h:outputText value="#{updateComponent.word}" pt:required="true" />
 				        	<h:outputText value="To Language:Suomi" />
 				        </h:panelGrid>
-				        <h:dataTable var="explain" value="#{updateComponent.explanationComponents}">
+				        <h:dataTable var="explain" value="#{updateComponent.explanationDTOs}">
 				        	<h:column>
 	                         	<h:selectOneMenu value="#{explain.partOfSpeech}">
 					            	<f:selectItems value="#{updateComponent.partOfSpeechOptions}" />
 					        	</h:selectOneMenu>
 	                        </h:column>
 	                		<h:column>
-	                			<h:inputText pt:placeholder="Compulsory explanation here" value="#{explain.explanation}" pt:required="#{explain.required}" rendered="#{explain.required}" />
-	                			<h:inputText pt:placeholder="explanation here" value="#{explain.explanation}" rendered="#{not explain.required}" />
-	                		</h:column>
+	                			<h:inputText pt:placeholder="Compulsory explanation here" value="#{explain.meaning}" pt:required="true" />	                		</h:column>
 						</h:dataTable>
 				        <br />
 				        <h:commandButton value="Update" action="#{updateComponent.update()}" />

@@ -8,12 +8,12 @@ import java.util.Map;
 import rx.dictionary.jpaentity.PartOfSpeech;
 
 abstract class AbstractFillInComponent {
-	protected List<ExplanationComponent> explanations;
-	public void setExplanations(List<ExplanationComponent> explanations) {
+	protected List<ExplanationDTO> explanations;
+	public void setExplanations(List<ExplanationDTO> explanations) {
 		this.explanations = explanations;
 	}
 
-	public List<ExplanationComponent> getExplanations() {
+	public List<ExplanationDTO> getExplanations() {
 		return explanations;
 	}
 	

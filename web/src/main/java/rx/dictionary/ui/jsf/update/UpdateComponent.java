@@ -2,12 +2,12 @@ package rx.dictionary.ui.jsf.update;
 
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -20,20 +20,20 @@ import rx.dictionary.jpaentity.LexicalItem;
 import rx.dictionary.jpaentity.PartOfSpeech;
 import rx.dictionary.ui.jsf.CommonComponent;
 import rx.dictionary.ui.jsf.InputComponent;
-import rx.dictionary.ui.jsf.addorupdate.ExplanationComponent;
+import rx.dictionary.ui.jsf.addorupdate.ExplanationDTO;
 
 @Named
 @ViewScoped
 public class UpdateComponent extends InputComponent implements Serializable {
 	@Inject
 	private DictionaryService dictionaryService;
-	private List<Explanation> definitions = Collections.emptyList();
-	private List<ExplanationComponent> explanations = Collections.emptyList();
-	public void setExplanationComponents(List<ExplanationComponent> explanations) {
-		this.explanations = explanations;
+	private List<Explanation> explanations = Collections.emptyList();
+	private List<ExplanationDTO> explanationDTOs = Collections.emptyList();
+	public void setExplanationComponents(List<ExplanationDTO> explanations) {
+		this.explanationDTOs = explanations;
 	}
-	public List<ExplanationComponent> getExplanationComponents() {
-		return explanations;
+	public List<ExplanationDTO> getExplanationDTOs() {
+		return explanationDTOs;
 	}
 	
 	public Map<String,String> getPartOfSpeechOptions() {
@@ -49,7 +49,7 @@ public class UpdateComponent extends InputComponent implements Serializable {
 		return CommonComponent.getLanguageNameToTag();
 	}
 	public boolean hasExplanations() {
-		return !explanations.isEmpty();
+		return !explanationDTOs.isEmpty();
 	}
 	public void setSearchLanguage(Locale searchLanguage) {
 		super.searchLanguage = searchLanguage;
@@ -67,34 +67,23 @@ public class UpdateComponent extends InputComponent implements Serializable {
 	
 	public void search() {
 		SearchKeyword itemVal = new SearchKeyword(super.getWord(), getSearchLanguage());
-		System.out.println("::::::::::::search word is " + super.getWord() + ", search language is " + getSearchLanguage());
-		definitions = dictionaryService.find(itemVal, getExplainLanguage());
-		System.out.println("::::::::::::::::::::::::definitions: " + definitions.size());
-		explanations = toExplanationComponents(definitions);
-	}
-	
-	private static List<ExplanationComponent> toExplanationComponents(List<Explanation> explanations) {
-		int i = 0;
-		List<ExplanationComponent> explanationComponents = new ArrayList<>();
-		for(Explanation explanation : explanations) {
-			ExplanationComponent newExplanation;
-			if (i++ == 0) {
-				newExplanation = new ExplanationComponent(true);
-			} else newExplanation = new ExplanationComponent(false);
-			newExplanation.setPartOfSpeech(explanation.getLexicalItem().getPoS());
-			newExplanation.setExplanation(explanation.getExplanation());
-			explanationComponents.add(newExplanation);
-		}
-		return explanationComponents;
+		explanations = dictionaryService.find(itemVal, getExplainLanguage());
+		explanationDTOs = explanations.stream()
+				.map(m -> new ExplanationDTO(m.getLexicalItem().getPoS(), m.getExplanation()))
+				.collect(Collectors.toList());
 	}
 	public void update() {
 		int i = 0;
-		for (ExplanationComponent explanationComp : explanations) {
-			Explanation explanationToUpdate = definitions.get(i++);
-			LexicalItem item = explanationToUpdate.getLexicalItem();
-			item.setPoS(explanationComp.getPartOfSpeech());
-			explanationToUpdate.setExplanation(explanationComp.getExplanation());
+		for (ExplanationDTO explanationComp : explanationDTOs) {
+			updateExplanation(explanations.get(i++), explanationComp);
 		}
-		dictionaryService.update(definitions);		
+		dictionaryService.update(explanations);		
 	}
+	private static Explanation updateExplanation(Explanation explanationToUpdate, ExplanationDTO explanationDTO) {
+		LexicalItem item = explanationToUpdate.getLexicalItem();
+		item.setPoS(explanationDTO.getPartOfSpeech());
+		explanationToUpdate.setExplanation(explanationDTO.getMeaning());
+		return explanationToUpdate;
+	}
+	
 }

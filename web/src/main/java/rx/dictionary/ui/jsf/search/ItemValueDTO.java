@@ -1,7 +1,6 @@
 package rx.dictionary.ui.jsf.search;
 
 import rx.dictionary.SearchKeyword;
-import rx.dictionary.ui.jsf.CommonComponent;
 
 public class ItemValueDTO {
 	private final SearchKeyword itemValue;
