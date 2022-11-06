@@ -36,10 +36,11 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 					        	</h:selectOneMenu>
 	                        </h:column>
 	                		<h:column>
-	                			<h:inputText pt:placeholder="Compulsory explanation here" value="#{explain.meaning}" pt:required="true" />	                		</h:column>
+	                			<h:inputText pt:placeholder="Compulsory explanation here" value="#{explain.meaning}" pt:required="true" />	                		
+	                		</h:column>
 						</h:dataTable>
 				        <br />
-				        <h:commandButton value="Update" action="#{updateComponent.update()}" />
+				        <h:commandButton value="Update" action="#{updateComponent.add}" />
 					</ui:fragment>
 				</h:form>
 				<ui:debug hotkey="j" />

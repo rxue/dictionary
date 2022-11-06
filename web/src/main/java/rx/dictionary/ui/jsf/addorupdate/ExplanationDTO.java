@@ -13,6 +13,9 @@ public class ExplanationDTO {
 		this.partOfSpeech = partOfSpeech;
 		this.meaning = meaning;
 	}
+	public static ExplanationDTO empty() {
+		return new ExplanationDTO(null, null);
+	}
 	public PartOfSpeech getPartOfSpeech() {
 		return partOfSpeech;
 	}
@@ -25,6 +28,7 @@ public class ExplanationDTO {
 	public void setMeaning(String meaning) {
 		this.meaning = meaning;
 	}
+	@Override
 	public String toString() {
 		return "Part of Speech: " + partOfSpeech + "Explanation: " + meaning;
 	}

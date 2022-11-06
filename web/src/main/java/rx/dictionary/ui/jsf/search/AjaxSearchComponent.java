@@ -29,11 +29,11 @@ public class AjaxSearchComponent extends InputComponent implements Serializable 
 	private SearchResult searchResult = null;
 	public AjaxSearchComponent() {
 		Path forwardPath = Paths.get("" + FacesContext.getCurrentInstance().getExternalContext().getRequestMap().get("javax.servlet.forward.servlet_path"));
-		super.searchLanguage = Locale.forLanguageTag(forwardPath.getName(0).toString());
+		super.language = Locale.forLanguageTag(forwardPath.getName(0).toString());
 		super.explainLanguage = Locale.forLanguageTag(forwardPath.getName(1).toString());
 	}
 	public void searchCandidates() {
-		SearchKeyword keyword = new SearchKeyword(getWord(), super.searchLanguage);
+		SearchKeyword keyword = new SearchKeyword(getWord(), super.language);
 		resultCandidates = searchService.searchCandidates(keyword, super.explainLanguage);
 	}
 	
@@ -41,7 +41,7 @@ public class AjaxSearchComponent extends InputComponent implements Serializable 
 		FacesContext facesContext = FacesContext.getCurrentInstance();
 		System.out.println("JSF phase is " + facesContext.getCurrentPhaseId());
 		String redirectPath = new StringBuilder(facesContext.getExternalContext().getApplicationContextPath())
-					.append("/" + super.searchLanguage.toLanguageTag())
+					.append("/" + super.language.toLanguageTag())
 					.append("/" + super.explainLanguage.toLanguageTag())
 					.append(facesContext.getViewRoot().getViewId())
 					.append("?word=" + getWord())
@@ -54,7 +54,7 @@ public class AjaxSearchComponent extends InputComponent implements Serializable 
 	public void search() {
 		String keywordValue = getWord();
 		if (keywordValue != null) {
-			SearchKeyword keyword = new SearchKeyword(keywordValue, searchLanguage);
+			SearchKeyword keyword = new SearchKeyword(keywordValue, language);
 			searchResult = searchService.search(keyword, explainLanguage);
 		}
 	}

@@ -65,6 +65,7 @@ public class LexicalItem extends AbstractEntity {
 		if (obj instanceof LexicalItem) {
 			LexicalItem that = (LexicalItem) obj;
 			return new EqualsBuilder()
+					.append(language, that.language)
 					.append(value, that.value)
 					.append(poS, that.poS)
 					.build();

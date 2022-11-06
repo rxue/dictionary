@@ -1,6 +1,7 @@
 package rx.dictionary.ui.jsf.addorupdate;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,55 +9,55 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.apache.commons.lang3.StringUtils;
 
 import rx.dictionary.DictionaryService;
-import rx.dictionary.SearchKeyword;
 import rx.dictionary.jpaentity.Explanation;
 import rx.dictionary.jpaentity.LexicalItem;
+import rx.dictionary.jpaentity.PartOfSpeech;
 
 @RequestScoped
 @Named
-public class AddComponent extends CompleteInputComponent {
-//	@Inject
-//	DictionaryService dictionaryService;
+public class AddComponent extends AddOrUpdateInputComponent {
+	@Inject
+	DictionaryService dictionaryService;
+	private List<ExplanationDTO> explanationDTOs;
 	public AddComponent() {
-		super();
+		explanationDTOs = new ArrayList<>();
+		explanationDTOs.add(ExplanationDTO.empty());
 	}
 	
-	private List<Explanation> getDefinitions() {
-//		SearchKeyword itemValue = new SearchKeyword(super.getKeyword(), super.searchLanguage);
-//		List<Explanation> explanations = new ArrayList<>();
-//		List<LexicalItem> newLexicalItems = new ArrayList<>();
-//		for (ExplanationComponent explanationComp : getExplanations()) {
-//			String explanation = explanationComp.getExplanation();
-//			if (!StringUtils.isEmpty(explanation)) {
-//				System.out.println("explanation: " + explanation);
-//				Explanation newExplanation = new Explanation();
-//				newExplanation.setExplanation(explanation);
-//				LexicalItem item = new LexicalItem();
-//				item.setPoS(explanationComp.getPartOfSpeech());
-//				item.setValue(this.getKeyword());
-//				item.setLanguage(getFromLanguage());
-//				Optional<LexicalItem> existingItem = newLexicalItems.stream().filter(li -> li.equals(item))
-//						.findAny();
-//				if (existingItem.isPresent()) {
-//					System.out.println("add existing item!!!!!!!!!!!!!!!!!");
-//					newExplanation.setLexicalItem(existingItem.get());
-//				} else {
-//					newExplanation.setLexicalItem(item);
-//					newLexicalItems.add(item);
-//				}
-//				newExplanation.setLanguage(getToLanguage());
-//				explanations.add(newExplanation);
-//			}
-//		}
-//		return explanations;
-		throw new UnsupportedOperationException();
+	public List<ExplanationDTO> getExplanationDTOs() {
+		return explanationDTOs;
 	}
 	
-	public void action() {
-		//dictionaryService.add(getDefinitions());
+	public void add() {
+		List<Explanation> newMeanings = new ArrayList<>();
+		List<LexicalItem> lexicalItems = new ArrayList<>();
+		explanationDTOs.forEach(e -> {
+			Optional<LexicalItem> optMatchedLexicalItem = get(lexicalItems, getWord(), e.getPartOfSpeech());
+			Explanation newMeaning = new Explanation();
+			if (optMatchedLexicalItem.isPresent()) {
+				newMeaning.setLexicalItem(optMatchedLexicalItem.get());
+			} else {
+				LexicalItem newLexicalItem = new LexicalItem();
+				newLexicalItem.setLanguage(super.language);
+				newLexicalItem.setValue(getWord());
+				newLexicalItem.setPoS(e.getPartOfSpeech());
+				newMeaning.setLexicalItem(newLexicalItem);
+				lexicalItems.add(newLexicalItem);
+			}
+			newMeaning.setLanguage(getExplainLanguage());
+			newMeaning.setExplanation(e.getMeaning());
+			newMeanings.add(newMeaning);
+			
+		});
+		dictionaryService.add(newMeanings);
+	}
+	private static Optional<LexicalItem> get(List<LexicalItem> existingLexicalItems, String value, PartOfSpeech partOfSpeech) {
+		return existingLexicalItems.stream()
+				.filter(e -> partOfSpeech.equals(e.getPoS()))
+				.findFirst();
+						
 	}
 	
 }

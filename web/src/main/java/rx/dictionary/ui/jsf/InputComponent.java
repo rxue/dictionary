@@ -5,23 +5,12 @@ import java.util.Map;
 
 public abstract class InputComponent {
 	private String word;
-	protected Locale searchLanguage;
+	protected Locale language;
 	protected Locale explainLanguage;
-	public String getWord() {
+	public final String getWord() {
 		return word;
 	}
-	public void setWord(String word) {
+	public final void setWord(String word) {
 		this.word = word;
 	}
-
-
-//	public Locale getToLanguage() {
-//		if (explainLanguage == null)
-//			explainLanguage = FacesContext.getCurrentInstance().getExternalContext().getRequestLocale();
-//		return explainLanguage;
-//	}
-//
-//	public void setToLanguage(Locale toLanguage) {
-//		this.explainLanguage = toLanguage;
-//	}
 }
