@@ -1,7 +1,8 @@
 version: '3.4'
 services:
   web:
-    build: ../web
+    build:
+      context: ../web
     ports:
     - "80:80"
     - "8787:8787"
@@ -22,12 +23,22 @@ services:
     networks:
     - dictionary-network
 
-  web-it:
-    build: ../web/it
+  web-test-component:
+    build: 
+      context: ../web
+      dockerfile: ci-test/component/Dockerfile
     ports:
     - "8080:8080"
     - "9998:9998"
-    container_name: dictionary-web-it
+    container_name: dictionary-web-component-test
+  web-test-uat:
+    build: 
+      context: ../web
+      dockerfile: ci-test/uat/Dockerfile
+    ports:
+    - "8080:8080"
+    - "9998:9998"
+    container_name: dictionary-web-uat-test
 
 networks:
   dictionary-network:
