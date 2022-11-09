@@ -23,22 +23,14 @@ services:
     networks:
     - dictionary-network
 
-  web-test-component:
+  web-test:
     build: 
       context: ../web
-      dockerfile: ci-test/component/Dockerfile
+      dockerfile: ci-test/Dockerfile
     ports:
     - "8080:8080"
     - "9998:9998"
-    container_name: dictionary-web-component-test
-  web-test-uat:
-    build: 
-      context: ../web
-      dockerfile: ci-test/uat/Dockerfile
-    ports:
-    - "8080:8080"
-    - "9998:9998"
-    container_name: dictionary-web-uat-test
+    container_name: dictionary-web-test
 
 networks:
   dictionary-network:
