@@ -1,4 +1,4 @@
-package rx.dictionary.ui.jsf;
+package rx.dictionary.ui.jsf.addorupdate;
 
 import java.util.HashMap;
 import java.util.Locale;

@@ -17,8 +17,8 @@ import rx.dictionary.SearchKeyword;
 import rx.dictionary.jpaentity.Explanation;
 import rx.dictionary.jpaentity.PartOfSpeech;
 import rx.dictionary.ui.ExplanationItemViewDTO;
-import rx.dictionary.ui.jsf.CommonComponent;
 import rx.dictionary.ui.jsf.InputComponent;
+import rx.dictionary.ui.jsf.addorupdate.CommonComponent;
 
 @RequestScoped
 @Named

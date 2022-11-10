@@ -5,7 +5,6 @@ import java.util.Locale;
 import java.util.Map;
 
 import rx.dictionary.jpaentity.PartOfSpeech;
-import rx.dictionary.ui.jsf.CommonComponent;
 import rx.dictionary.ui.jsf.InputComponent;
 
 public abstract class AddOrUpdateInputComponent extends InputComponent {
