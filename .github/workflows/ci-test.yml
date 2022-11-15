@@ -8,7 +8,9 @@ jobs:
       - name: Start Wildfly container for integration test
         id: start-wildfly
         uses: rxue/dictionary/web/ci-test@master
-        run: echo "test only for trial"
+        with:
+          entrypoint: /opt/jboss/wildfly/bin/standalone.sh 
+          args: -c standalone.xml -Djboss.http.port=8080 -Djboss.management.http.port=9998 -b 0.0.0.0 -bmanagement 0.0.0.0
         #  who-to-greet: 'Mona the Octocat'
       # Use the output from the `hello` step
       - name: Run Python script
