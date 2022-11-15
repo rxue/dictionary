@@ -1,6 +1,6 @@
 # action.yml
 name: 'Continuous Integration Test'
-description: 'Greet someone and record the time'
+description: 'Docker Container used for integration test'
 #inputs:
 #  who-to-greet:  # id of input
 #    description: 'Who to greet'

@@ -5,13 +5,7 @@ jobs:
     runs-on: ubuntu-latest
     name: CI Test
     steps:
-      - name: Start Wildfly container for integration test
-        id: start-wildfly
+      - name: Start Wildfly Docker container
         uses: rxue/dictionary/web/ci-test@master
-        with:
-          entrypoint: /opt/jboss/wildfly/bin/standalone.sh 
-          args: -c standalone.xml -Djboss.http.port=8080 -Djboss.management.http.port=9998 -b 0.0.0.0 -bmanagement 0.0.0.0
-        #  who-to-greet: 'Mona the Octocat'
-      # Use the output from the `hello` step
-      - name: Run Python script
-        run: python3 -m unittest discover -s uat/
+      - name: Test
+        run: echo "test Wildfly"
