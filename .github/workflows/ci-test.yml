@@ -1,9 +1,9 @@
 on: [push]
 
 jobs:
-  hello_world_job:
+  ci_test_job:
     runs-on: ubuntu-latest
-    name: A job to say hello
+    name: CI Test
     steps:
       - name: Start Wildfly container for integration test
         id: start-wildfly
