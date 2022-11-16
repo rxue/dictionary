@@ -5,7 +5,6 @@ jobs:
     runs-on: ubuntu-latest
     name: CI Test
     steps:
-      - name: Start Wildfly Docker container
-        uses: rxue/dictionary/web/ci-test@master
-      - name: Test
-        run: echo "test Wildfly"
+      - uses: rxue/dictionary/web/ci-test@master
+      - name: call Wildfly
+        run: echo "x"
