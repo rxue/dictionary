@@ -9,6 +9,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
+import javax.enterprise.event.Event;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -26,6 +27,8 @@ public class AjaxSearchComponent extends InputComponent implements Serializable 
 	private SearchService searchService;
 	@SuppressWarnings("unchecked")
 	private Map<String,SearchResult> resultCandidates = Collections.EMPTY_MAP;
+	@Inject
+	private Event<SearchKeyword> searchEvent;
 	private SearchResult searchResult = null;
 	public AjaxSearchComponent() {
 		Path forwardPath = Paths.get("" + FacesContext.getCurrentInstance().getExternalContext().getRequestMap().get("javax.servlet.forward.servlet_path"));
@@ -55,6 +58,7 @@ public class AjaxSearchComponent extends InputComponent implements Serializable 
 		String keywordValue = getWord();
 		if (keywordValue != null) {
 			SearchKeyword keyword = new SearchKeyword(keywordValue, language);
+			searchEvent.fire(keyword);
 			searchResult = searchService.search(keyword, explainLanguage);
 		}
 	}

@@ -17,6 +17,7 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 		</f:metadata>
 	</h:head>
 	<h:body>
+		<div>
 		<h:form>
 			<h:inputText value="#{ajaxSearchComponent.word}">
 				<f:ajax event="keyup" listener="#{ajaxSearchComponent.searchCandidates}" delay="2000" render="searchCandidates" />
@@ -34,5 +35,12 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 				</h:dataTable>
 			</h:panelGroup>
 		</h:form>
+		</div>
+		<div>
+			<h:dataTable value="#{searchedLexicalItems}" var="item">
+				<h:column>#{item}</h:column>
+			</h:dataTable>
+		</div>
+		<ui:debug hotkey="j" />
 	</h:body>
 </html>
