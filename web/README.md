@@ -25,6 +25,9 @@
 ##### Subtask: [As a user, I want to search a word with a pre-defined source language and explanation language](https://github.com/rxue/dictionary/issues/62)
 ##### the searched result should be bookmarkable
 
+#### [As a user, I want to see my search history on the search page](https://github.com/rxue/dictionary/issues/23)
+##### Subtask: [Make the search history appear also in the test_ajax.xhtml](https://github.com/rxue/dictionary/issues/74)
+
 ### Issues
  * [Make the 1st servlet for getting the image on base of a searched word #1](https://github.com/rxue/dictionary/issues/1)
  * [Make a simple GUI with JSF for input a word and display image on base of the input](https://github.com/rxue/dictionary/issues/4)
