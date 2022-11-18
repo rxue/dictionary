@@ -3,8 +3,7 @@ package rx.dictionary.ui.jsf.addorupdate;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-
-public class CommonComponent {
+class CommonComponent {
 	private static Map<String,String> LANGUAGE_NAME_TO_TAG;
 	public static Map<String,String> getLanguageNameToTag() {
 		if (LANGUAGE_NAME_TO_TAG == null) {

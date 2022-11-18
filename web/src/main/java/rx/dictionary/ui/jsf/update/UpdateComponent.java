@@ -3,9 +3,7 @@ package rx.dictionary.ui.jsf.update;
 
 import java.io.Serializable;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.faces.view.ViewScoped;
@@ -16,7 +14,6 @@ import rx.dictionary.DictionaryService;
 import rx.dictionary.SearchKeyword;
 import rx.dictionary.jpaentity.Explanation;
 import rx.dictionary.jpaentity.LexicalItem;
-import rx.dictionary.jpaentity.PartOfSpeech;
 import rx.dictionary.ui.jsf.addorupdate.AddOrUpdateInputComponent;
 import rx.dictionary.ui.jsf.addorupdate.ExplanationDTO;
 
