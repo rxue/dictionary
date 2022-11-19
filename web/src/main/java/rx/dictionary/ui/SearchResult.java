@@ -6,6 +6,7 @@ import static java.util.stream.Collectors.*;
 import java.util.AbstractList;
 
 import rx.dictionary.jpaentity.Explanation;
+import rx.dictionary.ui.jsf.search.ExplanationItemViewDTO;
 
 public final class SearchResult extends AbstractList<ExplanationItemViewDTO> {
 	private final List<ExplanationItemViewDTO> explanationItemViewDTOs;

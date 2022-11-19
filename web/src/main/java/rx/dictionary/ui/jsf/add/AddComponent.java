@@ -1,4 +1,4 @@
-package rx.dictionary.ui.jsf.addorupdate;
+package rx.dictionary.ui.jsf.add;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,6 +14,8 @@ import rx.dictionary.DictionaryService;
 import rx.dictionary.jpaentity.Explanation;
 import rx.dictionary.jpaentity.LexicalItem;
 import rx.dictionary.jpaentity.PartOfSpeech;
+import rx.dictionary.ui.jsf.addorupdate.AddOrUpdateInputComponent;
+import rx.dictionary.ui.jsf.addorupdate.ExplanationDTO;
 
 @RequestScoped
 @Named

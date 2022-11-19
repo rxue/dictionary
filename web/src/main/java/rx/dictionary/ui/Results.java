@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import rx.dictionary.jpaentity.Explanation;
 import rx.dictionary.jpaentity.PartOfSpeech;
+import rx.dictionary.ui.jsf.search.ExplanationItemViewDTO;
 
 public final class Results {
 	private final Map<String,List<Explanation>> explanationCandidates;

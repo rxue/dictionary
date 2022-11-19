@@ -10,6 +10,7 @@ import java.util.Arrays;
 import rx.dictionary.jpaentity.Explanation;
 import rx.dictionary.jpaentity.LexicalItem;
 import rx.dictionary.jpaentity.PartOfSpeech;
+import rx.dictionary.ui.jsf.search.ExplanationItemViewDTO;
 
 public class SearchResultTest {
 	@Test(expected = UnsupportedOperationException.class)

@@ -1,4 +1,4 @@
-package rx.dictionary.ui;
+package rx.dictionary.ui.jsf.search;
 
 import java.util.List;
 
