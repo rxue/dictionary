@@ -9,4 +9,4 @@ jobs:
       - name: start Docker container with Dockerfile for CI test
         run: |
           cd docker
-          bash run_ci_test_web.sh
+          source run_ci_test_web.sh
