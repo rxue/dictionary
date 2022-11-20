@@ -25,16 +25,9 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 				            <f:selectItems value="#{addComponent.languageNameToTag}" />
 				        </h:selectOneMenu>
 			        </h:panelGrid>
-			        <h:dataTable var="explain" value="#{addComponent.explanationDTOs}">
-			        	<h:column>
-                         	<h:selectOneMenu value="#{explain.partOfSpeech}">
-				            	<f:selectItems value="#{addComponent.partOfSpeechOptions}" />
-				        	</h:selectOneMenu>
-                        </h:column>
-                		<h:column>
-                			<h:inputText pt:placeholder="Compulsory explanation here" value="#{explain.meaning}" pt:required="true" />
-                		</h:column>
-					</h:dataTable>
+				    <ui:fragment>
+				        <ui:include src="explanation_component.xhtml" />
+				    </ui:fragment>
 			        <br />
 					<h:commandButton value="Add" action="#{addComponent.add()}" />
 				</h:form>

@@ -4,12 +4,26 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.inject.Inject;
+
 import rx.dictionary.jpaentity.PartOfSpeech;
 import rx.dictionary.ui.jsf.InputComponent;
 
 public abstract class AddOrUpdateInputComponent extends InputComponent {
+	private static final Map<String,String> LANGUAGE_NAME_TO_TAG;
+	static {
+		Map<String,String> result = new HashMap<>();
+		result.put("繁體中文", Locale.TRADITIONAL_CHINESE.toLanguageTag());
+		result.put("简体中文", Locale.SIMPLIFIED_CHINESE.toLanguageTag());
+		result.put("English", Locale.ENGLISH.toLanguageTag());
+		result.put("suomi", new Locale("fi").toLanguageTag());
+		result.put("français", Locale.FRENCH.toLanguageTag());
+		LANGUAGE_NAME_TO_TAG = result;
+	}
+	@Inject
+	protected ExplanationsComponent explanationDTOs;
 	public final Map<String,String> getLanguageNameToTag() {
-		return CommonComponent.getLanguageNameToTag();
+		return LANGUAGE_NAME_TO_TAG;
 	}
 	public final Map<String,String> getPartOfSpeechOptions() {
 		PartOfSpeech[] partOfSpeeches = PartOfSpeech.values();
@@ -32,5 +46,5 @@ public abstract class AddOrUpdateInputComponent extends InputComponent {
 	public final Locale getExplainLanguage() {
 		return super.explainLanguage;
 	}
-
+	
 }

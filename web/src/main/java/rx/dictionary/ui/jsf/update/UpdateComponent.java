@@ -4,8 +4,6 @@ package rx.dictionary.ui.jsf.update;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
-
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -23,16 +21,10 @@ public class UpdateComponent extends AddOrUpdateInputComponent implements Serial
 	@Inject
 	private DictionaryService dictionaryService;
 	private List<Explanation> explanations = Collections.emptyList();
-	private List<ExplanationDTO> explanationDTOs = Collections.emptyList();
-	public void setExplanationComponents(List<ExplanationDTO> explanations) {
-		this.explanationDTOs = explanations;
-	}
 	public void search() {
 		SearchKeyword itemVal = new SearchKeyword(super.getWord(), getLanguage());
 		explanations = dictionaryService.find(itemVal, getExplainLanguage());
-		explanationDTOs = explanations.stream()
-				.map(m -> new ExplanationDTO(m.getLexicalItem().getPoS(), m.getExplanation()))
-				.collect(Collectors.toList());
+		explanations.forEach(m -> explanationDTOs.add(new ExplanationDTO(m.getLexicalItem().getPoS(), m.getExplanation())));
 	}
 	public void update() {
 		int i = 0;
@@ -46,10 +38,6 @@ public class UpdateComponent extends AddOrUpdateInputComponent implements Serial
 		item.setPoS(explanationDTO.getPartOfSpeech());
 		explanationToUpdate.setExplanation(explanationDTO.getMeaning());
 		return explanationToUpdate;
-	}
-	
-	public List<ExplanationDTO> getExplanationDTOs() {
-		return explanationDTOs;
 	}
 
 	public boolean hasExplanations() {

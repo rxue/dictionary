@@ -1,10 +1,10 @@
 package rx.dictionary.ui.jsf.add;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -21,17 +21,13 @@ import rx.dictionary.ui.jsf.addorupdate.ExplanationDTO;
 @Named
 public class AddComponent extends AddOrUpdateInputComponent {
 	@Inject
-	DictionaryService dictionaryService;
-	private List<ExplanationDTO> explanationDTOs;
-	public AddComponent() {
-		explanationDTOs = new ArrayList<>();
-		explanationDTOs.add(ExplanationDTO.empty());
+	private DictionaryService dictionaryService;
+	@PostConstruct
+	public void addExplanationPlaceholder() {
+		if (explanationDTOs.isEmpty())
+			explanationDTOs.add(ExplanationDTO.empty());
 	}
-	
-	public List<ExplanationDTO> getExplanationDTOs() {
-		return explanationDTOs;
-	}
-	
+		
 	public void add() {
 		List<Explanation> newMeanings = new ArrayList<>();
 		List<LexicalItem> lexicalItems = new ArrayList<>();

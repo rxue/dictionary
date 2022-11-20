@@ -1,7 +1,6 @@
 package rx.dictionary.ui.jsf;
 
 import java.util.Locale;
-import java.util.Map;
 
 public abstract class InputComponent {
 	private String word;
