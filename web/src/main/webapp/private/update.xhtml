@@ -25,9 +25,9 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 					<h:commandButton value="Search for update" action="#{updateComponent.search}" />
 					<ui:fragment rendered="#{updateComponent.hasExplanations()}">
 				        <h:panelGrid columns="1">
-				        	<h:outputText value="From Language:English" />
+				        	<h:outputText value="#{updateComponent.language}" converter="languageNameLocaleConverter" />
 				        	<h:outputText value="#{updateComponent.word}" pt:required="true" />
-				        	<h:outputText value="To Language:Suomi" />
+				        	<h:outputText value="#{updateComponent.explainLanguage}" converter="languageNameLocaleConverter" />
 				        </h:panelGrid>
 				        <ui:fragment>
 				        	<ui:include src="explanation_component.xhtml" />

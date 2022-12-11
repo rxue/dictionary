@@ -9,7 +9,6 @@ import javax.faces.convert.FacesConverter;
 
 @FacesConverter("languageLocaleConverter")
 public class LanguageLocaleConverter implements Converter {
-
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component, String value) {
 		String[] splitted = value.split("-");
