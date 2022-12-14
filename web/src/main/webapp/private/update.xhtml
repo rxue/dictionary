@@ -29,9 +29,16 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 				        	<h:outputText value="#{updateComponent.word}" pt:required="true" />
 				        	<h:outputText value="#{updateComponent.explainLanguage}" converter="languageNameLocaleConverter" />
 				        </h:panelGrid>
-				        <ui:fragment>
-				        	<ui:include src="explanation_component.xhtml" />
-				    	</ui:fragment>
+				        <h:dataTable var="explain" value="#{updateComponent.explanationDTOs}">
+							<h:column>
+					        	<h:selectOneMenu value="#{explain.partOfSpeech}">
+									<f:selectItems value="#{updateComponent.partOfSpeechOptions}" />
+								</h:selectOneMenu>
+					       	</h:column>
+					        <h:column>
+					            <h:inputText pt:placeholder="Compulsory explanation here" value="#{explain.meaning}" pt:required="true" />
+					    	</h:column>
+						</h:dataTable>
 				        <br />
 				        <h:commandButton value="Update" action="#{updateComponent.update}" />
 					</ui:fragment>
