@@ -58,43 +58,32 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+            <dependencies>
+		        <dependency>
+		            <groupId>javax.enterprise</groupId>
+		            <artifactId>cdi-api</artifactId>
+		            <scope>provided</scope>
+		        </dependency>
+				<dependency>
+					<groupId>rx</groupId>
+					<artifactId>dictionary-web-project</artifactId>
+					<version>1.0-SNAPSHOT</version>
+					<classifier>classes</classifier>
+				</dependency>
+		        <!-- Needed for running tests (you may also use TestNG) -->
+		        <dependency>
+		            <groupId>junit</groupId>
+		            <artifactId>junit</artifactId>
+		            <scope>test</scope>
+		        </dependency>
+		        		        <!-- Arquillian allows you to test enterprise code such as EJBs and Transactional(JTA) JPA from JUnit/TestNG -->
+		        <dependency>
+		            <groupId>org.jboss.arquillian.junit</groupId>
+		            <artifactId>arquillian-junit-container</artifactId>
+		            <scope>test</scope>
+		        </dependency>
 
-    <dependencies>
-
-        <dependency>
-            <groupId>javax.enterprise</groupId>
-            <artifactId>cdi-api</artifactId>
-            <scope>provided</scope>
-        </dependency>
-		<dependency>
-			<groupId>rx</groupId>
-			<artifactId>dictionary-web-project</artifactId>
-			<version>1.0-SNAPSHOT</version>
-			<classifier>classes</classifier>
-		</dependency>
-        <!-- Needed for running tests (you may also use TestNG) -->
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <!-- Optional, but highly recommended -->
-        <!-- Arquillian allows you to test enterprise code such as EJBs and Transactional(JTA) JPA from JUnit/TestNG -->
-        <dependency>
-            <groupId>org.jboss.arquillian.junit</groupId>
-            <artifactId>arquillian-junit-container</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.jboss.arquillian.protocol</groupId>
-            <artifactId>arquillian-protocol-servlet</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-    </dependencies>
-
+		    </dependencies>
     <profiles>
         <profile>
             <!-- An optional Arquillian testing profile that executes tests
@@ -103,13 +92,18 @@
             <!-- LEARNING: based on reference: https://www.baeldung.com/arquillian -->
             <id>arq-wildfly-remote</id>
             <dependencies>
-				<dependency>
-				  <groupId>org.wildfly.arquillian</groupId>
-				  <artifactId>wildfly-arquillian-container-remote</artifactId>
-				  <version>3.0.1.Final</version>
-				  <scope>test</scope>
+		        <dependency>
+		            <groupId>org.jboss.arquillian.protocol</groupId>
+		            <artifactId>arquillian-protocol-servlet</artifactId>
+		            <scope>test</scope>
+		        </dependency>
+		       <dependency>
+					<groupId>org.wildfly.arquillian</groupId>
+					<artifactId>wildfly-arquillian-container-remote</artifactId>
+					<version>3.0.1.Final</version>
+					<scope>test</scope>
 				</dependency>
-			</dependencies>
+		    </dependencies>
 			<build>
 		        <plugins>
 					<plugin>
