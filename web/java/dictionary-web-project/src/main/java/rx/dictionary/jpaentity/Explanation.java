@@ -4,6 +4,8 @@ import java.util.Locale;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,6 +21,7 @@ import javax.persistence.UniqueConstraint;
 public class Explanation extends AbstractEntity {
 	private LexicalItem lexicalItem;
 	private Locale language;
+	private PartOfSpeech partOfSpeech;
 	private String explanation;
 	@Id @GeneratedValue(generator="explanation_sequence", strategy=GenerationType.IDENTITY)
 	public int getId() {
@@ -38,6 +41,14 @@ public class Explanation extends AbstractEntity {
 	}
 	public void setLanguage(Locale language) {
 		this.language = language;
+	}
+	@Enumerated(EnumType.STRING)
+	public PartOfSpeech getPartOfSpeech() {
+		return partOfSpeech;
+	}
+
+	public void setPartOfSpeech(PartOfSpeech partOfSpeech) {
+		this.partOfSpeech = partOfSpeech;
 	}
 	public String getExplanation() {
 		return explanation;

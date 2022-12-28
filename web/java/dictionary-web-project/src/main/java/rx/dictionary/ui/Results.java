@@ -29,7 +29,7 @@ public final class Results {
 		String firstWord = getCandidateWords().get(0);
 		Map<PartOfSpeech, List<Explanation>> groupedExplanations = explanationCandidates.get(firstWord)
 				.stream()
-				.collect(Collectors.groupingBy(exp -> exp.getLexicalItem().getPoS()));
+				.collect(Collectors.groupingBy(exp -> exp.getPartOfSpeech()));
 		return groupedExplanations.entrySet()
 				.stream()
 				.map(e -> new ExplanationItemViewDTO(e.getKey(), e.getValue().stream().map(exp -> exp.getLexicalItem().getValue()).collect(Collectors.toList())))

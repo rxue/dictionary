@@ -1,7 +1,7 @@
 -- en: crux
-INSERT INTO lexicalitem (id, createdDate, value, language, poS) VALUES(NEXT VALUE FOR item_id_seq, PARSEDATETIME('17-04-2022', 'dd-MM-yyyy'), 'crux','en','N');
-INSERT INTO explanation VALUES(NEXT VALUE FOR explanation_id_seq, PARSEDATETIME('17-04-2022', 'dd-MM-yyyy'), 'the most important point','en', item_id_seq.currval);
-INSERT INTO explanation VALUES(NEXT VALUE FOR explanation_id_seq, PARSEDATETIME('17-04-2022', 'dd-MM-yyyy'), '关键','zh_CN', item_id_seq.currval);
+INSERT INTO lexicalitem (id, createdDate, value, language) VALUES(NEXT VALUE FOR item_id_seq, PARSEDATETIME('17-04-2022', 'dd-MM-yyyy'), 'crux','en');
+INSERT INTO explanation VALUES(NEXT VALUE FOR explanation_id_seq, PARSEDATETIME('17-04-2022', 'dd-MM-yyyy'), 'the most important point','en', 'N', item_id_seq.currval);
+INSERT INTO explanation VALUES(NEXT VALUE FOR explanation_id_seq, PARSEDATETIME('17-04-2022', 'dd-MM-yyyy'), '关键','zh_CN', 'N', item_id_seq.currval);
 -- en: take
 INSERT INTO lexicalitem (id, createdDate, value, language, poS) VALUES(NEXT VALUE FOR item_id_seq, PARSEDATETIME('17-04-2022', 'dd-MM-yyyy'), 'take','en','N');
 INSERT INTO explanation VALUES(NEXT VALUE FOR explanation_id_seq, PARSEDATETIME('17-04-2022', 'dd-MM-yyyy'), '看法，观点，意见','zh_CN', item_id_seq.currval);

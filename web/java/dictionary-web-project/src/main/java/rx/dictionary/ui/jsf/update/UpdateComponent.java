@@ -24,7 +24,7 @@ public class UpdateComponent extends AddOrUpdateInputComponent implements Serial
 	public void search() {
 		SearchKeyword itemVal = new SearchKeyword(super.getWord(), getLanguage());
 		explanations = dictionaryService.find(itemVal, getExplainLanguage());
-		explanations.forEach(m -> explanationDTOs.add(new ExplanationDTO(m.getLexicalItem().getPoS(), m.getExplanation())));
+		explanations.forEach(m -> explanationDTOs.add(new ExplanationDTO(m.getPartOfSpeech(), m.getExplanation())));
 	}
 	public void update() {
 		int i = 0;
@@ -35,7 +35,6 @@ public class UpdateComponent extends AddOrUpdateInputComponent implements Serial
 	}
 	private static Explanation updateExplanation(Explanation explanationToUpdate, ExplanationDTO explanationDTO) {
 		LexicalItem item = explanationToUpdate.getLexicalItem();
-		item.setPoS(explanationDTO.getPartOfSpeech());
 		explanationToUpdate.setExplanation(explanationDTO.getMeaning());
 		return explanationToUpdate;
 	}

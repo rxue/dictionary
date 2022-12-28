@@ -12,7 +12,7 @@ public final class SearchResult extends AbstractList<ExplanationItemViewDTO> {
 	private final List<ExplanationItemViewDTO> explanationItemViewDTOs;
 	public SearchResult(List<Explanation> explanations) {
 		explanationItemViewDTOs = explanations.stream()
-				.collect(groupingBy(exp -> exp.getLexicalItem().getPoS()))
+				.collect(groupingBy(exp -> exp.getPartOfSpeech()))
 				.entrySet()
 				.stream()
 				.map(e -> new ExplanationItemViewDTO(e.getKey(), toExplanationTexts(e.getValue())))
