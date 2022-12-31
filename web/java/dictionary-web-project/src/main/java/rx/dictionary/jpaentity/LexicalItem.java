@@ -17,7 +17,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
  * @author rui
  *
  */
-@Table(uniqueConstraints = { @UniqueConstraint(columnNames = { "value", "language", "pos"}) })
+@Table(uniqueConstraints = { @UniqueConstraint(columnNames = { "value", "language"}) })
 @SequenceGenerator(sequenceName = "item_id_seq", initialValue= 1, name = "item_sequence", allocationSize=1)
 @Entity
 public class LexicalItem extends AbstractEntity {
