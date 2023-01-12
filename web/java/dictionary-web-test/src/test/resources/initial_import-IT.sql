@@ -1,36 +1,23 @@
--- en: crux
-INSERT INTO lexicalitem (id, createdDate, value, language, poS) VALUES(NEXT VALUE FOR item_id_seq, PARSEDATETIME('17-04-2022', 'dd-MM-yyyy'), 'crux','en','N');
-INSERT INTO explanation VALUES(NEXT VALUE FOR explanation_id_seq, PARSEDATETIME('17-04-2022', 'dd-MM-yyyy'), 'the most important point','en', item_id_seq.currval);
-INSERT INTO explanation VALUES(NEXT VALUE FOR explanation_id_seq, PARSEDATETIME('17-04-2022', 'dd-MM-yyyy'), '关键','zh_CN', item_id_seq.currval);
--- en: take
-INSERT INTO lexicalitem (id, createdDate, value, language, poS) VALUES(NEXT VALUE FOR item_id_seq, PARSEDATETIME('17-04-2022', 'dd-MM-yyyy'), 'take','en','N');
-INSERT INTO explanation VALUES(NEXT VALUE FOR explanation_id_seq, PARSEDATETIME('17-04-2022', 'dd-MM-yyyy'), '看法，观点，意见','zh_CN', item_id_seq.currval);
-
-INSERT INTO lexicalitem (id, createdDate, value, language, poS) VALUES(NEXT VALUE FOR item_id_seq, PARSEDATETIME('17-04-2022', 'dd-MM-yyyy'), 'take','en','VT');
-INSERT INTO explanation VALUES(NEXT VALUE FOR explanation_id_seq, PARSEDATETIME('17-04-2022', 'dd-MM-yyyy'), '拿','zh_CN', item_id_seq.currval);
-INSERT INTO explanation VALUES(NEXT VALUE FOR explanation_id_seq, PARSEDATETIME('17-04-2022', 'dd-MM-yyyy'), '执行','zh_CN', item_id_seq.currval);
--- en: manifest
-INSERT INTO lexicalitem (id, createdDate, value, language, poS) VALUES(NEXT VALUE FOR item_id_seq, PARSEDATETIME('09-10-2022', 'dd-MM-yyyy'), 'manifest','en','VT');
-INSERT INTO explanation VALUES(NEXT VALUE FOR explanation_id_seq, PARSEDATETIME('21-10-2022', 'dd-MM-yyyy'), '显示,证实,表露','zh_CN', item_id_seq.currval);
--- en: me
-INSERT INTO lexicalitem (id, createdDate, value, language, poS) VALUES(NEXT VALUE FOR item_id_seq, PARSEDATETIME('09-10-2022', 'dd-MM-yyyy'), 'me','en','PRON');
-INSERT INTO explanation VALUES(NEXT VALUE FOR explanation_id_seq, PARSEDATETIME('09-10-2022', 'dd-MM-yyyy'), '我(宾格)','zh_CN', item_id_seq.currval);
--- en: media
-INSERT INTO lexicalitem (id, createdDate, value, language, poS) VALUES(NEXT VALUE FOR item_id_seq, PARSEDATETIME('09-10-2022', 'dd-MM-yyyy'), 'media','en','N');
-INSERT INTO explanation VALUES(NEXT VALUE FOR explanation_id_seq, PARSEDATETIME('09-10-2022', 'dd-MM-yyyy'), '媒体','zh_CN', item_id_seq.currval);
--- en: recluse
-INSERT INTO lexicalitem (id, createdDate, value, language, poS) VALUES(NEXT VALUE FOR item_id_seq, PARSEDATETIME('20-10-2022', 'dd-MM-yyyy'), 'recluse','en','N');
-INSERT INTO explanation VALUES(NEXT VALUE FOR explanation_id_seq, PARSEDATETIME('20-10-2022', 'dd-MM-yyyy'), '隐士','zh_CN', item_id_seq.currval);
-
--- fi: palapeli
-INSERT INTO lexicalitem (id, createdDate, value, language, poS) VALUES(NEXT VALUE FOR item_id_seq, PARSEDATETIME('17-04-2022', 'dd-MM-yyyy'), 'palapeli','fi','N');
-INSERT INTO explanation VALUES(NEXT VALUE FOR explanation_id_seq, PARSEDATETIME('17-04-2022', 'dd-MM-yyyy'), '拼图','zh_CN', item_id_seq.currval);
--- fi: jodi
-INSERT INTO lexicalitem (id, createdDate, value, language, poS) VALUES(NEXT VALUE FOR item_id_seq, PARSEDATETIME('17-04-2022', 'dd-MM-yyyy'), 'jodi','fi','N');
-INSERT INTO explanation VALUES(NEXT VALUE FOR explanation_id_seq, PARSEDATETIME('17-04-2022', 'dd-MM-yyyy'), '碘','zh_CN', item_id_seq.currval);
--- fi: vaikku
-INSERT INTO lexicalitem (id, createdDate, value, language, poS) VALUES(NEXT VALUE FOR item_id_seq, PARSEDATETIME('17-04-2022', 'dd-MM-yyyy'), 'vaikku','fi','N');
-INSERT INTO explanation VALUES(NEXT VALUE FOR explanation_id_seq, PARSEDATETIME('17-04-2022', 'dd-MM-yyyy'), '蜡','zh_CN', item_id_seq.currval);
--- fi: kaluste
-INSERT INTO lexicalitem (id, createdDate, value,language, poS) VALUES(NEXT VALUE FOR item_id_seq, PARSEDATETIME('17-04-2022', 'dd-MM-yyyy'), 'kaluste','fi','N');
-INSERT INTO explanation VALUES(NEXT VALUE FOR explanation_id_seq, PARSEDATETIME('17-04-2022', 'dd-MM-yyyy'), '家具','zh_CN', item_id_seq.currval);
+INSERT INTO lexicalitem (id, language, value, createddate) VALUES (NEXT VALUE FOR item_id_seq,'en','crux',PARSEDATETIME('2022-04-17','yyyy-MM-dd'));
+INSERT INTO explanation (id, item_id, createddate, language, partofspeech, explanation) VALUES (NEXT VALUE FOR explanation_id_seq,item_id_seq.CURRVAL,PARSEDATETIME('2022-04-17','yyyy-MM-dd'),'en','N','the most important point');
+INSERT INTO explanation (id, item_id, createddate, language, partofspeech, explanation) VALUES (NEXT VALUE FOR explanation_id_seq,item_id_seq.CURRVAL,PARSEDATETIME('2022-04-17','yyyy-MM-dd'),'zh_CN','N','关键');
+INSERT INTO lexicalitem (id, language, value, createddate) VALUES (NEXT VALUE FOR item_id_seq,'en','manifest',PARSEDATETIME('2022-10-19','yyyy-MM-dd'));
+INSERT INTO explanation (id, item_id, createddate, language, partofspeech, explanation) VALUES (NEXT VALUE FOR explanation_id_seq,item_id_seq.CURRVAL,PARSEDATETIME('2022-10-19','yyyy-MM-dd'),'zh_CN','VT',' 显示, 证实, 表露');
+INSERT INTO lexicalitem (id, language, value, createddate) VALUES (NEXT VALUE FOR item_id_seq,'en','me',PARSEDATETIME('2022-10-09','yyyy-MM-dd'));
+INSERT INTO explanation (id, item_id, createddate, language, partofspeech, explanation) VALUES (NEXT VALUE FOR explanation_id_seq,item_id_seq.CURRVAL,PARSEDATETIME('2022-10-09','yyyy-MM-dd'),'zh_CN','N','(宾格)我');
+INSERT INTO lexicalitem (id, language, value, createddate) VALUES (NEXT VALUE FOR item_id_seq,'en','media',PARSEDATETIME('2022-10-09','yyyy-MM-dd'));
+INSERT INTO explanation (id, item_id, createddate, language, partofspeech, explanation) VALUES (NEXT VALUE FOR explanation_id_seq,item_id_seq.CURRVAL,PARSEDATETIME('2022-10-09','yyyy-MM-dd'),'zh_CN','N','媒体');
+INSERT INTO lexicalitem (id, language, value, createddate) VALUES (NEXT VALUE FOR item_id_seq,'en','recluse',PARSEDATETIME('2022-10-20','yyyy-MM-dd'));
+INSERT INTO explanation (id, item_id, createddate, language, partofspeech, explanation) VALUES (NEXT VALUE FOR explanation_id_seq,item_id_seq.CURRVAL,PARSEDATETIME('2022-10-20','yyyy-MM-dd'),'zh_CN','N','隐士');
+INSERT INTO lexicalitem (id, language, value, createddate) VALUES (NEXT VALUE FOR item_id_seq,'en','take',PARSEDATETIME('2022-04-17','yyyy-MM-dd'));
+INSERT INTO explanation (id, item_id, createddate, language, partofspeech, explanation) VALUES (NEXT VALUE FOR explanation_id_seq,item_id_seq.CURRVAL,PARSEDATETIME('2022-04-17','yyyy-MM-dd'),'zh_CN','N','看法, 观点, 意见');
+INSERT INTO explanation (id, item_id, createddate, language, partofspeech, explanation) VALUES (NEXT VALUE FOR explanation_id_seq,item_id_seq.CURRVAL,PARSEDATETIME('2022-04-17','yyyy-MM-dd'),'zh_CN','VT','拿');
+INSERT INTO explanation (id, item_id, createddate, language, partofspeech, explanation) VALUES (NEXT VALUE FOR explanation_id_seq,item_id_seq.CURRVAL,PARSEDATETIME('2022-04-17','yyyy-MM-dd'),'zh_CN','VT','执行');
+INSERT INTO lexicalitem (id, language, value, createddate) VALUES (NEXT VALUE FOR item_id_seq,'fi','palapeli',PARSEDATETIME('2022-04-17','yyyy-MM-dd'));
+INSERT INTO explanation (id, item_id, createddate, language, partofspeech, explanation) VALUES (NEXT VALUE FOR explanation_id_seq,item_id_seq.CURRVAL,PARSEDATETIME('2022-04-17','yyyy-MM-dd'),'zh_CN','N','拼图游戏');
+INSERT INTO lexicalitem (id, language, value, createddate) VALUES (NEXT VALUE FOR item_id_seq,'fi','jodi',PARSEDATETIME('2022-04-17','yyyy-MM-dd'));
+INSERT INTO explanation (id, item_id, createddate, language, partofspeech, explanation) VALUES (NEXT VALUE FOR explanation_id_seq,item_id_seq.CURRVAL,PARSEDATETIME('2022-04-17','yyyy-MM-dd'),'zh_CN','N','碘');
+INSERT INTO lexicalitem (id, language, value, createddate) VALUES (NEXT VALUE FOR item_id_seq,'fi','vaikku',PARSEDATETIME('2022-04-17','yyyy-MM-dd'));
+INSERT INTO explanation (id, item_id, createddate, language, partofspeech, explanation) VALUES (NEXT VALUE FOR explanation_id_seq,item_id_seq.CURRVAL,PARSEDATETIME('2022-04-17','yyyy-MM-dd'),'zh_CN','N','蜡');
+INSERT INTO lexicalitem (id, language, value, createddate) VALUES (NEXT VALUE FOR item_id_seq,'fi','kaluste',PARSEDATETIME('2022-04-17','yyyy-MM-dd'));
+INSERT INTO explanation (id, item_id, createddate, language, partofspeech, explanation) VALUES (NEXT VALUE FOR explanation_id_seq,item_id_seq.CURRVAL,PARSEDATETIME('2022-04-17','yyyy-MM-dd'),'zh_CN','N','家具');
