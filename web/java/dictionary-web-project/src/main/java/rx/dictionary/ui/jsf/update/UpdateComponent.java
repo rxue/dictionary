@@ -33,8 +33,8 @@ public class UpdateComponent extends AddOrUpdateInputComponent implements Serial
 		}
 		dictionaryService.update(explanations);		
 	}
-	private static Explanation updateExplanation(Explanation explanationToUpdate, ExplanationDTO explanationDTO) {
-		LexicalItem item = explanationToUpdate.getLexicalItem();
+	static Explanation updateExplanation(Explanation explanationToUpdate, ExplanationDTO explanationDTO) {
+		explanationToUpdate.setPartOfSpeech(explanationDTO.getPartOfSpeech());
 		explanationToUpdate.setExplanation(explanationDTO.getMeaning());
 		return explanationToUpdate;
 	}

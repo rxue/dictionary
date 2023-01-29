@@ -46,11 +46,11 @@ public abstract class AddOrUpdateInputComponent extends InputComponent {
 	public final Locale getExplainLanguage() {
 		return super.explainLanguage;
 	}
-	public final ExplanationsComponent getExplanationDTOs() {
-		return explanationDTOs;
-	}
 	public final void setExplanationDTOs(ExplanationsComponent explanationDTOs) {
 		this.explanationDTOs = explanationDTOs;
+	}
+	public final ExplanationsComponent getExplanationDTOs() {
+		return explanationDTOs;
 	}
 	
 }
