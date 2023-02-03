@@ -11,7 +11,6 @@ import javax.inject.Named;
 import rx.dictionary.DictionaryService;
 import rx.dictionary.SearchKeyword;
 import rx.dictionary.jpaentity.Explanation;
-import rx.dictionary.jpaentity.LexicalItem;
 import rx.dictionary.ui.jsf.addorupdate.AddOrUpdateInputComponent;
 import rx.dictionary.ui.jsf.addorupdate.ExplanationDTO;
 
