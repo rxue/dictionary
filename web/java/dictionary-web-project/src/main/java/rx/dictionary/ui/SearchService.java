@@ -7,7 +7,7 @@ import java.util.Locale;
 import java.util.Map;
 import static java.util.stream.Collectors.*;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import rx.dictionary.ExplanationRepository;
 import rx.dictionary.SearchKeyword;

@@ -1,13 +1,13 @@
 package rx.dictionary.ui.jsf.addorupdate;
 
+import jakarta.faces.component.UIComponent;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.convert.Converter;
+import jakarta.faces.convert.FacesConverter;
+
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-
-import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.convert.Converter;
-import javax.faces.convert.FacesConverter;
 
 @FacesConverter("languageNameLocaleConverter")
 public class LanguageNameLocaleConverter implements Converter {

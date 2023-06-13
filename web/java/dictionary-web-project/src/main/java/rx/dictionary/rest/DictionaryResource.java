@@ -3,11 +3,10 @@ package rx.dictionary.rest;
 import java.util.List;
 import java.util.Locale;
 
-import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
 
 import rx.dictionary.DictionaryService;
 import rx.dictionary.SearchKeyword;
@@ -19,7 +18,6 @@ public class DictionaryResource {
 	
 	@GET
 	@Path("{language}/{word}")
-	@Produces("application/json")
 	public List<Explanation> getExplanations(@PathParam("language")String language, @PathParam("word")String word) {
 		SearchKeyword searchKeyword = new SearchKeyword("take", Locale.ENGLISH);
 		return dictionaryService.find(searchKeyword, Locale.SIMPLIFIED_CHINESE);

@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Locale;
 
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
+import jakarta.inject.Inject;
+import jakarta.persistence.EntityManager;
 
 import rx.dictionary.jpaentity.Explanation;
 

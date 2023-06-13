@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Locale;
 
-import javax.inject.Inject;
-import javax.transaction.Transactional;
+import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 
 import rx.dictionary.jpaentity.Explanation;
 

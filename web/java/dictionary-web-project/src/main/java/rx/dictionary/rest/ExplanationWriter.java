@@ -8,24 +8,26 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.json.Json;
-import javax.json.stream.JsonGenerator;
-import javax.json.stream.JsonGeneratorFactory;
-import javax.ws.rs.Produces;
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.ext.MessageBodyWriter;
-import javax.ws.rs.ext.Provider;
+import jakarta.json.Json;
+import jakarta.json.stream.JsonGenerator;
+import jakarta.json.stream.JsonGeneratorFactory;
+import jakarta.ws.rs.WebApplicationException;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.MultivaluedMap;
+import jakarta.ws.rs.ext.MessageBodyWriter;
+import jakarta.ws.rs.ext.Provider;
 
 import rx.dictionary.jpaentity.Explanation;
 
 @Provider
-@Produces("application/json")
 public class ExplanationWriter implements MessageBodyWriter<List<Explanation>>{
 
 	@Override
 	public boolean isWriteable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType) {
+		System.out.println("LEARNING DEBUG:: class type is " + type);
+		System.out.println("LEARNING DEBUG:: generic type is " + genericType);
+		System.out.println("LEARNING DEBUG:: annotation is " + annotations);
+		System.out.println("LEARNING DEBUG:: media type is " + mediaType);
 		return true;
 	}
 
@@ -36,19 +38,26 @@ public class ExplanationWriter implements MessageBodyWriter<List<Explanation>>{
 	}
 
 	@Override
-	public void writeTo(List<Explanation> explanation, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType,
+	public void writeTo(List<Explanation> explanations, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType,
 			MultivaluedMap<String, Object> httpHeaders, OutputStream entityStream)
 			throws IOException, WebApplicationException {
-		System.out.println(":::::::::::::::::::::::::::write now::::::::::::::");
 		Map<String, Object> config = new HashMap<>();
         config.put(JsonGenerator.PRETTY_PRINTING, true);
 		JsonGeneratorFactory factory = Json.createGeneratorFactory(config);
 		try(JsonGenerator gen = factory.createGenerator(entityStream)) {
-		System.out.println("explanation ID is " + explanation.get(0).getId());
-		gen.writeStartObject()
-		.write("idxxxxxxxxxxxxx", explanation.get(0).getId())
-		.writeEnd();}
-		
+			gen.writeStartArray();
+			for (Explanation explanation : explanations) {
+				add(gen, explanation);
+			}
+			gen.writeEnd();
+			
+		}
 	}
-
+	private static void add(JsonGenerator generator, Explanation explanation) {
+		generator.writeStartObject()
+				.write("explanation in language", explanation.getLanguage().getDisplayLanguage())
+				.write("partOfSpeech", explanation.getPartOfSpeech().name())
+				.write("explanation", explanation.getExplanation())
+				.writeEnd();
+	}
 }

@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import rx.dictionary.jpaentity.PartOfSpeech;
 import rx.dictionary.ui.jsf.InputComponent;

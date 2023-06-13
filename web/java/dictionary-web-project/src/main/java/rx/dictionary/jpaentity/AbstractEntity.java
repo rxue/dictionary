@@ -1,8 +1,9 @@
 package rx.dictionary.jpaentity;
 
+import jakarta.persistence.MappedSuperclass;
+
 import java.time.LocalDate;
 
-import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
 public abstract class AbstractEntity {

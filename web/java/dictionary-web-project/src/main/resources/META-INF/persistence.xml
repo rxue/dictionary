@@ -29,7 +29,7 @@
          <!-- Properties for Hibernate -->
          <property name="hibernate.hbm2ddl.auto" value="create-drop" />
          <property name="hibernate.show_sql" value="true" />
-         <property name="javax.persistence.sql-load-script-source" value="initial_import.sql" />
+         <property name="jakarta.persistence.sql-load-script-source" value="initial_import.sql" />
          <property name="hibernate.hbm2ddl.charset_name" value="UTF-8" />
       </properties>
    </persistence-unit>

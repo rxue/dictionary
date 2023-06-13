@@ -1,7 +1,7 @@
 package rx.dictionary.ui.jsf.addorupdate;
 
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Named;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Named;
 
 import rx.dictionary.jpaentity.PartOfSpeech;
 @RequestScoped

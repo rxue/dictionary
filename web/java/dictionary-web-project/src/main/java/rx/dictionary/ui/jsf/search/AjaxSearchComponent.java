@@ -9,12 +9,11 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
-import javax.enterprise.event.Event;
-import javax.faces.context.FacesContext;
-import javax.faces.view.ViewScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
-
+import jakarta.enterprise.event.Event;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 import rx.dictionary.SearchKeyword;
 import rx.dictionary.ui.SearchResult;
 import rx.dictionary.ui.SearchService;
@@ -31,7 +30,7 @@ public class AjaxSearchComponent extends InputComponent implements Serializable 
 	private Event<SearchKeyword> searchEvent;
 	private SearchResult searchResult = null;
 	public AjaxSearchComponent() {
-		Path forwardPath = Paths.get("" + FacesContext.getCurrentInstance().getExternalContext().getRequestMap().get("javax.servlet.forward.servlet_path"));
+		Path forwardPath = Paths.get("" + FacesContext.getCurrentInstance().getExternalContext().getRequestMap().get("jakarta.servlet.forward.servlet_path"));
 		super.language = Locale.forLanguageTag(forwardPath.getName(0).toString());
 		super.explainLanguage = Locale.forLanguageTag(forwardPath.getName(1).toString());
 	}

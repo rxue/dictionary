@@ -31,7 +31,7 @@
         <version.war.plugin>3.3.2</version.war.plugin>
         <maven.compiler.target>17</maven.compiler.target>
         <maven.compiler.source>17</maven.compiler.source>
-        <version.jboss.bom>8.2.1.Final</version.jboss.bom>
+        <jakarta.jakartaee-api.version>10.0.0</jakarta.jakartaee-api.version>
     </properties>
         <dependencyManagement>
         <dependencies>
@@ -44,11 +44,10 @@
                 stack you can read this as the JBoss stack of the Java EE 7 APIs, with extras
                 from the Hibernate family of projects) -->
             <dependency>
-                <groupId>org.wildfly.bom</groupId>
-                <artifactId>jboss-javaee-7.0-with-tools</artifactId>
-                <version>${version.jboss.bom}</version>
-                <type>pom</type>
-                <scope>import</scope>
+                <groupId>jakarta.platform</groupId>
+                <artifactId>jakarta.jakartaee-api</artifactId>
+                <version>${jakarta.jakartaee-api.version}</version>
+                <scope>provided</scope>
             </dependency>
             <dependency>
 	            <groupId>junit</groupId>
