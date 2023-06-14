@@ -29,7 +29,7 @@ public class AddComponent extends AddOrUpdateInputComponent {
 	public void add() {
 		LexicalItem newLexicalItem = new LexicalItem();
 		newLexicalItem.setLanguage(super.language);
-		newLexicalItem.setValue(getWord());
+		newLexicalItem.setItemValue(getWord());
 		List<Explanation> newMeanings = new ArrayList<>();
 		explanationDTOs.forEach(e -> {
 			Explanation newMeaning = new Explanation();

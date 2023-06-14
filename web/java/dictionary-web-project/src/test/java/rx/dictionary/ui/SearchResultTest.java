@@ -26,7 +26,7 @@ public class SearchResultTest {
 	private static LexicalItem newLexicalItem(Locale language, String value) {
 		LexicalItem lexicalItem = new LexicalItem();
 		lexicalItem.setLanguage(language);
-		lexicalItem.setValue(value);
+		lexicalItem.setItemValue(value);
 		return lexicalItem;
 	}
 	private static Explanation newExplanation(LexicalItem item, Locale inLanguage, PartOfSpeech partOfSpeech, String value) {

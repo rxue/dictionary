@@ -16,7 +16,7 @@ public final class Results {
 	}
 	public Results(List<Explanation> explanationCandidates) {
 		this.explanationCandidates = Collections.unmodifiableMap(explanationCandidates.stream()
-				.collect(Collectors.groupingBy(exp -> exp.getLexicalItem().getValue())));
+				.collect(Collectors.groupingBy(exp -> exp.getLexicalItem().getItemValue())));
 	}
 	public boolean isEmpty() {
 		return explanationCandidates.isEmpty();
@@ -32,7 +32,7 @@ public final class Results {
 				.collect(Collectors.groupingBy(exp -> exp.getPartOfSpeech()));
 		return groupedExplanations.entrySet()
 				.stream()
-				.map(e -> new ExplanationItemViewDTO(e.getKey(), e.getValue().stream().map(exp -> exp.getLexicalItem().getValue()).collect(Collectors.toList())))
+				.map(e -> new ExplanationItemViewDTO(e.getKey(), e.getValue().stream().map(exp -> exp.getLexicalItem().getItemValue()).collect(Collectors.toList())))
 				.collect(Collectors.toList());
 			
 	}

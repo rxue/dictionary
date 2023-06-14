@@ -17,11 +17,11 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
  * @author rui
  *
  */
-@Table(uniqueConstraints = { @UniqueConstraint(columnNames = { "value", "language"}) })
+@Table(uniqueConstraints = { @UniqueConstraint(columnNames = { "itemvalue", "language"}) })
 @SequenceGenerator(sequenceName = "item_id_seq", initialValue= 1, name = "item_sequence", allocationSize=1)
 @Entity
 public class LexicalItem extends AbstractEntity {
-	private String value;
+	private String itemValue;
 	private Locale language;
 	@Id
 	@GeneratedValue(generator="item_sequence", strategy=GenerationType.IDENTITY)
@@ -30,13 +30,13 @@ public class LexicalItem extends AbstractEntity {
 	}
 	
 
-	public String getValue() {
-		return value;
+	public String getItemValue() {
+		return itemValue;
 	}
 
 
-	public void setValue(String value) {
-		this.value = value;
+	public void setItemValue(String itemValue) {
+		this.itemValue = itemValue;
 	}
 
 
@@ -54,7 +54,7 @@ public class LexicalItem extends AbstractEntity {
 			LexicalItem that = (LexicalItem) obj;
 			return new EqualsBuilder()
 					.append(language, that.language)
-					.append(value, that.value)
+					.append(itemValue, that.itemValue)
 					.build();
 		}
 		return false;
@@ -63,7 +63,7 @@ public class LexicalItem extends AbstractEntity {
 	@Override
 	public int hashCode() {
 		return new HashCodeBuilder(17,37)
-				.append(value)
+				.append(itemValue)
 				.hashCode();
 	}
 	

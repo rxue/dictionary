@@ -19,7 +19,7 @@ public class SearchService implements Serializable {
 	public Map<String, SearchResult> searchCandidates(SearchKeyword keyword, Locale explanationLanguage) {
 		List<Explanation> allExplanations = explanationRepository.findLike(keyword, explanationLanguage);
 		Map<String,List<Explanation>> explanationsByLexicalItem = allExplanations.stream()
-				.collect(groupingBy(e -> e.getLexicalItem().getValue()));
+				.collect(groupingBy(e -> e.getLexicalItem().getItemValue()));
 		Map<String,SearchResult> result = new HashMap<>();
 		for (Map.Entry<String,List<Explanation>> entry : explanationsByLexicalItem.entrySet()) {
 			result.put(entry.getKey(), new SearchResult(entry.getValue()));
