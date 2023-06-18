@@ -2,14 +2,13 @@ package rx.dictionary.ui.jsf.search;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
 import jakarta.enterprise.event.Event;
+import jakarta.faces.context.ExternalContext;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
@@ -30,10 +29,13 @@ public class AjaxSearchComponent extends InputComponent implements Serializable 
 	private Event<SearchKeyword> searchEvent;
 	private SearchResult searchResult = null;
 	public AjaxSearchComponent() {
-		Path forwardPath = Paths.get("" + FacesContext.getCurrentInstance().getExternalContext().getRequestMap().get("jakarta.servlet.forward.servlet_path"));
-		super.language = Locale.forLanguageTag(forwardPath.getName(0).toString());
-		super.explainLanguage = Locale.forLanguageTag(forwardPath.getName(1).toString());
+		final ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+		String requestPath = externalContext.getRequestServletPath();
+		System.out.println("::::::::::::::::::::::request path is " + requestPath);
+		//super.language = Locale.forLanguageTag("en");
+		super.explainLanguage = Locale.SIMPLIFIED_CHINESE;
 	}
+
 	public void searchCandidates() {
 		SearchKeyword keyword = new SearchKeyword(getWord(), super.language);
 		resultCandidates = searchService.searchCandidates(keyword, super.explainLanguage);
@@ -54,6 +56,7 @@ public class AjaxSearchComponent extends InputComponent implements Serializable 
 	 * Pre-render view Action
 	 */
 	public void search() {
+		System.out.println("::::::::::::::::::::::::::::::::::::::language is " + language);
 		String keywordValue = getWord();
 		if (keywordValue != null) {
 			SearchKeyword keyword = new SearchKeyword(keywordValue, language);
@@ -74,5 +77,12 @@ public class AjaxSearchComponent extends InputComponent implements Serializable 
 	}
 	public void setSearchResult(SearchResult searchResult) {
 		this.searchResult = searchResult;
+	}
+	public void setLanguage(Locale language) {
+		System.out.println("===============set language locale to " + language);
+		super.language = language;
+	}
+	public Locale getLanguage() {
+		return super.language;
 	}
 }

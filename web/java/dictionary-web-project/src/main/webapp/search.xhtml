@@ -13,6 +13,7 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 		<title>Search for Word with Ajax</title>
 		<f:metadata>
     		<f:viewParam name="word" value="#{ajaxSearchComponent.word}" />
+			<f:viewParam name="lang" value="#{ajaxSearchComponent.language}" converter="#{languageLocaleConverter}" />
     		<f:event type="preRenderView" listener="#{ajaxSearchComponent.search}" />
 		</f:metadata>
 	</h:head>
