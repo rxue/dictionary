@@ -15,9 +15,7 @@ public class ExplanationRepository implements Serializable {
 	/**
 	 * Given a word and language, find the list of entries, which match EXACTLY
 	 * 
-	 * 
-	 * @param word 
-	 * @param lang
+	 *
 	 * @return list of entries matching exactly. NOTE! Return type is list due to the fact that a word could have several parts of speech
 	 */
 	public List<Explanation> findLike(SearchKeyword searchKeyword, Locale toLanguage) {
@@ -29,7 +27,7 @@ public class ExplanationRepository implements Serializable {
 				.getResultList();
 	}
 	public List<Explanation> find(SearchKeyword searchKeyword, Locale toLanguage) {
-		return em.createQuery("SELECT e FROM Explanation e WHERE e.lexicalItem.language = :fromLanguage AND e.language = :toLanguage AND e.lexicalItem.value = :value",
+		return em.createQuery("SELECT e FROM Explanation e WHERE e.lexicalItem.language = :fromLanguage AND e.language = :toLanguage AND e.lexicalItem.itemValue = :value",
 				Explanation.class)
 				.setParameter("fromLanguage", searchKeyword.getLanguage())
 				.setParameter("toLanguage", toLanguage)

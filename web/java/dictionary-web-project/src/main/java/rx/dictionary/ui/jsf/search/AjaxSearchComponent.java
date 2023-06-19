@@ -32,8 +32,6 @@ public class AjaxSearchComponent extends InputComponent implements Serializable 
 		final ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
 		String requestPath = externalContext.getRequestServletPath();
 		System.out.println("::::::::::::::::::::::request path is " + requestPath);
-		//super.language = Locale.forLanguageTag("en");
-		super.explainLanguage = Locale.SIMPLIFIED_CHINESE;
 	}
 
 	public void searchCandidates() {
@@ -56,7 +54,6 @@ public class AjaxSearchComponent extends InputComponent implements Serializable 
 	 * Pre-render view Action
 	 */
 	public void search() {
-		System.out.println("::::::::::::::::::::::::::::::::::::::language is " + language);
 		String keywordValue = getWord();
 		if (keywordValue != null) {
 			SearchKeyword keyword = new SearchKeyword(keywordValue, language);
@@ -79,10 +76,17 @@ public class AjaxSearchComponent extends InputComponent implements Serializable 
 		this.searchResult = searchResult;
 	}
 	public void setLanguage(Locale language) {
-		System.out.println("===============set language locale to " + language);
 		super.language = language;
 	}
 	public Locale getLanguage() {
 		return super.language;
 	}
+	public Locale getExplainLanguage() {
+		return explainLanguage;
+	}
+
+	public void setExplainLanguage(Locale explainLanguage) {
+		this.explainLanguage = explainLanguage;
+	}
+
 }
