@@ -26,6 +26,6 @@ public class DictionaryService implements Serializable {
 	}
 	@Transactional
 	public List<Explanation> find(SearchKeyword searchKeyword, Locale toLang) {
-		return explanationRepository.findLike(searchKeyword, toLang);
+		return explanationRepository.find(searchKeyword, toLang);
 	}
 }

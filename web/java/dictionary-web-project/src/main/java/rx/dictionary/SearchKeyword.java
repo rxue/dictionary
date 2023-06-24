@@ -1,6 +1,7 @@
 package rx.dictionary;
 
 import java.util.Locale;
+import java.util.Objects;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -10,8 +11,8 @@ public final class SearchKeyword {
 	private final Locale language;
 	
 	public SearchKeyword(String value, Locale language) {
-		this.value = value;
-		this.language = language;
+		this.value = Objects.requireNonNull(value);
+		this.language = Objects.requireNonNull(language, "Language cannot never be null");
 	}
 
 	public String getValue() {

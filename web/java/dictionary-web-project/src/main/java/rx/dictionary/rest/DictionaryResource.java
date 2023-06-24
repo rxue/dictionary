@@ -18,8 +18,8 @@ public class DictionaryResource {
 	
 	@GET
 	@Path("{language}/{word}")
-	public List<Explanation> getExplanations(@PathParam("language")String language, @PathParam("word")String word) {
-		SearchKeyword searchKeyword = new SearchKeyword("take", Locale.ENGLISH);
+	public List<Explanation> getExplanations(@PathParam("language") Locale language, @PathParam("word")String word) {
+		SearchKeyword searchKeyword = new SearchKeyword(word, language);
 		return dictionaryService.find(searchKeyword, Locale.SIMPLIFIED_CHINESE);
 	}
 }
