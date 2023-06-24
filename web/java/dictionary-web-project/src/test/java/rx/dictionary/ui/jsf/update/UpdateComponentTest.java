@@ -1,12 +1,12 @@
 package rx.dictionary.ui.jsf.update;
 
-import static org.junit.Assert.assertEquals;
 
-import org.junit.Test;
-
+import org.junit.jupiter.api.Test;
 import rx.dictionary.jpaentity.Explanation;
 import rx.dictionary.jpaentity.PartOfSpeech;
 import rx.dictionary.ui.jsf.addorupdate.ExplanationDTO;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class UpdateComponentTest {
 	@Test

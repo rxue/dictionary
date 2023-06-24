@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>rx</groupId>
     <artifactId>dictionary-web</artifactId>
@@ -15,8 +15,8 @@
         </license>
     </licenses>
     <modules>
-      <module>dictionary-web-project</module>
-      <module>dictionary-web-test</module>
+        <module>dictionary-web-project</module>
+        <module>dictionary-web-test</module>
     </modules>
     <properties>
         <!-- Explicitly declaring the source encoding eliminates the following 
@@ -27,13 +27,13 @@
         <!-- plugin versions -->
         <version.surefire.plugin>2.16</version.surefire.plugin>
         <version.compiler.plugin>3.10.1</version.compiler.plugin>
-          <!-- maven.compiler.release>8</maven.compiler.release -->
+        <!-- maven.compiler.release>8</maven.compiler.release -->
         <version.war.plugin>3.3.2</version.war.plugin>
         <maven.compiler.target>17</maven.compiler.target>
         <maven.compiler.source>17</maven.compiler.source>
         <jakarta.jakartaee-api.version>10.0.0</jakarta.jakartaee-api.version>
     </properties>
-        <dependencyManagement>
+    <dependencyManagement>
         <dependencies>
             <!-- JBoss distributes a complete set of Java EE 7 APIs including a Bill
                 of Materials (BOM). A BOM specifies the versions of a "stack" (or a collection) 
@@ -50,20 +50,22 @@
                 <scope>provided</scope>
             </dependency>
             <dependency>
-	            <groupId>junit</groupId>
-	            <artifactId>junit</artifactId>
-	            <scope>test</scope>
-	            <version>4.13</version>
-        	</dependency>
+                <groupId>org.junit</groupId>
+                <artifactId>junit-bom</artifactId>
+                <version>5.9.3</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
     <build>
         <plugins>
-		      <plugin>
-		        <groupId>org.apache.maven.plugins</groupId>
-		        <artifactId>maven-compiler-plugin</artifactId>
-		        <version>${version.compiler.plugin}</version>
-          </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${version.compiler.plugin}</version>
+            </plugin>
         </plugins>
     </build>
 </project>

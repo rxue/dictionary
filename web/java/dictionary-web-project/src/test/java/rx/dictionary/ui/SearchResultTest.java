@@ -21,7 +21,7 @@ public class SearchResultTest {
 		explanations.add(newExplanation(lexicalItem, Locale.ENGLISH, PartOfSpeech.VT, "settle by agreement"));
 		SearchResult tested = new SearchResult(explanations);
 		ExplanationItemViewDTO dtoToAdd = new ExplanationItemViewDTO(PartOfSpeech.N, Arrays.asList("a performance of music by players or singers not involving theatrical staging"));
-		tested.add(dtoToAdd);
+		assertThrows(UnsupportedOperationException.class, () -> tested.add(dtoToAdd));
 	}
 	private static LexicalItem newLexicalItem(Locale language, String value) {
 		LexicalItem lexicalItem = new LexicalItem();
