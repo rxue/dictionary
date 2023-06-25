@@ -10,6 +10,7 @@ import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 
+import jakarta.ws.rs.QueryParam;
 import rx.dictionary.DictionaryService;
 import rx.dictionary.SearchKeyword;
 import rx.dictionary.dto.ExplanationByPartOfSpeech;
@@ -26,9 +27,10 @@ public class DictionaryResource {
 	
 	@GET
 	@Path("{language}/{word}")
-	public List<ExplanationByPartOfSpeech> getExplanations(@PathParam("language") Locale language, @PathParam("word")String word) {
+	public List<ExplanationByPartOfSpeech> getExplanations(@PathParam("language") Locale language, @PathParam("word")String word,
+														   @QueryParam("explain_in_language") Locale explanationLanguage) {
 		SearchKeyword searchKeyword = new SearchKeyword(word, language);
-		Map<PartOfSpeech, List<Explanation>> grouped = dictionaryService.find(searchKeyword, Locale.SIMPLIFIED_CHINESE)
+		Map<PartOfSpeech, List<Explanation>> grouped = dictionaryService.find(searchKeyword, explanationLanguage)
 				.stream()
 				.collect(groupingBy(Explanation::getPartOfSpeech));
 		Function<List<Explanation>, List<String>> toExplanationStrings = explanations -> explanations.stream()
