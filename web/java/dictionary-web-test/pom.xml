@@ -23,6 +23,18 @@
     <name>Dictionary Web Application Test</name>
     <description>Other tests except for unit test</description>
     <url>http://wildfly.org</url>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>16</source>
+                    <target>16</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
     <parent>
 		<groupId>rx</groupId>
 		<artifactId>dictionary-web</artifactId>
