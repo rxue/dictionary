@@ -1,3 +1,11 @@
 .*
 !/.gitignore
 /web/target
+web/java/dictionary-web-project/dictionary-web-project.iml
+web/java/dictionary-web-test/dictionary-web-test.iml
+web/java/dictionary-web.iml
+web/ci-test/node/node_modules
+web/ci-test/node/package-lock.json
+web/ci-test/uat/Pipfile.lock
+web/ci-test/uat/__pycache__
+backoffice/python/__pycache__
