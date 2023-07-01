@@ -1,3 +1,9 @@
+# What
+This is a practice of
+ * Java SE 17
+ * Java EE 7+
+  * CDI using *explicit bean archive*
+
 # How to Run
 ## Steps to run
 1. `git clone git@github.com:rxue/dictionary.git` to a directory
