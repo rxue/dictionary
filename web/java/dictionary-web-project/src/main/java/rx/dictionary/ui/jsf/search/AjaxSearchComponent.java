@@ -82,11 +82,11 @@ public class AjaxSearchComponent extends InputComponent implements Serializable 
 		return super.language;
 	}
 	public Locale getExplainLanguage() {
-		return explainLanguage;
+		return super.explainLanguage;
 	}
 
 	public void setExplainLanguage(Locale explainLanguage) {
-		this.explainLanguage = explainLanguage;
+		super.explainLanguage = explainLanguage;
 	}
 
 }

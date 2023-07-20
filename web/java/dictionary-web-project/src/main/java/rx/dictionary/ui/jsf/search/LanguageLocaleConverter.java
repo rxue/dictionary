@@ -15,6 +15,6 @@ public class LanguageLocaleConverter implements Converter<Locale> {
 
     @Override
     public String getAsString(FacesContext facesContext, UIComponent uiComponent, Locale locale) {
-        return locale.getLanguage();
+        return locale.toLanguageTag();
     }
 }
