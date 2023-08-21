@@ -1,0 +1,7 @@
+#shared-history {
+    position: absolute;
+    top:0;
+    right:0;
+    background-color: yellow;
+    width: 600 px;
+}

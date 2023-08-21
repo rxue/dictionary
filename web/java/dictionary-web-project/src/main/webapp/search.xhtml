@@ -17,11 +17,13 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 			<f:viewParam name="explain_in_lang" value="#{ajaxSearchComponent.explainLanguage}" converter="#{languageLocaleConverter}" />
 			<f:event type="preRenderView" listener="#{ajaxSearchComponent.search}" />
 		</f:metadata>
+		<link rel="stylesheet" type="text/css" href="search.css" />
+		<script src="websocket.js" />
 	</h:head>
 	<h:body>
 		<div>
 		<h:form>
-			<h:inputText value="#{ajaxSearchComponent.word}">
+			<h:inputText value="#{ajaxSearchComponent.word}" pt:autocomplete="off">
 				<f:ajax event="keyup" listener="#{ajaxSearchComponent.searchCandidates}" delay="2000" render="searchCandidates" />
 			</h:inputText>
 			<h:panelGroup layout="block" id="searchCandidates">
@@ -43,6 +45,7 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 				<h:column>#{item}</h:column>
 			</h:dataTable>
 		</div>
+		<div id="shared-history"></div>
 		<ui:debug hotkey="j" />
 	</h:body>
 </html>
