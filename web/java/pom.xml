@@ -15,7 +15,7 @@
         </license>
     </licenses>
     <modules>
-        <module>dictionary-web-project</module>
+        <module>app</module>
         <module>dictionary-web-test</module>
     </modules>
     <properties>

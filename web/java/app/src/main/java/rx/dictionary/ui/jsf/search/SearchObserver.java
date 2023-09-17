@@ -21,6 +21,7 @@ public class SearchObserver implements Serializable {
     }
     
     public void onSearch(@Observes(notifyObserver = Reception.IF_EXISTS) final SearchKeyword searchedLexicalItem) {
+        System.out.println("FIRST OBSERVER: observed keyword: " + searchedLexicalItem.getValue());
     	searchedLexicalItemValues.add(new SearchedItemValueDTO(searchedLexicalItem));
     }
     

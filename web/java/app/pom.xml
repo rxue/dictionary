@@ -18,9 +18,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>dictionary-web-project</artifactId>
+    <artifactId>app</artifactId>
     <packaging>war</packaging>
-    <name>Dictionary Web Application Project</name>
+    <name>Dictionary Web Application</name>
     <description>A starter Java EE 7 webapp project for use on JBoss WildFly / WildFly, generated from the jboss-javaee7-webapp archetype</description>
     <url>http://wildfly.org</url>
     <parent>

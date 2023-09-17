@@ -43,10 +43,13 @@ public class AjaxSearchComponent extends InputComponent implements Serializable 
 		FacesContext facesContext = FacesContext.getCurrentInstance();
 		System.out.println("JSF phase is " + facesContext.getCurrentPhaseId());
 		String redirectPath = new StringBuilder(facesContext.getExternalContext().getApplicationContextPath())
-					.append("/" + super.language.toLanguageTag())
-					.append("/" + super.explainLanguage.toLanguageTag())
 					.append(facesContext.getViewRoot().getViewId())
-					.append("?word=" + getWord())
+					.append("?")
+					.append("lang=" + getLanguage().toLanguageTag())
+					.append("&")
+					.append("explain_in_lang=" + getExplainLanguage().toLanguageTag())
+					.append("&")
+					.append("word=" + getWord())
 					.toString();
 		facesContext.getExternalContext().redirect(redirectPath);
 	}
