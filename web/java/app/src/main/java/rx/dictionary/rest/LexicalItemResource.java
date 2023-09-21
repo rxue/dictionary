@@ -13,6 +13,7 @@ public class LexicalItemResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public LexicalItem create(LexicalItem lexicalItem) {
+        System.out.println("received LexicalItem::::::::::: " + lexicalItem);
         return lexicalItem;
     }
 }
