@@ -20,11 +20,11 @@ import java.util.Locale;
 import java.util.Objects;
 
 @Provider
-@Consumes("application/json")
+@Consumes(MediaType.APPLICATION_JSON)
 public class LexicalItemJsonReader implements MessageBodyReader<LexicalItem> {
     @Override
     public boolean isReadable(Class<?> aClass, Type type, Annotation[] annotations, MediaType mediaType) {
-        return Objects.equals(mediaType, MediaType.APPLICATION_JSON_TYPE);
+        return mediaType.isCompatible(MediaType.APPLICATION_JSON_TYPE);
     }
 
     @Override
@@ -35,7 +35,6 @@ public class LexicalItemJsonReader implements MessageBodyReader<LexicalItem> {
         LexicalItem lexicalItem = new LexicalItem();
         lexicalItem.setItemValue(jsonObject.getString("itemValue"));
         lexicalItem.setLanguage(new Locale(jsonObject.getString("language")));
-        System.out.println("read LexicalItem json object:::::::::::::::::::::::::: " + jsonObject.getString("language"));
         return lexicalItem;
     }
 }
