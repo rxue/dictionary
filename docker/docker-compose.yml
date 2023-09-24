@@ -31,6 +31,13 @@ services:
     - "8080:8080"
     - "9998:9998"
     container_name: dictionary-web-test
-
+  mariadb:
+    image: mariadb
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: test
+    ports:
+    -  "3306:3306"
+    container_name: mariadb
 networks:
   dictionary-network:
