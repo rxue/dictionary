@@ -32,7 +32,7 @@ services:
     - "9998:9998"
     container_name: dictionary-web-test
   mariadb:
-    image: mariadb
+    image: mariadb:10.8.2
     restart: always
     environment:
       MARIADB_ROOT_PASSWORD: test
