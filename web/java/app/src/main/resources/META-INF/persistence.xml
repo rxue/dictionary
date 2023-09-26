@@ -20,19 +20,19 @@
    xsi:schemaLocation="
         http://xmlns.jcp.org/xml/ns/persistence
         http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
-   <!--persistence-unit name="anything" transaction-type="JTA">
+   <persistence-unit name="default" transaction-type="JTA">
+      <!-- If you are running in a production environment, add a managed
+   data source, this example data source is just for development and testing! -->
+      <!-- The datasource is deployed as WEB-INF/web-ds.xml, you
+         can find it in the source at src/main/webapp/WEB-INF/web-ds.xml -->
       <properties>
          <property name="hibernate.hbm2ddl.auto" value="create-drop" />
          <property name="hibernate.show_sql" value="true" />
          <property name="jakarta.persistence.sql-load-script-source" value="initial_import.sql" />
          <property name="hibernate.hbm2ddl.charset_name" value="UTF-8" />
       </properties>
-   </persistence-unit-->
+   </persistence-unit>
    <persistence-unit name="dev-mariadb" transaction-type="JTA">
-      <!-- If you are running in a production environment, add a managed
-         data source, this example data source is just for development and testing! -->
-      <!-- The datasource is deployed as WEB-INF/web-ds.xml, you
-         can find it in the source at src/main/webapp/WEB-INF/web-ds.xml -->
       <jta-data-source>java:jboss/datasources/MariaDBDS</jta-data-source>
       <properties>
          <!-- Properties for Hibernate -->

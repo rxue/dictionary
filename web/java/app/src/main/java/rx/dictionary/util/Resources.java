@@ -8,6 +8,6 @@ import jakarta.persistence.PersistenceContext;
 
 public class Resources {
     @Produces
-    @PersistenceContext
+    @PersistenceContext(unitName = "dev-mariadb")
     private EntityManager em;
 }
