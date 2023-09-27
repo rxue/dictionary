@@ -36,8 +36,11 @@ services:
     restart: always
     environment:
       MARIADB_ROOT_PASSWORD: test
+      MARIADB_DATABASE: dictionary
     ports:
     -  "3306:3306"
     container_name: mariadb
+    networks:
+    - dictionary-network
 networks:
   dictionary-network:
