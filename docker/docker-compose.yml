@@ -7,6 +7,8 @@ services:
     - "80:80"
     - "8787:8787"
     container_name: dictionary-web
+    networks:
+    - dictionary-network 
   mom:
     build: ../mom
     ports:

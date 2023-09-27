@@ -136,7 +136,7 @@
                     </security>
                 </datasource>
                 <datasource jndi-name="java:jboss/datasources/MariaDBDS" pool-name="MariaDBDS" enabled="true" use-java-context="true" statistics-enabled="${wildfly.datasources.statistics-enabled:${wildfly.statistics-enabled:false}}">
-                  <connection-url>jdbc:mariadb://localhost:3306/dictionary</connection-url>
+                  <connection-url>jdbc:mariadb://mariadb:3306/dictionary</connection-url>
                     <driver>mariadb</driver>
                     <security>
                         <user-name>root</user-name>
