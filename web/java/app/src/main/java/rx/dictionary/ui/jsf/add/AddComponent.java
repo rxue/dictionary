@@ -10,8 +10,8 @@ import jakarta.inject.Named;
 
 
 import rx.dictionary.DictionaryService;
+import rx.dictionary.jpa.entity.LexicalItem;
 import rx.dictionary.jpaentity.Explanation;
-import rx.dictionary.jpaentity.LexicalItem;
 import rx.dictionary.ui.jsf.addorupdate.AddOrUpdateInputComponent;
 import rx.dictionary.ui.jsf.addorupdate.ExplanationDTO;
 
@@ -29,7 +29,7 @@ public class AddComponent extends AddOrUpdateInputComponent {
 	public void add() {
 		LexicalItem newLexicalItem = new LexicalItem();
 		newLexicalItem.setLanguage(super.language);
-		newLexicalItem.setItemValue(getWord());
+		newLexicalItem.setValue(getWord());
 		List<Explanation> newMeanings = new ArrayList<>();
 		explanationDTOs.forEach(e -> {
 			Explanation newMeaning = new Explanation();

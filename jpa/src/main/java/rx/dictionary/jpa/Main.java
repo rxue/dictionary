@@ -1,4 +1,4 @@
-package rx.dictionary;
+package rx.dictionary.jpa;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;

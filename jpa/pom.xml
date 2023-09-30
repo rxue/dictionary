@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>rx.dictionary</groupId>
-    <artifactId>jpa</artifactId>
+    <groupId>rx</groupId>
+    <artifactId>rx.dictionary.jpa</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
@@ -24,5 +24,27 @@
             <version>3.2.0</version>
         </dependency>
     </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <!-- https://www.mojohaus.org/exec-maven-plugin/usage.html -->
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.0.0</version> <!-- Adjust the version as needed -->
+                <executions>
+                    <execution>
+                        <id>run-main</id>
+                        <phase>package</phase> <!-- You can choose the appropriate phase -->
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <mainClass>rx.dictionary.jpa.Main</mainClass>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

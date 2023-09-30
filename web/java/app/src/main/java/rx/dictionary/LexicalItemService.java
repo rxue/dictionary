@@ -2,7 +2,7 @@ package rx.dictionary;
 
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import rx.dictionary.jpaentity.LexicalItem;
+import rx.dictionary.jpa.entity.LexicalItem;
 
 public class LexicalItemService {
     @Inject

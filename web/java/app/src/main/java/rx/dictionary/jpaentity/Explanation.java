@@ -1,6 +1,7 @@
 package rx.dictionary.jpaentity;
 
 import jakarta.persistence.*;
+import rx.dictionary.jpa.entity.LexicalItem;
 
 import java.util.Locale;
 

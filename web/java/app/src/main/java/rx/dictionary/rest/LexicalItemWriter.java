@@ -8,7 +8,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.MultivaluedMap;
 import jakarta.ws.rs.ext.MessageBodyWriter;
 import jakarta.ws.rs.ext.Provider;
-import rx.dictionary.jpaentity.LexicalItem;
+import rx.dictionary.jpa.entity.LexicalItem;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -29,7 +29,7 @@ public class LexicalItemWriter implements MessageBodyWriter<LexicalItem> {
         try (JsonGenerator gen = Json.createGenerator(outputStream)) {
             gen.writeStartObject()
                     .write("id", lexicalItem.getId())
-                    .write("itemValue", lexicalItem.getItemValue())
+                    .write("itemValue", lexicalItem.getValue())
                     .write("language", lexicalItem.getLanguage().getDisplayLanguage())
                     .writeEnd();
         }

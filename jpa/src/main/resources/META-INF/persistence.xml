@@ -12,7 +12,7 @@
             <property name="javax.persistence.jdbc.user" value="root"/>
             <property name="javax.persistence.jdbc.password" value="test"/>
             <property name="javax.persistence.jdbc.driver" value="org.mariadb.jdbc.Driver"/>
-            <property name="jakarta.persistence.schema-generation.database.action" value="create" />
+            <property name="jakarta.persistence.schema-generation.database.action" value="drop-and-create" />
             <!-- Properties for Hibernate -->
             <property name="hibernate.show_sql" value="true" />
             <property name="hibernate.hbm2ddl.charset_name" value="UTF-8" />

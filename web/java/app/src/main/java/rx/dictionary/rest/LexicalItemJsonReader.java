@@ -9,13 +9,14 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.MultivaluedMap;
 import jakarta.ws.rs.ext.MessageBodyReader;
 import jakarta.ws.rs.ext.Provider;
-import rx.dictionary.jpaentity.LexicalItem;
+import rx.dictionary.jpa.entity.LexicalItem;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
+import java.time.LocalDate;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -33,8 +34,8 @@ public class LexicalItemJsonReader implements MessageBodyReader<LexicalItem> {
         // Read the JSON object from the InputStream
         JsonObject jsonObject = jsonReader.readObject();
         LexicalItem lexicalItem = new LexicalItem();
-        lexicalItem.setItemValue(jsonObject.getString("itemValue"));
         lexicalItem.setLanguage(new Locale(jsonObject.getString("language")));
+        lexicalItem.setValue(jsonObject.getString("itemValue"));
         return lexicalItem;
     }
 }

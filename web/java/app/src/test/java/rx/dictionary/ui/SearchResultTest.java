@@ -6,8 +6,8 @@ import java.util.Locale;
 import java.util.Arrays;
 
 import org.junit.jupiter.api.Test;
+import rx.dictionary.jpa.entity.LexicalItem;
 import rx.dictionary.jpaentity.Explanation;
-import rx.dictionary.jpaentity.LexicalItem;
 import rx.dictionary.jpaentity.PartOfSpeech;
 import rx.dictionary.ui.jsf.search.ExplanationItemViewDTO;
 
@@ -27,7 +27,7 @@ public class SearchResultTest {
 	private static LexicalItem newLexicalItem(Locale language, String value) {
 		LexicalItem lexicalItem = new LexicalItem();
 		lexicalItem.setLanguage(language);
-		lexicalItem.setItemValue(value);
+		lexicalItem.setValue(value);
 		return lexicalItem;
 	}
 	private static Explanation newExplanation(LexicalItem item, Locale inLanguage, PartOfSpeech partOfSpeech, String value) {
