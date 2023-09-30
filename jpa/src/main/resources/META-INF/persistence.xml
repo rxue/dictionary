@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1"
+             xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="
+        http://xmlns.jcp.org/xml/ns/persistence
+        http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+    <persistence-unit name="dictionary-mariadb" transaction-type="RESOURCE_LOCAL">
+        <!--non-jta-data-source>java:jboss/datasources/MariaDBDS</non-jta-data-source-->
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <properties>
+            <property name="javax.persistence.jdbc.url" value="jdbc:mariadb://localhost:3306/dictionary"/>
+            <property name="javax.persistence.jdbc.user" value="root"/>
+            <property name="javax.persistence.jdbc.password" value="test"/>
+            <property name="javax.persistence.jdbc.driver" value="org.mariadb.jdbc.Driver"/>
+            <property name="jakarta.persistence.schema-generation.database.action" value="create" />
+            <!-- Properties for Hibernate -->
+            <property name="hibernate.show_sql" value="true" />
+            <property name="hibernate.hbm2ddl.charset_name" value="UTF-8" />
+        </properties>
+    </persistence-unit>
+</persistence>
