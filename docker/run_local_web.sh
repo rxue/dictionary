@@ -1,3 +1,5 @@
+docker kill mariadb
+docker rm mariadb
 docker-compose up -d mariadb
 sleep 5
 docker exec mariadb mysql -u root -ptest -e "CREATE DATABASE dictionary;"

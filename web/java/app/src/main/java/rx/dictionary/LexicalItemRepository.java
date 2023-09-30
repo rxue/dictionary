@@ -9,5 +9,6 @@ public class LexicalItemRepository {
     private EntityManager em;
     public void create(LexicalItem lexicalItem) {
         em.persist(lexicalItem);
+        System.out.println("right after persist and before commit the entity LexicalItem id is " + lexicalItem.getId());
     }
 }

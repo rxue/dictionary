@@ -18,13 +18,14 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
  *
  */
 @Table(uniqueConstraints = { @UniqueConstraint(columnNames = { "itemvalue", "language"}) })
-@SequenceGenerator(sequenceName = "item_id_seq", initialValue= 1, name = "item_sequence", allocationSize=1)
+//@SequenceGenerator(sequenceName = "item_id_seq", initialValue= 1, name = "item_sequence", allocationSize=1)
 @Entity
 public class LexicalItem extends AbstractEntity {
 	private String itemValue;
 	private Locale language;
 	@Id
-	@GeneratedValue(generator="item_sequence", strategy=GenerationType.IDENTITY)
+	//@GeneratedValue(generator="item_sequence", strategy=GenerationType.SEQUENCE)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	public int getId() {
 		return id;
 	}

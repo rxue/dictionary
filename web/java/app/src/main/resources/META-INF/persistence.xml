@@ -23,9 +23,8 @@
    <persistence-unit name="dev-mariadb" transaction-type="JTA">
       <jta-data-source>java:jboss/datasources/MariaDBDS</jta-data-source>
       <properties>
+         <property name="jakarta.persistence.schema-generation.database.action" value="create" />
          <!-- Properties for Hibernate -->
-         <property name="hibernate.dialect" value="org.hibernate.dialect.MariaDBDialect" />
-         <property name="hibernate.hbm2ddl.auto" value="create" />
          <property name="hibernate.show_sql" value="true" />
          <property name="hibernate.hbm2ddl.charset_name" value="UTF-8" />
       </properties>
