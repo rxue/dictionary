@@ -6,7 +6,7 @@ import java.util.Map;
 
 import jakarta.inject.Inject;
 
-import rx.dictionary.jpaentity.PartOfSpeech;
+import rx.dictionary.jpa.entity.PartOfSpeech;
 import rx.dictionary.ui.jsf.InputComponent;
 
 public abstract class AddOrUpdateInputComponent extends InputComponent {

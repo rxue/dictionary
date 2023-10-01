@@ -7,7 +7,7 @@ import java.util.Locale;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 
-import rx.dictionary.jpaentity.Explanation;
+import rx.dictionary.jpa.entity.Explanation;
 
 public class DictionaryService implements Serializable {
 	@Inject

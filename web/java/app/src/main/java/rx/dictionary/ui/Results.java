@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import rx.dictionary.jpaentity.Explanation;
-import rx.dictionary.jpaentity.PartOfSpeech;
+import rx.dictionary.jpa.entity.Explanation;
+import rx.dictionary.jpa.entity.PartOfSpeech;
 import rx.dictionary.ui.jsf.search.ExplanationItemViewDTO;
 
 public final class Results {

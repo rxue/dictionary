@@ -11,7 +11,7 @@ import jakarta.inject.Inject;
 
 import rx.dictionary.ExplanationRepository;
 import rx.dictionary.SearchKeyword;
-import rx.dictionary.jpaentity.Explanation;
+import rx.dictionary.jpa.entity.Explanation;
 
 public class SearchService implements Serializable {
 	@Inject

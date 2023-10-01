@@ -13,8 +13,8 @@ import jakarta.ws.rs.core.HttpHeaders;
 import rx.dictionary.DictionaryService;
 import rx.dictionary.SearchKeyword;
 import rx.dictionary.dto.ExplanationByPartOfSpeech;
-import rx.dictionary.jpaentity.Explanation;
-import rx.dictionary.jpaentity.PartOfSpeech;
+import rx.dictionary.jpa.entity.Explanation;
+import rx.dictionary.jpa.entity.PartOfSpeech;
 
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.toList;

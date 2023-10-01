@@ -1,11 +1,7 @@
 package rx.dictionary.jpa.entity;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
-import org.hibernate.annotations.Immutable;
-
 import java.time.LocalDate;
 
 @MappedSuperclass
@@ -13,10 +9,6 @@ public abstract class AbstractEntity {
     @Id
     protected long id;
     private LocalDate creationDate;
-
-    public long getId() {
-        return id;
-    }
 
     public LocalDate getCreationDate() {
         return creationDate;

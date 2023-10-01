@@ -7,7 +7,7 @@ import java.util.Locale;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 
-import rx.dictionary.jpaentity.Explanation;
+import rx.dictionary.jpa.entity.Explanation;
 
 public class ExplanationRepository implements Serializable {
 	@Inject

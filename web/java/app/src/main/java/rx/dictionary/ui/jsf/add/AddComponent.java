@@ -11,7 +11,7 @@ import jakarta.inject.Named;
 
 import rx.dictionary.DictionaryService;
 import rx.dictionary.jpa.entity.LexicalItem;
-import rx.dictionary.jpaentity.Explanation;
+import rx.dictionary.jpa.entity.Explanation;
 import rx.dictionary.ui.jsf.addorupdate.AddOrUpdateInputComponent;
 import rx.dictionary.ui.jsf.addorupdate.ExplanationDTO;
 

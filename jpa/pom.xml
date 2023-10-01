@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>rx</groupId>
-    <artifactId>rx.dictionary.jpa</artifactId>
+    <artifactId>dictionary.jpa</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
@@ -27,14 +27,13 @@
     <build>
         <plugins>
             <plugin>
-                <!-- https://www.mojohaus.org/exec-maven-plugin/usage.html -->
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
-                <version>3.0.0</version> <!-- Adjust the version as needed -->
+                <version>3.0.0</version>
                 <executions>
                     <execution>
                         <id>run-main</id>
-                        <phase>package</phase> <!-- You can choose the appropriate phase -->
+                        <phase>package</phase>
                         <goals>
                             <goal>java</goal>
                         </goals>
@@ -46,5 +45,49 @@
             </plugin>
         </plugins>
     </build>
+    <profiles>
+        <!-- Profile 1: Use Plugin A -->
+        <profile>
+            <id>buildJar</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-jar-plugin</artifactId>
+                        <version>3.2.0</version>
+                        <executions>
+                            <!--execution>
+                                <id>exclude-compile-resources</id>
+                                <phase>compile</phase>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                                <configuration>
+                                    <classifier>classes</classifier>
+                                    <excludes>
+                                        <exclude>**/persistence.xml</exclude>
+                                    </excludes>
+                                </configuration>
+                            </execution-->
+                            <execution>
+                                <id>exclude-package-resources</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                                <configuration>
+                                    <classifier>classes</classifier>
+                                    <excludes>
+                                        <exclude>**/persistence.xml</exclude>
+                                    </excludes>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
 
 </project>

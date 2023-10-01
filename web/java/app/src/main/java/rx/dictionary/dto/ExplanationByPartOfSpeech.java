@@ -1,6 +1,6 @@
 package rx.dictionary.dto;
 
-import rx.dictionary.jpaentity.PartOfSpeech;
+import rx.dictionary.jpa.entity.PartOfSpeech;
 
 import java.util.List;
 

@@ -9,7 +9,6 @@ import jakarta.ws.rs.core.MultivaluedMap;
 import jakarta.ws.rs.ext.MessageBodyWriter;
 import jakarta.ws.rs.ext.Provider;
 import rx.dictionary.dto.ExplanationByPartOfSpeech;
-import rx.dictionary.jpaentity.Explanation;
 
 import java.io.IOException;
 import java.io.OutputStream;

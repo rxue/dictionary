@@ -2,8 +2,8 @@ package rx.dictionary.ui.jsf.update;
 
 
 import org.junit.jupiter.api.Test;
-import rx.dictionary.jpaentity.Explanation;
-import rx.dictionary.jpaentity.PartOfSpeech;
+import rx.dictionary.jpa.entity.Explanation;
+import rx.dictionary.jpa.entity.PartOfSpeech;
 import rx.dictionary.ui.jsf.addorupdate.ExplanationDTO;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

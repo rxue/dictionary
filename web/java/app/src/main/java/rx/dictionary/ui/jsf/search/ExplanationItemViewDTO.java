@@ -2,7 +2,7 @@ package rx.dictionary.ui.jsf.search;
 
 import java.util.List;
 
-import rx.dictionary.jpaentity.PartOfSpeech;
+import rx.dictionary.jpa.entity.PartOfSpeech;
 
 public class ExplanationItemViewDTO {
 	private final PartOfSpeech partOfSpeech;
