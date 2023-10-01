@@ -53,7 +53,6 @@
             <groupId>rx</groupId>
             <artifactId>dictionary.jpa</artifactId>
             <version>1.0-SNAPSHOT</version>
-            <classifier>classes</classifier>
         </dependency>
         <!-- Needed for running tests (you may also use TestNG) -->
         <dependency>
