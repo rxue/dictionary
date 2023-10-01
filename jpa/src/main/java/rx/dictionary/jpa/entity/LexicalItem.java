@@ -2,7 +2,6 @@ package rx.dictionary.jpa.entity;
 
 import jakarta.persistence.*;
 
-import java.time.LocalDate;
 import java.util.Locale;
 
 @Entity
@@ -10,7 +9,6 @@ import java.util.Locale;
 public class LexicalItem extends AbstractEntity {
     private Locale language;
     private String value;
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
     public long getId() {
         return id;
     }

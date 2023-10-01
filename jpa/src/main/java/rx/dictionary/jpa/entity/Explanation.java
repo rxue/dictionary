@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 import java.util.Locale;
 
-@Table(uniqueConstraints = { @UniqueConstraint(columnNames = { "item_id", "language", "partofspeech", "explanation"}) })
+@Table(name = "explanation", uniqueConstraints = { @UniqueConstraint(columnNames = { "item_id", "language", "partofspeech", "explanation"}) })
 @SequenceGenerator(sequenceName = "explanation_id_seq", initialValue=1, name = "explanation_sequence")
 @Entity
 public class Explanation extends AbstractEntity {

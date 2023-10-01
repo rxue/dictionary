@@ -12,6 +12,7 @@
             <property name="jakarta.persistence.jdbc.password" value="test"/>
             <property name="jakarta.persistence.jdbc.driver" value="org.mariadb.jdbc.Driver"/>
             <property name="jakarta.persistence.schema-generation.database.action" value="drop-and-create" />
+            <property name="jakarta.persistence.sql-load-script-source" value="import_mariadb.sql" />
             <property name="hibernate.dialect" value="org.hibernate.dialect.MariaDBDialect"/>
             <property name="hibernate.show_sql" value="true" />
             <property name="hibernate.hbm2ddl.charset_name" value="UTF-8" />
