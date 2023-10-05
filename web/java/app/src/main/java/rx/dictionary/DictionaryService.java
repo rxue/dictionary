@@ -8,6 +8,7 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 
 import rx.dictionary.jpa.entity.Explanation;
+import rx.dictionary.vo.LexicalItemVO;
 
 public class DictionaryService implements Serializable {
 	@Inject
@@ -25,7 +26,7 @@ public class DictionaryService implements Serializable {
 		explanationRepository.update(explanations);
 	}
 	@Transactional
-	public List<Explanation> find(SearchKeyword searchKeyword, Locale toLang) {
-		return explanationRepository.find(searchKeyword, toLang);
+	public List<Explanation> find(LexicalItemVO lexicalItemVO, Locale toLang) {
+		return explanationRepository.find(lexicalItemVO, toLang);
 	}
 }

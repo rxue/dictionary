@@ -1,4 +1,4 @@
-package rx.dictionary;
+package rx.dictionary.vo;
 
 import java.util.Locale;
 import java.util.Objects;
@@ -6,11 +6,11 @@ import java.util.Objects;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
-public final class SearchKeyword {
+public final class LexicalItemVO {
 	private final String value;
 	private final Locale language;
 	
-	public SearchKeyword(String value, Locale language) {
+	public LexicalItemVO(String value, Locale language) {
 		this.value = Objects.requireNonNull(value);
 		this.language = Objects.requireNonNull(language, "Language cannot never be null");
 	}
@@ -24,8 +24,8 @@ public final class SearchKeyword {
 	}
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof SearchKeyword) {
-			SearchKeyword that = (SearchKeyword) obj;
+		if (obj instanceof LexicalItemVO) {
+			LexicalItemVO that = (LexicalItemVO) obj;
 			return new EqualsBuilder()
 					.append(value, that.value)
 					.append(language, that.language)

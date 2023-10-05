@@ -11,7 +11,7 @@ import jakarta.enterprise.event.Reception;
 import jakarta.enterprise.inject.Produces;
 import jakarta.inject.Named;
 
-import rx.dictionary.SearchKeyword;
+import rx.dictionary.vo.LexicalItemVO;
 @SessionScoped
 public class SearchObserver implements Serializable {
     private List<SearchedItemValueDTO> searchedLexicalItemValues;
@@ -20,7 +20,7 @@ public class SearchObserver implements Serializable {
     	searchedLexicalItemValues = new ArrayList<>();	
     }
     
-    public void onSearch(@Observes(notifyObserver = Reception.IF_EXISTS) final SearchKeyword searchedLexicalItem) {
+    public void onSearch(@Observes(notifyObserver = Reception.IF_EXISTS) final LexicalItemVO searchedLexicalItem) {
         System.out.println("FIRST OBSERVER: observed keyword: " + searchedLexicalItem.getValue());
     	searchedLexicalItemValues.add(new SearchedItemValueDTO(searchedLexicalItem));
     }

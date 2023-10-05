@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.time.ZonedDateTime;
 
 @MappedSuperclass
-public abstract class AbstractEntity {
+abstract class AbstractEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected long id;

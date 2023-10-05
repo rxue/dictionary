@@ -9,7 +9,7 @@ import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
 import rx.dictionary.DictionaryService;
-import rx.dictionary.SearchKeyword;
+import rx.dictionary.vo.LexicalItemVO;
 import rx.dictionary.jpa.entity.Explanation;
 import rx.dictionary.ui.jsf.addorupdate.AddOrUpdateInputComponent;
 import rx.dictionary.ui.jsf.addorupdate.ExplanationDTO;
@@ -21,7 +21,7 @@ public class UpdateComponent extends AddOrUpdateInputComponent implements Serial
 	private DictionaryService dictionaryService;
 	private List<Explanation> explanations = Collections.emptyList();
 	public void search() {
-		SearchKeyword itemVal = new SearchKeyword(super.getWord(), getLanguage());
+		LexicalItemVO itemVal = new LexicalItemVO(super.getWord(), getLanguage());
 		explanations = dictionaryService.find(itemVal, getExplainLanguage());
 		explanations.forEach(m -> explanationDTOs.add(new ExplanationDTO(m.getPartOfSpeech(), m.getExplanation())));
 	}

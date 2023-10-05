@@ -1,11 +1,11 @@
 package rx.dictionary.ui.jsf.search;
 
-import rx.dictionary.SearchKeyword;
+import rx.dictionary.vo.LexicalItemVO;
 
 public class SearchedItemValueDTO {
-	private final SearchKeyword itemValue;
+	private final LexicalItemVO itemValue;
 
-	public SearchedItemValueDTO(SearchKeyword itemValue) {
+	public SearchedItemValueDTO(LexicalItemVO itemValue) {
 		this.itemValue = itemValue;
 	}
 	@Override

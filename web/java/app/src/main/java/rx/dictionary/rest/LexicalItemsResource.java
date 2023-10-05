@@ -10,7 +10,7 @@ import rx.dictionary.LexicalItemService;
 import rx.dictionary.jpa.entity.LexicalItem;
 
 @Path("lexicalitems")
-public class LexicalItemResource {
+public class LexicalItemsResource {
     @Inject
     private LexicalItemService service;
     @POST

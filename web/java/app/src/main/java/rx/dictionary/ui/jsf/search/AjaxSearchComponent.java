@@ -13,7 +13,7 @@ import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
-import rx.dictionary.SearchKeyword;
+import rx.dictionary.vo.LexicalItemVO;
 import rx.dictionary.ui.SearchResult;
 import rx.dictionary.ui.SearchService;
 import rx.dictionary.ui.jsf.InputComponent;
@@ -26,7 +26,7 @@ public class AjaxSearchComponent extends InputComponent implements Serializable 
 	@SuppressWarnings("unchecked")
 	private Map<String,SearchResult> resultCandidates = Collections.EMPTY_MAP;
 	@Inject
-	private Event<SearchKeyword> searchEvent;
+	private Event<LexicalItemVO> searchEvent;
 	private SearchResult searchResult = null;
 	public AjaxSearchComponent() {
 		final ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
@@ -35,7 +35,7 @@ public class AjaxSearchComponent extends InputComponent implements Serializable 
 	}
 
 	public void searchCandidates() {
-		SearchKeyword keyword = new SearchKeyword(getWord(), super.language);
+		LexicalItemVO keyword = new LexicalItemVO(getWord(), super.language);
 		resultCandidates = searchService.searchCandidates(keyword, super.explainLanguage);
 	}
 	
@@ -59,7 +59,7 @@ public class AjaxSearchComponent extends InputComponent implements Serializable 
 	public void search() {
 		String keywordValue = getWord();
 		if (keywordValue != null) {
-			SearchKeyword keyword = new SearchKeyword(keywordValue, language);
+			LexicalItemVO keyword = new LexicalItemVO(keywordValue, language);
 			searchEvent.fire(keyword);
 			searchResult = searchService.search(keyword, explainLanguage);
 		}

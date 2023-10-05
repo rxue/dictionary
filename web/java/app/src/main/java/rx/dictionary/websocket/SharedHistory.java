@@ -1,15 +1,8 @@
 package rx.dictionary.websocket;
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.enterprise.event.Observes;
-import jakarta.enterprise.event.Reception;
-import jakarta.inject.Inject;
 import jakarta.websocket.OnClose;
 import jakarta.websocket.OnOpen;
 import jakarta.websocket.Session;
 import jakarta.websocket.server.ServerEndpoint;
-import rx.dictionary.SearchKeyword;
-
-import java.io.IOException;
 
 @ServerEndpoint("/ws/sharedhistory")
 public class SharedHistory {
