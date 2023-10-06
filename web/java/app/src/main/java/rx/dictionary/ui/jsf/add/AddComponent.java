@@ -13,7 +13,7 @@ import rx.dictionary.DictionaryService;
 import rx.dictionary.jpa.entity.LexicalItem;
 import rx.dictionary.jpa.entity.Explanation;
 import rx.dictionary.ui.jsf.addorupdate.AddOrUpdateInputComponent;
-import rx.dictionary.ui.jsf.addorupdate.ExplanationDTO;
+import rx.dictionary.ui.jsf.addorupdate.JSFExplanationDTO;
 
 @RequestScoped
 @Named
@@ -23,7 +23,7 @@ public class AddComponent extends AddOrUpdateInputComponent {
 	@PostConstruct
 	public void addExplanationPlaceholder() {
 		if (explanationDTOs.isEmpty())
-			explanationDTOs.add(ExplanationDTO.empty());
+			explanationDTOs.add(JSFExplanationDTO.empty());
 	}
 		
 	public void add() {

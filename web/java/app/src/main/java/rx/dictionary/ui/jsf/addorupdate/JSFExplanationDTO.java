@@ -6,15 +6,15 @@ import jakarta.inject.Named;
 import rx.dictionary.jpa.entity.PartOfSpeech;
 @RequestScoped
 @Named
-public class ExplanationDTO {
+public class JSFExplanationDTO {
 	private PartOfSpeech partOfSpeech;
 	private String meaning;
-	public ExplanationDTO(PartOfSpeech partOfSpeech, String meaning) {
+	public JSFExplanationDTO(PartOfSpeech partOfSpeech, String meaning) {
 		this.partOfSpeech = partOfSpeech;
 		this.meaning = meaning;
 	}
-	public static ExplanationDTO empty() {
-		return new ExplanationDTO(null, null);
+	public static JSFExplanationDTO empty() {
+		return new JSFExplanationDTO(null, null);
 	}
 	public PartOfSpeech getPartOfSpeech() {
 		return partOfSpeech;

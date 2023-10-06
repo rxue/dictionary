@@ -10,24 +10,24 @@ import jakarta.inject.Named;
 
 @Named
 @ViewScoped
-public class ExplanationsComponent extends AbstractList<ExplanationDTO> implements Serializable {
-	private List<ExplanationDTO> explanationDTOs = new ArrayList<>();
+public class ExplanationsComponent extends AbstractList<JSFExplanationDTO> implements Serializable {
+	private List<JSFExplanationDTO> JSFExplanationDTOS = new ArrayList<>();
 	/**
 	 * NOTE! add has to be overridden when extends AbstractList since the default implementation of AbstractList.add(int index, E t) throws UnsupportedOperationException
 	 */
 	@Override
-	public void add(int index, ExplanationDTO e) {
-		explanationDTOs.add(index, e);
+	public void add(int index, JSFExplanationDTO e) {
+		JSFExplanationDTOS.add(index, e);
 	}
 	
 	@Override
-	public ExplanationDTO get(int index) {
-		return explanationDTOs.get(index);
+	public JSFExplanationDTO get(int index) {
+		return JSFExplanationDTOS.get(index);
 	}
 
 	@Override
 	public int size() {
-		return explanationDTOs.size();
+		return JSFExplanationDTOS.size();
 	}
 
 }

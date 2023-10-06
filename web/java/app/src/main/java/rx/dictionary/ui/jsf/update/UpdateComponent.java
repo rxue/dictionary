@@ -12,7 +12,7 @@ import rx.dictionary.DictionaryService;
 import rx.dictionary.vo.LexicalItemVO;
 import rx.dictionary.jpa.entity.Explanation;
 import rx.dictionary.ui.jsf.addorupdate.AddOrUpdateInputComponent;
-import rx.dictionary.ui.jsf.addorupdate.ExplanationDTO;
+import rx.dictionary.ui.jsf.addorupdate.JSFExplanationDTO;
 
 @Named
 @ViewScoped
@@ -23,18 +23,18 @@ public class UpdateComponent extends AddOrUpdateInputComponent implements Serial
 	public void search() {
 		LexicalItemVO itemVal = new LexicalItemVO(super.getWord(), getLanguage());
 		explanations = dictionaryService.find(itemVal, getExplainLanguage());
-		explanations.forEach(m -> explanationDTOs.add(new ExplanationDTO(m.getPartOfSpeech(), m.getExplanation())));
+		explanations.forEach(m -> explanationDTOs.add(new JSFExplanationDTO(m.getPartOfSpeech(), m.getExplanation())));
 	}
 	public void update() {
 		int i = 0;
-		for (ExplanationDTO explanationComp : explanationDTOs) {
+		for (JSFExplanationDTO explanationComp : explanationDTOs) {
 			updateExplanation(explanations.get(i++), explanationComp);
 		}
 		dictionaryService.update(explanations);		
 	}
-	static Explanation updateExplanation(Explanation explanationToUpdate, ExplanationDTO explanationDTO) {
-		explanationToUpdate.setPartOfSpeech(explanationDTO.getPartOfSpeech());
-		explanationToUpdate.setExplanation(explanationDTO.getMeaning());
+	static Explanation updateExplanation(Explanation explanationToUpdate, JSFExplanationDTO JSFExplanationDTO) {
+		explanationToUpdate.setPartOfSpeech(JSFExplanationDTO.getPartOfSpeech());
+		explanationToUpdate.setExplanation(JSFExplanationDTO.getMeaning());
 		return explanationToUpdate;
 	}
 
