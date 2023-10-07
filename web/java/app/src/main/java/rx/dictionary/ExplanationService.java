@@ -8,7 +8,6 @@ import rx.dictionary.jpa.entity.LexicalItem;
 import rx.dictionary.vo.LexicalItemVO;
 
 import java.util.Collections;
-import java.util.Optional;
 
 public class ExplanationService {
     @Inject

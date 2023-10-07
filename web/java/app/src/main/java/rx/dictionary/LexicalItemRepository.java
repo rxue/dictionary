@@ -5,9 +5,6 @@ import jakarta.persistence.EntityManager;
 import rx.dictionary.jpa.entity.LexicalItem;
 import rx.dictionary.vo.LexicalItemVO;
 
-import java.util.List;
-import java.util.Optional;
-
 public class LexicalItemRepository {
     @Inject
     private EntityManager em;
