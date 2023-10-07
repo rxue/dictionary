@@ -5,7 +5,10 @@ import jakarta.persistence.*;
 import java.util.Locale;
 
 @Entity
-@Table(name = "lexical_item")
+@Table(name = "lexical_item",
+uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"language", "value"})
+})
 public class LexicalItem extends AbstractEntity {
     private Locale language;
     private String value;
