@@ -18,8 +18,7 @@ public class ExplanationService {
     @Transactional
     public Explanation add(ExplanationDTO explanationEntry) {
         final LexicalItemVO lexicalItemVO = explanationEntry.getLexicalItemVO();
-        Optional<LexicalItem> optLexicalItem = lexicalItemRepo.find(lexicalItemVO);
-        LexicalItem lexicalItem = optLexicalItem.orElseGet(() -> lexicalItemRepo.create(lexicalItemVO));
+        LexicalItem lexicalItem = lexicalItemRepo.addOrUpdate(lexicalItemVO);
         Explanation addedExplanation = new Explanation();
         addedExplanation.setLexicalItem(lexicalItem);
         addedExplanation.setPartOfSpeech(explanationEntry.getPartOfSpeech());

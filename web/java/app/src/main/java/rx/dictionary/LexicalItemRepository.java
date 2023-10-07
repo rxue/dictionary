@@ -15,23 +15,10 @@ public class LexicalItemRepository {
         em.persist(lexicalItem);
         System.out.println("right after persist and before commit the entity LexicalItem id is " + lexicalItem.getId());
     }
-    public LexicalItem create(LexicalItemVO lexicalItemVO) {
-        LexicalItem newLexicalItem = new LexicalItem();
-        newLexicalItem.setLanguage(lexicalItemVO.getLanguage());
-        newLexicalItem.setValue(lexicalItemVO.getValue());
-        em.persist(newLexicalItem);
-        System.out.println("right after persist and before commit the entity LexicalItem id is " + newLexicalItem.getId());
-        return newLexicalItem;
-    }
-
-    public Optional<LexicalItem> find(LexicalItemVO lexicalItem) {
-        List<LexicalItem> result= em.createQuery("select l from LexicalItem l where l.language = :language and l.value = :value", LexicalItem.class)
-            .setParameter("language", lexicalItem.getLanguage())
-            .setParameter("value", lexicalItem.getValue())
-            .getResultList();
-        System.out.println("result is empty:::::::::::::::::" + result.isEmpty());
-        if (result.isEmpty()) return Optional.empty();
-        else if (result.size() > 1) throw new IllegalStateException("Database has problem, (language, value) pair has to be unique");
-        return Optional.of(result.get(0));
+    public LexicalItem addOrUpdate(LexicalItemVO lexicalItemVO) {
+        LexicalItem lexicalItem = new LexicalItem();
+        lexicalItem.setLanguage(lexicalItem.getLanguage());
+        lexicalItem.setValue(lexicalItemVO.getValue());
+        return em.merge(lexicalItem);
     }
 }
