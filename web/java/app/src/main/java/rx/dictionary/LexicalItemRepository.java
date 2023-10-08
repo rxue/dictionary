@@ -12,10 +12,4 @@ public class LexicalItemRepository {
         em.persist(lexicalItem);
         System.out.println("right after persist and before commit the entity LexicalItem id is " + lexicalItem.getId());
     }
-    public LexicalItem addOrUpdate(LexicalItemVO lexicalItemVO) {
-        LexicalItem lexicalItem = new LexicalItem();
-        lexicalItem.setLanguage(lexicalItem.getLanguage());
-        lexicalItem.setValue(lexicalItemVO.getValue());
-        return em.merge(lexicalItem);
-    }
 }
