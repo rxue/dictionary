@@ -26,7 +26,7 @@ public class Explanation extends AbstractEntity {
     public void setLexicalItem(LexicalItem lexicalItem) {
         this.lexicalItem = lexicalItem;
     }
-
+    @Column(nullable = false)
     public Locale getLanguage() {
         return language;
     }
@@ -37,10 +37,10 @@ public class Explanation extends AbstractEntity {
     public PartOfSpeech getPartOfSpeech() {
         return partOfSpeech;
     }
-
     public void setPartOfSpeech(PartOfSpeech partOfSpeech) {
         this.partOfSpeech = partOfSpeech;
     }
+    @Column(nullable = false)
     public String getExplanation() {
         return explanation;
     }

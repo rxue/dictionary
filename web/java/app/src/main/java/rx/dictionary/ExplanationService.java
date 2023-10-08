@@ -6,6 +6,7 @@ import rx.dictionary.dto.ExplanationDTO;
 import rx.dictionary.dto.LexicalItemDTO;
 import rx.dictionary.jpa.entity.Explanation;
 import rx.dictionary.jpa.entity.LexicalItem;
+import rx.dictionary.jpa.entity.PartOfSpeech;
 
 import java.util.Locale;
 
@@ -15,10 +16,13 @@ public class ExplanationService {
     @Inject
     private ExplanationRepository explanationRepo;
     @Transactional
-    public Explanation add(ExplanationDTO explanationEntry) {
+    public Explanation add(ExplanationDTO explanationDTO) {
         Explanation addedExplanation = new Explanation();
-        LexicalItem lexicalItem = getLexicalItem(explanationEntry);
+        LexicalItem lexicalItem = getLexicalItem(explanationDTO);
         addedExplanation.setLexicalItem(lexicalItem);
+        addedExplanation.setLanguage(Locale.forLanguageTag(explanationDTO.getExplanationLanguage()));
+        addedExplanation.setPartOfSpeech(PartOfSpeech.valueOf(explanationDTO.getPartOfSpeech()));
+        addedExplanation.setExplanation(explanationDTO.getExplanation());
         explanationRepo.add(addedExplanation);
         return addedExplanation;
     }
