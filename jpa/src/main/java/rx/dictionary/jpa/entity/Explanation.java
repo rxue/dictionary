@@ -2,6 +2,7 @@ package rx.dictionary.jpa.entity;
 
 import jakarta.persistence.*;
 
+import java.util.Date;
 import java.util.Locale;
 
 @Table(name = "explanation", uniqueConstraints = { @UniqueConstraint(columnNames = { "item_id", "language", "partofspeech", "explanation"}) })
@@ -18,7 +19,7 @@ public class Explanation extends AbstractEntity {
         return id;
     }
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="item_id")
+    @JoinColumn(name="item_id", nullable=false)
     public LexicalItem getLexicalItem() {
         return lexicalItem;
     }

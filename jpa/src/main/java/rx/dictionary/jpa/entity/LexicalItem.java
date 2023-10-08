@@ -2,6 +2,7 @@ package rx.dictionary.jpa.entity;
 
 import jakarta.persistence.*;
 
+import java.util.Date;
 import java.util.Locale;
 
 @Entity
@@ -10,8 +11,11 @@ uniqueConstraints = {
         @UniqueConstraint(columnNames = {"language", "value"})
 })
 public class LexicalItem extends AbstractEntity {
+    @Column(nullable=false)
     private Locale language;
+    @Column(nullable=false)
     private String value;
+
     public long getId() {
         return id;
     }

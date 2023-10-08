@@ -3,11 +3,11 @@ package rx.dictionary;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import rx.dictionary.dto.ExplanationDTO;
+import rx.dictionary.dto.LexicalItemDTO;
 import rx.dictionary.jpa.entity.Explanation;
 import rx.dictionary.jpa.entity.LexicalItem;
-import rx.dictionary.vo.LexicalItemVO;
 
-import java.util.Collections;
+import java.util.Locale;
 
 public class ExplanationService {
     @Inject
@@ -16,14 +16,19 @@ public class ExplanationService {
     private ExplanationRepository explanationRepo;
     @Transactional
     public Explanation add(ExplanationDTO explanationEntry) {
-        final LexicalItemVO lexicalItemVO = explanationEntry.getLexicalItemVO();
-        LexicalItem lexicalItem = lexicalItemRepo.addOrUpdate(lexicalItemVO);
         Explanation addedExplanation = new Explanation();
+        LexicalItem lexicalItem = getLexicalItem(explanationEntry);
         addedExplanation.setLexicalItem(lexicalItem);
-        addedExplanation.setPartOfSpeech(explanationEntry.getPartOfSpeech());
-        addedExplanation.setLanguage(explanationEntry.getExplanationLanguage());
-        addedExplanation.setExplanation(explanationEntry.getExplanation());
-        explanationRepo.add(Collections.singletonList(addedExplanation));
+        explanationRepo.add(addedExplanation);
         return addedExplanation;
+    }
+
+    private LexicalItem getLexicalItem(ExplanationDTO explanationDTO) {
+        LexicalItem lexicalItem = new LexicalItem();
+        final LexicalItemDTO lexicalItemDTO = explanationDTO.getLexicalItem();
+        String language = lexicalItemDTO.getLanguage();
+        lexicalItem.setLanguage(new Locale(language));
+        lexicalItem.setValue(lexicalItemDTO.getValue());
+        return lexicalItem;
     }
 }

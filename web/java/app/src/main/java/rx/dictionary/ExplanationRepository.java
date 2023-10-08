@@ -37,8 +37,12 @@ public class ExplanationRepository implements Serializable {
 	}
 	public void add(List<Explanation> definitions) {
 		for (Explanation definition : definitions) {
-			em.persist(definition);
+			add(definition);
 		}
+	}
+	public void add(Explanation explanation) {
+		em.persist(explanation);
+		System.out.println("added explanation ID is " + explanation.getId());
 	}
 	public void update(List<Explanation> updatedDefinitions) {
 		for (Explanation updatedDef : updatedDefinitions) {

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
+import java.util.Date;
 
 @MappedSuperclass
 public abstract class AbstractEntity {

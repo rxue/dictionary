@@ -20,8 +20,8 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.util.Locale;
 
-@Provider
-@Consumes(MediaType.APPLICATION_JSON)
+//@Provider
+//@Consumes(MediaType.APPLICATION_JSON)
 public class ExplanationDTOReader implements MessageBodyReader<ExplanationDTO> {
     @Override
     public boolean isReadable(Class<?> aClass, Type type, Annotation[] annotations, MediaType mediaType) {
@@ -34,10 +34,6 @@ public class ExplanationDTOReader implements MessageBodyReader<ExplanationDTO> {
         JsonReader jsonReader = Json.createReader(new InputStreamReader(inputStream));
         JsonObject jsonObject = jsonReader.readObject();
         JsonObject lexicalItemVOJsonObject = jsonObject.getJsonObject("lexicalItem");
-        ExplanationDTO.Builder builder = new ExplanationDTO.Builder(new LexicalItemVO(lexicalItemVOJsonObject.getString("value"), new Locale(lexicalItemVOJsonObject.getString("language"))))
-            .setPartOfSpeech(PartOfSpeech.valueOf(jsonObject.getString("partOfSpeech")))
-            .setExplanationLanguage(new Locale(jsonObject.getString("explanationLanguage")))
-            .setExplanation(jsonObject.getString("explanation"));
-        return builder.build();
+        return null;
     }
 }

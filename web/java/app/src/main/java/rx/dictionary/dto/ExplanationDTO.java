@@ -1,28 +1,24 @@
 package rx.dictionary.dto;
 
-import rx.dictionary.jpa.entity.PartOfSpeech;
-import rx.dictionary.vo.LexicalItemVO;
+import rx.dictionary.jpa.entity.LexicalItem;
 
 import java.util.Locale;
 
-public final class ExplanationDTO {
-    private final LexicalItemVO lexicalItemVO;
-    private final PartOfSpeech partOfSpeech;
-    private final Locale explanationLanguage;
-    private final String explanation;
+public class ExplanationDTO {
+    private LexicalItemDTO lexicalItem;
+    private String partOfSpeech;
+    private Locale explanationLanguage;
+    private String explanation;
 
-    private ExplanationDTO(Builder builder) {
-        this.lexicalItemVO = builder.lexicalItemVO;
-        this.partOfSpeech = builder.partOfSpeech;
-        this.explanationLanguage = builder.explanationLanguage;
-        this.explanation = builder.explanation;
+    public LexicalItemDTO getLexicalItem() {
+        return lexicalItem;
     }
 
-    public LexicalItemVO getLexicalItemVO() {
-        return lexicalItemVO;
+    public void setLexicalItem(LexicalItemDTO lexicalItem) {
+        this.lexicalItem = lexicalItem;
     }
 
-    public PartOfSpeech getPartOfSpeech() {
+    public String getPartOfSpeech() {
         return partOfSpeech;
     }
 
@@ -32,33 +28,5 @@ public final class ExplanationDTO {
 
     public String getExplanation() {
         return explanation;
-    }
-    public static class Builder {
-        private final LexicalItemVO lexicalItemVO;
-        private PartOfSpeech partOfSpeech;
-        private Locale explanationLanguage;
-        private String explanation;
-
-        public Builder(LexicalItemVO lexicalItemVO) {
-            this.lexicalItemVO = lexicalItemVO;
-        }
-
-        public Builder setPartOfSpeech(PartOfSpeech partOfSpeech) {
-            this.partOfSpeech = partOfSpeech;
-            return this;
-        }
-
-        public Builder setExplanationLanguage(Locale explanationLanguage) {
-            this.explanationLanguage = explanationLanguage;
-            return this;
-        }
-
-        public Builder setExplanation(String explanation) {
-            this.explanation = explanation;
-            return this;
-        }
-        public ExplanationDTO build() {
-            return new ExplanationDTO(this);
-        }
     }
 }
