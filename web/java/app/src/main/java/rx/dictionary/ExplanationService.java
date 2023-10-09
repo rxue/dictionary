@@ -9,6 +9,7 @@ import rx.dictionary.jpa.entity.LexicalItem;
 import rx.dictionary.jpa.entity.PartOfSpeech;
 
 import java.util.Locale;
+import java.util.Optional;
 
 public class ExplanationService {
     @Inject
@@ -18,7 +19,7 @@ public class ExplanationService {
     @Transactional
     public Explanation add(ExplanationDTO explanationDTO) {
         Explanation addedExplanation = new Explanation();
-        LexicalItem lexicalItem = getLexicalItem(explanationDTO);
+        LexicalItem lexicalItem = getLexicalItem(explanationDTO.getLexicalItem());
         addedExplanation.setLexicalItem(lexicalItem);
         addedExplanation.setLanguage(Locale.forLanguageTag(explanationDTO.getExplanationLanguage()));
         addedExplanation.setPartOfSpeech(PartOfSpeech.valueOf(explanationDTO.getPartOfSpeech()));
@@ -27,12 +28,15 @@ public class ExplanationService {
         return addedExplanation;
     }
 
-    private LexicalItem getLexicalItem(ExplanationDTO explanationDTO) {
-        LexicalItem lexicalItem = new LexicalItem();
-        final LexicalItemDTO lexicalItemDTO = explanationDTO.getLexicalItem();
-        String language = lexicalItemDTO.getLanguage();
-        lexicalItem.setLanguage(new Locale(language));
-        lexicalItem.setValue(lexicalItemDTO.getValue());
-        return lexicalItem;
+    private LexicalItem getLexicalItem(LexicalItemDTO lexicalItemDTO) {
+        return lexicalItemRepo.find(lexicalItemDTO)
+                .orElseGet(() -> {
+                    LexicalItem lexicalItem = new LexicalItem();
+                    String language = lexicalItemDTO.getLanguage();
+                    lexicalItem.setLanguage(new Locale(language));
+                    lexicalItem.setValue(lexicalItemDTO.getValue());
+                    return lexicalItem;
+        });
+
     }
 }

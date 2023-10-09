@@ -6,7 +6,7 @@ test("add 2 explanations", async () => {
     const newExplanation = {
       lexicalItem: {
         language: 'en',
-        value: 'test'
+        value: 'test key'
       },
       explanationLanguage: 'en',
       partOfSpeech: 'N',
@@ -18,7 +18,7 @@ test("add 2 explanations", async () => {
     const newExplanation2 = {
       lexicalItem: {
         language: 'en',
-        value: 'test'
+        value: 'test key'
       },
       explanationLanguage: 'en',
       partOfSpeech: 'N',

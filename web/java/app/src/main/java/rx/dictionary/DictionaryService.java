@@ -12,21 +12,20 @@ import rx.dictionary.vo.LexicalItemVO;
 
 public class DictionaryService implements Serializable {
 	@Inject
-	private ExplanationRepository explanationRepository;
+	private ExplanationRepository explanationRepo;
 	/**
-	 * Handle transaction
 	 * @param explanations
 	 */
 	@Transactional
 	public void add(List<Explanation> explanations) {
-		explanationRepository.add(explanations);
+		explanationRepo.add(explanations);
 	}
 	@Transactional
 	public void update(List<Explanation> explanations) {
-		explanationRepository.update(explanations);
+		explanationRepo.update(explanations);
 	}
 	@Transactional
 	public List<Explanation> find(LexicalItemVO lexicalItemVO, Locale toLang) {
-		return explanationRepository.find(lexicalItemVO, toLang);
+		return explanationRepo.find(lexicalItemVO, toLang);
 	}
 }
