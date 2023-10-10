@@ -13,7 +13,7 @@ test("add 2 explanations", async () => {
       explanation: 'test'
     };
     const result = await axios.post(endpointURL + "/explanations", newExplanation);
-    expect(result.status).toBe(200);
+    expect(result.status).toBe(201);
 
     const newExplanation2 = {
       lexicalItem: {
@@ -25,7 +25,7 @@ test("add 2 explanations", async () => {
       explanation: 'test2'
     };
     const result2 = await axios.post(endpointURL + "/explanations", newExplanation2);
-    expect(result2.status).toBe(200);
+    expect(result2.status).toBe(201);
 });
 test("get explanation", async () => {
     const result = await axios.get(endpointURL + "/vocabularies/en/test?explainLanguage=en", {});
