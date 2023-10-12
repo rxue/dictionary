@@ -9,7 +9,6 @@ import rx.dictionary.jpa.entity.LexicalItem;
 import rx.dictionary.jpa.entity.PartOfSpeech;
 
 import java.util.Locale;
-import java.util.Optional;
 
 public class ExplanationService {
     @Inject
@@ -19,8 +18,7 @@ public class ExplanationService {
     @Transactional
     public Explanation add(ExplanationDTO explanationDTO) {
         Explanation addedExplanation = new Explanation();
-        LexicalItem lexicalItem = getLexicalItem(explanationDTO.getLexicalItem());
-        addedExplanation.setLexicalItem(lexicalItem);
+        addedExplanation.setLexicalItem(getLexicalItem(explanationDTO.getLexicalItem()));
         addedExplanation.setLanguage(Locale.forLanguageTag(explanationDTO.getExplanationLanguage()));
         addedExplanation.setPartOfSpeech(PartOfSpeech.valueOf(explanationDTO.getPartOfSpeech()));
         addedExplanation.setExplanation(explanationDTO.getExplanation());

@@ -6,9 +6,13 @@ import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import rx.dictionary.ExplanationService;
 import rx.dictionary.dto.ExplanationDTO;
 import rx.dictionary.jpa.entity.Explanation;
+
+import java.net.URI;
+
 
 @Path("explanations")
 public class ExplanationsResource {
@@ -17,7 +21,14 @@ public class ExplanationsResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Explanation create(ExplanationDTO explanationDTO) {
-        return explanationService.add(explanationDTO);
+    public Response create(ExplanationDTO explanationDTO) {
+        Explanation createdExplanation = explanationService.add(explanationDTO);
+        return Response.created(formURI(createdExplanation))
+                .entity(createdExplanation)
+                .build();
+    }
+
+    static URI formURI(Explanation explanation) {
+        return URI.create("/explanations/" + explanation.getId());
     }
 }
