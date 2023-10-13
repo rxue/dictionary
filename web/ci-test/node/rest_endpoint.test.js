@@ -12,8 +12,9 @@ test("add 2 explanations", async () => {
       partOfSpeech: 'N',
       explanation: 'test'
     };
-    const result = await axios.post(endpointURL + "/explanations", newExplanation);
-    expect(result.status).toBe(201);
+    const resp = await axios.post(endpointURL + "/explanations", newExplanation);
+    expect(resp.status).toBe(201);
+    console.log(resp.headers)
 
     const newExplanation2 = {
       lexicalItem: {

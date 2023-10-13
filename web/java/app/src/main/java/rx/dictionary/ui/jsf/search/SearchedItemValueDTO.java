@@ -10,8 +10,8 @@ public class SearchedItemValueDTO {
 	}
 	@Override
 	public String toString() {
-		return itemValue.getLanguage() 
-				+ " : " +  itemValue.getValue();
+		return itemValue.language()
+				+ " : " +  itemValue.value();
 	}
 	
 

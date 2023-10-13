@@ -22,17 +22,17 @@ public class ExplanationRepository implements Serializable {
 	public List<Explanation> findLike(LexicalItemVO lexicalItemVO, Locale toLanguage) {
 		return em.createQuery("SELECT e FROM Explanation e WHERE e.lexicalItem.language = :fromLanguage AND e.language = :toLanguage AND UPPER(e.lexicalItem.value) like CONCAT(UPPER(:value),'%')",
 				Explanation.class)
-				.setParameter("fromLanguage", lexicalItemVO.getLanguage())
+				.setParameter("fromLanguage", lexicalItemVO.language())
 				.setParameter("toLanguage", toLanguage)
-				.setParameter("value", lexicalItemVO.getValue())
+				.setParameter("value", lexicalItemVO.value())
 				.getResultList();
 	}
 	public List<Explanation> find(LexicalItemVO lexicalItemVO, Locale toLanguage) {
 		return em.createQuery("SELECT e FROM Explanation e WHERE e.lexicalItem.language = :fromLanguage AND e.language = :toLanguage AND e.lexicalItem.value = :value",
 				Explanation.class)
-				.setParameter("fromLanguage", lexicalItemVO.getLanguage())
+				.setParameter("fromLanguage", lexicalItemVO.language())
 				.setParameter("toLanguage", toLanguage)
-				.setParameter("value", lexicalItemVO.getValue())
+				.setParameter("value", lexicalItemVO.value())
 				.getResultList();
 	}
 	public void add(List<Explanation> definitions) {
