@@ -2,8 +2,7 @@ package rx.dictionary;
 
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
-import rx.dictionary.dto.LexicalItemDTO;
-import rx.dictionary.jpa.entity.Explanation;
+import rx.dictionary.rest.dto.LexicalItemDTO;
 import rx.dictionary.jpa.entity.LexicalItem;
 
 import java.util.List;

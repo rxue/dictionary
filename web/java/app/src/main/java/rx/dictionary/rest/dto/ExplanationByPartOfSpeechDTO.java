@@ -1,4 +1,4 @@
-package rx.dictionary.dto;
+package rx.dictionary.rest.dto;
 
 
 import java.util.List;

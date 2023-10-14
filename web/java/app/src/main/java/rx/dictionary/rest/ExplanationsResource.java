@@ -5,7 +5,7 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import rx.dictionary.ExplanationService;
-import rx.dictionary.dto.ExplanationDTO;
+import rx.dictionary.rest.dto.ExplanationDTO;
 import rx.dictionary.jpa.entity.Explanation;
 
 import java.net.URI;

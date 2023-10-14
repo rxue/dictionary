@@ -1,8 +1,9 @@
-package rx.dictionary.dto;
+package rx.dictionary.rest.dto;
 
 public class LexicalItemDTO {
     private String language;
     private String value;
+
 
     public String getLanguage() {
         return language;

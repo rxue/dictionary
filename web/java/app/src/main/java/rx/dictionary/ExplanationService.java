@@ -2,8 +2,8 @@ package rx.dictionary;
 
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import rx.dictionary.dto.ExplanationDTO;
-import rx.dictionary.dto.LexicalItemDTO;
+import rx.dictionary.rest.dto.ExplanationDTO;
+import rx.dictionary.rest.dto.LexicalItemDTO;
 import rx.dictionary.jpa.entity.Explanation;
 import rx.dictionary.jpa.entity.LexicalItem;
 import rx.dictionary.jpa.entity.PartOfSpeech;
@@ -18,10 +18,10 @@ public class ExplanationService {
     @Transactional
     public Explanation add(ExplanationDTO explanationDTO) {
         Explanation addedExplanation = new Explanation();
-        addedExplanation.setLexicalItem(getLexicalItem(explanationDTO.getLexicalItem()));
+        /*addedExplanation.setLexicalItem(getLexicalItem(explanationDTO.getLexicalItem()));
         addedExplanation.setLanguage(Locale.forLanguageTag(explanationDTO.getExplanationLanguage()));
         addedExplanation.setPartOfSpeech(PartOfSpeech.valueOf(explanationDTO.getPartOfSpeech()));
-        addedExplanation.setExplanation(explanationDTO.getExplanation());
+        addedExplanation.setExplanation(explanationDTO.getExplanation());*/
         explanationRepo.add(addedExplanation);
         return addedExplanation;
     }
