@@ -24,6 +24,7 @@ public class VocabulariesResource {
 	
 	@GET
 	@Path("{language}/{word}")
+	@Produces(MediaType.APPLICATION_JSON)
 	public List<ExplanationByPartOfSpeechDTO> getExplanations(@PathParam("language") Locale language, @PathParam("word")String word,
 															  @MatrixParam("explanation_language") Locale explanationLanguageQueryParam,
 															  @HeaderParam(HttpHeaders.ACCEPT_LANGUAGE) List<Locale> acceptLanguages) {
