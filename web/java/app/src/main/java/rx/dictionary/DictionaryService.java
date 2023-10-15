@@ -8,6 +8,7 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 
 import rx.dictionary.jpa.entity.Explanation;
+import rx.dictionary.rest.dto.ExplanationsDTO;
 import rx.dictionary.vo.LexicalItemVO;
 
 public class DictionaryService implements Serializable {

@@ -1,5 +1,6 @@
 package rx.dictionary.rest;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Locale;
 import java.util.function.Function;
@@ -9,10 +10,12 @@ import jakarta.ws.rs.*;
 
 import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import rx.dictionary.DictionaryService;
 import rx.dictionary.rest.dto.ExplanationDTO;
 import rx.dictionary.rest.dto.ExplanationsDTO;
 import rx.dictionary.rest.dto.LexicalItemDTO;
+import rx.dictionary.rest.service.VocabulariesService;
 import rx.dictionary.vo.LexicalItemVO;
 
 import static java.util.stream.Collectors.*;
@@ -21,6 +24,8 @@ import static java.util.stream.Collectors.*;
 public class VocabulariesResource {
 	@Inject
 	private DictionaryService dictionaryService;
+	@Inject
+	private VocabulariesService vocabulariesService;
 	
 	@GET
 	@Path("{language}/{word}")
@@ -56,5 +61,18 @@ public class VocabulariesResource {
 		result.setExplanationLanguage(explanationLanguagelocale.toLanguageTag());
 		result.setExplanations(explanationDTOs);
 		return result;
+	}
+
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response create(ExplanationsDTO explanationsDTO) {
+		ExplanationsDTO createdExplanations = vocabulariesService.addExplanations(explanationsDTO);
+		Function<ExplanationsDTO,URI> toURI = d -> {
+			return URI.create("x");
+		};
+		return Response.created(toURI.apply(createdExplanations))
+				.entity(createdExplanations)
+				.build();
 	}
 }

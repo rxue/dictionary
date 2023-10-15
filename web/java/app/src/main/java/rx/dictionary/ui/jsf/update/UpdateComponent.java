@@ -30,7 +30,7 @@ public class UpdateComponent extends AddOrUpdateInputComponent implements Serial
 		for (JSFExplanationDTO explanationComp : explanationDTOs) {
 			updateExplanation(explanations.get(i++), explanationComp);
 		}
-		dictionaryService.update(explanations);		
+		dictionaryService.update(explanations);
 	}
 	static Explanation updateExplanation(Explanation explanationToUpdate, JSFExplanationDTO JSFExplanationDTO) {
 		explanationToUpdate.setPartOfSpeech(JSFExplanationDTO.getPartOfSpeech());
