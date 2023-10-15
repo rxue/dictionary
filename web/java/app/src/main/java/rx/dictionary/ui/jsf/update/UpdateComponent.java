@@ -21,7 +21,7 @@ public class UpdateComponent extends AddOrUpdateInputComponent implements Serial
 	private DictionaryService dictionaryService;
 	private List<Explanation> explanations = Collections.emptyList();
 	public void search() {
-		LexicalItemVO itemVal = new LexicalItemVO(super.getWord(), getLanguage());
+		LexicalItemVO itemVal = new LexicalItemVO(getLanguage(), super.getWord());
 		explanations = dictionaryService.find(itemVal, getExplainLanguage());
 		explanations.forEach(m -> explanationDTOs.add(new JSFExplanationDTO(m.getPartOfSpeech(), m.getExplanation())));
 	}

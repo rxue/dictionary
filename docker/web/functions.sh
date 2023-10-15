@@ -4,7 +4,7 @@ waitBySleep() {
       echo "GREAT! got the needed terminate output"
       break
     else
-      echo "WIDFLY NOT READY, GOING TO SLEEP"
+      echo "PROCESS YOU STARTED IS NOT READY, GOING TO SLEEP"
       sleep 1
     fi 
   done

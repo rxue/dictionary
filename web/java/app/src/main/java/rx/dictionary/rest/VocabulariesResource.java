@@ -12,6 +12,7 @@ import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import rx.dictionary.DictionaryService;
+import rx.dictionary.jpa.entity.Explanation;
 import rx.dictionary.rest.dto.ExplanationDTO;
 import rx.dictionary.rest.dto.ExplanationsDTO;
 import rx.dictionary.rest.dto.LexicalItemDTO;
@@ -33,19 +34,21 @@ public class VocabulariesResource {
 	public ExplanationsDTO getExplanations(@PathParam("language") Locale language, @PathParam("word")String word,
 												 @MatrixParam("explanation_language") Locale explanationLanguagelocale,
 												 @HeaderParam(HttpHeaders.ACCEPT_LANGUAGE) List<Locale> acceptLanguages) {
-		LexicalItemVO lexicalItemVO = new LexicalItemVO(word, language);
+		LexicalItemVO lexicalItemVO = new LexicalItemVO(language, word);
 		final Locale explanationLanguage = new ExplanationLanguageResolver.Builder()
 				.setExplanationLanguage(explanationLanguagelocale)
 				.setAcceptLanguages(acceptLanguages)
 				.setSearchKeywordLanguage(language)
 				.build()
 				.resolve();
-
-		List<ExplanationDTO> explanationDTOs = dictionaryService.find(lexicalItemVO, explanationLanguage)
+		List<Explanation> explanations = dictionaryService.find(lexicalItemVO, explanationLanguage);
+		System.out.println("found result is:::::::::::::::::::::::" + explanations);
+		List<ExplanationDTO> explanationDTOs = explanations
 				.stream()
 				.map(e -> {
 					ExplanationDTO result = new ExplanationDTO();
 					result.setPartOfSpeech(e.getPartOfSpeech().toString());
+					System.out.println(":::::::::::::: explanation is " + e.getExplanation());
 					result.setExplanation(e.getExplanation());
 					return result;
 				})

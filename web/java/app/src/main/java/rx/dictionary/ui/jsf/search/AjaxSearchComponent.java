@@ -35,7 +35,7 @@ public class AjaxSearchComponent extends InputComponent implements Serializable 
 	}
 
 	public void searchCandidates() {
-		LexicalItemVO keyword = new LexicalItemVO(getWord(), super.language);
+		LexicalItemVO keyword = new LexicalItemVO(super.language, getWord());
 		resultCandidates = searchService.searchCandidates(keyword, super.explainLanguage);
 	}
 	
@@ -59,7 +59,7 @@ public class AjaxSearchComponent extends InputComponent implements Serializable 
 	public void search() {
 		String keywordValue = getWord();
 		if (keywordValue != null) {
-			LexicalItemVO keyword = new LexicalItemVO(keywordValue, language);
+			LexicalItemVO keyword = new LexicalItemVO(language, keywordValue);
 			searchEvent.fire(keyword);
 			searchResult = searchService.search(keyword, explainLanguage);
 		}
