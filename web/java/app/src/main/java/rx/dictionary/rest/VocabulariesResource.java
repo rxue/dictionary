@@ -11,14 +11,8 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import rx.dictionary.DictionaryService;
-import rx.dictionary.jpa.entity.Explanation;
-import rx.dictionary.rest.dto.ExplanationDTO;
 import rx.dictionary.rest.dto.ExplanationsDTO;
-import rx.dictionary.rest.dto.LexicalItemDTO;
 import rx.dictionary.vo.LexicalItemVO;
-
-import static java.util.stream.Collectors.*;
 
 @Path("vocabularies")
 public class VocabulariesResource {
@@ -37,7 +31,7 @@ public class VocabulariesResource {
 				.setAcceptLanguages(acceptLanguages)
 				.setSearchKeywordLanguage(language)
 				.build();
-		return vocabulariesService.find(lexicalItemVO, explanationLanguageResolver.resolve());
+		return vocabulariesService.findExplanations(lexicalItemVO, explanationLanguageResolver.resolve());
 	}
 
 	@POST

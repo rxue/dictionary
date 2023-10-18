@@ -9,7 +9,7 @@ import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
 
-import rx.dictionary.DictionaryService;
+import rx.dictionary.ExplanationsService;
 import rx.dictionary.jpa.entity.LexicalItem;
 import rx.dictionary.jpa.entity.Explanation;
 import rx.dictionary.ui.jsf.addorupdate.AddOrUpdateInputComponent;
@@ -19,7 +19,7 @@ import rx.dictionary.ui.jsf.addorupdate.JSFExplanationDTO;
 @Named
 public class AddComponent extends AddOrUpdateInputComponent {
 	@Inject
-	private DictionaryService dictionaryService;
+	private ExplanationsService explanationsService;
 	@PostConstruct
 	public void addExplanationPlaceholder() {
 		if (explanationDTOs.isEmpty())
@@ -38,7 +38,7 @@ public class AddComponent extends AddOrUpdateInputComponent {
 			newMeaning.setExplanation(e.getMeaning());
 			newMeanings.add(newMeaning);
 		});
-		dictionaryService.add(newMeanings);
+		explanationsService.add(newMeanings);
 	}
 	
 }

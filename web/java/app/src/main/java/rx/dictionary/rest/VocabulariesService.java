@@ -45,7 +45,7 @@ public class VocabulariesService {
         return explanationsDTO;
     }
     @Transactional
-    public ExplanationsDTO find(LexicalItemVO lexicalItemVO, Locale explanationLanguage) {
+    public ExplanationsDTO findExplanations(LexicalItemVO lexicalItemVO, Locale explanationLanguage) {
         List<Explanation> explanations = explanationRepo.find(lexicalItemVO, explanationLanguage);
         List<ExplanationDTO> explanationDTOs = explanations
                 .stream()
