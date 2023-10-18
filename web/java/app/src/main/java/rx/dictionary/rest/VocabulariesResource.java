@@ -16,15 +16,12 @@ import rx.dictionary.jpa.entity.Explanation;
 import rx.dictionary.rest.dto.ExplanationDTO;
 import rx.dictionary.rest.dto.ExplanationsDTO;
 import rx.dictionary.rest.dto.LexicalItemDTO;
-import rx.dictionary.rest.service.VocabulariesService;
 import rx.dictionary.vo.LexicalItemVO;
 
 import static java.util.stream.Collectors.*;
 
 @Path("vocabularies")
 public class VocabulariesResource {
-	@Inject
-	private DictionaryService dictionaryService;
 	@Inject
 	private VocabulariesService vocabulariesService;
 	
@@ -34,36 +31,13 @@ public class VocabulariesResource {
 	public ExplanationsDTO getExplanations(@PathParam("language") Locale language, @PathParam("word")String word,
 												 @MatrixParam("explanation_language") Locale explanationLanguagelocale,
 												 @HeaderParam(HttpHeaders.ACCEPT_LANGUAGE) List<Locale> acceptLanguages) {
-		LexicalItemVO lexicalItemVO = new LexicalItemVO(language, word);
-		final Locale explanationLanguage = new ExplanationLanguageResolver.Builder()
+		final LexicalItemVO lexicalItemVO = new LexicalItemVO(language, word);
+		final ExplanationLanguageResolver explanationLanguageResolver = new ExplanationLanguageResolver.Builder()
 				.setExplanationLanguage(explanationLanguagelocale)
 				.setAcceptLanguages(acceptLanguages)
 				.setSearchKeywordLanguage(language)
-				.build()
-				.resolve();
-		List<Explanation> explanations = dictionaryService.find(lexicalItemVO, explanationLanguage);
-		System.out.println("found result is:::::::::::::::::::::::" + explanations);
-		List<ExplanationDTO> explanationDTOs = explanations
-				.stream()
-				.map(e -> {
-					ExplanationDTO result = new ExplanationDTO();
-					result.setPartOfSpeech(e.getPartOfSpeech().toString());
-					System.out.println(":::::::::::::: explanation is " + e.getExplanation());
-					result.setExplanation(e.getExplanation());
-					return result;
-				})
-				.collect(toList());
-		Function<LexicalItemVO,LexicalItemDTO> toLexicalItemDTO = v -> {
-			LexicalItemDTO result = new LexicalItemDTO();
-			result.setLanguage(v.language().toLanguageTag());
-			result.setValue(v.value());
-			return result;
-		};
-		ExplanationsDTO result = new ExplanationsDTO();
-		result.setLexicalItem(toLexicalItemDTO.apply(lexicalItemVO));
-		result.setExplanationLanguage(explanationLanguagelocale.toLanguageTag());
-		result.setExplanations(explanationDTOs);
-		return result;
+				.build();
+		return vocabulariesService.find(lexicalItemVO, explanationLanguageResolver.resolve());
 	}
 
 	@POST

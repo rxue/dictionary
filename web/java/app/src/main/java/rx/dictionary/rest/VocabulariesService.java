@@ -1,4 +1,4 @@
-package rx.dictionary.rest.service;
+package rx.dictionary.rest;
 
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -6,8 +6,10 @@ import rx.dictionary.ExplanationRepository;
 import rx.dictionary.jpa.entity.Explanation;
 import rx.dictionary.jpa.entity.LexicalItem;
 import rx.dictionary.jpa.entity.PartOfSpeech;
+import rx.dictionary.rest.dto.ExplanationDTO;
 import rx.dictionary.rest.dto.ExplanationsDTO;
 import rx.dictionary.rest.dto.LexicalItemDTO;
+import rx.dictionary.vo.LexicalItemVO;
 
 import java.util.List;
 import java.util.Locale;
@@ -42,4 +44,29 @@ public class VocabulariesService {
         explanationRepo.add(explanationsToAdd);
         return explanationsDTO;
     }
+    @Transactional
+    public ExplanationsDTO find(LexicalItemVO lexicalItemVO, Locale explanationLanguage) {
+        List<Explanation> explanations = explanationRepo.find(lexicalItemVO, explanationLanguage);
+        List<ExplanationDTO> explanationDTOs = explanations
+                .stream()
+                .map(e -> {
+                    ExplanationDTO result = new ExplanationDTO();
+                    result.setPartOfSpeech(e.getPartOfSpeech().toString());
+                    result.setExplanation(e.getExplanation());
+                    return result;
+                })
+                .collect(toList());
+        Function<LexicalItemVO,LexicalItemDTO> toLexicalItemDTO = v -> {
+            LexicalItemDTO result = new LexicalItemDTO();
+            result.setLanguage(v.language().toLanguageTag());
+            result.setValue(v.value());
+            return result;
+        };
+        ExplanationsDTO result = new ExplanationsDTO();
+        result.setLexicalItem(toLexicalItemDTO.apply(lexicalItemVO));
+        result.setExplanationLanguage(explanationLanguage.toLanguageTag());
+        result.setExplanations(explanationDTOs);
+        return result;
+    }
+
 }
