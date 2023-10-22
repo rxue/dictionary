@@ -1,9 +1,12 @@
 package rx.dictionary.rest;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Locale;
-import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
@@ -12,6 +15,7 @@ import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import rx.dictionary.rest.dto.ExplanationsDTO;
+import rx.dictionary.rest.dto.LexicalItemDTO;
 import rx.dictionary.vo.LexicalItemVO;
 
 @Path("vocabularies")
@@ -39,11 +43,21 @@ public class VocabulariesResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response create(ExplanationsDTO explanationsDTO) {
 		ExplanationsDTO createdExplanations = vocabulariesService.addExplanations(explanationsDTO);
-		Function<ExplanationsDTO,URI> toURI = d -> {
-			return URI.create("x");
-		};
-		return Response.created(toURI.apply(createdExplanations))
+		return Response.created(getURI(createdExplanations))
 				.entity(createdExplanations)
 				.build();
+	}
+	static URI getURI(ExplanationsDTO dto) {
+		final LexicalItemDTO lexicalItem = dto.getLexicalItem();
+		String lexicalItemValue = null;
+		try {
+			lexicalItemValue = URLEncoder.encode(lexicalItem.getValue(), StandardCharsets.UTF_8.toString());
+		} catch (UnsupportedEncodingException e) {
+			throw new WebApplicationException("UTF_8 has to be supported on server");
+		}
+		List<String> pathElements = List.of("vocabularies",
+					lexicalItem.getLanguage() + ";explanation_language=" + dto.getExplanationLanguage(),
+					lexicalItemValue);
+		return URI.create(pathElements.stream().collect(Collectors.joining("/")));
 	}
 }
