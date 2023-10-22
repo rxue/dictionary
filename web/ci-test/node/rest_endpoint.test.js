@@ -23,11 +23,11 @@ test("add 2 explanations", async () => {
     const vocabulariesURL = endpointURL + "/vocabularies";
     const resp = await axios.post(vocabulariesURL, newExplanations);
     expect(resp.status).toBe(201);
-    console.log(resp.headers)
-    const responseOfGet = await axios.get(vocabulariesURL + "/en;explanation_language=en/test key");
+    console.log("Going to test GET on the created resource");
+    const getLocationURL = resp.headers.location;
+    const responseOfGet = await axios.get(getLocationURL);
     expect(responseOfGet.status).toBe(200);
-    expect(responseOfGet.data.explanations.length).toBeGreaterThan(0);
-
+    expect(responseOfGet.data).toBe(newExplanations);
     
 /*
     const newExplanation2 = {

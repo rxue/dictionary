@@ -17,6 +17,6 @@ public class VocabulariesServiceGetURITest {
         ExplanationsDTO explanationsDTO = new ExplanationsDTO();
         explanationsDTO.setLexicalItem(lexicalItemDTO);
         explanationsDTO.setExplanationLanguage("en");
-        assertEquals(URI.create("vocabularies/en;explanation_language=en/value+x"), VocabulariesResource.getURI(explanationsDTO));
+        assertEquals(URI.create("vocabularies/en;explanation_language=en/value%20x"), VocabulariesResource.getURI(explanationsDTO));
     }
 }

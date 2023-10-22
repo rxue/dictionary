@@ -49,15 +49,9 @@ public class VocabulariesResource {
 	}
 	static URI getURI(ExplanationsDTO dto) {
 		final LexicalItemDTO lexicalItem = dto.getLexicalItem();
-		String lexicalItemValue = null;
-		try {
-			lexicalItemValue = URLEncoder.encode(lexicalItem.getValue(), StandardCharsets.UTF_8.toString());
-		} catch (UnsupportedEncodingException e) {
-			throw new WebApplicationException("UTF_8 has to be supported on server");
-		}
 		List<String> pathElements = List.of("vocabularies",
 					lexicalItem.getLanguage() + ";explanation_language=" + dto.getExplanationLanguage(),
-					lexicalItemValue);
+					lexicalItem.getValue().replace(" ", "%20"));
 		return URI.create(pathElements.stream().collect(Collectors.joining("/")));
 	}
 }
