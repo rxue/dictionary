@@ -27,7 +27,7 @@ test("add 2 explanations", async () => {
     const getLocationURL = resp.headers.location;
     const responseOfGet = await axios.get(getLocationURL);
     expect(responseOfGet.status).toBe(200);
-    expect(responseOfGet.data).toBe(newExplanations);
+    expect(responseOfGet.data).toEqual(newExplanations);
     
 /*
     const newExplanation2 = {
