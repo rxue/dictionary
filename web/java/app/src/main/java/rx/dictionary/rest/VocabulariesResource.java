@@ -52,8 +52,8 @@ public class VocabulariesResource {
 	public ExplanationsDTO update(@PathParam("language") Locale language,
 								  @PathParam("word")String word,
 								  @MatrixParam("explanation_language") Locale explanationLanguage,
-								  List<ExplanationDTO> explanations) {
-		return vocabulariesService.update(new ExplanationUnitID(language, word, explanationLanguage), explanations);
+								  ExplanationsDTO explanationsDTO) {
+		return vocabulariesService.update(new ExplanationUnitID(language, word, explanationLanguage), explanationsDTO.getExplanations());
 	}
 	static URI getURI(ExplanationsDTO dto) {
 		final LexicalItemDTO lexicalItem = dto.getLexicalItem();
