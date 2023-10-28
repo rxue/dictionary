@@ -9,8 +9,10 @@ import rx.dictionary.jpa.entity.PartOfSpeech;
 import rx.dictionary.rest.dto.ExplanationDTO;
 import rx.dictionary.rest.dto.ExplanationsDTO;
 import rx.dictionary.rest.dto.LexicalItemDTO;
+import rx.dictionary.rest.vo.ExplanationUnitID;
 import rx.dictionary.vo.LexicalItemVO;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.function.Function;
@@ -45,7 +47,9 @@ public class VocabulariesService {
         return explanationsDTO;
     }
     @Transactional
-    public ExplanationsDTO findExplanations(LexicalItemVO lexicalItemVO, Locale explanationLanguage) {
+    public ExplanationsDTO findExplanations(ExplanationUnitID explanationUnitID) {
+        LexicalItemVO lexicalItemVO = explanationUnitID.lexicalItem();
+        Locale explanationLanguage = explanationUnitID.explanationLanguage();
         List<Explanation> explanations = explanationRepo.find(lexicalItemVO, explanationLanguage);
         List<ExplanationDTO> explanationDTOs = explanations
                 .stream()
@@ -69,4 +73,22 @@ public class VocabulariesService {
         return result;
     }
 
+    @Transactional
+    public ExplanationsDTO update(ExplanationUnitID explanationUnitID, List<ExplanationDTO> newExplanations) {
+        List<Explanation> explanations = explanationRepo.find(explanationUnitID.lexicalItem(), explanationUnitID.explanationLanguage());
+        return null;
+    }
+    static List<Explanation> combine(List<Explanation> explanations, List<ExplanationDTO> newExplanations) {
+        List<Explanation> result = new ArrayList<>();
+        for (int i = 0; i < explanations.size(); i++) {
+            Explanation currentExplanation = explanations.get(i);
+            update(currentExplanation, newExplanations.get(i));
+            result.add(currentExplanation);
+        }
+        return result;
+    }
+    private static void update(Explanation explanation, ExplanationDTO newExplanation) {
+        explanation.setPartOfSpeech(PartOfSpeech.valueOf(newExplanation.getPartOfSpeech()));
+        explanation.setExplanation(newExplanation.getExplanation());
+    }
 }

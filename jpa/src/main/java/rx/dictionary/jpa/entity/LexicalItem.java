@@ -1,10 +1,10 @@
 package rx.dictionary.jpa.entity;
 
 import jakarta.persistence.*;
+import lombok.EqualsAndHashCode;
 
-import java.util.Date;
 import java.util.Locale;
-
+@EqualsAndHashCode
 @Entity
 @Table(name = "lexical_item",
 uniqueConstraints = {

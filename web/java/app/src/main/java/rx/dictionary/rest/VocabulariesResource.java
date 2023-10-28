@@ -1,9 +1,6 @@
 package rx.dictionary.rest;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URI;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
@@ -14,8 +11,10 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import rx.dictionary.rest.dto.ExplanationDTO;
 import rx.dictionary.rest.dto.ExplanationsDTO;
 import rx.dictionary.rest.dto.LexicalItemDTO;
+import rx.dictionary.rest.vo.ExplanationUnitID;
 import rx.dictionary.vo.LexicalItemVO;
 
 @Path("vocabularies")
@@ -29,13 +28,12 @@ public class VocabulariesResource {
 	public ExplanationsDTO getExplanations(@PathParam("language") Locale language, @PathParam("word")String word,
 												 @MatrixParam("explanation_language") Locale explanationLanguagelocale,
 												 @HeaderParam(HttpHeaders.ACCEPT_LANGUAGE) List<Locale> acceptLanguages) {
-		final LexicalItemVO lexicalItemVO = new LexicalItemVO(language, word);
 		final ExplanationLanguageResolver explanationLanguageResolver = new ExplanationLanguageResolver.Builder()
 				.setExplanationLanguage(explanationLanguagelocale)
 				.setAcceptLanguages(acceptLanguages)
 				.setSearchKeywordLanguage(language)
 				.build();
-		return vocabulariesService.findExplanations(lexicalItemVO, explanationLanguageResolver.resolve());
+		return vocabulariesService.findExplanations(new ExplanationUnitID(language, word, explanationLanguageResolver.resolve()));
 	}
 
 	@POST
@@ -46,6 +44,16 @@ public class VocabulariesResource {
 		return Response.created(getURI(createdExplanations))
 				.entity(createdExplanations)
 				.build();
+	}
+
+	@PUT
+	@Path("{language}/{word}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ExplanationsDTO update(@PathParam("language") Locale language,
+								  @PathParam("word")String word,
+								  @MatrixParam("explanation_language") Locale explanationLanguage,
+								  List<ExplanationDTO> explanations) {
+		return vocabulariesService.update(new ExplanationUnitID(language, word, explanationLanguage), explanations);
 	}
 	static URI getURI(ExplanationsDTO dto) {
 		final LexicalItemDTO lexicalItem = dto.getLexicalItem();

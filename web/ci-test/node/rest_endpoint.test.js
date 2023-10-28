@@ -2,7 +2,7 @@ const axios = require('axios');
 const https = require('https');
 
 const endpointURL = 'http://localhost/dictionary/rest'
-test("add 2 explanations", async () => {
+test("add 2 explanations to one lexical item and result with get", async () => {
     const newExplanations = {
       lexicalItem: {
         language: 'en',

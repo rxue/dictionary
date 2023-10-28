@@ -1,10 +1,11 @@
 package rx.dictionary.jpa.entity;
 
 import jakarta.persistence.*;
+import lombok.EqualsAndHashCode;
 
-import java.util.Date;
 import java.util.Locale;
 
+@EqualsAndHashCode
 @Table(name = "explanation", uniqueConstraints = { @UniqueConstraint(columnNames = { "item_id", "language", "partofspeech", "explanation"}) })
 @SequenceGenerator(sequenceName = "explanation_id_seq", initialValue=1, name = "explanation_sequence")
 @Entity
