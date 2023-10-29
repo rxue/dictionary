@@ -7,7 +7,7 @@ import rx.dictionary.jpa.entity.Explanation;
 import rx.dictionary.jpa.entity.LexicalItem;
 import rx.dictionary.jpa.entity.PartOfSpeech;
 import rx.dictionary.rest.dto.ExplanationDTO;
-import rx.dictionary.rest.dto.ExplanationsDTO;
+import rx.dictionary.rest.dto.LexicalItemWithExplanationsDTO;
 import rx.dictionary.rest.dto.LexicalItemDTO;
 import rx.dictionary.rest.vo.ExplanationUnitID;
 import rx.dictionary.vo.LexicalItemVO;
@@ -23,16 +23,16 @@ public class VocabulariesService {
     @Inject
     private ExplanationRepository explanationRepo;
     @Transactional
-    public ExplanationsDTO addExplanations(ExplanationsDTO explanationsDTO) {
+    public LexicalItemWithExplanationsDTO addExplanations(LexicalItemWithExplanationsDTO lexicalItemWithExplanationsDTO) {
         Function<LexicalItemDTO, LexicalItem> toLexicalItem = d -> {
             LexicalItem lexicalItem = new LexicalItem();
             lexicalItem.setLanguage(Locale.forLanguageTag(d.getLanguage()));
             lexicalItem.setValue(d.getValue());
             return lexicalItem;
         };
-        LexicalItem lexicalItem = toLexicalItem.apply(explanationsDTO.getLexicalItem());
-        Locale explanationLanguage = Locale.forLanguageTag(explanationsDTO.getExplanationLanguage());
-        List<Explanation> explanationsToAdd = explanationsDTO.getExplanations()
+        LexicalItem lexicalItem = toLexicalItem.apply(lexicalItemWithExplanationsDTO.getLexicalItem());
+        Locale explanationLanguage = Locale.forLanguageTag(lexicalItemWithExplanationsDTO.getExplanationLanguage());
+        List<Explanation> explanationsToAdd = lexicalItemWithExplanationsDTO.getExplanations()
                 .stream()
                 .map(e -> {
                     Explanation result = new Explanation();
@@ -44,14 +44,14 @@ public class VocabulariesService {
                 })
                 .collect(toList());
         explanationRepo.add(explanationsToAdd);
-        return explanationsDTO;
+        return lexicalItemWithExplanationsDTO;
     }
     @Transactional
-    public ExplanationsDTO findExplanations(ExplanationUnitID explanationUnitID) {
+    public LexicalItemWithExplanationsDTO findExplanations(ExplanationUnitID explanationUnitID) {
         LexicalItemVO lexicalItemVO = explanationUnitID.lexicalItem();
         Locale explanationLanguage = explanationUnitID.explanationLanguage();
         List<Explanation> explanations = explanationRepo.find(lexicalItemVO, explanationLanguage);
-        ExplanationsDTO result = new ExplanationsDTO();
+        LexicalItemWithExplanationsDTO result = new LexicalItemWithExplanationsDTO();
         result.setLexicalItem(DataTransformationUtil.toLexicalItemDTO(lexicalItemVO));
         result.setExplanationLanguage(explanationLanguage.toLanguageTag());
         result.setExplanations(DataTransformationUtil.toExplanationDTOs(explanations));
@@ -59,11 +59,11 @@ public class VocabulariesService {
     }
 
     @Transactional
-    public ExplanationsDTO update(ExplanationUnitID explanationUnitID, List<ExplanationDTO> newExplanations) {
+    public LexicalItemWithExplanationsDTO update(ExplanationUnitID explanationUnitID, List<ExplanationDTO> newExplanations) {
         List<Explanation> explanations = explanationRepo.find(explanationUnitID.lexicalItem(), explanationUnitID.explanationLanguage());
         List<Explanation> updatedExplanations = combine(explanations, newExplanations);
         explanationRepo.update(updatedExplanations);
-        ExplanationsDTO result = new ExplanationsDTO();
+        LexicalItemWithExplanationsDTO result = new LexicalItemWithExplanationsDTO();
         result.setLexicalItem(DataTransformationUtil.toLexicalItemDTO(explanationUnitID.lexicalItem()));
         result.setExplanationLanguage(explanationUnitID.explanationLanguage().toLanguageTag());
         result.setExplanations(DataTransformationUtil.toExplanationDTOs(updatedExplanations));

@@ -11,11 +11,10 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import rx.dictionary.rest.dto.ExplanationDTO;
 import rx.dictionary.rest.dto.ExplanationsDTO;
+import rx.dictionary.rest.dto.LexicalItemWithExplanationsDTO;
 import rx.dictionary.rest.dto.LexicalItemDTO;
 import rx.dictionary.rest.vo.ExplanationUnitID;
-import rx.dictionary.vo.LexicalItemVO;
 
 @Path("vocabularies")
 public class VocabulariesResource {
@@ -25,9 +24,9 @@ public class VocabulariesResource {
 	@GET
 	@Path("{language}/{word}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public ExplanationsDTO getExplanations(@PathParam("language") Locale language, @PathParam("word")String word,
-												 @MatrixParam("explanation_language") Locale explanationLanguagelocale,
-												 @HeaderParam(HttpHeaders.ACCEPT_LANGUAGE) List<Locale> acceptLanguages) {
+	public LexicalItemWithExplanationsDTO getExplanations(@PathParam("language") Locale language, @PathParam("word")String word,
+														  @MatrixParam("explanation_language") Locale explanationLanguagelocale,
+														  @HeaderParam(HttpHeaders.ACCEPT_LANGUAGE) List<Locale> acceptLanguages) {
 		final ExplanationLanguageResolver explanationLanguageResolver = new ExplanationLanguageResolver.Builder()
 				.setExplanationLanguage(explanationLanguagelocale)
 				.setAcceptLanguages(acceptLanguages)
@@ -39,8 +38,8 @@ public class VocabulariesResource {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response create(ExplanationsDTO explanationsDTO) {
-		ExplanationsDTO createdExplanations = vocabulariesService.addExplanations(explanationsDTO);
+	public Response create(LexicalItemWithExplanationsDTO lexicalItemWithExplanationsDTO) {
+		LexicalItemWithExplanationsDTO createdExplanations = vocabulariesService.addExplanations(lexicalItemWithExplanationsDTO);
 		return Response.created(getURI(createdExplanations))
 				.entity(createdExplanations)
 				.build();
@@ -49,13 +48,13 @@ public class VocabulariesResource {
 	@PUT
 	@Path("{language}/{word}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public ExplanationsDTO update(@PathParam("language") Locale language,
-								  @PathParam("word")String word,
-								  @MatrixParam("explanation_language") Locale explanationLanguage,
-								  ExplanationsDTO explanationsDTO) {
+	public LexicalItemWithExplanationsDTO update(@PathParam("language") Locale language,
+												 @PathParam("word")String word,
+												 @MatrixParam("explanation_language") Locale explanationLanguage,
+												 ExplanationsDTO explanationsDTO) {
 		return vocabulariesService.update(new ExplanationUnitID(language, word, explanationLanguage), explanationsDTO.getExplanations());
 	}
-	static URI getURI(ExplanationsDTO dto) {
+	static URI getURI(LexicalItemWithExplanationsDTO dto) {
 		final LexicalItemDTO lexicalItem = dto.getLexicalItem();
 		List<String> pathElements = List.of("vocabularies",
 					lexicalItem.getLanguage() + ";explanation_language=" + dto.getExplanationLanguage(),
