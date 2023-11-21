@@ -14,6 +14,7 @@ public class Explanation extends AbstractEntity {
     private Locale language;
     private PartOfSpeech partOfSpeech;
     private String explanation;
+    private long nextId;
 
     @Id
     @GeneratedValue(generator="explanation_sequence", strategy=GenerationType.SEQUENCE)
@@ -49,6 +50,13 @@ public class Explanation extends AbstractEntity {
     public void setExplanation(String explanation) {
         this.explanation = explanation;
     }
+    @Transient
+    public long getNextId() {
+        return nextId;
+    }
 
+    public void setNextId(long nextId) {
+        this.nextId = nextId;
+    }
 }
 

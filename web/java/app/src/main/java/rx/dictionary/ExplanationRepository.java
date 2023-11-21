@@ -41,6 +41,7 @@ public class ExplanationRepository implements Serializable {
 		}
 	}
 	public void add(Explanation explanation) {
+		explanation.setNextId(80000);
 		em.persist(explanation);
 		System.out.println("added explanation ID is " + explanation.getId());
 	}

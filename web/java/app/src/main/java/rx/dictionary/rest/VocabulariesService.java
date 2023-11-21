@@ -44,6 +44,10 @@ public class VocabulariesService {
                 })
                 .collect(toList());
         explanationRepo.add(explanationsToAdd);
+
+        LexicalItemVO vo = new LexicalItemVO(lexicalItem.getLanguage(), lexicalItem.getValue());
+        List<Explanation> found = explanationRepo.find(vo, explanationLanguage);
+        found.forEach(e -> System.out.println("found next id is " + e.getNextId()));
         return lexicalItemWithExplanationsDTO;
     }
     @Transactional
