@@ -10,6 +10,19 @@
     <error-page>
     	<location>/error.html</location>
     </error-page>
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Private pages</web-resource-name>
+			<url-pattern>/private/*</url-pattern>
+			<http-method>GET</http-method>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>admin</role-name>
+		</auth-constraint>
+	</security-constraint>
+	<security-role>
+		<role-name>admin</role-name>
+	</security-role>
     <!-- session-config>
 	    <cookie-config>
 	      <max-age>100</max-age>
