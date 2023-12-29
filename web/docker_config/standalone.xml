@@ -136,7 +136,7 @@
                     </security>
                 </datasource>
                 <datasource jndi-name="java:jboss/datasources/MariaDBDS" pool-name="MariaDBDS" enabled="true" use-java-context="true" statistics-enabled="${wildfly.datasources.statistics-enabled:${wildfly.statistics-enabled:false}}">
-                  <connection-url>jdbc:mariadb://mariadb:3306/dictionary</connection-url>
+                    <connection-url>jdbc:mariadb://mariadb:3306/dictionary</connection-url>
                     <driver>mariadb</driver>
                     <security>
                         <user-name>root</user-name>
@@ -145,10 +145,10 @@
                 </datasource>
                 <drivers>
                     <driver name="h2" module="com.h2database.h2">
-                      <xa-datasource-class>org.h2.jdbcx.JdbcDataSource</xa-datasource-class>
+                        <xa-datasource-class>org.h2.jdbcx.JdbcDataSource</xa-datasource-class>
                     </driver>
                     <driver name="mariadb" module="org.mariadb.jdbc">
-                      <xa-datasource-class>org.mariadb.jdbc.MariaDbDataSource</xa-datasource-class>
+                        <xa-datasource-class>org.mariadb.jdbc.MariaDbDataSource</xa-datasource-class>
                     </driver>
                 </drivers>
             </datasources>
@@ -501,7 +501,7 @@
                 <file name="welcome-content" path="${jboss.home.dir}/welcome-content"/>
             </handlers>
             <application-security-domains>
-                <application-security-domain name="other" security-domain="ApplicationDomain"/>
+                <application-security-domain name="other" security-domain="ApplicationDomain" integrated-jaspi="false"/>
             </application-security-domains>
         </subsystem>
         <subsystem xmlns="urn:jboss:domain:webservices:2.0" statistics-enabled="${wildfly.webservices.statistics-enabled:${wildfly.statistics-enabled:false}}">
