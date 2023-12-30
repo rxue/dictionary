@@ -18,7 +18,17 @@
 		</web-resource-collection>
 		<auth-constraint>
 			<role-name>viewer</role-name>
-			<!--role-name>updater</role-name-->
+			<role-name>updater</role-name>
+		</auth-constraint>
+	</security-constraint>
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Private pages</web-resource-name>
+			<url-pattern>/rest/vocabularies/*</url-pattern>
+			<http-method>POST</http-method>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>updater</role-name>
 		</auth-constraint>
 	</security-constraint>
     <!-- session-config>

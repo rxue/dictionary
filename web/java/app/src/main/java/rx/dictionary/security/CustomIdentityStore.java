@@ -16,6 +16,9 @@ public class CustomIdentityStore implements IdentityStore {
         if (credential.compareTo("user","user")) {
             System.out.println("::::::::::::::::::::::");
             return new CredentialValidationResult("user", Set.of("viewer"));
+        } else if (credential.compareTo("admin","admin")) {
+            System.out.println("::::::::::::::::::::::");
+            return new CredentialValidationResult("admin", Set.of("viewer","updater"));
         }
         return CredentialValidationResult.INVALID_RESULT;
     }

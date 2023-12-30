@@ -1,17 +1,18 @@
 const axios = require('axios');
 const https = require('https');
 const endpointURL = 'http://localhost/dictionary/rest'
-const username = 'user';
-const password = 'user';
 
-// Encoding credentials in base64
-const base64Credentials = Buffer.from(`${username}:${password}`).toString('base64');
-const headers = {
-  headers: {Authorization: `Basic ${base64Credentials}`}
-};
+function getHeaders(username, password) {
+  // Encoding credentials in base64
+  base64Credentials = Buffer.from(`${username}:${password}`).toString('base64');
+  return {
+    headers: {Authorization: `Basic ${base64Credentials}`}
+  };
+}
+
 test("add 6 explanations to one lexical item and result with get", async () => {
     const newExplanations = {
-      //id: 10000000,
+
       lexicalItem: {
         language: 'en',
         value: 'test key'
@@ -45,11 +46,11 @@ test("add 6 explanations to one lexical item and result with get", async () => {
       ]
     };
     const vocabulariesURL = endpointURL + "/vocabularies";
-    const resp = await axios.post(vocabulariesURL, newExplanations);
+    const resp = await axios.post(vocabulariesURL, newExplanations, getHeaders('admin','admin'));
     expect(resp.status).toBe(201);
     console.log("Going to test GET on the created resource");
     const getLocationURL = resp.headers.location;
-    const responseOfGet = await axios.get(getLocationURL, headers);
+    const responseOfGet = await axios.get(getLocationURL, getHeaders('user','user'));
     expect(responseOfGet.status).toBe(200);
     expect(responseOfGet.data).toEqual(newExplanations);
 });
@@ -81,7 +82,6 @@ test("add 2 explanations to one lexical item and result with get", async () => {
     expect(responseOfGet.status).toBe(200);
     expect(responseOfGet.data).toEqual(newExplanations);
 });
-
 test("add 2 explanations to one lexical item and update them", async () => {
     const explanations = {
       lexicalItem: {
