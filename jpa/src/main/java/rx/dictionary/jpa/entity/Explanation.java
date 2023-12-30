@@ -7,7 +7,7 @@ import java.util.Locale;
 
 @EqualsAndHashCode
 @Table(name = "explanation", uniqueConstraints = { @UniqueConstraint(columnNames = { "item_id", "language", "partofspeech", "explanation"}) })
-@SequenceGenerator(sequenceName = "explanation_id_seq", initialValue=1, name = "explanation_sequence", allocationSize = 5)
+@SequenceGenerator(sequenceName = "explanation_id_seq", initialValue=1, name = "explanation_sequence", allocationSize = 4)
 @Entity
 public class Explanation extends AbstractEntity {
     private LexicalItem lexicalItem;

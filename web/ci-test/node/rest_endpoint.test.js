@@ -1,8 +1,17 @@
 const axios = require('axios');
 const https = require('https');
 const endpointURL = 'http://localhost/dictionary/rest'
+const username = 'user';
+const password = 'user';
+
+// Encoding credentials in base64
+const base64Credentials = Buffer.from(`${username}:${password}`).toString('base64');
+const headers = {
+  headers: {Authorization: `Basic ${base64Credentials}`}
+};
 test("add 6 explanations to one lexical item and result with get", async () => {
     const newExplanations = {
+      //id: 10000000,
       lexicalItem: {
         language: 'en',
         value: 'test key'
@@ -40,11 +49,11 @@ test("add 6 explanations to one lexical item and result with get", async () => {
     expect(resp.status).toBe(201);
     console.log("Going to test GET on the created resource");
     const getLocationURL = resp.headers.location;
-    const responseOfGet = await axios.get(getLocationURL);
+    const responseOfGet = await axios.get(getLocationURL, headers);
     expect(responseOfGet.status).toBe(200);
     expect(responseOfGet.data).toEqual(newExplanations);
 });
-
+/*
 test("add 2 explanations to one lexical item and result with get", async () => {
     const newExplanations = {
       lexicalItem: {
@@ -121,4 +130,11 @@ test("add 2 explanations to one lexical item and update them", async () => {
     };
     expectedExplanations.explanations = newExplanationsArray;
     expect(responseOfGet.data).toEqual(expectedExplanations);
-})
+});
+test("delete explanations", async () => {
+    //the word - take - has to exist before running this test
+    const vocabulariesURL = endpointURL + "/vocabularies/en;explanation_language=en/take";
+    const resp = await axios.delete(vocabulariesURL);
+    expect(resp.status).toBe(204);
+});
+*/

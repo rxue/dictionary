@@ -13,9 +13,9 @@ import java.util.Set;
 public class CustomIdentityStore implements IdentityStore {
 
     public CredentialValidationResult validate(UsernamePasswordCredential credential) {
-        if (credential.compareTo("x","y")) {
+        if (credential.compareTo("user","user")) {
             System.out.println("::::::::::::::::::::::");
-            return new CredentialValidationResult("x", Set.of("admin"));
+            return new CredentialValidationResult("user", Set.of("viewer"));
         }
         return CredentialValidationResult.INVALID_RESULT;
     }
