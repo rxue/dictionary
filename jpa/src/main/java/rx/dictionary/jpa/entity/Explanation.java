@@ -3,7 +3,9 @@ package rx.dictionary.jpa.entity;
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 
+import java.util.HashSet;
 import java.util.Locale;
+import java.util.Set;
 
 @EqualsAndHashCode
 @Table(name = "explanation", uniqueConstraints = { @UniqueConstraint(columnNames = { "item_id", "language", "partofspeech", "explanation"}) })
@@ -14,6 +16,8 @@ public class Explanation extends AbstractEntity {
     private Locale language;
     private PartOfSpeech partOfSpeech;
     private String explanation;
+
+    private Set<Sentence> sentences = new HashSet<>();
 
     @Id
     @GeneratedValue(generator="explanation_sequence", strategy=GenerationType.SEQUENCE)
@@ -49,6 +53,15 @@ public class Explanation extends AbstractEntity {
     public void setExplanation(String explanation) {
         this.explanation = explanation;
     }
+    @ElementCollection
+    @CollectionTable(name = "sentence")
+    @AttributeOverride(name="sentence", column=@Column(name = "sentence", nullable = false))
+    public Set<Sentence> getSentences() {
+        return sentences;
+    }
 
+    public void setSentences(Set<Sentence> sentences) {
+        this.sentences = sentences;
+    }
 }
 
