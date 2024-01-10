@@ -55,7 +55,7 @@ public class Explanation extends AbstractEntity {
     public void setExplanation(String explanation) {
         this.explanation = explanation;
     }
-    @ElementCollection
+    @ElementCollection(fetch = EAGER)
     @CollectionTable(name = "sentence")
     public Set<String> getSentences() {
         return sentences;
