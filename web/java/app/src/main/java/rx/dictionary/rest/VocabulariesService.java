@@ -97,6 +97,7 @@ public class VocabulariesService {
                         ExplanationDTO result = new ExplanationDTO();
                         result.setPartOfSpeech(e.getPartOfSpeech().toString());
                         result.setExplanation(e.getExplanation());
+                        result.setSentences(e.getSentences());
                         return result;
                     })
                     .collect(toList());

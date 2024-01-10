@@ -7,6 +7,8 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
 
+import static jakarta.persistence.FetchType.EAGER;
+
 @EqualsAndHashCode
 @Table(name = "explanation", uniqueConstraints = { @UniqueConstraint(columnNames = { "item_id", "language", "partofspeech", "explanation"}) })
 @SequenceGenerator(sequenceName = "explanation_id_seq", initialValue=1, name = "explanation_sequence", allocationSize = 4)
@@ -17,7 +19,7 @@ public class Explanation extends AbstractEntity {
     private PartOfSpeech partOfSpeech;
     private String explanation;
 
-    private Set<Sentence> sentences = new HashSet<>();
+    private Set<String> sentences = new HashSet<>();
 
     @Id
     @GeneratedValue(generator="explanation_sequence", strategy=GenerationType.SEQUENCE)
@@ -55,12 +57,11 @@ public class Explanation extends AbstractEntity {
     }
     @ElementCollection
     @CollectionTable(name = "sentence")
-    @AttributeOverride(name="sentence", column=@Column(name = "sentence", nullable = false))
-    public Set<Sentence> getSentences() {
+    public Set<String> getSentences() {
         return sentences;
     }
 
-    public void setSentences(Set<Sentence> sentences) {
+    public void setSentences(Set<String> sentences) {
         this.sentences = sentences;
     }
 }
