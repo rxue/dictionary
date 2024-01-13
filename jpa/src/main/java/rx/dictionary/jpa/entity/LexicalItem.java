@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 
 import java.util.Locale;
+import java.util.Set;
+
 @EqualsAndHashCode
 @Entity
 @Table(name = "lexical_item",
@@ -15,6 +17,8 @@ public class LexicalItem extends AbstractEntity {
     private Locale language;
     @Column(nullable=false)
     private String value;
+    @OneToMany
+    private Set<Explanation> explanations;
 
     public long getId() {
         return id;
@@ -34,5 +38,13 @@ public class LexicalItem extends AbstractEntity {
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    public Set<Explanation> getExplanations() {
+        return explanations;
+    }
+
+    public void setExplanations(Set<Explanation> explanations) {
+        this.explanations = explanations;
     }
 }
