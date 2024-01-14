@@ -20,11 +20,14 @@ public class Explanation {
     protected Long id;
     @Column(name="lexical_item_id")
     private Long lexicalItemID;
+    @Column(nullable = false)
     private Locale language;
     @Enumerated(EnumType.STRING)
     private PartOfSpeech partOfSpeech;
+    @Column(nullable = false)
     private String explanation;
-
+    @ElementCollection(fetch = EAGER)
+    @CollectionTable(name = "sentence")
     private Set<String> sentences = new HashSet<>();
 
     private DateAttributes dateAttributes;
@@ -35,7 +38,6 @@ public class Explanation {
     public Long getId() {
         return id;
     }
-    @Column(nullable = false)
     public Locale getLanguage() {
         return language;
     }
@@ -48,15 +50,13 @@ public class Explanation {
     public void setPartOfSpeech(PartOfSpeech partOfSpeech) {
         this.partOfSpeech = partOfSpeech;
     }
-    @Column(nullable = false)
     public String getExplanation() {
         return explanation;
     }
     public void setExplanation(String explanation) {
         this.explanation = explanation;
     }
-    @ElementCollection(fetch = EAGER)
-    @CollectionTable(name = "sentence")
+
     public Set<String> getSentences() {
         return sentences;
     }
