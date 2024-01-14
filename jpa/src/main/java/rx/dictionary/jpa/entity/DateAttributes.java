@@ -2,6 +2,8 @@ package rx.dictionary.jpa.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
@@ -27,5 +29,14 @@ public class DateAttributes {
 
     public void setLastUpdateTime(ZonedDateTime lastUpdateTime) {
         this.lastUpdateTime = lastUpdateTime;
+    }
+
+    @PrePersist
+    public void setCreationDate() {
+        this.creationDate = LocalDate.now();
+    }
+    @PreUpdate
+    public void setLastUpdateTime() {
+        this.lastUpdateTime = ZonedDateTime.now();
     }
 }
