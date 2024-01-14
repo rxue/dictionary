@@ -21,6 +21,7 @@ public class Explanation {
     @Column(name="lexical_item_id")
     private Long lexicalItemID;
     private Locale language;
+    @Enumerated(EnumType.STRING)
     private PartOfSpeech partOfSpeech;
     private String explanation;
 
@@ -41,7 +42,6 @@ public class Explanation {
     public void setLanguage(Locale language) {
         this.language = language;
     }
-    @Enumerated(EnumType.STRING)
     public PartOfSpeech getPartOfSpeech() {
         return partOfSpeech;
     }
