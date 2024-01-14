@@ -26,6 +26,8 @@ public class Explanation {
 
     private Set<String> sentences = new HashSet<>();
 
+    private DateAttributes dateAttributes;
+
     public void setId(Long id) {
         this.id = id;
     }
