@@ -17,7 +17,7 @@ public class LexicalItem extends AbstractEntity {
     private Locale language;
     @Column(nullable=false)
     private String value;
-    @OneToMany
+    @OneToMany(mappedBy="lexicalItemID")
     private Set<Explanation> explanations;
 
     public long getId() {
