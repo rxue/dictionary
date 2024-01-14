@@ -13,8 +13,11 @@ import static jakarta.persistence.FetchType.EAGER;
 @Table(name = "explanation", uniqueConstraints = { @UniqueConstraint(columnNames = { "lexical_item_id", "language", "partofspeech", "explanation"}) })
 @SequenceGenerator(sequenceName = "explanation_id_seq", initialValue=1, name = "explanation_sequence", allocationSize = 4)
 @Entity
-public class Explanation extends AbstractEntity {
+public class Explanation {
 
+    @Id
+    @GeneratedValue(generator="explanation_sequence", strategy=GenerationType.SEQUENCE)
+    protected Long id;
     @Column(name="lexical_item_id")
     private Long lexicalItemID;
     private Locale language;
@@ -23,8 +26,10 @@ public class Explanation extends AbstractEntity {
 
     private Set<String> sentences = new HashSet<>();
 
-    @GeneratedValue(generator="explanation_sequence", strategy=GenerationType.SEQUENCE)
-    public long getId() {
+    public void setId(Long id) {
+        this.id = id;
+    }
+    public Long getId() {
         return id;
     }
     @Column(nullable = false)
