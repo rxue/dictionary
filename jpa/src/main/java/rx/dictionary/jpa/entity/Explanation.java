@@ -20,7 +20,6 @@ public class Explanation extends AbstractEntity {
 
     private Set<String> sentences = new HashSet<>();
 
-    @Id
     @GeneratedValue(generator="explanation_sequence", strategy=GenerationType.SEQUENCE)
     public long getId() {
         return id;
