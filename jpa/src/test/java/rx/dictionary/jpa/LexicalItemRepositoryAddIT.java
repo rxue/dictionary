@@ -39,10 +39,15 @@ public class LexicalItemRepositoryAddIT extends AbstractDatabaseConfiguration {
         try (EntityManager em = entityManagerFactory.createEntityManager()) {
             LexicalItem lexicalItem = em.find(LexicalItem.class, 1);
             assertAll("",
-                    () -> assertNotNull(lexicalItem),
+                    () -> {
+                        assertNotNull(lexicalItem);
+                        assertNotNull(lexicalItem.getId());
+                    },
                     () -> {
                         Set<Explanation> explanations = lexicalItem.getExplanations();
-                        assertNotNull(explanations.stream().toList().get(0));
+                        Explanation explanation = explanations.stream().toList().get(0);
+                        assertNotNull(explanation);
+                        assertNotNull(explanation.getId());
                     });
         }
     }
