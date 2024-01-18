@@ -18,6 +18,7 @@ public class LexicalItemRepositoryAddIT extends AbstractDatabaseConfiguration {
             LexicalItemRepository repository = new LexicalItemRepository(em);
             EntityTransaction transaction = em.getTransaction();
             transaction.begin();
+            System.out.println("Insert:::::::::::::::::");
             //
             LexicalItem l = new LexicalItem();
             l.setLanguage(Locale.forLanguageTag("en"));

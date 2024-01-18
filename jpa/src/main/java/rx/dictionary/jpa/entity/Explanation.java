@@ -18,8 +18,6 @@ public class Explanation {
     @Id
     @GeneratedValue(generator="explanation_sequence", strategy=GenerationType.SEQUENCE)
     private Long id;
-    @Column(name="lexical_item_id", nullable=false)
-    private Long lexicalItemID;
     @Column(nullable = false)
     private Locale language;
     @Enumerated(EnumType.STRING)
@@ -37,10 +35,6 @@ public class Explanation {
     }
     public Long getId() {
         return id;
-    }
-
-    public void setLexicalItemID(Long lexicalItemID) {
-        this.lexicalItemID = lexicalItemID;
     }
 
     public Locale getLanguage() {

@@ -23,14 +23,5 @@ public class LexicalItemRepository {
     }
     public void add(LexicalItem lexicalItem) {
         entityManager.persist(lexicalItem);
-        Set<Explanation> explanations = lexicalItem.getExplanations();
-        setLexicalItemIdInExplanations(lexicalItem.getId(), lexicalItem.getExplanations());
-        for (Explanation explanation : explanations)
-            entityManager.persist(explanation);
-    }
-    private static void setLexicalItemIdInExplanations(Long lexicalItemId, Set<Explanation> explanations) {
-        for (Explanation explanation : explanations) {
-            explanation.setLexicalItemID(lexicalItemId);
-        }
     }
 }
