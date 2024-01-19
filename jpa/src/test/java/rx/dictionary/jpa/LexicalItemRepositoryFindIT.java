@@ -14,8 +14,6 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class LexicalItemRepositoryFindIT extends AbstractDatabaseConfiguration {
-    private static LexicalItemRepository repository;
-
     @Test
     public void testFind() {
         LexicalItemRepositoryAddIT.insert();
