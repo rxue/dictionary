@@ -45,8 +45,7 @@ public class LexicalItem extends AbstractEntity {
     public Set<Explanation> getExplanations() {
         return explanations;
     }
-
-    public void setExplanations(Set<Explanation> explanations) {
-        this.explanations.addAll(explanations);
+    public void addExplanation(Explanation explanation) {
+        explanations.add(explanation);
     }
 }

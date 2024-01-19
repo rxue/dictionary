@@ -26,7 +26,7 @@ public class LexicalItemRepositoryAddIT extends AbstractDatabaseConfiguration {
             Explanation explanation = new Explanation();
             explanation.setLanguage(Locale.forLanguageTag("en"));
             explanation.setExplanation("action of taking");
-            l.setExplanations(Set.of(explanation));
+            l.addExplanation(explanation);
             repository.add(l);
             //
             transaction.commit();
