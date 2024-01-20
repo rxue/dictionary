@@ -12,6 +12,7 @@ import java.util.Set;
 import java.util.function.Consumer;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static rx.dictionary.jpa.ITUtil.executeTransaction;
 
 public class LexicalItemRepositoryCreateIT extends AbstractDatabaseConfiguration {
     @AfterEach
@@ -27,24 +28,17 @@ public class LexicalItemRepositoryCreateIT extends AbstractDatabaseConfiguration
         }
     }
 
-    static void executeTransaction(Consumer<LexicalItemRepository> operations)  {
-        try(EntityManager em = entityManagerFactory.createEntityManager()) {
-            EntityTransaction transaction = em.getTransaction();
-            transaction.begin();
-            operations.accept(new LexicalItemRepository(em));
-            transaction.commit();
-        }
-    }
+
 
 
     @Test
     public void testCreate() {
-        executeTransaction(repo -> {
+        executeTransaction(entityManagerFactory, repo -> {
                     LexicalItem l = new LexicalItem();
-                    l.setLanguage(Locale.forLanguageTag("en"));
+                    l.setLanguage(Locale.ENGLISH);
                     l.setValue("take");
                     Explanation explanation = new Explanation();
-                    explanation.setLanguage(Locale.forLanguageTag("en"));
+                    explanation.setLanguage(Locale.ENGLISH);
                     explanation.setExplanation("action of taking");
                     l.addExplanation(explanation);
                     repo.add(l);
@@ -68,12 +62,12 @@ public class LexicalItemRepositoryCreateIT extends AbstractDatabaseConfiguration
     }
     @Test
     public void testAddMultipleExplanations() {
-        executeTransaction(repo -> {
+        executeTransaction(entityManagerFactory, repo -> {
             LexicalItem l = new LexicalItem();
-            l.setLanguage(Locale.forLanguageTag("en"));
+            l.setLanguage(Locale.ENGLISH);
             l.setValue("take");
             Explanation explanation = new Explanation();
-            explanation.setLanguage(Locale.forLanguageTag("en"));
+            explanation.setLanguage(Locale.ENGLISH);
             explanation.setExplanation("action of taking");
             l.addExplanation(explanation);
             Explanation explanation2 = new Explanation();

@@ -12,18 +12,18 @@ import java.util.Locale;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static rx.dictionary.jpa.LexicalItemRepositoryCreateIT.executeTransaction;
+import static rx.dictionary.jpa.ITUtil.executeTransaction;
 
 public class LexicalItemRepositoryReadIT extends AbstractDatabaseConfiguration {
     @BeforeAll
     public static void init() {
         AbstractDatabaseConfiguration.init();
-        executeTransaction(repo -> {
+        executeTransaction(entityManagerFactory, repo -> {
                     LexicalItem l = new LexicalItem();
-                    l.setLanguage(Locale.forLanguageTag("en"));
+                    l.setLanguage(Locale.ENGLISH);
                     l.setValue("take");
                     Explanation explanation = new Explanation();
-                    explanation.setLanguage(Locale.forLanguageTag("en"));
+                    explanation.setLanguage(Locale.ENGLISH);
                     explanation.setExplanation("action of taking");
                     l.addExplanation(explanation);
                     repo.add(l);
@@ -34,7 +34,7 @@ public class LexicalItemRepositoryReadIT extends AbstractDatabaseConfiguration {
     public void testFind() {
         try (EntityManager em = entityManagerFactory.createEntityManager()) {
             LexicalItemRepository repository = new LexicalItemRepository(em);
-            List<LexicalItem> lexicalItems = repository.findByKeywordStartWith(new Keyword("tak", Locale.forLanguageTag("en")), Locale.forLanguageTag("en"));
+            List<LexicalItem> lexicalItems = repository.findByKeywordStartWith(new Keyword("tak", Locale.ENGLISH), Locale.ENGLISH);
             assertAll("",
                     () -> assertFalse(lexicalItems.isEmpty()),
                     () -> {
