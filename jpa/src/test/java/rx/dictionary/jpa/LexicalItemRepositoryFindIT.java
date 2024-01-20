@@ -1,6 +1,5 @@
 package rx.dictionary.jpa;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityTransaction;
 import org.junit.jupiter.api.Test;
 import rx.dictionary.jpa.entity.Explanation;
 import rx.dictionary.jpa.entity.LexicalItem;
@@ -16,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class LexicalItemRepositoryFindIT extends AbstractDatabaseConfiguration {
     @Test
     public void testFind() {
-        LexicalItemRepositoryAddIT.insert();
+        LexicalItemRepositoryCreateIT.insert();
         try (EntityManager em = entityManagerFactory.createEntityManager()) {
             LexicalItemRepository repository = new LexicalItemRepository(em);
             List<LexicalItem> lexicalItems = repository.findByKeywordStartWith(new Keyword("tak", Locale.forLanguageTag("en")), Locale.forLanguageTag("en"));
