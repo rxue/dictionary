@@ -45,8 +45,7 @@ public class LexicalItemRepositoryCreateIT extends AbstractDatabaseConfiguration
                 }
         );
         try (EntityManager em = entityManagerFactory.createEntityManager()) {
-            LexicalItem lexicalItem = em.createQuery("SELECT l FROM LexicalItem l", LexicalItem.class)
-                            .getSingleResult();
+            LexicalItem lexicalItem = ITUtil.getSingleLexicalItem(em);
             assertAll("",
                     () -> {
                         assertNotNull(lexicalItem);
@@ -77,8 +76,7 @@ public class LexicalItemRepositoryCreateIT extends AbstractDatabaseConfiguration
             repo.add(l);
         });
         try (EntityManager em = entityManagerFactory.createEntityManager()) {
-            LexicalItem lexicalItem = em.createQuery("SELECT l FROM LexicalItem l", LexicalItem.class)
-                    .getSingleResult();
+            LexicalItem lexicalItem = ITUtil.getSingleLexicalItem(em);
             assertAll("",
                     () -> {
                         assertNotNull(lexicalItem);
