@@ -28,9 +28,6 @@ public class LexicalItemRepositoryCreateIT extends AbstractDatabaseConfiguration
         }
     }
 
-
-
-
     @Test
     public void testCreate() {
         executeTransaction(entityManagerFactory, repo -> {

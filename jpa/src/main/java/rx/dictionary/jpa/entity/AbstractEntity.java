@@ -14,8 +14,4 @@ public abstract class AbstractEntity {
     protected long id;
     @Embedded
     private DateAttributes dateAttributes;
-
-    public void setId(long id) {
-        this.id = id;
-    }
 }
