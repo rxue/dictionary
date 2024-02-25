@@ -15,6 +15,7 @@ class LexicalItemService {
     public LexicalItem findById(Long id) {
         return lexicalItemRepo.findById(id);
     }
+    @Transactional
     public LexicalItem create(LexicalItem lexicalItem) {
         lexicalItemRepo.add(lexicalItem);
         return lexicalItem;

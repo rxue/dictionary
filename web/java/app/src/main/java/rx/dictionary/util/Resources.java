@@ -7,9 +7,6 @@ import jakarta.persistence.*;
 
 @ApplicationScoped
 public class Resources {
-    //@Produces
-    @PersistenceContext(unitName = "dev-mariadb")
-    private EntityManager em;
 
     @PersistenceUnit(unitName = "dev-mariadb")
     private EntityManagerFactory entityManagerFactory;
