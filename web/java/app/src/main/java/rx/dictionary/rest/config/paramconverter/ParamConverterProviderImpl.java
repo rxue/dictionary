@@ -1,9 +1,8 @@
-package rx.dictionary.rest;
+package rx.dictionary.rest.config.paramconverter;
 
 import jakarta.ws.rs.ext.ParamConverter;
 import jakarta.ws.rs.ext.ParamConverterProvider;
 import jakarta.ws.rs.ext.Provider;
-import rx.dictionary.rest.paramconverter.AcceptLanguagesConverter;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
@@ -18,6 +17,7 @@ public class ParamConverterProviderImpl implements ParamConverterProvider {
 
                 @Override
                 public Locale fromString(String languageTag) {
+                    System.out.println("CONVERT language tag: " + languageTag);
                     return Locale.forLanguageTag(languageTag);
                 }
 

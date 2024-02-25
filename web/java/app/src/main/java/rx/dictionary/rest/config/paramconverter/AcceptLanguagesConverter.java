@@ -1,4 +1,4 @@
-package rx.dictionary.rest.paramconverter;
+package rx.dictionary.rest.config.paramconverter;
 
 import jakarta.ws.rs.ext.ParamConverter;
 

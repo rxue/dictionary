@@ -20,8 +20,8 @@ public class LexicalItemResource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response create(LexicalItem lexicalItem) {
+		System.out.println("Going to add Lexical Item with language: " + lexicalItem.getLanguage());
 		lexicalItemService.create(lexicalItem);
-		System.out.println("post:)))))))))))))))))");
 		return Response.created(URI.create("lexicalitems/" + lexicalItem.getId()))
 				.entity(lexicalItem)
 				.build();

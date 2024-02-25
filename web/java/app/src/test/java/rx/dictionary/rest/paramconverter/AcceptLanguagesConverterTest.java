@@ -2,6 +2,7 @@ package rx.dictionary.rest.paramconverter;
 
 import jakarta.ws.rs.ext.ParamConverter;
 import org.junit.jupiter.api.Test;
+import rx.dictionary.rest.config.paramconverter.AcceptLanguagesConverter;
 
 import java.util.List;
 import java.util.Locale;
