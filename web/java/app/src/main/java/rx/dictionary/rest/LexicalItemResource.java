@@ -22,14 +22,15 @@ public class LexicalItemResource {
 	public Response create(LexicalItem lexicalItem) {
 		lexicalItemService.create(lexicalItem);
 		System.out.println("post:)))))))))))))))))");
-		return Response.created(URI.create("new"))
+		return Response.created(URI.create("lexicalitems/" + lexicalItem.getId()))
 				.entity(lexicalItem)
 				.build();
 	}
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<LexicalItem> get() {
-		return List.of(lexicalItemService.findById(0L));
+	@Path("{id}")
+	public List<LexicalItem> get(@PathParam("id") Long id) {
+		return List.of(lexicalItemService.findById(id));
 	}
 }
