@@ -10,14 +10,17 @@ import rx.dictionary.jpa.entity.PartOfSpeech;
 import rx.dictionary.ui.jsf.search.ExplanationItemViewDTO;
 
 public final class Results {
-	private final Map<String,List<Explanation>> explanationCandidates;
+	//private final Map<String,List<Explanation>> explanationCandidates;
 	public Results() {
 		this(Collections.EMPTY_LIST);
 	}
 	public Results(List<Explanation> explanationCandidates) {
+		/*
 		this.explanationCandidates = Collections.unmodifiableMap(explanationCandidates.stream()
 				.collect(Collectors.groupingBy(exp -> exp.getLexicalItem().getValue())));
+		*/
 	}
+/*
 	public boolean isEmpty() {
 		return explanationCandidates.isEmpty();
 	}
@@ -34,6 +37,7 @@ public final class Results {
 				.stream()
 				.map(e -> new ExplanationItemViewDTO(e.getKey(), e.getValue().stream().map(exp -> exp.getLexicalItem().getValue()).collect(Collectors.toList())))
 				.collect(Collectors.toList());
-			
+
 	}
+	*/
 }

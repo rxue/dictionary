@@ -21,6 +21,10 @@ public class LexicalItemRepository {
                 .setParameter("value", startWithKeyword.value() + "%")
                 .getResultList();
     }
+
+    public LexicalItem findById(Long id) {
+        return entityManager.find(LexicalItem.class, id);
+    }
     public void add(LexicalItem lexicalItem) {
         entityManager.persist(lexicalItem);
     }

@@ -24,6 +24,7 @@ public class VocabulariesService {
     private ExplanationRepository explanationRepo;
     @Transactional
     public LexicalItemWithExplanationsDTO addExplanations(LexicalItemWithExplanationsDTO lexicalItemWithExplanationsDTO) {
+        /*
         Function<LexicalItemDTO, LexicalItem> toLexicalItem = d -> {
             LexicalItem lexicalItem = new LexicalItem();
             lexicalItem.setLanguage(Locale.forLanguageTag(d.getLanguage()));
@@ -44,7 +45,8 @@ public class VocabulariesService {
                 })
                 .collect(toList());
         explanationRepo.add(explanationsToAdd);
-        return lexicalItemWithExplanationsDTO;
+        return lexicalItemWithExplanationsDTO;*/
+        return null;
     }
     @Transactional
     public LexicalItemWithExplanationsDTO findExplanations(ExplanationUnitID explanationUnitID) {

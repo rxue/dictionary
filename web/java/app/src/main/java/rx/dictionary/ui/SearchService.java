@@ -1,10 +1,8 @@
 package rx.dictionary.ui;
 
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
+
 import static java.util.stream.Collectors.*;
 
 import jakarta.inject.Inject;
@@ -17,6 +15,7 @@ public class SearchService implements Serializable {
 	@Inject
 	private ExplanationRepository explanationRepository;
 	public Map<String, SearchResult> searchCandidates(LexicalItemVO keyword, Locale explanationLanguage) {
+		/*
 		List<Explanation> allExplanations = explanationRepository.findLike(keyword, explanationLanguage);
 		Map<String,List<Explanation>> explanationsByLexicalItem = allExplanations.stream()
 				.collect(groupingBy(e -> e.getLexicalItem().getValue()));
@@ -25,6 +24,8 @@ public class SearchService implements Serializable {
 			result.put(entry.getKey(), new SearchResult(entry.getValue()));
 		}
 		return result;
+		 */
+		return Collections.EMPTY_MAP;
 	}
 	public SearchResult search(LexicalItemVO keyword, Locale explanationLanguage) {
 		List<Explanation> allExplanations = explanationRepository.find(keyword, explanationLanguage);

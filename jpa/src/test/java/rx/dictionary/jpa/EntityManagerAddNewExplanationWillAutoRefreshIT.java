@@ -36,7 +36,6 @@ public class EntityManagerAddNewExplanationWillAutoRefreshIT extends AbstractDat
                 }
         );
         try (EntityManager em = entityManagerFactory.createEntityManager()) {
-            em.clear();
             LexicalItem lexicalItem = ITUtil.getSingleLexicalItem(em);
             Set<Explanation> explanations = lexicalItem.getExplanations();
             assertSame(2, explanations.size(), "Add a new Explanation causes automatic refresh");
