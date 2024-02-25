@@ -30,7 +30,8 @@ public class LexicalItemResource {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("{id}")
-	public List<LexicalItem> get(@PathParam("id") Long id) {
-		return List.of(lexicalItemService.findById(id));
+	public LexicalItem get(@PathParam("id") long id) {
+		System.out.println("id is " + id);
+		return lexicalItemService.findById(id);
 	}
 }
