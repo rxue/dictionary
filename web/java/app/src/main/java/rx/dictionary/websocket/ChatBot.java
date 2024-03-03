@@ -16,10 +16,6 @@ public class ChatBot {
         this.session = session;
     }
 
-    /*public void onSearch(@Observes(notifyObserver = Reception.IF_EXISTS) final SearchKeyword searchedLexicalItem) throws IOException {
-        System.out.println(":::::::::::::::::::::::::On Search in websocket endpoint: observed keyword: " + searchedLexicalItem.getValue());
-        session.getBasicRemote().sendText(searchedLexicalItem.getValue());
-    }*/
     @OnClose
     public void close(Session session) {
         System.out.println(":::::::::::::::::::::::::CLOSE websocket connection!!!!!!!!!!!!!!");
