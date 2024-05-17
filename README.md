@@ -3,6 +3,15 @@
 * `openjdk version "11.0.16"` is needed to be installed to Ubuntu
 * *Docker* is needed to be installed to Ubuntu
 
+# How to start through Terminal
+1. `cd` to `docker` directory
+2. run `. web/start_mariadb.sh` and then wait till database is ready
+3. run `. web/deploy_2_wildfly.sh`
+
+Test REST API endpoint:
+
+http://localhost/dictionary/rest/lexicalitems/1
+
 # Ubiquitous Language
 ## Reference
 https://en.wikipedia.org/wiki/Lexical_item
