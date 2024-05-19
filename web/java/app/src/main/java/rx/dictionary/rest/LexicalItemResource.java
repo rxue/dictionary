@@ -7,7 +7,6 @@ import jakarta.ws.rs.core.Response;
 import rx.dictionary.jpa.entity.Explanation;
 import rx.dictionary.jpa.entity.LexicalItem;
 import rx.dictionary.rest.dto.ExplanationsByLanguageDTO;
-import rx.dictionary.rest.dto.LexicalItemDTO;
 
 import java.net.URI;
 import java.util.List;
