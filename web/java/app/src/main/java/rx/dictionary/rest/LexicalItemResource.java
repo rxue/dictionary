@@ -34,11 +34,8 @@ public class LexicalItemResource {
 	public List<ExplanationsByLanguageDTO> get(@PathParam("id") long id) {
 		LexicalItem lexicalItem = lexicalItemService.findById(id);
 		Set<Explanation> explanations = lexicalItem.getExplanations();
-		Explanation randomExplanation = explanations.stream().findAny().get();
-		System.out.println("randome explanation: " + randomExplanation.getExplanation());
-		ExplanationsByLanguageDTO result = new ExplanationsByLanguageDTO.Builder(randomExplanation.getLanguage())
-				.addExplanation(randomExplanation)
-				.build();
-		return List.of(result);
+		ExplanationsByLanguageDTO.Builder resultBuilder = new ExplanationsByLanguageDTO.Builder(explanations.stream().findAny().get().getLanguage());
+		explanations.forEach(resultBuilder::addExplanation);
+		return List.of(resultBuilder.build());
 	}
 }
