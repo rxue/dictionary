@@ -1,6 +1,6 @@
 package rx.dictionary.rest.dto;
 
-public class LexicalItemDTO {
+public class LegacyLexicalItemDTO {
     private String language;
     private String value;
 

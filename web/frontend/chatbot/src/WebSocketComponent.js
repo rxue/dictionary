@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 function WebSocketComponent() {
   const [webSocket, setWebSocket] = useState(null);
+  const [message, setMessage] = useState('');
 
   useEffect(() => {
     // Create WebSocket connection.
@@ -26,16 +27,22 @@ function WebSocketComponent() {
     };
   }, []); // Empty array means this effect runs only once on mount
 
-  // Function to send data through the WebSocket
-  const sendData = (data) => {
-    if (webSocket) {
-      webSocket.send(data);
+  const sendMessage = () => {
+    if (webSocket && message !== '') {
+      webSocket.send(message);
+      setMessage(''); // Clear the message input after sending
     }
   };
 
   return (
     <div>
-      <button onClick={() => sendData('Hello Server!')}>Send Data</button>
+      <input
+        type="text"
+        value={message}
+        onChange={(e) => setMessage(e.target.value)}
+        placeholder="Type your message here"
+      />
+      <button onClick={sendMessage}>Send Message</button>
     </div>
   );
 }

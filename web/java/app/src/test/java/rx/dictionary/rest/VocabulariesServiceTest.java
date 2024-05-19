@@ -1,10 +1,9 @@
 package rx.dictionary.rest;
 
-import org.junit.jupiter.api.Test;
 import rx.dictionary.jpa.entity.Explanation;
 import rx.dictionary.jpa.entity.LexicalItem;
 import rx.dictionary.jpa.entity.PartOfSpeech;
-import rx.dictionary.rest.dto.ExplanationDTO;
+import rx.dictionary.rest.dto.LegacyExplanationDTO;
 
 import java.util.List;
 import java.util.Locale;
@@ -20,7 +19,7 @@ public class VocabulariesServiceTest {
         lexicalItem.setLanguage(Locale.FRENCH);
         lexicalItem.setValue("bonjour");
         Explanation originalExplanation = mockExplanation(lexicalItem, PartOfSpeech.N, "hello world");
-        ExplanationDTO newExplanation = new ExplanationDTO();
+        LegacyExplanationDTO newExplanation = new LegacyExplanationDTO();
         newExplanation.setPartOfSpeech("INTERJ");
         newExplanation.setExplanation("hello");
         //WHEN

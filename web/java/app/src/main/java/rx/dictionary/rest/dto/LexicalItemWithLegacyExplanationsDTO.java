@@ -1,14 +1,14 @@
 package rx.dictionary.rest.dto;
 
-public class LexicalItemWithExplanationsDTO extends ExplanationsDTO {
-    private LexicalItemDTO lexicalItem;
+public class LexicalItemWithLegacyExplanationsDTO extends LegacyExplanationsDTO {
+    private LegacyLexicalItemDTO lexicalItem;
     private String explanationLanguage;
 
-    public LexicalItemDTO getLexicalItem() {
+    public LegacyLexicalItemDTO getLexicalItem() {
         return lexicalItem;
     }
 
-    public void setLexicalItem(LexicalItemDTO lexicalItem) {
+    public void setLexicalItem(LegacyLexicalItemDTO lexicalItem) {
         this.lexicalItem = lexicalItem;
     }
 

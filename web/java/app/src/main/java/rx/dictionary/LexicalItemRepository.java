@@ -2,7 +2,7 @@ package rx.dictionary;
 
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
-import rx.dictionary.rest.dto.LexicalItemDTO;
+import rx.dictionary.rest.dto.LegacyLexicalItemDTO;
 import rx.dictionary.jpa.entity.LexicalItem;
 
 import java.util.List;
@@ -16,11 +16,11 @@ public class LexicalItemRepository {
         em.persist(lexicalItem);
         System.out.println("right after persist and before commit the entity LexicalItem id is " + lexicalItem.getId());
     }
-    public Optional<LexicalItem> find(final LexicalItemDTO lexicalItemDTO) {
+    public Optional<LexicalItem> find(final LegacyLexicalItemDTO legacyLexicalItemDTO) {
         List<LexicalItem> result = em.createQuery("SELECT l FROM LexicalItem l WHERE l.language = :language AND l.value = :value",
                 LexicalItem.class)
-                .setParameter("language", Locale.forLanguageTag(lexicalItemDTO.getLanguage()))
-                .setParameter("value", lexicalItemDTO.getValue())
+                .setParameter("language", Locale.forLanguageTag(legacyLexicalItemDTO.getLanguage()))
+                .setParameter("value", legacyLexicalItemDTO.getValue())
                 .getResultList();
         return result.isEmpty() ? Optional.empty() : Optional.of(result.get(0));
     }

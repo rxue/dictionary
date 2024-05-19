@@ -2,7 +2,7 @@ package rx.dictionary.rest.dto;
 
 import java.util.Set;
 
-public class ExplanationDTO {
+public class LegacyExplanationDTO {
     private String partOfSpeech;
     private String explanation;
     private Set<String> sentences;

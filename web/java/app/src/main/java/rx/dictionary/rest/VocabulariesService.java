@@ -4,18 +4,16 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import rx.dictionary.ExplanationRepository;
 import rx.dictionary.jpa.entity.Explanation;
-import rx.dictionary.jpa.entity.LexicalItem;
 import rx.dictionary.jpa.entity.PartOfSpeech;
-import rx.dictionary.rest.dto.ExplanationDTO;
-import rx.dictionary.rest.dto.LexicalItemWithExplanationsDTO;
-import rx.dictionary.rest.dto.LexicalItemDTO;
+import rx.dictionary.rest.dto.LegacyExplanationDTO;
+import rx.dictionary.rest.dto.LexicalItemWithLegacyExplanationsDTO;
+import rx.dictionary.rest.dto.LegacyLexicalItemDTO;
 import rx.dictionary.rest.vo.ExplanationUnitID;
 import rx.dictionary.vo.LexicalItemVO;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.function.Function;
 
 import static java.util.stream.Collectors.toList;
 
@@ -23,7 +21,7 @@ public class VocabulariesService {
     @Inject
     private ExplanationRepository explanationRepo;
     @Transactional
-    public LexicalItemWithExplanationsDTO addExplanations(LexicalItemWithExplanationsDTO lexicalItemWithExplanationsDTO) {
+    public LexicalItemWithLegacyExplanationsDTO addExplanations(LexicalItemWithLegacyExplanationsDTO lexicalItemWithExplanationsDTO) {
         /*
         Function<LexicalItemDTO, LexicalItem> toLexicalItem = d -> {
             LexicalItem lexicalItem = new LexicalItem();
@@ -49,11 +47,11 @@ public class VocabulariesService {
         return null;
     }
     @Transactional
-    public LexicalItemWithExplanationsDTO findExplanations(ExplanationUnitID explanationUnitID) {
+    public LexicalItemWithLegacyExplanationsDTO findExplanations(ExplanationUnitID explanationUnitID) {
         LexicalItemVO lexicalItemVO = explanationUnitID.lexicalItem();
         Locale explanationLanguage = explanationUnitID.explanationLanguage();
         List<Explanation> explanations = explanationRepo.find(lexicalItemVO, explanationLanguage);
-        LexicalItemWithExplanationsDTO result = new LexicalItemWithExplanationsDTO();
+        LexicalItemWithLegacyExplanationsDTO result = new LexicalItemWithLegacyExplanationsDTO();
         result.setLexicalItem(DataTransformationUtil.toLexicalItemDTO(lexicalItemVO));
         result.setExplanationLanguage(explanationLanguage.toLanguageTag());
         result.setExplanations(DataTransformationUtil.toExplanationDTOs(explanations));
@@ -61,17 +59,17 @@ public class VocabulariesService {
     }
 
     @Transactional
-    public LexicalItemWithExplanationsDTO update(ExplanationUnitID explanationUnitID, List<ExplanationDTO> newExplanations) {
+    public LexicalItemWithLegacyExplanationsDTO update(ExplanationUnitID explanationUnitID, List<LegacyExplanationDTO> newExplanations) {
         List<Explanation> explanations = explanationRepo.find(explanationUnitID.lexicalItem(), explanationUnitID.explanationLanguage());
         List<Explanation> updatedExplanations = combine(explanations, newExplanations);
         explanationRepo.update(updatedExplanations);
-        LexicalItemWithExplanationsDTO result = new LexicalItemWithExplanationsDTO();
+        LexicalItemWithLegacyExplanationsDTO result = new LexicalItemWithLegacyExplanationsDTO();
         result.setLexicalItem(DataTransformationUtil.toLexicalItemDTO(explanationUnitID.lexicalItem()));
         result.setExplanationLanguage(explanationUnitID.explanationLanguage().toLanguageTag());
         result.setExplanations(DataTransformationUtil.toExplanationDTOs(updatedExplanations));
         return result;
     }
-    static List<Explanation> combine(List<Explanation> explanations, List<ExplanationDTO> newExplanations) {
+    static List<Explanation> combine(List<Explanation> explanations, List<LegacyExplanationDTO> newExplanations) {
         List<Explanation> result = new ArrayList<>();
         for (int i = 0; i < explanations.size(); i++) {
             Explanation currentExplanation = explanations.get(i);
@@ -80,23 +78,23 @@ public class VocabulariesService {
         }
         return result;
     }
-    private static void update(Explanation explanation, ExplanationDTO newExplanation) {
+    private static void update(Explanation explanation, LegacyExplanationDTO newExplanation) {
         explanation.setPartOfSpeech(PartOfSpeech.valueOf(newExplanation.getPartOfSpeech()));
         explanation.setExplanation(newExplanation.getExplanation());
     }
 
     private static class DataTransformationUtil {
-        static LexicalItemDTO toLexicalItemDTO(LexicalItemVO lexicalItemVO) {
-            LexicalItemDTO result = new LexicalItemDTO();
+        static LegacyLexicalItemDTO toLexicalItemDTO(LexicalItemVO lexicalItemVO) {
+            LegacyLexicalItemDTO result = new LegacyLexicalItemDTO();
             result.setLanguage(lexicalItemVO.language().toLanguageTag());
             result.setValue(lexicalItemVO.value());
             return result;
         }
-        static List<ExplanationDTO> toExplanationDTOs(List<Explanation> explanations) {
+        static List<LegacyExplanationDTO> toExplanationDTOs(List<Explanation> explanations) {
             return explanations
                     .stream()
                     .map(e -> {
-                        ExplanationDTO result = new ExplanationDTO();
+                        LegacyExplanationDTO result = new LegacyExplanationDTO();
                         result.setPartOfSpeech(e.getPartOfSpeech().toString());
                         result.setExplanation(e.getExplanation());
                         result.setSentences(e.getSentences());
