@@ -11,7 +11,7 @@ import java.time.ZonedDateTime;
 public abstract class AbstractEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected long id;
+    protected Long id;
     @Embedded
     private DateAttributes dateAttributes;
 }
