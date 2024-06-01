@@ -33,12 +33,15 @@ public class EntityManagerLearningIT extends AbstractDatabaseConfiguration {
     public void testRollbackCreate() throws SystemException, NotSupportedException {
         try(EntityManager em = entityManagerFactory.createEntityManager()) {
             TestEntity e = new TestEntity();
+            UserTransaction tx = com.arjuna.ats.jta.UserTransaction.userTransaction();
+            tx.begin();
             em.persist(e);
+            tx.rollback();
         }
         try(EntityManager em = entityManagerFactory.createEntityManager()) {
-            TestEntity result = em.createQuery("select e from TestEntity e", TestEntity.class)
-                    .getSingleResult();
-            assertNull(result);
+            List<TestEntity> resultList = em.createQuery("select e from TestEntity e", TestEntity.class)
+                    .getResultList();
+            assertTrue(resultList.isEmpty());
         }
 
     }

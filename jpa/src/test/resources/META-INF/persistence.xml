@@ -18,6 +18,8 @@
             <property name="hibernate.dialect" value="org.hibernate.dialect.MariaDBDialect"/>
             <property name="hibernate.show_sql" value="true" />
             <property name="hibernate.hbm2ddl.charset_name" value="UTF-8" />
+            <property name="hibernate.transaction.jta.platform" value="JBossTS"/>
+            <property name="hibernate.transaction.coordinator_class" value="jta"/>
         </properties>
     </persistence-unit>
 </persistence>
