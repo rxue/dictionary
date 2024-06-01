@@ -25,6 +25,8 @@ public class EntityManagerLearningIT extends AbstractDatabaseConfiguration {
             System.out.println("Number of entities deleted: " + deletedCount);
             deletedCount = em.createQuery("DELETE FROM LexicalItem e").executeUpdate();
             System.out.println("Number of entities deleted: " + deletedCount);
+            deletedCount = em.createQuery("DELETE FROM TestEntity e").executeUpdate();
+            System.out.println("Number of entities deleted: " + deletedCount);
             transaction.commit();
         }
     }
@@ -43,7 +45,22 @@ public class EntityManagerLearningIT extends AbstractDatabaseConfiguration {
                     .getResultList();
             assertTrue(resultList.isEmpty());
         }
+    }
 
+    @Test
+    public void testCommitCreate() throws SystemException, NotSupportedException, HeuristicRollbackException, HeuristicMixedException, RollbackException {
+        try(EntityManager em = entityManagerFactory.createEntityManager()) {
+            TestEntity e = new TestEntity();
+            UserTransaction tx = com.arjuna.ats.jta.UserTransaction.userTransaction();
+            tx.begin();
+            em.persist(e);
+            tx.commit();
+        }
+        try(EntityManager em = entityManagerFactory.createEntityManager()) {
+            List<TestEntity> resultList = em.createQuery("select e from TestEntity e", TestEntity.class)
+                    .getResultList();
+            assertFalse(resultList.isEmpty());
+        }
     }
 
     @Test
