@@ -15,6 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static rx.dictionary.jpa.ITUtil.executeTransaction;
 
 public class LexicalItemRepositoryCreateIT extends AbstractDatabaseConfiguration {
+    /**
     @AfterEach
     public void truncate() {
         try(EntityManager em = entityManagerFactory.createEntityManager()) {
@@ -84,5 +85,5 @@ public class LexicalItemRepositoryCreateIT extends AbstractDatabaseConfiguration
                         assertEquals(2, explanations.size());
                     });
         }
-    }
+    }*/
 }

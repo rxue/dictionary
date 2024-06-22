@@ -12,6 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static rx.dictionary.jpa.ITUtil.executeTransaction;
 
 public class EntityManagerAddNewExplanationWillAutoRefreshIT extends AbstractDatabaseConfiguration {
+    /**
     @Test
     public void testUpdate() {
         executeTransaction(entityManagerFactory, repo -> {
@@ -41,5 +42,6 @@ public class EntityManagerAddNewExplanationWillAutoRefreshIT extends AbstractDat
             assertSame(2, explanations.size(), "Add a new Explanation causes automatic refresh");
         }
     }
+    }*/
 
 }

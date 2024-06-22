@@ -10,7 +10,6 @@ import java.util.function.Consumer;
 
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.*;
-import org.hibernate.Session;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,37 +18,11 @@ import rx.Util;
 import rx.dictionary.jpa.entity.Explanation;
 import rx.dictionary.jpa.entity.LexicalItem;
 import rx.dictionary.jpa.repository.LexicalItemRepository;
-import rx.jdbc.ReturningWorkFromPreparedStatement;
-import rx.jdbc.WorkFromPreparedStatement;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class LexicalItemRepositoryUpdateIT extends AbstractDatabaseConfiguration {
     private static final String SQL_EXCEPTION_ERROR_MESSAGE = SQLException.class + " thrown when executing operations on PreparedStatement, program terminates now!";
-    private static <T> T executeTransactionWithReturnValue(String sql, ReturningWorkFromPreparedStatement<T> operations) {
-        try (EntityManager em = entityManagerFactory.createEntityManager()) {
-            Session session = em.unwrap(Session.class);
-            return session.doReturningWork(conn -> {
-                try (PreparedStatement statement = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
-                    return operations.execute(statement);
-                } catch (SQLException e) {
-                    throw new IllegalStateException(SQL_EXCEPTION_ERROR_MESSAGE, e);
-                }
-            });
-        }
-    }
-    private static void executeTransaction(String sql, WorkFromPreparedStatement operations) {
-        try (EntityManager em = entityManagerFactory.createEntityManager()) {
-            Session session = em.unwrap(Session.class);
-            session.doWork(conn -> {
-                try (PreparedStatement statement = conn.prepareStatement(sql)) {
-                    operations.execute(statement);
-                } catch (SQLException e) {
-                    throw new IllegalStateException(SQL_EXCEPTION_ERROR_MESSAGE, e);
-                }
-            });
-        }
-    }
     @BeforeEach
     public void addLexicalItem() {
         final Long generatedId = executeTransactionWithReturnValue("insert into lexical_item (language,value) value (?,?)", statement -> {
@@ -75,10 +48,18 @@ public class LexicalItemRepositoryUpdateIT extends AbstractDatabaseConfiguration
 
     @AfterEach
     public void removeLexicalItem() {
-        executeTransaction("delete from lexical_item ON DELETE CASCADE", statement -> {
+        executeTransaction("delete from explanation", statement -> {
+            statement.executeUpdate();
+        });
+        executeTransaction("delete from lexical_item", statement -> {
             statement.executeUpdate();
         });
         executeTransaction("select * from lexical_item", preparedStatement -> {
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                assertFalse(resultSet.next());
+            }
+        });
+        executeTransaction("select * from explanation", preparedStatement -> {
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 assertFalse(resultSet.next());
             }
@@ -147,7 +128,7 @@ public class LexicalItemRepositoryUpdateIT extends AbstractDatabaseConfiguration
         assertEquals("lop changed", updatedLexicalItem.getValue());
         assertEquals("updated explanation", updatedLexicalItem.getExplanations().stream().findAny().get().getExplanation());
     }
-    //@Test
+    @Test
     public void update_addNewItem() {
         final LexicalItem existingSingleItem = getLexicalItem();
         //ACT
@@ -167,7 +148,7 @@ public class LexicalItemRepositoryUpdateIT extends AbstractDatabaseConfiguration
         assertEquals(2, updatedLexicalItem.getExplanations().size());
     }
 
-    //@Test
+    @Test
     public void update_removeExistingItem() {
         final LexicalItem existingSingleItem = getLexicalItem();
         //ACT

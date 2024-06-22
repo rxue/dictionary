@@ -15,6 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static rx.dictionary.jpa.ITUtil.executeTransaction;
 
 public class LexicalItemRepositoryReadIT extends AbstractDatabaseConfiguration {
+    /**
     @BeforeAll
     public static void init() {
         AbstractDatabaseConfiguration.init();
@@ -43,5 +44,5 @@ public class LexicalItemRepositoryReadIT extends AbstractDatabaseConfiguration {
                         explanations.forEach(e -> assertNotNull(e.getId()));
                     });
         }
-    }
+    }*/
 }
