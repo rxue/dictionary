@@ -21,8 +21,14 @@ public class LexicalItem extends AbstractEntity {
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name="lexical_item_id")
     private Set<Explanation> explanations = new HashSet<>();
+    //Merely for testing purpose
+    public LexicalItem(Long id) {
+        this.id = id;
+    }
+    public LexicalItem() {
+    }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 

@@ -28,4 +28,8 @@ public class LexicalItemRepository {
     public void add(LexicalItem lexicalItem) {
         entityManager.persist(lexicalItem);
     }
+
+    public LexicalItem update(LexicalItem lexicalItem) {
+        return entityManager.merge(lexicalItem);
+    }
 }

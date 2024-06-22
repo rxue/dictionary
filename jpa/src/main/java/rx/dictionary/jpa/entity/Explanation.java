@@ -30,6 +30,12 @@ public class Explanation {
 
     private DateAttributes dateAttributes;
 
+    public Explanation(Long id) {
+        this.id = id;
+    }
+    public Explanation() {
+    }
+
     public Long getId() {
         return id;
     }

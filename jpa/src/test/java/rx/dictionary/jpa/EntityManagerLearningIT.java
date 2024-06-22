@@ -9,6 +9,7 @@ import rx.dictionary.jpa.entity.Explanation;
 import rx.dictionary.jpa.entity.LexicalItem;
 import rx.dictionary.jpa.entity.TestEntity;
 
+import java.sql.*;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
@@ -32,7 +33,7 @@ public class EntityManagerLearningIT extends AbstractDatabaseConfiguration {
     }
 
     @Test
-    public void testRollbackCreate() throws SystemException, NotSupportedException {
+    public void testRollbackCreate() throws SystemException, NotSupportedException, SQLException, HeuristicRollbackException, HeuristicMixedException, RollbackException {
         try(EntityManager em = entityManagerFactory.createEntityManager()) {
             TestEntity e = new TestEntity();
             UserTransaction tx = com.arjuna.ats.jta.UserTransaction.userTransaction();
@@ -40,10 +41,13 @@ public class EntityManagerLearningIT extends AbstractDatabaseConfiguration {
             em.persist(e);
             tx.rollback();
         }
-        try(EntityManager em = entityManagerFactory.createEntityManager()) {
-            List<TestEntity> resultList = em.createQuery("select e from TestEntity e", TestEntity.class)
-                    .getResultList();
-            assertTrue(resultList.isEmpty());
+
+        try(Connection conn = DriverManager.getConnection("jdbc:mariadb://localhost:3307/test", "root",
+                    "test")) {
+            PreparedStatement stmt = conn.prepareStatement("select * from TestEntity");
+            assertTrue(stmt.execute());
+            ResultSet rs = stmt.getResultSet();
+            assertFalse(rs.next());
         }
     }
 
