@@ -155,17 +155,14 @@ public class LexicalItemRepositoryUpdateIT extends AbstractDatabaseConfiguration
         executeTransaction(entityManager -> {
             existingSingleItem.setValue("lop changed");
             Set<Explanation> explanationsToUpdate = existingSingleItem.getExplanations();
-            Explanation newExplanation = new Explanation();
-            newExplanation.setLanguage(Locale.ENGLISH);
-            newExplanation.setExplanation("new explanation");
-            explanationsToUpdate.add(newExplanation);
+            explanationsToUpdate.clear();
             LexicalItemRepository out = new LexicalItemRepository(entityManager);
             out.update(existingSingleItem);
         });
         //ASSERT
         final LexicalItem updatedLexicalItem = getLexicalItem();
         assertEquals("lop changed", updatedLexicalItem.getValue());
-        assertEquals(2, updatedLexicalItem.getExplanations().size());
+        assertTrue(updatedLexicalItem.getExplanations().isEmpty());
     }
 
 }
