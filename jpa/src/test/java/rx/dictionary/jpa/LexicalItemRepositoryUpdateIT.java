@@ -1,20 +1,15 @@
 package rx.dictionary.jpa;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
-import java.util.function.Consumer;
 
-import jakarta.persistence.EntityManager;
-import jakarta.transaction.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import rx.Util;
 import rx.dictionary.jpa.entity.Explanation;
 import rx.dictionary.jpa.entity.LexicalItem;
 import rx.dictionary.jpa.repository.LexicalItemRepository;
@@ -22,7 +17,6 @@ import rx.dictionary.jpa.repository.LexicalItemRepository;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class LexicalItemRepositoryUpdateIT extends AbstractDatabaseConfiguration {
-    private static final String SQL_EXCEPTION_ERROR_MESSAGE = SQLException.class + " thrown when executing operations on PreparedStatement, program terminates now!";
     @BeforeEach
     public void addLexicalItem() {
         final Long generatedId = executeTransactionWithReturnValue("insert into lexical_item (language,value) value (?,?)", statement -> {
@@ -64,23 +58,6 @@ public class LexicalItemRepositoryUpdateIT extends AbstractDatabaseConfiguration
                 assertFalse(resultSet.next());
             }
         });
-    }
-
-    private static void executeTransaction(Consumer<EntityManager> operations) {
-        UserTransaction tx = Util.userTransaction();
-        try {
-            tx.begin();
-        } catch (NotSupportedException | SystemException e) {
-            throw new RuntimeException("Transaction fails to begin", e);
-        }
-        try(EntityManager entityManager = entityManagerFactory.createEntityManager()) {
-            operations.accept(entityManager);
-        }
-        try {
-            tx.commit();
-        } catch (RollbackException | HeuristicMixedException | HeuristicRollbackException | SystemException e) {
-            throw new RuntimeException("Transaction fails to commit", e);
-        }
     }
     private LexicalItem getLexicalItem() {
         final LexicalItem existingSingleItem = executeTransactionWithReturnValue("select * from lexical_item", preparedStatement -> {

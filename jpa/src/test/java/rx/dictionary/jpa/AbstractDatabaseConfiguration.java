@@ -4,6 +4,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
+import jakarta.transaction.*;
 import org.hibernate.Session;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
@@ -17,6 +18,7 @@ import rx.jdbc.WorkFromPreparedStatement;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Collections;
+import java.util.function.Consumer;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -55,6 +57,23 @@ public abstract class AbstractDatabaseConfiguration {
                     throw new IllegalStateException(SQL_EXCEPTION_ERROR_MESSAGE, e);
                 }
             });
+        }
+    }
+
+    protected static void executeTransaction(Consumer<EntityManager> operations) {
+        UserTransaction tx = Util.userTransaction();
+        try {
+            tx.begin();
+        } catch (NotSupportedException | SystemException e) {
+            throw new RuntimeException("Transaction fails to begin", e);
+        }
+        try(EntityManager entityManager = entityManagerFactory.createEntityManager()) {
+            operations.accept(entityManager);
+        }
+        try {
+            tx.commit();
+        } catch (RollbackException | HeuristicMixedException | HeuristicRollbackException | SystemException e) {
+            throw new RuntimeException("Transaction fails to commit", e);
         }
     }
 
