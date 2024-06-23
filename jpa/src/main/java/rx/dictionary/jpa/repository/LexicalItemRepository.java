@@ -13,16 +13,6 @@ public class LexicalItemRepository {
         this.entityManager = entityManager;
     }
 
-    public List<LexicalItem> findByKeywordStartWith(Keyword startWithKeyword, Locale explanationLanguage) {
-        return entityManager.createQuery("SELECT item FROM LexicalItem item WHERE item.language = :language AND item.value LIKE :value")
-                .setParameter("language", startWithKeyword.language())
-                .setParameter("value", startWithKeyword.value() + "%")
-                .getResultList();
-    }
-
-    public LexicalItem findById(Long id) {
-        return entityManager.find(LexicalItem.class, id);
-    }
     public void add(LexicalItem lexicalItem) {
         entityManager.persist(lexicalItem);
     }
