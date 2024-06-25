@@ -51,7 +51,7 @@ public class LexicalItemRepositoryDeleteIT extends AbstractDatabaseConfiguration
             }
         });
         if (existingSingleItem != null) {
-            getExplanations(existingSingleItem.getId()).forEach(existingSingleItem::addExplanation);
+            //getExplanations(existingSingleItem.getId()).forEach(existingSingleItem::addExplanation);
             return Optional.of(existingSingleItem);
         }
         return Optional.empty();

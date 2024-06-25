@@ -1,4 +1,4 @@
-package rx.dictionary.jpa.vo;
+package rx.dictionary.jpa.repository.input;
 
 import java.util.Locale;
 

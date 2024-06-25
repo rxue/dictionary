@@ -10,7 +10,7 @@ import java.util.Set;
 import static jakarta.persistence.FetchType.EAGER;
 
 @EqualsAndHashCode
-@Table(name = "explanation", uniqueConstraints = { @UniqueConstraint(columnNames = { "lexical_item_id", "language", "partofspeech", "explanation"}) })
+@Table(name = "explanation", uniqueConstraints = { @UniqueConstraint(columnNames = {"lexical_item_id", "language", "partofspeech", "explanation"}) })
 @SequenceGenerator(sequenceName = "explanation_id_seq", initialValue=1, name = "explanation_sequence", allocationSize = 4)
 @Entity
 public class Explanation {
@@ -18,6 +18,9 @@ public class Explanation {
     @Id
     @GeneratedValue(generator="explanation_sequence", strategy=GenerationType.SEQUENCE)
     private Long id;
+    @ManyToOne // Defaults to EAGER
+    @JoinColumn(name="lexical_item_id")
+    private LexicalItem lexicalItem;
     @Column(nullable = false)
     private Locale language;
     @Enumerated(EnumType.STRING)
@@ -38,6 +41,14 @@ public class Explanation {
 
     public Long getId() {
         return id;
+    }
+
+    public LexicalItem getLexicalItem() {
+        return lexicalItem;
+    }
+
+    public void setLexicalItem(LexicalItem lexicalItem) {
+        this.lexicalItem = lexicalItem;
     }
 
     public Locale getLanguage() {

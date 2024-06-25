@@ -18,9 +18,6 @@ public class LexicalItem extends AbstractEntity {
     private Locale language;
     @Column(nullable=false)
     private String value;
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name="lexical_item_id")
-    private Set<Explanation> explanations = new HashSet<>();
     //Merely for testing purpose
     public LexicalItem(Long id) {
         this.id = id;
@@ -46,12 +43,5 @@ public class LexicalItem extends AbstractEntity {
 
     public void setValue(String value) {
         this.value = value;
-    }
-
-    public Set<Explanation> getExplanations() {
-        return explanations;
-    }
-    public void addExplanation(Explanation explanation) {
-        explanations.add(explanation);
     }
 }
