@@ -18,7 +18,7 @@ public class ExplanationRepositoryReadIT extends AbstractDatabaseConfiguration {
     @BeforeEach
     public void addLexicalItem() {
         final Long generatedId = executeTransactionWithReturnValue("insert into lexical_item (language,value) value (?,?)", statement -> {
-            statement.setString(1, Locale.ENGLISH.toLanguageTag()); // Set value for column1
+            statement.setString(1, Locale.ENGLISH.toString()); // Set value for column1
             statement.setString(2, "test"); // Set value for column2
             statement.executeUpdate(); //Execute the insert statement
             try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
