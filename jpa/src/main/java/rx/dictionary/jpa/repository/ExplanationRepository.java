@@ -7,6 +7,7 @@ import rx.dictionary.jpa.repository.input.Keyword;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 public class ExplanationRepository {
@@ -15,7 +16,12 @@ public class ExplanationRepository {
         this.entityManager = entityManager;
     }
 
-    public List<Explanation> find(Keyword test) {
-        return Collections.EMPTY_LIST;
+    public List<Explanation> find(Keyword keyword, Locale explanationLanguage) {
+        return entityManager.createQuery("select e from Explanation e where e.language =: explanationLanguage" +
+                        " and e.lexicalItem.language =: language and e.lexicalItem.value =: value", Explanation.class)
+                .setParameter("explanationLanguage", explanationLanguage)
+                .setParameter("language", keyword.language())
+                .setParameter("value", keyword.value())
+                .getResultList();
     }
 }
