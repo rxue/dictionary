@@ -1,6 +1,5 @@
 package rx.dictionary.jpa.repository;
 
-import net.bytebuddy.asm.Advice;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import rx.dictionary.jpa.AbstractDatabaseConfiguration;
@@ -17,9 +16,30 @@ import static org.junit.jupiter.api.Assertions.*;
 public class ExplanationRepositoryReadIT extends AbstractDatabaseConfiguration {
     @BeforeEach
     public void addLexicalItem() {
-        final Long generatedId = executeTransactionWithReturnValue("insert into lexical_item (language,value) value (?,?)", statement -> {
-            statement.setString(1, Locale.ENGLISH.toString()); // Set value for column1
-            statement.setString(2, "test"); // Set value for column2
+        LexicalItem testLexicalItem = newLexicalItem(Locale.ENGLISH, "test");
+        List<Explanation> explanations = new ArrayList<>();
+        addExplanation(Locale.ENGLISH, PartOfSpeech.N, "test", explanations);
+        addExplanation(Locale.SIMPLIFIED_CHINESE, PartOfSpeech.N, "测试", explanations);
+        addExplanation(Locale.SIMPLIFIED_CHINESE, PartOfSpeech.N, "(医疗上的) 检查化验", explanations);
+        addLexicalItem(testLexicalItem, explanations);
+    }
+    private static void addExplanation(Locale language, PartOfSpeech partOfSpeech, String explanation, List<Explanation> explanations) {
+        Explanation explanation1 = new Explanation();
+        explanation1.setLanguage(language);
+        explanation1.setPartOfSpeech(partOfSpeech);
+        explanation1.setExplanation(explanation);
+        explanations.add(explanation1);
+    }
+    private static LexicalItem newLexicalItem(Locale language, String value) {
+        LexicalItem lexicalItem = new LexicalItem();
+        lexicalItem.setLanguage(language);
+        lexicalItem.setValue(value);
+        return lexicalItem;
+    }
+    private void addLexicalItem(LexicalItem lexicalItem, List<Explanation> explanations) {
+        final Long lexicalItemId = executeTransactionWithReturnValue("insert into lexical_item (language,value) value (?,?)", statement -> {
+            statement.setString(1, lexicalItem.getLanguage().toString()); // Set value for column1
+            statement.setString(2, lexicalItem.getValue()); // Set value for column2
             statement.executeUpdate(); //Execute the insert statement
             try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
@@ -30,16 +50,13 @@ public class ExplanationRepositoryReadIT extends AbstractDatabaseConfiguration {
             }
         });
         executeTransaction("insert into explanation (id, lexical_item_id, language, partOfSpeech, explanation) value (NEXT VALUE FOR explanation_id_seq,?,?,?,?)", statement -> {
-            statement.setLong(1, generatedId); // Set value for column1
-            statement.setString(2, Locale.SIMPLIFIED_CHINESE.toString());
-            statement.setString(3, "N");
-            statement.setString(4, "测试");
-            statement.addBatch();
-            statement.setLong(1, generatedId); // Set value for column1
-            statement.setString(2, Locale.ENGLISH.toString());
-            statement.setString(3, "N");
-            statement.setString(4, "test");
-            statement.addBatch();
+            for (Explanation explanation : explanations) {
+                statement.setLong(1, lexicalItemId); // Set value for column1
+                statement.setString(2, explanation.getLanguage().toString());
+                statement.setString(3, explanation.getPartOfSpeech().toString());
+                statement.setString(4, explanation.getExplanation());
+                statement.addBatch();
+            }
             statement.executeBatch();
         });
     }
@@ -48,13 +65,13 @@ public class ExplanationRepositoryReadIT extends AbstractDatabaseConfiguration {
     public void find_base() {
         //ACT
         executeTransaction(entityManager -> {
-            ExplanationRepository out = new ExplanationRepository(entityManager);
+            ExplanationRepositoryImpl out = new ExplanationRepositoryImpl(entityManager);
             List<Explanation> result = out.find(new Keyword("test", Locale.ENGLISH), Locale.SIMPLIFIED_CHINESE);
-            assertEquals(1, result.size());
+            assertEquals(2, result.size());
             assertAll(() -> {
                 Explanation chineseExplanation = result.get(0);
                 assertEquals(Locale.SIMPLIFIED_CHINESE, chineseExplanation.getLanguage());
-                assertEquals("测试", chineseExplanation.getExplanation());
+                assertEquals(PartOfSpeech.N, chineseExplanation.getPartOfSpeech());
             });
         });
     }
