@@ -18,7 +18,7 @@ public class Explanation {
     @Id
     @GeneratedValue(generator="explanation_sequence", strategy=GenerationType.SEQUENCE)
     private Long id;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name="lexical_item_id")
     private LexicalItem lexicalItem;
     @Column(nullable = false)

@@ -6,9 +6,8 @@ import jakarta.persistence.EntityTransaction;
 import rx.dictionary.jpa.entity.Explanation;
 import rx.dictionary.jpa.entity.LexicalItem;
 import rx.dictionary.jpa.entity.PartOfSpeech;
-import rx.dictionary.jpa.repository.LexicalItemRepository;
+import rx.dictionary.jpa.repository.LexicalItemRepositoryImpl;
 
-import java.util.List;
 import java.util.Locale;
 import java.util.function.Consumer;
 
@@ -33,11 +32,11 @@ public class ITUtil {
         return em.createQuery("SELECT l FROM LexicalItem l", LexicalItem.class)
                 .getSingleResult();
     }
-    static void executeTransaction(EntityManagerFactory entityManagerFactory, Consumer<LexicalItemRepository> operations)  {
+    static void executeTransaction(EntityManagerFactory entityManagerFactory, Consumer<LexicalItemRepositoryImpl> operations)  {
         try(EntityManager em = entityManagerFactory.createEntityManager()) {
             EntityTransaction transaction = em.getTransaction();
             transaction.begin();
-            operations.accept(new LexicalItemRepository(em));
+            operations.accept(new LexicalItemRepositoryImpl(em));
             transaction.commit();
         }
         System.out.println("transaction committed");

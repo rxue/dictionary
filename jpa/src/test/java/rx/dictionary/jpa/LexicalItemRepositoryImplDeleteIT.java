@@ -4,7 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import rx.dictionary.jpa.entity.Explanation;
 import rx.dictionary.jpa.entity.LexicalItem;
-import rx.dictionary.jpa.repository.LexicalItemRepository;
+import rx.dictionary.jpa.repository.LexicalItemRepositoryImpl;
 
 import java.sql.ResultSet;
 import java.util.HashSet;
@@ -14,7 +14,7 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class LexicalItemRepositoryDeleteIT extends AbstractDatabaseConfiguration {
+public class LexicalItemRepositoryImplDeleteIT extends AbstractDatabaseConfiguration {
     @BeforeEach
     public void addLexicalItem() {
         final Long generatedId = executeTransactionWithReturnValue("insert into lexical_item (language,value) value (?,?)", statement -> {
@@ -79,7 +79,7 @@ public class LexicalItemRepositoryDeleteIT extends AbstractDatabaseConfiguration
         final Long lexicalItemId = existingSingleItem.getId();
         //ACT
         executeTransaction(entityManager -> {
-            LexicalItemRepository out = new LexicalItemRepository(entityManager);
+            LexicalItemRepositoryImpl out = new LexicalItemRepositoryImpl(entityManager);
             out.deleteById(lexicalItemId);
         });
         //ASSERT

@@ -7,22 +7,22 @@ import rx.dictionary.jpa.repository.input.Keyword;
 import java.util.List;
 import java.util.Locale;
 
-public class ExplanationRepository {
+public class ExplanationRepositoryImpl {
     private final EntityManager entityManager;
-    public ExplanationRepository(EntityManager entityManager) {
+    public ExplanationRepositoryImpl(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
 
-    public List<Explanation> find(Keyword keyword, Locale explanationLanguage) {
+    public List<Explanation> findLike(Keyword keyword, Locale explanationLanguage) {
         return entityManager.createQuery("from Explanation e where e.language =: explanationLanguage" +
-                        " and e.lexicalItem.language =: language and e.lexicalItem.value =: value", Explanation.class)
+                        " and e.lexicalItem.language =: language and e.lexicalItem.value like :value", Explanation.class)
                 .setParameter("explanationLanguage", explanationLanguage)
                 .setParameter("language", keyword.language())
                 .setParameter("value", keyword.value())
                 .getResultList();
     }
 
-    public void create(Explanation explanation) {
+    public void create(List<Explanation> explanation) {
         entityManager.persist(explanation);
     }
 }

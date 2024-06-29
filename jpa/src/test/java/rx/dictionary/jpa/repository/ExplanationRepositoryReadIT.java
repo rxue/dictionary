@@ -12,24 +12,24 @@ import java.sql.ResultSet;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static rx.dictionary.jpa.ITUtil.newExplanation;
 import static rx.dictionary.jpa.ITUtil.newLexicalItem;
 
 public class ExplanationRepositoryReadIT extends AbstractDatabaseConfiguration {
     @BeforeEach
-    public void addLexicalItem() {
+    public void addLexicalItems() {
         LexicalItem testLexicalItem = newLexicalItem(Locale.ENGLISH, "test");
         List<Explanation> explanations = new ArrayList<>();
-        addExplanation(Locale.ENGLISH, PartOfSpeech.N, "test", explanations);
-        addExplanation(Locale.SIMPLIFIED_CHINESE, PartOfSpeech.N, "测试", explanations);
-        addExplanation(Locale.SIMPLIFIED_CHINESE, PartOfSpeech.N, "(医疗上的) 检查化验", explanations);
+        explanations.add(newExplanation(Locale.ENGLISH, PartOfSpeech.N, "test"));
+        explanations.add(newExplanation(Locale.SIMPLIFIED_CHINESE, PartOfSpeech.N, "测试"));
+        explanations.add(newExplanation(Locale.SIMPLIFIED_CHINESE, PartOfSpeech.N, "(医疗上的) 检查化验"));
         addLexicalItem(testLexicalItem, explanations);
-    }
-    private static void addExplanation(Locale language, PartOfSpeech partOfSpeech, String explanation, List<Explanation> explanations) {
-        Explanation explanation1 = new Explanation();
-        explanation1.setLanguage(language);
-        explanation1.setPartOfSpeech(partOfSpeech);
-        explanation1.setExplanation(explanation);
-        explanations.add(explanation1);
+
+        LexicalItem testLexicalItem2 = newLexicalItem(Locale.ENGLISH, "testimony");
+        List<Explanation> explanations2 = new ArrayList<>();
+        explanations2.add(newExplanation(Locale.SIMPLIFIED_CHINESE, PartOfSpeech.N, "证据，证明"));
+        addLexicalItem(testLexicalItem2, explanations2);
+
     }
 
     private void addLexicalItem(LexicalItem lexicalItem, List<Explanation> explanations) {
@@ -58,12 +58,12 @@ public class ExplanationRepositoryReadIT extends AbstractDatabaseConfiguration {
     }
 
     @Test
-    public void find_base() {
+    public void findLike_base() {
         //ACT
         executeTransaction(entityManager -> {
-            ExplanationRepository out = new ExplanationRepository(entityManager);
-            List<Explanation> result = out.find(new Keyword("test", Locale.ENGLISH), Locale.SIMPLIFIED_CHINESE);
-            assertEquals(2, result.size());
+            ExplanationRepositoryImpl out = new ExplanationRepositoryImpl(entityManager);
+            List<Explanation> result = out.findLike(new Keyword("test%", Locale.ENGLISH), Locale.SIMPLIFIED_CHINESE);
+            assertEquals(3, result.size());
             assertAll(() -> {
                 Explanation chineseExplanation = result.get(0);
                 assertEquals(Locale.SIMPLIFIED_CHINESE, chineseExplanation.getLanguage());

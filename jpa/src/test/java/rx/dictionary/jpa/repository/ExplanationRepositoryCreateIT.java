@@ -7,6 +7,7 @@ import rx.dictionary.jpa.entity.LexicalItem;
 import rx.dictionary.jpa.entity.PartOfSpeech;
 
 import java.sql.ResultSet;
+import java.util.List;
 import java.util.Locale;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -32,11 +33,13 @@ public class ExplanationRepositoryCreateIT extends AbstractDatabaseConfiguration
     public void create_base() {
         //ACT
         executeTransaction(entityManager -> {
-            ExplanationRepository out = new ExplanationRepository(entityManager);
+            ExplanationRepositoryImpl out = new ExplanationRepositoryImpl(entityManager);
             LexicalItem lexicalItem = newLexicalItem(Locale.ENGLISH, "test");
-            Explanation explanation = newExplanation(Locale.SIMPLIFIED_CHINESE, PartOfSpeech.N, "测试");
-            explanation.setLexicalItem(lexicalItem);
-            out.create(explanation);
+            Explanation explanation1 = newExplanation(Locale.SIMPLIFIED_CHINESE, PartOfSpeech.N, "测试");
+            explanation1.setLexicalItem(lexicalItem);
+            Explanation explanation2 = newExplanation(Locale.SIMPLIFIED_CHINESE, PartOfSpeech.N, "测试 2");
+            explanation2.setLexicalItem(lexicalItem);
+            out.create(List.of(explanation1, explanation2));
         });
         LexicalItem createdLexicalItem = getAnyLexicalItem();
         assertNotNull(createdLexicalItem);

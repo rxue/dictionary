@@ -6,9 +6,9 @@ import rx.dictionary.jpa.repository.input.Keyword;
 
 import java.util.Optional;
 
-public class LexicalItemRepository {
+public class LexicalItemRepositoryImpl {
     private final EntityManager entityManager;
-    public LexicalItemRepository(EntityManager entityManager) {
+    public LexicalItemRepositoryImpl(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
 
