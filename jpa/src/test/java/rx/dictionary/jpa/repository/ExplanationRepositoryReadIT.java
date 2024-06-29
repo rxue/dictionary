@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static rx.dictionary.jpa.ITUtil.newLexicalItem;
 
 public class ExplanationRepositoryReadIT extends AbstractDatabaseConfiguration {
     @BeforeEach
@@ -30,12 +31,7 @@ public class ExplanationRepositoryReadIT extends AbstractDatabaseConfiguration {
         explanation1.setExplanation(explanation);
         explanations.add(explanation1);
     }
-    private static LexicalItem newLexicalItem(Locale language, String value) {
-        LexicalItem lexicalItem = new LexicalItem();
-        lexicalItem.setLanguage(language);
-        lexicalItem.setValue(value);
-        return lexicalItem;
-    }
+
     private void addLexicalItem(LexicalItem lexicalItem, List<Explanation> explanations) {
         final Long lexicalItemId = executeTransactionWithReturnValue("insert into lexical_item (language,value) value (?,?)", statement -> {
             statement.setString(1, lexicalItem.getLanguage().toString()); // Set value for column1
@@ -65,7 +61,7 @@ public class ExplanationRepositoryReadIT extends AbstractDatabaseConfiguration {
     public void find_base() {
         //ACT
         executeTransaction(entityManager -> {
-            ExplanationRepositoryImpl out = new ExplanationRepositoryImpl(entityManager);
+            ExplanationRepository out = new ExplanationRepository(entityManager);
             List<Explanation> result = out.find(new Keyword("test", Locale.ENGLISH), Locale.SIMPLIFIED_CHINESE);
             assertEquals(2, result.size());
             assertAll(() -> {
