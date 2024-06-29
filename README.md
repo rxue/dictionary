@@ -13,13 +13,21 @@ Test REST API endpoint:
 http://localhost/dictionary/rest/lexicalitems/1
 
 # Ubiquitous Language
-## Reference
-https://en.wikipedia.org/wiki/Lexical_item
+## lexical item
 
-Critical question on definition of *lexical item* : could one lexical item have multiple meanings
-Answer: yes
+reference: https://en.wikipedia.org/wiki/Lexical_item
+
+Critical question on definition of *lexical item* : 
+
+ * could one lexical item have multiple meanings? yes
+ * does definition belong to lexical item? no. Based on Gemini, the defintion is deparated from *lexical item*
+
+## *lexical entry*
+reference: https://www.vocabulary.com/dictionary/lexical%20entry
+
+Based on Gemini, lexical entry has the detail information of *lexical item*, including the definition, part of speech etc.
+
 
 > According to Crystal (1980: 274), *polysemy* is a term used in semantic analysis to refer to a lexical item which has a range of different meanings.
 
 Reference: https://www.iasj.net/iasj/download/5784a6a9435b5c81
-
