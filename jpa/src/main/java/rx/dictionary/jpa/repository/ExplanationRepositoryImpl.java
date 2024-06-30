@@ -43,4 +43,18 @@ public class ExplanationRepositoryImpl implements ExplanationRepository {
             entityManager.persist(e);
     }
 
+    @Override
+    public void update(List<Explanation> existingExplanations) {
+        for (Explanation e : existingExplanations) {
+            entityManager.merge(e);
+        }
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        Explanation explanation = entityManager.find(Explanation.class, id);
+        entityManager.remove(explanation);
+    }
+
+
 }

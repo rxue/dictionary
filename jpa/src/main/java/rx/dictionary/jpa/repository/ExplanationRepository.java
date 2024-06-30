@@ -10,4 +10,8 @@ public interface ExplanationRepository {
     List<Explanation> findLike(Keyword keyword, Locale explanationLanguage);
 
     void create(List<Explanation> explanation1);
+
+    void update(List<Explanation> existingExplanations);
+
+    void deleteById(Long id);
 }

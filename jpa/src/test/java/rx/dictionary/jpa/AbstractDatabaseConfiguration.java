@@ -2,7 +2,6 @@ package rx.dictionary.jpa;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
 import jakarta.transaction.*;
 import org.hibernate.Session;
@@ -32,7 +31,7 @@ public abstract class AbstractDatabaseConfiguration {
         db.start();
         entityManagerFactory = Persistence.createEntityManagerFactory("dictionary-mariadb-test");
     }
-    protected static <T> T executeTransactionWithReturnValue(String sql, ReturningWorkFromPreparedStatement<T> operations) {
+    protected static <T> T executeStatementWithReturnValue(String sql, ReturningWorkFromPreparedStatement<T> operations) {
         try (EntityManager em = entityManagerFactory.createEntityManager()) {
             Session session = em.unwrap(Session.class);
             return session.doReturningWork(conn -> {
@@ -55,12 +54,6 @@ public abstract class AbstractDatabaseConfiguration {
                 }
             });
         }
-    }
-    protected static void executeQuery(String sql, WorkFrom<ResultSet> operations) {
-        executeTransaction(sql, preparedStatement -> {
-            ResultSet resultSet = preparedStatement.executeQuery();
-            operations.execute(resultSet);
-        });
     }
 
     protected static void executeTransaction(Consumer<EntityManager> operations) {

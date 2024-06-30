@@ -20,7 +20,7 @@ public class ITUtil {
         lexicalItem.setValue(value);
         return lexicalItem;
     }
-    public static Explanation newExplanation(Locale language, PartOfSpeech partOfSpeech, String explanation) {
+    public static Explanation newExplanationWithoutIds(Locale language, PartOfSpeech partOfSpeech, String explanation) {
         Explanation newExplanation = new Explanation();
         newExplanation.setLanguage(language);
         newExplanation.setPartOfSpeech(partOfSpeech);

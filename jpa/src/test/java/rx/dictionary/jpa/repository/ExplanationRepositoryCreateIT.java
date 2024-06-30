@@ -12,12 +12,12 @@ import java.util.List;
 import java.util.Locale;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static rx.dictionary.jpa.ITUtil.newExplanation;
+import static rx.dictionary.jpa.ITUtil.newExplanationWithoutIds;
 import static rx.dictionary.jpa.ITUtil.newLexicalItem;
 
 public class ExplanationRepositoryCreateIT extends AbstractDatabaseConfiguration {
     private static LexicalItem getAnyLexicalItem() {
-        final LexicalItem existingSingleItem = executeTransactionWithReturnValue("select * from lexical_item", preparedStatement -> {
+        final LexicalItem existingSingleItem = executeStatementWithReturnValue("select * from lexical_item", preparedStatement -> {
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
                     LexicalItem lexicalItem = new LexicalItem(resultSet.getLong("id"));
@@ -43,22 +43,18 @@ public class ExplanationRepositoryCreateIT extends AbstractDatabaseConfiguration
     public void create_newLexicalItem() {
         //ACT
         executeTransaction(entityManager -> {
-            ExplanationRepository out = new ExplanationRepositoryImplWithoutEntityGraph(entityManager);
+            ExplanationRepository out = new ExplanationRepositoryImpl(entityManager);
             LexicalItem lexicalItem = newLexicalItem(Locale.ENGLISH, "test");
-            Explanation explanation1 = newExplanation(Locale.SIMPLIFIED_CHINESE, PartOfSpeech.N, "测试");
+            Explanation explanation1 = newExplanationWithoutIds(Locale.SIMPLIFIED_CHINESE, PartOfSpeech.N, "测试");
             explanation1.setLexicalItem(lexicalItem);
-            Explanation explanation2 = newExplanation(Locale.SIMPLIFIED_CHINESE, PartOfSpeech.N, "测试 2");
+            Explanation explanation2 = newExplanationWithoutIds(Locale.SIMPLIFIED_CHINESE, PartOfSpeech.N, "测试 2");
             explanation2.setLexicalItem(lexicalItem);
             out.create(List.of(explanation1, explanation2));
         });
         LexicalItem createdLexicalItem = getAnyLexicalItem();
         assertNotNull(createdLexicalItem);
-        executeQuery("select * from explanation", resultSet -> {
-                int rowCount = 0;
-                while (resultSet.next())
-                    rowCount++;
-                assertEquals(2, rowCount);
-        });
+        final int rows = countExplanationRows();
+        assertEquals(2, rows);
     }
     @Test
     public void create_lexicalItemExisted() {
@@ -70,19 +66,28 @@ public class ExplanationRepositoryCreateIT extends AbstractDatabaseConfiguration
         //ACT
         executeTransaction(entityManager -> {
             ExplanationRepository out = new ExplanationRepositoryImpl(entityManager);
-            Explanation explanation1 = newExplanation(Locale.SIMPLIFIED_CHINESE, PartOfSpeech.N, "测试");
+            Explanation explanation1 = newExplanationWithoutIds(Locale.SIMPLIFIED_CHINESE, PartOfSpeech.N, "测试");
             explanation1.setLexicalItem(existingLexicalItem);
-            Explanation explanation2 = newExplanation(Locale.SIMPLIFIED_CHINESE, PartOfSpeech.N, "测试 2");
+            Explanation explanation2 = newExplanationWithoutIds(Locale.SIMPLIFIED_CHINESE, PartOfSpeech.N, "测试 2");
             explanation2.setLexicalItem(existingLexicalItem);
             out.create(List.of(explanation1, explanation2));
         });
+        //ASSERT
         LexicalItem createdLexicalItem = getAnyLexicalItem();
         assertNotNull(createdLexicalItem);
-        executeQuery("select * from explanation", resultSet -> {
+        final int rows = countExplanationRows();
+        assertEquals(2, rows);
+    }
+
+    static Integer countExplanationRows() {
+        return executeStatementWithReturnValue("select * from explanation", prearedStatement -> {
             int rowCount = 0;
-            while (resultSet.next())
-                rowCount++;
-            assertEquals(2, rowCount);
+            try (ResultSet resultSet = prearedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    rowCount++;
+                }
+            }
+            return rowCount;
         });
     }
 }

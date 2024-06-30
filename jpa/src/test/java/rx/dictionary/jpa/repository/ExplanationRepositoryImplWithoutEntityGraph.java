@@ -25,13 +25,18 @@ class ExplanationRepositoryImplWithoutEntityGraph implements ExplanationReposito
                 .getResultList();
     }
 
-    public void create(List<Explanation> explanations) {
-        LexicalItem lexicalItem = explanations.get(0).getLexicalItem();
-        if (lexicalItem.getId() == null) {
-            entityManager.persist(lexicalItem);
-            System.out.println("generated lexical item id is " + lexicalItem.getId());
-        }
-        for (Explanation e : explanations)
-            entityManager.persist(e);
+    @Override
+    public void create(List<Explanation> explanation1) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void update(List<Explanation> existingExplanations) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        throw new UnsupportedOperationException();
     }
 }

@@ -6,18 +6,17 @@ import rx.dictionary.jpa.AbstractDatabaseConfiguration;
 import rx.dictionary.jpa.entity.Explanation;
 import rx.dictionary.jpa.entity.LexicalItem;
 import rx.dictionary.jpa.entity.PartOfSpeech;
-import rx.dictionary.jpa.repository.input.Keyword;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static rx.dictionary.jpa.ITUtil.newExplanationWithoutIds;
 import static rx.dictionary.jpa.ITUtil.newLexicalItem;
 
-public class ExplanationRepositoryReadIT extends AbstractDatabaseConfiguration {
+public class ExplanationRepositoryDeleteIT extends AbstractDatabaseConfiguration {
     @BeforeEach
     public void addLexicalItems() {
         LexicalItem testLexicalItem = newLexicalItem(Locale.ENGLISH, "test");
@@ -26,12 +25,6 @@ public class ExplanationRepositoryReadIT extends AbstractDatabaseConfiguration {
         explanations.add(newExplanationWithoutIds(Locale.SIMPLIFIED_CHINESE, PartOfSpeech.N, "测试"));
         explanations.add(newExplanationWithoutIds(Locale.SIMPLIFIED_CHINESE, PartOfSpeech.N, "(医疗上的) 检查化验"));
         addLexicalItem(testLexicalItem, explanations);
-
-        LexicalItem testLexicalItem2 = newLexicalItem(Locale.ENGLISH, "testimony");
-        List<Explanation> explanations2 = new ArrayList<>();
-        explanations2.add(newExplanationWithoutIds(Locale.SIMPLIFIED_CHINESE, PartOfSpeech.N, "证据，证明"));
-        addLexicalItem(testLexicalItem2, explanations2);
-
     }
 
     private void addLexicalItem(LexicalItem lexicalItem, List<Explanation> explanations) {
@@ -60,21 +53,43 @@ public class ExplanationRepositoryReadIT extends AbstractDatabaseConfiguration {
     }
 
     @Test
-    public void findLike_base() {
+    public void delete_oneExplantion() {
+        //PREPARE
+        LexicalItem existingLexicalItem = executeStatementWithReturnValue("select * from lexical_item", preparedStatement -> {
+            try(ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    LexicalItem lexicalItem = new LexicalItem(resultSet.getLong("id"));
+                    lexicalItem.setLanguage(Locale.forLanguageTag(resultSet.getString("language")));
+                    lexicalItem.setValue(resultSet.getString("value"));
+                    return lexicalItem;
+                }
+            }
+            throw new IllegalArgumentException("");
+        });
+        List<Explanation> existingExplanations = executeStatementWithReturnValue("select * from explanation where language = ?", preparedStatement -> {
+            List<Explanation> explanations = new ArrayList<>();
+            preparedStatement.setString(1, Locale.SIMPLIFIED_CHINESE.toString());
+            try(ResultSet resultSet = preparedStatement.executeQuery()) {
+                while(resultSet.next()) {
+                    Explanation explanation = new Explanation(resultSet.getLong("id"));
+                    final String languageLoaleString = resultSet.getString("language");
+                    explanation.setLanguage(Locale.forLanguageTag(languageLoaleString.replace("_","-")));
+                    explanation.setLexicalItem(existingLexicalItem);
+                    explanation.setPartOfSpeech(PartOfSpeech.valueOf(resultSet.getString("partofspeech")));
+                    explanation.setDefinition(resultSet.getString("definition"));
+                    explanations.add(explanation);
+                }
+            }
+            return explanations;
+        });
         //ACT
         executeTransaction(entityManager -> {
+            Explanation explanation = existingExplanations.get(0);
             ExplanationRepository out = new ExplanationRepositoryImpl(entityManager);
-            List<Explanation> result = out.findLike(new Keyword("test%", Locale.ENGLISH), Locale.SIMPLIFIED_CHINESE);
-            assertEquals(3, result.size());
-            Explanation chineseExplanation = result.get(0);
-            assertAll(() -> {
-                assertEquals(Locale.SIMPLIFIED_CHINESE, chineseExplanation.getLanguage());
-                assertEquals(PartOfSpeech.N, chineseExplanation.getPartOfSpeech());
-            });
-            assertAll(() -> {
-                LexicalItem lexicalItem = chineseExplanation.getLexicalItem();
-                assertNotNull(lexicalItem.getId());
-            });
+            out.deleteById(explanation.getId());
         });
+        //ASSERT
+        int explanationRows = ExplanationRepositoryCreateIT.countExplanationRows();
+        assertEquals(2, explanationRows);
     }
 }
