@@ -14,8 +14,10 @@ import org.testcontainers.utility.DockerImageName;
 import rx.Util;
 import rx.jdbc.ReturningWorkFromPreparedStatement;
 import rx.jdbc.WorkFromPreparedStatement;
+import rx.jdbc.WorkFromResultSet;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collections;
 import java.util.function.Consumer;
@@ -58,6 +60,12 @@ public abstract class AbstractDatabaseConfiguration {
                 }
             });
         }
+    }
+    protected static void executeQuery(String sql, WorkFromResultSet operations) {
+        executeTransaction(sql, preparedStatement -> {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            operations.execute(resultSet);
+        });
     }
 
     protected static void executeTransaction(Consumer<EntityManager> operations) {

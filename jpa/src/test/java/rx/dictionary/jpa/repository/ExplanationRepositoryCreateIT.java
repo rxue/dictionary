@@ -1,5 +1,6 @@
 package rx.dictionary.jpa.repository;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import rx.dictionary.jpa.AbstractDatabaseConfiguration;
 import rx.dictionary.jpa.entity.Explanation;
@@ -29,9 +30,17 @@ public class ExplanationRepositoryCreateIT extends AbstractDatabaseConfiguration
         });
         return existingSingleItem;
     }
+    @AfterEach
+    public void truncateTables() {
+        List<String> tableNames = List.of("explanation", "lexical_item");
+        for (String table : tableNames) {
+            executeTransaction("delete from " + table, preparedStatement -> {
+                preparedStatement.execute();
+            });
+        }
+    }
     @Test
     public void create_newLexicalItem() {
-
         //ACT
         executeTransaction(entityManager -> {
             ExplanationRepository out = new ExplanationRepositoryImpl(entityManager);
@@ -44,14 +53,36 @@ public class ExplanationRepositoryCreateIT extends AbstractDatabaseConfiguration
         });
         LexicalItem createdLexicalItem = getAnyLexicalItem();
         assertNotNull(createdLexicalItem);
-
-        executeTransaction("select * from explanation", preparedStatement -> {
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+        executeQuery("select * from explanation", resultSet -> {
                 int rowCount = 0;
                 while (resultSet.next())
                     rowCount++;
                 assertEquals(2, rowCount);
-            }
+        });
+    }
+    @Test
+    public void create_lexicalItemExisted() {
+        //PREPARE
+        executeTransaction("insert into lexical_item (language,value) values ('EN','test')", preparedStatement -> {
+            preparedStatement.execute();
+        });
+        final LexicalItem existingLexicalItem = getAnyLexicalItem();
+        //ACT
+        executeTransaction(entityManager -> {
+            ExplanationRepository out = new ExplanationRepositoryImpl(entityManager);
+            Explanation explanation1 = newExplanation(Locale.SIMPLIFIED_CHINESE, PartOfSpeech.N, "测试");
+            explanation1.setLexicalItem(existingLexicalItem);
+            Explanation explanation2 = newExplanation(Locale.SIMPLIFIED_CHINESE, PartOfSpeech.N, "测试 2");
+            explanation2.setLexicalItem(existingLexicalItem);
+            out.create(List.of(explanation1, explanation2));
+        });
+        LexicalItem createdLexicalItem = getAnyLexicalItem();
+        assertNotNull(createdLexicalItem);
+        executeQuery("select * from explanation", resultSet -> {
+            int rowCount = 0;
+            while (resultSet.next())
+                rowCount++;
+            assertEquals(2, rowCount);
         });
     }
 }
