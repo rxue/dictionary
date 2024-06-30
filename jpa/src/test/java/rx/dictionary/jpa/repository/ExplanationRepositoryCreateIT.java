@@ -43,7 +43,7 @@ public class ExplanationRepositoryCreateIT extends AbstractDatabaseConfiguration
     public void create_newLexicalItem() {
         //ACT
         executeTransaction(entityManager -> {
-            ExplanationRepository out = new ExplanationRepositoryImpl(entityManager);
+            ExplanationRepository out = new ExplanationRepositoryImplWithoutEntityGraph(entityManager);
             LexicalItem lexicalItem = newLexicalItem(Locale.ENGLISH, "test");
             Explanation explanation1 = newExplanation(Locale.SIMPLIFIED_CHINESE, PartOfSpeech.N, "测试");
             explanation1.setLexicalItem(lexicalItem);

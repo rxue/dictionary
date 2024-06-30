@@ -9,7 +9,9 @@ import rx.dictionary.jpa.entity.PartOfSpeech;
 import rx.dictionary.jpa.repository.input.Keyword;
 
 import java.sql.ResultSet;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static rx.dictionary.jpa.ITUtil.newExplanation;
@@ -61,13 +63,17 @@ public class ExplanationRepositoryReadIT extends AbstractDatabaseConfiguration {
     public void findLike_base() {
         //ACT
         executeTransaction(entityManager -> {
-            ExplanationRepositoryImpl out = new ExplanationRepositoryImpl(entityManager);
+            ExplanationRepository out = new ExplanationRepositoryImpl(entityManager);
             List<Explanation> result = out.findLike(new Keyword("test%", Locale.ENGLISH), Locale.SIMPLIFIED_CHINESE);
             assertEquals(3, result.size());
+            Explanation chineseExplanation = result.get(0);
             assertAll(() -> {
-                Explanation chineseExplanation = result.get(0);
                 assertEquals(Locale.SIMPLIFIED_CHINESE, chineseExplanation.getLanguage());
                 assertEquals(PartOfSpeech.N, chineseExplanation.getPartOfSpeech());
+            });
+            assertAll(() -> {
+                LexicalItem lexicalItem = chineseExplanation.getLexicalItem();
+                assertNotNull(lexicalItem.getId());
             });
         });
     }

@@ -9,15 +9,13 @@ import rx.dictionary.jpa.entity.PartOfSpeech;
 import rx.dictionary.jpa.repository.input.Keyword;
 
 import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static rx.dictionary.jpa.ITUtil.newExplanation;
 import static rx.dictionary.jpa.ITUtil.newLexicalItem;
 
-public class ExplanationRepositoryReadWithEntityGraphIT extends AbstractDatabaseConfiguration {
+public class ExplanationRepositoryReadWithoutEntityGraphIT extends AbstractDatabaseConfiguration {
     @BeforeEach
     public void addLexicalItems() {
         LexicalItem testLexicalItem = newLexicalItem(Locale.ENGLISH, "test");
@@ -47,7 +45,7 @@ public class ExplanationRepositoryReadWithEntityGraphIT extends AbstractDatabase
                 }
             }
         });
-        executeTransaction("insert into explanation (id, lexical_item_id, language, partOfSpeech, explanation) value (NEXT VALUE FOR explanation_id_seq,?,?,?,?)", statement -> {
+        executeTransaction("insert into explanation (id, lexical_item_id, language, partOfSpeech, definition) value (NEXT VALUE FOR explanation_id_seq,?,?,?,?)", statement -> {
             for (Explanation explanation : explanations) {
                 statement.setLong(1, lexicalItemId); // Set value for column1
                 statement.setString(2, explanation.getLanguage().toString());
@@ -63,17 +61,13 @@ public class ExplanationRepositoryReadWithEntityGraphIT extends AbstractDatabase
     public void findLike_base() {
         //ACT
         executeTransaction(entityManager -> {
-            ExplanationRepository out = new ExplanationRepositoryWithEntityGraph(entityManager);
+            ExplanationRepositoryImplWithoutEntityGraph out = new ExplanationRepositoryImplWithoutEntityGraph(entityManager);
             List<Explanation> result = out.findLike(new Keyword("test%", Locale.ENGLISH), Locale.SIMPLIFIED_CHINESE);
             assertEquals(3, result.size());
-            Explanation chineseExplanation = result.get(0);
             assertAll(() -> {
+                Explanation chineseExplanation = result.get(0);
                 assertEquals(Locale.SIMPLIFIED_CHINESE, chineseExplanation.getLanguage());
                 assertEquals(PartOfSpeech.N, chineseExplanation.getPartOfSpeech());
-            });
-            assertAll(() -> {
-                LexicalItem lexicalItem = chineseExplanation.getLexicalItem();
-                assertNotNull(lexicalItem.getId());
             });
         });
     }

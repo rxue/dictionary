@@ -1,5 +1,6 @@
 package rx.dictionary.jpa.repository;
 
+import jakarta.persistence.EntityGraph;
 import jakarta.persistence.EntityManager;
 import rx.dictionary.jpa.entity.Explanation;
 import rx.dictionary.jpa.entity.LexicalItem;
@@ -16,15 +17,22 @@ public class ExplanationRepositoryImpl implements ExplanationRepository {
 
     @Override
     public List<Explanation> findLike(Keyword keyword, Locale explanationLanguage) {
-
         return entityManager.createQuery("from Explanation e where e.language =: explanationLanguage" +
                         " and e.lexicalItem.language =: language and e.lexicalItem.value like :value", Explanation.class)
+                .setHint("jakarta.persistence.loadgraph", addGraph())
                 .setParameter("explanationLanguage", explanationLanguage)
                 .setParameter("language", keyword.language())
                 .setParameter("value", keyword.value())
                 .getResultList();
     }
 
+    private EntityGraph<Explanation> addGraph() {
+        EntityGraph<Explanation> explanationGraph = entityManager.createEntityGraph(Explanation.class);
+        explanationGraph.addAttributeNodes("lexicalItem");
+        explanationGraph.addSubgraph("lexicalItem", LexicalItem.class);
+        return explanationGraph;
+    }
+    @Override
     public void create(List<Explanation> explanations) {
         LexicalItem lexicalItem = explanations.get(0).getLexicalItem();
         if (lexicalItem.getId() == null) {
@@ -34,4 +42,5 @@ public class ExplanationRepositoryImpl implements ExplanationRepository {
         for (Explanation e : explanations)
             entityManager.persist(e);
     }
+
 }

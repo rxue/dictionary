@@ -7,23 +7,18 @@ import jakarta.persistence.Persistence;
 import jakarta.transaction.*;
 import org.hibernate.Session;
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.testcontainers.containers.MariaDBContainer;
 import org.testcontainers.utility.DockerImageName;
 import rx.Util;
 import rx.jdbc.ReturningWorkFromPreparedStatement;
-import rx.jdbc.WorkFromPreparedStatement;
-import rx.jdbc.WorkFromResultSet;
+import rx.jdbc.WorkFrom;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collections;
 import java.util.function.Consumer;
-
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public abstract class AbstractDatabaseConfiguration {
     private static final String SQL_EXCEPTION_ERROR_MESSAGE = SQLException.class + " thrown when executing operations on PreparedStatement, program terminates now!";
@@ -49,7 +44,7 @@ public abstract class AbstractDatabaseConfiguration {
             });
         }
     }
-    protected static void executeTransaction(String sql, WorkFromPreparedStatement operations) {
+    protected static void executeTransaction(String sql, WorkFrom<PreparedStatement> operations) {
         try (EntityManager em = entityManagerFactory.createEntityManager()) {
             Session session = em.unwrap(Session.class);
             session.doWork(conn -> {
@@ -61,7 +56,7 @@ public abstract class AbstractDatabaseConfiguration {
             });
         }
     }
-    protected static void executeQuery(String sql, WorkFromResultSet operations) {
+    protected static void executeQuery(String sql, WorkFrom<ResultSet> operations) {
         executeTransaction(sql, preparedStatement -> {
             ResultSet resultSet = preparedStatement.executeQuery();
             operations.execute(resultSet);
