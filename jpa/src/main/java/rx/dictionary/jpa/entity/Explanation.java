@@ -10,7 +10,7 @@ import java.util.Set;
 import static jakarta.persistence.FetchType.EAGER;
 
 @EqualsAndHashCode
-@Table(name = "explanation", uniqueConstraints = { @UniqueConstraint(columnNames = {"lexical_item_id", "language", "partofspeech", "explanation"}) })
+@Table(name = "explanation", uniqueConstraints = { @UniqueConstraint(columnNames = {"lexical_item_id", "language", "partofspeech", "definition"}) })
 @SequenceGenerator(sequenceName = "explanation_id_seq", initialValue=1, name = "explanation_sequence", allocationSize = 4)
 @Entity
 public class Explanation {
@@ -18,7 +18,7 @@ public class Explanation {
     @Id
     @GeneratedValue(generator="explanation_sequence", strategy=GenerationType.SEQUENCE)
     private Long id;
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne
     @JoinColumn(name="lexical_item_id")
     private LexicalItem lexicalItem;
     @Column(nullable = false)
@@ -26,7 +26,7 @@ public class Explanation {
     @Enumerated(EnumType.STRING)
     private PartOfSpeech partOfSpeech;
     @Column(nullable = false)
-    private String explanation;
+    private String definition;
     @ElementCollection(fetch = EAGER)
     @CollectionTable(name = "sentence")
     private Set<String> sentences = new HashSet<>();
@@ -63,11 +63,11 @@ public class Explanation {
     public void setPartOfSpeech(PartOfSpeech partOfSpeech) {
         this.partOfSpeech = partOfSpeech;
     }
-    public String getExplanation() {
-        return explanation;
+    public String getDefinition() {
+        return definition;
     }
-    public void setExplanation(String explanation) {
-        this.explanation = explanation;
+    public void setDefinition(String definition) {
+        this.definition = definition;
     }
 
     public Set<String> getSentences() {

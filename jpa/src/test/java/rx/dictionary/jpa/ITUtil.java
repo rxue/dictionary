@@ -24,7 +24,7 @@ public class ITUtil {
         Explanation newExplanation = new Explanation();
         newExplanation.setLanguage(language);
         newExplanation.setPartOfSpeech(partOfSpeech);
-        newExplanation.setExplanation(explanation);
+        newExplanation.setDefinition(explanation);
         return newExplanation;
     }
 

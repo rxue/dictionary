@@ -25,6 +25,12 @@ public class ExplanationRepositoryWithEntityGraph implements ExplanationReposito
                 .setParameter("value", keyword.value())
                 .getResultList();
     }
+
+    @Override
+    public void create(List<Explanation> explanation1) {
+        throw new UnsupportedOperationException();
+    }
+
     private EntityGraph<Explanation> addGraph() {
         EntityGraph<Explanation> explanationGraph = entityManager.createEntityGraph(Explanation.class);
         explanationGraph.addAttributeNodes("lexicalItem");

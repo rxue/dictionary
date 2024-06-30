@@ -64,7 +64,7 @@ public class LexicalItemRepositoryImplDeleteIT extends AbstractDatabaseConfigura
                 while (resultSet.next()) {
                     Explanation explanation = new Explanation(resultSet.getLong("id"));
                     explanation.setLanguage(Locale.forLanguageTag(resultSet.getString("language")));
-                    explanation.setExplanation(resultSet.getString("explanation"));
+                    explanation.setDefinition(resultSet.getString("explanation"));
                     result.add(explanation);
                 }
                 return result;

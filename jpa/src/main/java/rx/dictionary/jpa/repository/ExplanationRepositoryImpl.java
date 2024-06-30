@@ -2,6 +2,7 @@ package rx.dictionary.jpa.repository;
 
 import jakarta.persistence.EntityManager;
 import rx.dictionary.jpa.entity.Explanation;
+import rx.dictionary.jpa.entity.LexicalItem;
 import rx.dictionary.jpa.repository.input.Keyword;
 
 import java.util.List;
@@ -24,7 +25,13 @@ public class ExplanationRepositoryImpl implements ExplanationRepository {
                 .getResultList();
     }
 
-    public void create(List<Explanation> explanation) {
-        entityManager.persist(explanation);
+    public void create(List<Explanation> explanations) {
+        LexicalItem lexicalItem = explanations.get(0).getLexicalItem();
+        if (lexicalItem.getId() == null) {
+            entityManager.persist(lexicalItem);
+            System.out.println("generated lexical item id is " + lexicalItem.getId());
+        }
+        for (Explanation e : explanations)
+            entityManager.persist(e);
     }
 }

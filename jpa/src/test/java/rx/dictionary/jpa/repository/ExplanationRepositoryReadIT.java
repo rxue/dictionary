@@ -45,12 +45,12 @@ public class ExplanationRepositoryReadIT extends AbstractDatabaseConfiguration {
                 }
             }
         });
-        executeTransaction("insert into explanation (id, lexical_item_id, language, partOfSpeech, explanation) value (NEXT VALUE FOR explanation_id_seq,?,?,?,?)", statement -> {
+        executeTransaction("insert into explanation (id, lexical_item_id, language, partOfSpeech, definition) value (NEXT VALUE FOR explanation_id_seq,?,?,?,?)", statement -> {
             for (Explanation explanation : explanations) {
                 statement.setLong(1, lexicalItemId); // Set value for column1
                 statement.setString(2, explanation.getLanguage().toString());
                 statement.setString(3, explanation.getPartOfSpeech().toString());
-                statement.setString(4, explanation.getExplanation());
+                statement.setString(4, explanation.getDefinition());
                 statement.addBatch();
             }
             statement.executeBatch();

@@ -8,4 +8,6 @@ import java.util.Locale;
 
 public interface ExplanationRepository {
     List<Explanation> findLike(Keyword keyword, Locale explanationLanguage);
+
+    void create(List<Explanation> explanation1);
 }

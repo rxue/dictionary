@@ -6,7 +6,7 @@ import rx.dictionary.jpa.entity.Explanation;
 import rx.dictionary.jpa.entity.LexicalItem;
 import rx.dictionary.jpa.entity.PartOfSpeech;
 
-import java.sql.ResultSet;
+import java.sql.*;
 import java.util.List;
 import java.util.Locale;
 
@@ -30,10 +30,11 @@ public class ExplanationRepositoryCreateIT extends AbstractDatabaseConfiguration
         return existingSingleItem;
     }
     @Test
-    public void create_base() {
+    public void create_newLexicalItem() {
+
         //ACT
         executeTransaction(entityManager -> {
-            ExplanationRepositoryImpl out = new ExplanationRepositoryImpl(entityManager);
+            ExplanationRepository out = new ExplanationRepositoryImpl(entityManager);
             LexicalItem lexicalItem = newLexicalItem(Locale.ENGLISH, "test");
             Explanation explanation1 = newExplanation(Locale.SIMPLIFIED_CHINESE, PartOfSpeech.N, "测试");
             explanation1.setLexicalItem(lexicalItem);
@@ -43,5 +44,14 @@ public class ExplanationRepositoryCreateIT extends AbstractDatabaseConfiguration
         });
         LexicalItem createdLexicalItem = getAnyLexicalItem();
         assertNotNull(createdLexicalItem);
+
+        executeTransaction("select * from explanation", preparedStatement -> {
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                int rowCount = 0;
+                while (resultSet.next())
+                    rowCount++;
+                assertEquals(2, rowCount);
+            }
+        });
     }
 }
