@@ -25,8 +25,9 @@ jobs:
         server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
         settings-path: ${{ github.workspace }} # location for the settings.xml file
 
-    - name: Build with Maven
-      run: mvn --batch-mode clean package integration-test --file jpa/pom.xml
+    - name: Build jpa project with Maven
+      run: mvn --batch-mode clean install integration-test --file jpa/pom.xml
+    - name: Build web project
       run: mvn --batch-mode clean package --file web/java/pom.xml
 
       #    - name: Publish to GitHub Packages Apache Maven

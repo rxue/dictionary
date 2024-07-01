@@ -1,4 +1,6 @@
-on: [push-jpa]
+on:
+  push:
+    branches: [ master ]
 
 jobs:
   ci_test_job:
