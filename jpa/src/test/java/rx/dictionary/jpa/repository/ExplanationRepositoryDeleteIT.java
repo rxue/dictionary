@@ -28,7 +28,7 @@ public class ExplanationRepositoryDeleteIT extends AbstractDatabaseConfiguration
     }
 
     private void addLexicalItem(LexicalItem lexicalItem, List<Explanation> explanations) {
-        final Long lexicalItemId = executeStatementWithReturnValue("insert into lexical_item (language,value) value (?,?)", statement -> {
+        final Long lexicalItemId = preparedStatementExecutor.executeAndReturn("insert into lexical_item (language,value) value (?,?)", statement -> {
             statement.setString(1, lexicalItem.getLanguage().toString()); // Set value for column1
             statement.setString(2, lexicalItem.getValue()); // Set value for column2
             statement.executeUpdate(); //Execute the insert statement
@@ -40,7 +40,7 @@ public class ExplanationRepositoryDeleteIT extends AbstractDatabaseConfiguration
                 }
             }
         });
-        executeTransaction("insert into explanation (id, lexical_item_id, language, partOfSpeech, definition) value (NEXT VALUE FOR explanation_id_seq,?,?,?,?)", statement -> {
+        preparedStatementExecutor.execute("insert into explanation (id, lexical_item_id, language, partOfSpeech, definition) value (NEXT VALUE FOR explanation_id_seq,?,?,?,?)", statement -> {
             for (Explanation explanation : explanations) {
                 statement.setLong(1, lexicalItemId); // Set value for column1
                 statement.setString(2, explanation.getLanguage().toString());
@@ -55,8 +55,8 @@ public class ExplanationRepositoryDeleteIT extends AbstractDatabaseConfiguration
     @Test
     public void delete_oneExplantion() {
         //PREPARE
-        LexicalItem existingLexicalItem = executeStatementWithReturnValue("select * from lexical_item", preparedStatement -> {
-            try(ResultSet resultSet = preparedStatement.executeQuery()) {
+        LexicalItem existingLexicalItem = preparedStatementExecutor.executeAndReturn("select * from lexical_item", preparedStatement -> {
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
                     LexicalItem lexicalItem = new LexicalItem(resultSet.getLong("id"));
                     lexicalItem.setLanguage(Locale.forLanguageTag(resultSet.getString("language")));
@@ -66,14 +66,14 @@ public class ExplanationRepositoryDeleteIT extends AbstractDatabaseConfiguration
             }
             throw new IllegalArgumentException("");
         });
-        List<Explanation> existingExplanations = executeStatementWithReturnValue("select * from explanation where language = ?", preparedStatement -> {
+        List<Explanation> existingExplanations = preparedStatementExecutor.executeAndReturn("select * from explanation where language = ?", preparedStatement -> {
             List<Explanation> explanations = new ArrayList<>();
             preparedStatement.setString(1, Locale.SIMPLIFIED_CHINESE.toString());
-            try(ResultSet resultSet = preparedStatement.executeQuery()) {
-                while(resultSet.next()) {
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
                     Explanation explanation = new Explanation(resultSet.getLong("id"));
                     final String languageLoaleString = resultSet.getString("language");
-                    explanation.setLanguage(Locale.forLanguageTag(languageLoaleString.replace("_","-")));
+                    explanation.setLanguage(Locale.forLanguageTag(languageLoaleString.replace("_", "-")));
                     explanation.setLexicalItem(existingLexicalItem);
                     explanation.setPartOfSpeech(PartOfSpeech.valueOf(resultSet.getString("partofspeech")));
                     explanation.setDefinition(resultSet.getString("definition"));
@@ -83,7 +83,7 @@ public class ExplanationRepositoryDeleteIT extends AbstractDatabaseConfiguration
             return explanations;
         });
         //ACT
-        executeTransaction(entityManager -> {
+        userTransactionExecutor.execute(entityManager -> {
             Explanation explanation = existingExplanations.get(0);
             ExplanationRepository out = new ExplanationRepositoryImpl(entityManager);
             out.deleteById(explanation.getId());

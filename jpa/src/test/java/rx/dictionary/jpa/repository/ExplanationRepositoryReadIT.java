@@ -35,7 +35,7 @@ public class ExplanationRepositoryReadIT extends AbstractDatabaseConfiguration {
     }
 
     private void addLexicalItem(LexicalItem lexicalItem, List<Explanation> explanations) {
-        final Long lexicalItemId = executeStatementWithReturnValue("insert into lexical_item (language,value) value (?,?)", statement -> {
+        final Long lexicalItemId = preparedStatementExecutor.executeAndReturn("insert into lexical_item (language,value) value (?,?)", statement -> {
             statement.setString(1, lexicalItem.getLanguage().toString()); // Set value for column1
             statement.setString(2, lexicalItem.getValue()); // Set value for column2
             statement.executeUpdate(); //Execute the insert statement
@@ -47,7 +47,7 @@ public class ExplanationRepositoryReadIT extends AbstractDatabaseConfiguration {
                 }
             }
         });
-        executeTransaction("insert into explanation (id, lexical_item_id, language, partOfSpeech, definition) value (NEXT VALUE FOR explanation_id_seq,?,?,?,?)", statement -> {
+        preparedStatementExecutor.execute("insert into explanation (id, lexical_item_id, language, partOfSpeech, definition) value (NEXT VALUE FOR explanation_id_seq,?,?,?,?)", statement -> {
             for (Explanation explanation : explanations) {
                 statement.setLong(1, lexicalItemId); // Set value for column1
                 statement.setString(2, explanation.getLanguage().toString());
@@ -62,7 +62,7 @@ public class ExplanationRepositoryReadIT extends AbstractDatabaseConfiguration {
     @Test
     public void findLike_base() {
         //ACT
-        executeTransaction(entityManager -> {
+        userTransactionExecutor.execute(entityManager -> {
             ExplanationRepository out = new ExplanationRepositoryImpl(entityManager);
             List<Explanation> result = out.findLike(new Keyword("test%", Locale.ENGLISH), Locale.SIMPLIFIED_CHINESE);
             assertEquals(3, result.size());

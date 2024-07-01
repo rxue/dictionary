@@ -17,7 +17,7 @@ import static rx.dictionary.jpa.ITUtil.newLexicalItem;
 
 public class ExplanationRepositoryCreateIT extends AbstractDatabaseConfiguration {
     private static LexicalItem getAnyLexicalItem() {
-        final LexicalItem existingSingleItem = executeStatementWithReturnValue("select * from lexical_item", preparedStatement -> {
+        final LexicalItem existingSingleItem = preparedStatementExecutor.executeAndReturn("select * from lexical_item", preparedStatement -> {
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
                     LexicalItem lexicalItem = new LexicalItem(resultSet.getLong("id"));
@@ -34,7 +34,7 @@ public class ExplanationRepositoryCreateIT extends AbstractDatabaseConfiguration
     public void truncateTables() {
         List<String> tableNames = List.of("explanation", "lexical_item");
         for (String table : tableNames) {
-            executeTransaction("delete from " + table, preparedStatement -> {
+            preparedStatementExecutor.execute("delete from " + table, preparedStatement -> {
                 preparedStatement.execute();
             });
         }
@@ -42,7 +42,7 @@ public class ExplanationRepositoryCreateIT extends AbstractDatabaseConfiguration
     @Test
     public void create_newLexicalItem() {
         //ACT
-        executeTransaction(entityManager -> {
+        userTransactionExecutor.execute(entityManager -> {
             ExplanationRepository out = new ExplanationRepositoryImpl(entityManager);
             LexicalItem lexicalItem = newLexicalItem(Locale.ENGLISH, "test");
             Explanation explanation1 = newExplanationWithoutIds(Locale.SIMPLIFIED_CHINESE, PartOfSpeech.N, "测试");
@@ -59,12 +59,12 @@ public class ExplanationRepositoryCreateIT extends AbstractDatabaseConfiguration
     @Test
     public void create_lexicalItemExisted() {
         //PREPARE
-        executeTransaction("insert into lexical_item (language,value) values ('EN','test')", preparedStatement -> {
+        preparedStatementExecutor.execute("insert into lexical_item (language,value) values ('EN','test')", preparedStatement -> {
             preparedStatement.execute();
         });
         final LexicalItem existingLexicalItem = getAnyLexicalItem();
         //ACT
-        executeTransaction(entityManager -> {
+        userTransactionExecutor.execute(entityManager -> {
             ExplanationRepository out = new ExplanationRepositoryImpl(entityManager);
             Explanation explanation1 = newExplanationWithoutIds(Locale.SIMPLIFIED_CHINESE, PartOfSpeech.N, "测试");
             explanation1.setLexicalItem(existingLexicalItem);
@@ -80,7 +80,7 @@ public class ExplanationRepositoryCreateIT extends AbstractDatabaseConfiguration
     }
 
     static Integer countExplanationRows() {
-        return executeStatementWithReturnValue("select * from explanation", prearedStatement -> {
+        return preparedStatementExecutor.executeAndReturn("select * from explanation", prearedStatement -> {
             int rowCount = 0;
             try (ResultSet resultSet = prearedStatement.executeQuery()) {
                 while (resultSet.next()) {

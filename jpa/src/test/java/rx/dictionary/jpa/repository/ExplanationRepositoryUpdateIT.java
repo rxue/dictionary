@@ -28,7 +28,7 @@ public class ExplanationRepositoryUpdateIT extends AbstractDatabaseConfiguration
     }
 
     private void addLexicalItem(LexicalItem lexicalItem, List<Explanation> explanations) {
-        final Long lexicalItemId = executeStatementWithReturnValue("insert into lexical_item (language,value) value (?,?)", statement -> {
+        final Long lexicalItemId = preparedStatementExecutor.executeAndReturn("insert into lexical_item (language,value) value (?,?)", statement -> {
             statement.setString(1, lexicalItem.getLanguage().toString()); // Set value for column1
             statement.setString(2, lexicalItem.getValue()); // Set value for column2
             statement.executeUpdate(); //Execute the insert statement
@@ -40,7 +40,7 @@ public class ExplanationRepositoryUpdateIT extends AbstractDatabaseConfiguration
                 }
             }
         });
-        executeTransaction("insert into explanation (id, lexical_item_id, language, partOfSpeech, definition) value (NEXT VALUE FOR explanation_id_seq,?,?,?,?)", statement -> {
+        preparedStatementExecutor.execute("insert into explanation (id, lexical_item_id, language, partOfSpeech, definition) value (NEXT VALUE FOR explanation_id_seq,?,?,?,?)", statement -> {
             for (Explanation explanation : explanations) {
                 statement.setLong(1, lexicalItemId); // Set value for column1
                 statement.setString(2, explanation.getLanguage().toString());
@@ -55,8 +55,8 @@ public class ExplanationRepositoryUpdateIT extends AbstractDatabaseConfiguration
     @Test
     public void update_onlyExplantion() {
         //PREPARE
-        LexicalItem existingLexicalItem = executeStatementWithReturnValue("select * from lexical_item", preparedStatement -> {
-            try(ResultSet resultSet = preparedStatement.executeQuery()) {
+        LexicalItem existingLexicalItem = preparedStatementExecutor.executeAndReturn("select * from lexical_item", preparedStatement -> {
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
                     LexicalItem lexicalItem = new LexicalItem(resultSet.getLong("id"));
                     lexicalItem.setLanguage(Locale.forLanguageTag(resultSet.getString("language")));
@@ -66,14 +66,14 @@ public class ExplanationRepositoryUpdateIT extends AbstractDatabaseConfiguration
             }
             throw new IllegalArgumentException("");
         });
-        List<Explanation> existingExplanations = executeStatementWithReturnValue("select * from explanation where language = ?", preparedStatement -> {
+        List<Explanation> existingExplanations = preparedStatementExecutor.executeAndReturn("select * from explanation where language = ?", preparedStatement -> {
             List<Explanation> explanations = new ArrayList<>();
             preparedStatement.setString(1, Locale.SIMPLIFIED_CHINESE.toString());
-            try(ResultSet resultSet = preparedStatement.executeQuery()) {
-                while(resultSet.next()) {
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
                     Explanation explanation = new Explanation(resultSet.getLong("id"));
                     final String languageLoaleString = resultSet.getString("language");
-                    explanation.setLanguage(Locale.forLanguageTag(languageLoaleString.replace("_","-")));
+                    explanation.setLanguage(Locale.forLanguageTag(languageLoaleString.replace("_", "-")));
                     explanation.setLexicalItem(existingLexicalItem);
                     //explanation.setLanguage(Locale.forLanguageTag(resultSet.getString("language")));
                     explanation.setPartOfSpeech(PartOfSpeech.valueOf(resultSet.getString("partofspeech")));
@@ -84,7 +84,7 @@ public class ExplanationRepositoryUpdateIT extends AbstractDatabaseConfiguration
             return explanations;
         });
         //ACT
-        executeTransaction(entityManager -> {
+        userTransactionExecutor.execute(entityManager -> {
             Explanation explanation1 = existingExplanations.get(0);
             explanation1.setDefinition("updated def 1");
             Explanation explanation2 = existingExplanations.get(1);
@@ -93,18 +93,18 @@ public class ExplanationRepositoryUpdateIT extends AbstractDatabaseConfiguration
             out.update(existingExplanations);
         });
         //ASSERT
-        List<Explanation> updatedResult = executeStatementWithReturnValue("select * from explanation where language = ?", preparedStatement -> {
-                preparedStatement.setString(1, Locale.SIMPLIFIED_CHINESE.toString());
-                List<Explanation> result = new ArrayList<>();
-                try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                    while (resultSet.next()) {
-                        System.out.println("language is " + resultSet.getString("language"));
-                        Explanation explanation = new Explanation(resultSet.getLong("id"));
-                        explanation.setDefinition(resultSet.getString("definition"));
-                        result.add(explanation);
-                    }
+        List<Explanation> updatedResult = preparedStatementExecutor.executeAndReturn("select * from explanation where language = ?", preparedStatement -> {
+            preparedStatement.setString(1, Locale.SIMPLIFIED_CHINESE.toString());
+            List<Explanation> result = new ArrayList<>();
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    System.out.println("language is " + resultSet.getString("language"));
+                    Explanation explanation = new Explanation(resultSet.getLong("id"));
+                    explanation.setDefinition(resultSet.getString("definition"));
+                    result.add(explanation);
                 }
-                return result;
+            }
+            return result;
         });
         assertEquals(List.of("updated def 1", "updated def 2"), updatedResult.stream().map(Explanation::getDefinition).toList());
     }
