@@ -1,4 +1,4 @@
-on: [push]
+on: [push-jpa]
 
 jobs:
   ci_test_job:
