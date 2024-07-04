@@ -1,4 +1,4 @@
-package rx.jdbc;
+package rx.transaction.jdbc;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
@@ -7,6 +7,6 @@ import java.sql.SQLException;
  * @param <T> generaic type of return data
  */
 @FunctionalInterface
-public interface WorkFromPreparedStatement {
-    void execute(PreparedStatement preparedStatement) throws SQLException;
+public interface WorkFrom<T> {
+    void execute(T jdbcObj) throws SQLException;
 }

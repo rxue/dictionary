@@ -3,8 +3,8 @@ package rx.dictionary.jpa;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
-import rx.dictionary.jpa.entity.LexicalItem;
-import rx.dictionary.jpa.repository.LexicalItemRepository;
+import rx.dictionary.jpa.entity.DictionaryEntry;
+import rx.dictionary.jpa.repository.DictionaryEntryRepository;
 
 import java.util.function.Consumer;
 
@@ -12,17 +12,13 @@ public class ITUtil {
     private ITUtil() {
     }
 
-    static LexicalItem getSingleLexicalItem(EntityManager em) {
-        return em.createQuery("SELECT l FROM LexicalItem l", LexicalItem.class)
+    static DictionaryEntry getSingleLexicalItem(EntityManager em) {
+        return em.createQuery("SELECT l FROM LexicalItem l", DictionaryEntry.class)
                 .getSingleResult();
     }
-    static void executeTransaction(EntityManagerFactory entityManagerFactory, Consumer<LexicalItemRepository> operations)  {
-        try(EntityManager em = entityManagerFactory.createEntityManager()) {
-            EntityTransaction transaction = em.getTransaction();
-            transaction.begin();
-            operations.accept(new LexicalItemRepository(em));
-            transaction.commit();
-        }
-        System.out.println("transaction committed");
+
+    static String localeStringToTag(String localeString) {
+        return localeString.replace("_", "-");
     }
+
 }

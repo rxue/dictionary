@@ -13,7 +13,7 @@ import java.util.Set;
 uniqueConstraints = {
         @UniqueConstraint(columnNames = {"language", "value"})
 })
-public class LexicalItem extends AbstractEntity {
+public class DictionaryEntry extends AbstractEntity {
     @Column(nullable=false)
     private Locale language;
     @Column(nullable=false)
@@ -22,10 +22,10 @@ public class LexicalItem extends AbstractEntity {
     @JoinColumn(name="lexical_item_id")
     private Set<Explanation> explanations = new HashSet<>();
     //Merely for testing purpose
-    public LexicalItem(Long id) {
+    public DictionaryEntry(Long id) {
         this.id = id;
     }
-    public LexicalItem() {
+    public DictionaryEntry() {
     }
 
     public Long getId() {

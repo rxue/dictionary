@@ -1,25 +1,25 @@
 package rx.dictionary.jpa;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
+import rx.dictionary.jpa.entity.DictionaryEntry;
 import rx.dictionary.jpa.entity.Explanation;
-import rx.dictionary.jpa.entity.LexicalItem;
-import rx.dictionary.jpa.repository.LexicalItemRepository;
+
+import org.junit.jupiter.api.Test;
+import rx.dictionary.jpa.repository.DictionaryEntryRepository;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class LexicalItemRepositoryUpdateIT extends AbstractDatabaseConfiguration {
+public class DictionaryEntryRepositoryUpdateIT extends AbstractDatabaseConfiguration {
+
     @BeforeEach
     public void addLexicalItem() {
-        final Long generatedId = executeTransactionWithReturnValue("insert into lexical_item (language,value) value (?,?)", statement -> {
+        final Long generatedId = preparedStatementExecutor.executeAndReturn("insert into lexical_item (language,value) value (?,?)", statement -> {
             statement.setString(1, Locale.ENGLISH.toLanguageTag()); // Set value for column1
             statement.setString(2, "test"); // Set value for column2
             statement.executeUpdate(); //Execute the insert statement
@@ -31,7 +31,7 @@ public class LexicalItemRepositoryUpdateIT extends AbstractDatabaseConfiguration
                 }
             }
         });
-        executeTransaction("insert into explanation (id, lexical_item_id, language, partOfSpeech, explanation) value (NEXT VALUE FOR explanation_id_seq,?,?,?,?)", statement -> {
+        preparedStatementExecutor.execute("insert into explanation (id, lexical_item_id, language, partOfSpeech, explanation) value (NEXT VALUE FOR explanation_id_seq,?,?,?,?)", statement -> {
             statement.setLong(1, generatedId); // Set value for column1
             statement.setString(2, Locale.SIMPLIFIED_CHINESE.toLanguageTag());
             statement.setString(3, "N");
@@ -42,28 +42,28 @@ public class LexicalItemRepositoryUpdateIT extends AbstractDatabaseConfiguration
 
     @AfterEach
     public void removeLexicalItem() {
-        executeTransaction("delete from explanation", statement -> {
+        preparedStatementExecutor.execute("delete from explanation", statement -> {
             statement.executeUpdate();
         });
-        executeTransaction("delete from lexical_item", statement -> {
+        preparedStatementExecutor.execute("delete from lexical_item", statement -> {
             statement.executeUpdate();
         });
-        executeTransaction("select * from lexical_item", preparedStatement -> {
+        preparedStatementExecutor.execute("select * from lexical_item", preparedStatement -> {
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 assertFalse(resultSet.next());
             }
         });
-        executeTransaction("select * from explanation", preparedStatement -> {
+        preparedStatementExecutor.execute("select * from explanation", preparedStatement -> {
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 assertFalse(resultSet.next());
             }
         });
     }
-    private LexicalItem getLexicalItem() {
-        final LexicalItem existingSingleItem = executeTransactionWithReturnValue("select * from lexical_item", preparedStatement -> {
+    private DictionaryEntry getLexicalItem() {
+        final DictionaryEntry existingSingleItem = preparedStatementExecutor.executeAndReturn("select * from lexical_item", preparedStatement -> {
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
-                    LexicalItem lexicalItem = new LexicalItem(resultSet.getLong("id"));
+                    DictionaryEntry lexicalItem = new DictionaryEntry(resultSet.getLong("id"));
                     lexicalItem.setLanguage(Locale.forLanguageTag(resultSet.getString("language")));
                     lexicalItem.setValue(resultSet.getString("value"));
                     return lexicalItem;
@@ -71,7 +71,7 @@ public class LexicalItemRepositoryUpdateIT extends AbstractDatabaseConfiguration
                 throw new IllegalArgumentException(preparedStatement + " does not return any result");
             }
         });
-        final Set<Explanation> explanations = executeTransactionWithReturnValue("select * from explanation where lexical_item_id = ?", preparedStatement -> {
+        final Set<Explanation> explanations = preparedStatementExecutor.executeAndReturn("select * from explanation where lexical_item_id = ?", preparedStatement -> {
             preparedStatement.setLong(1, existingSingleItem.getId());
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 Set<Explanation> result = new HashSet<>();
@@ -90,56 +90,55 @@ public class LexicalItemRepositoryUpdateIT extends AbstractDatabaseConfiguration
 
     @Test
     public void update_base() {
-        final LexicalItem existingSingleItem = getLexicalItem();
+        final DictionaryEntry existingSingleItem = getLexicalItem();
         //ACT
-        executeTransaction(entityManager -> {
+        userTransactionExecutor.execute(entityManager -> {
             existingSingleItem.setValue("lop changed");
             Set<Explanation> explanationsToUpdate = existingSingleItem.getExplanations();
             Explanation explanation = explanationsToUpdate.stream().findAny().get();
             explanation.setExplanation("updated explanation");
-            LexicalItemRepository out = new LexicalItemRepository(entityManager);
+            DictionaryEntryRepository out = new DictionaryEntryRepository(entityManager);
             out.update(existingSingleItem);
         });
         //ASSERT
-        final LexicalItem updatedLexicalItem = getLexicalItem();
+        final DictionaryEntry updatedLexicalItem = getLexicalItem();
         assertEquals("lop changed", updatedLexicalItem.getValue());
         assertEquals("updated explanation", updatedLexicalItem.getExplanations().stream().findAny().get().getExplanation());
     }
     @Test
     public void update_addNewItem() {
-        final LexicalItem existingSingleItem = getLexicalItem();
+        final DictionaryEntry existingSingleItem = getLexicalItem();
         //ACT
-        executeTransaction(entityManager -> {
+        userTransactionExecutor.execute(entityManager -> {
             existingSingleItem.setValue("lop changed");
             Set<Explanation> explanationsToUpdate = existingSingleItem.getExplanations();
             Explanation newExplanation = new Explanation();
             newExplanation.setLanguage(Locale.ENGLISH);
             newExplanation.setExplanation("new explanation");
             explanationsToUpdate.add(newExplanation);
-            LexicalItemRepository out = new LexicalItemRepository(entityManager);
+            DictionaryEntryRepository out = new DictionaryEntryRepository(entityManager);
             out.update(existingSingleItem);
         });
         //ASSERT
-        final LexicalItem updatedLexicalItem = getLexicalItem();
+        final DictionaryEntry updatedLexicalItem = getLexicalItem();
         assertEquals("lop changed", updatedLexicalItem.getValue());
         assertEquals(2, updatedLexicalItem.getExplanations().size());
     }
 
     @Test
     public void update_removeExistingItem() {
-        final LexicalItem existingSingleItem = getLexicalItem();
+        final DictionaryEntry existingSingleItem = getLexicalItem();
         //ACT
-        executeTransaction(entityManager -> {
+        userTransactionExecutor.execute(entityManager -> {
             existingSingleItem.setValue("lop changed");
             Set<Explanation> explanationsToUpdate = existingSingleItem.getExplanations();
             explanationsToUpdate.clear();
-            LexicalItemRepository out = new LexicalItemRepository(entityManager);
+            DictionaryEntryRepository out = new DictionaryEntryRepository(entityManager);
             out.update(existingSingleItem);
         });
         //ASSERT
-        final LexicalItem updatedLexicalItem = getLexicalItem();
+        final DictionaryEntry updatedLexicalItem = getLexicalItem();
         assertEquals("lop changed", updatedLexicalItem.getValue());
         assertTrue(updatedLexicalItem.getExplanations().isEmpty());
     }
-
 }

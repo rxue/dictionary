@@ -6,7 +6,7 @@ import jakarta.transaction.RollbackException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import rx.dictionary.jpa.entity.Explanation;
-import rx.dictionary.jpa.entity.LexicalItem;
+import rx.dictionary.jpa.entity.DictionaryEntry;
 import rx.dictionary.jpa.entity.TestEntity;
 
 import java.sql.*;
@@ -69,8 +69,8 @@ public class EntityManagerLearningIT extends AbstractDatabaseConfiguration {
 
     @Test
     public void testMerge() {
-        LexicalItem l;
-        LexicalItem managed;
+        DictionaryEntry l;
+        DictionaryEntry managed;
         try(EntityManager em = entityManagerFactory.createEntityManager()) {
             EntityTransaction transaction = em.getTransaction();
             transaction.begin();
@@ -95,7 +95,7 @@ public class EntityManagerLearningIT extends AbstractDatabaseConfiguration {
         try(EntityManager em = entityManagerFactory.createEntityManager()) {
             EntityTransaction transaction = em.getTransaction();
             transaction.begin();
-            LexicalItem l = initEntity();
+            DictionaryEntry l = initEntity();
             em.persist(l);
             assertTrue(em.contains(l), "Learned from JPA book 2023 > An entity is in persistent state if EntityManager.contains(e) returns true");
             transaction.commit();
@@ -107,16 +107,16 @@ public class EntityManagerLearningIT extends AbstractDatabaseConfiguration {
         try(EntityManager em = entityManagerFactory.createEntityManager()) {
             EntityTransaction transaction = em.getTransaction();
             transaction.begin();
-            LexicalItem l = initEntity();
+            DictionaryEntry l = initEntity();
             em.persist(l);
             transaction.commit();
         }
         try(EntityManager em = entityManagerFactory.createEntityManager()) {
             EntityTransaction transaction = em.getTransaction();
             transaction.begin();
-            TypedQuery<LexicalItem> query = em.createQuery("SELECT e FROM LexicalItem e WHERE e.value = :value", LexicalItem.class);
+            TypedQuery<DictionaryEntry> query = em.createQuery("SELECT e FROM LexicalItem e WHERE e.value = :value", DictionaryEntry.class);
             query.setParameter("value", "take");
-            LexicalItem entityToRemove = query.getSingleResult();
+            DictionaryEntry entityToRemove = query.getSingleResult();
             em.remove(entityToRemove);
             assertTrue(em.contains(entityToRemove));
             transaction.commit();
@@ -127,16 +127,16 @@ public class EntityManagerLearningIT extends AbstractDatabaseConfiguration {
         try(EntityManager em = entityManagerFactory.createEntityManager()) {
             EntityTransaction transaction = em.getTransaction();
             transaction.begin();
-            LexicalItem l = initEntity();
+            DictionaryEntry l = initEntity();
             em.persist(l);
-            LexicalItem addedItem = em.find(LexicalItem.class, l.getId());
+            DictionaryEntry addedItem = em.find(DictionaryEntry.class, l.getId());
             assertNotNull(addedItem);
             transaction.commit();
         }
     }
 
-    private static LexicalItem initEntity() {
-        LexicalItem l = new LexicalItem();
+    private static DictionaryEntry initEntity() {
+        DictionaryEntry l = new DictionaryEntry();
         l.setLanguage(Locale.forLanguageTag("en"));
         l.setValue("take");
         Explanation explanation = new Explanation();

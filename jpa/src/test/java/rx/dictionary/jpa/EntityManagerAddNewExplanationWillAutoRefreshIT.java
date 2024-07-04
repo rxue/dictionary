@@ -1,15 +1,4 @@
 package rx.dictionary.jpa;
-import jakarta.persistence.EntityManager;
-import org.junit.jupiter.api.Test;
-import rx.dictionary.jpa.entity.Explanation;
-import rx.dictionary.jpa.entity.LexicalItem;
-import rx.dictionary.jpa.vo.Keyword;
-
-import java.util.Locale;
-import java.util.Set;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static rx.dictionary.jpa.ITUtil.executeTransaction;
 
 public class EntityManagerAddNewExplanationWillAutoRefreshIT extends AbstractDatabaseConfiguration {
     /**

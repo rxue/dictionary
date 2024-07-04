@@ -1,4 +1,4 @@
-package rx.jdbc;
+package rx.transaction.jdbc;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 

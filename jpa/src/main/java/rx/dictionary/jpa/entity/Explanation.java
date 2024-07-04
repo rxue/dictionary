@@ -18,6 +18,9 @@ public class Explanation {
     @Id
     @GeneratedValue(generator="explanation_sequence", strategy=GenerationType.SEQUENCE)
     private Long id;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="lexical_item_id")
+    private DictionaryEntry dictionaryEntry;
     @Column(nullable = false)
     private Locale language;
     @Enumerated(EnumType.STRING)
