@@ -29,6 +29,7 @@ public class ExplanationRepositoryUpdateIT extends AbstractDatabaseConfiguration
         preparedStatementExecutor.execute("delete from lexical_item", statement -> {
             statement.executeUpdate();
         });
+        //ensure truncate success
         preparedStatementExecutor.execute("select * from lexical_item", preparedStatement -> {
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 assertFalse(resultSet.next());
@@ -70,7 +71,7 @@ public class ExplanationRepositoryUpdateIT extends AbstractDatabaseConfiguration
     }
 
     @Test
-    public void update_base() {
+    public void cascadeUpdate_base() {
         //PREPARE
         final Set<Explanation> explanations = ITUtil.getLexicalItem(preparedStatementExecutor, "test")
                 .getExplanations();
@@ -81,7 +82,7 @@ public class ExplanationRepositoryUpdateIT extends AbstractDatabaseConfiguration
             dictionaryEntry.setValue("test after update");
             explanationToUpdate.setExplanation("updated explanation");
             ExplanationRepository out = new ExplanationRepository(entityManager);
-            out.update(explanations.stream().toList());
+            out.cascadeUpdate(explanations.stream().toList());
         });
         //ASSERT
         final Set<Explanation> updatedExplanations = ITUtil.getLexicalItem(preparedStatementExecutor, "test after update")
