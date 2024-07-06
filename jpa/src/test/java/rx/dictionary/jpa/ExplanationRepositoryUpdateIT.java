@@ -15,33 +15,15 @@ import rx.dictionary.jpa.repository.DictionaryEntryRepository;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class DictionaryEntryRepositoryUpdateIT extends AbstractDatabaseConfiguration {
+public class ExplanationRepositoryUpdateIT extends AbstractDatabaseConfiguration {
 
     @BeforeEach
-    public void addLexicalItem() {
-        final Long generatedId = preparedStatementExecutor.executeAndReturn("insert into lexical_item (language,value) value (?,?)", statement -> {
-            statement.setString(1, Locale.ENGLISH.toLanguageTag()); // Set value for column1
-            statement.setString(2, "test"); // Set value for column2
-            statement.executeUpdate(); //Execute the insert statement
-            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
-                if (generatedKeys.next()) {
-                    return generatedKeys.getLong(1); // Assuming the ID is a long (modify based on data type)
-                } else {
-                    throw new IllegalStateException("ID generation failure");
-                }
-            }
-        });
-        preparedStatementExecutor.execute("insert into explanation (id, lexical_item_id, language, partOfSpeech, explanation) value (NEXT VALUE FOR explanation_id_seq,?,?,?,?)", statement -> {
-            statement.setLong(1, generatedId); // Set value for column1
-            statement.setString(2, Locale.SIMPLIFIED_CHINESE.toLanguageTag());
-            statement.setString(3, "N");
-            statement.setString(4, "测试");
-            statement.executeUpdate();
-        });
+    public void insert() {
+        ExplanationRepositoryReadIT.insert();
     }
 
     @AfterEach
-    public void removeLexicalItem() {
+    public void truncate() {
         preparedStatementExecutor.execute("delete from explanation", statement -> {
             statement.executeUpdate();
         });

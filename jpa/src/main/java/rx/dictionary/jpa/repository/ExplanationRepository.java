@@ -17,7 +17,6 @@ public class ExplanationRepository {
     }
 
     public List<Explanation> findLike(Keyword keyword, Locale definitionLanguage) {
-
         String jpql = "select e from Explanation e where " +
                 "e.dictionaryEntry.language =: language and " +
                 "e.dictionaryEntry.value like :value and " +
