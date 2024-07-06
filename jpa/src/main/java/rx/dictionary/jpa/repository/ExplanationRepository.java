@@ -27,4 +27,8 @@ public class ExplanationRepository {
                 .setParameter("definitionLanguage", definitionLanguage)
                 .getResultList();
     }
+
+    public void update(List<Explanation> explanations) {
+        explanations.forEach(entityManager::merge);
+    }
 }

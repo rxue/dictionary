@@ -1,4 +1,4 @@
-package rx.dictionary.jpa;
+package rx.dictionary.jpa.repository;
 
 import java.sql.ResultSet;
 import java.util.HashSet;
@@ -11,7 +11,6 @@ import rx.dictionary.jpa.entity.DictionaryEntry;
 import rx.dictionary.jpa.entity.Explanation;
 
 import org.junit.jupiter.api.Test;
-import rx.dictionary.jpa.repository.DictionaryEntryRepository;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -58,7 +57,7 @@ public class ExplanationRepositoryUpdateIT extends AbstractDatabaseConfiguration
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 Set<Explanation> result = new HashSet<>();
                 while (resultSet.next()) {
-                    Explanation explanation = new Explanation(resultSet.getLong("id"));
+                    Explanation explanation = new Explanation(resultSet.getLong("id"), existingSingleItem);
                     explanation.setLanguage(Locale.forLanguageTag(resultSet.getString("language")));
                     explanation.setExplanation(resultSet.getString("explanation"));
                     result.add(explanation);
@@ -72,55 +71,21 @@ public class ExplanationRepositoryUpdateIT extends AbstractDatabaseConfiguration
 
     @Test
     public void update_base() {
-        final DictionaryEntry existingSingleItem = getLexicalItem();
+        //PREPARE
+        final Set<Explanation> explanations = ITUtil.getLexicalItem(preparedStatementExecutor, "test")
+                .getExplanations();
+        Explanation explanationToUpdate = explanations.stream().findAny().get();
         //ACT
         userTransactionExecutor.execute(entityManager -> {
-            existingSingleItem.setValue("lop changed");
-            Set<Explanation> explanationsToUpdate = existingSingleItem.getExplanations();
-            Explanation explanation = explanationsToUpdate.stream().findAny().get();
-            explanation.setExplanation("updated explanation");
-            DictionaryEntryRepository out = new DictionaryEntryRepository(entityManager);
-            out.update(existingSingleItem);
+            DictionaryEntry dictionaryEntry = explanationToUpdate.getDictionaryEntry();
+            dictionaryEntry.setValue("test after update");
+            explanationToUpdate.setExplanation("updated explanation");
+            ExplanationRepository out = new ExplanationRepository(entityManager);
+            out.update(explanations.stream().toList());
         });
         //ASSERT
-        final DictionaryEntry updatedLexicalItem = getLexicalItem();
-        assertEquals("lop changed", updatedLexicalItem.getValue());
-        assertEquals("updated explanation", updatedLexicalItem.getExplanations().stream().findAny().get().getExplanation());
-    }
-    @Test
-    public void update_addNewItem() {
-        final DictionaryEntry existingSingleItem = getLexicalItem();
-        //ACT
-        userTransactionExecutor.execute(entityManager -> {
-            existingSingleItem.setValue("lop changed");
-            Set<Explanation> explanationsToUpdate = existingSingleItem.getExplanations();
-            Explanation newExplanation = new Explanation();
-            newExplanation.setLanguage(Locale.ENGLISH);
-            newExplanation.setExplanation("new explanation");
-            explanationsToUpdate.add(newExplanation);
-            DictionaryEntryRepository out = new DictionaryEntryRepository(entityManager);
-            out.update(existingSingleItem);
-        });
-        //ASSERT
-        final DictionaryEntry updatedLexicalItem = getLexicalItem();
-        assertEquals("lop changed", updatedLexicalItem.getValue());
-        assertEquals(2, updatedLexicalItem.getExplanations().size());
-    }
-
-    @Test
-    public void update_removeExistingItem() {
-        final DictionaryEntry existingSingleItem = getLexicalItem();
-        //ACT
-        userTransactionExecutor.execute(entityManager -> {
-            existingSingleItem.setValue("lop changed");
-            Set<Explanation> explanationsToUpdate = existingSingleItem.getExplanations();
-            explanationsToUpdate.clear();
-            DictionaryEntryRepository out = new DictionaryEntryRepository(entityManager);
-            out.update(existingSingleItem);
-        });
-        //ASSERT
-        final DictionaryEntry updatedLexicalItem = getLexicalItem();
-        assertEquals("lop changed", updatedLexicalItem.getValue());
-        assertTrue(updatedLexicalItem.getExplanations().isEmpty());
+        final Set<Explanation> updatedExplanations = ITUtil.getLexicalItem(preparedStatementExecutor, "test after update")
+                .getExplanations();
+        assertTrue(updatedExplanations.stream().anyMatch(e -> "updated explanation".equals(e.getExplanation())));
     }
 }

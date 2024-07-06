@@ -54,4 +54,8 @@ public class DictionaryEntry extends AbstractEntity {
     public void addExplanation(Explanation explanation) {
         explanations.add(explanation);
     }
+    @Override
+    public boolean equals(Object obj) {
+        return false;
+    }
 }

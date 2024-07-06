@@ -1,9 +1,8 @@
-package rx.dictionary.jpa;
+package rx.dictionary.jpa.repository;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import rx.dictionary.jpa.entity.Explanation;
-import rx.dictionary.jpa.repository.ExplanationRepository;
 import rx.dictionary.jpa.repository.input.Keyword;
 
 import java.util.List;
@@ -11,7 +10,7 @@ import java.util.Locale;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static rx.dictionary.jpa.ITUtil.generateLexicalItem;
+import static rx.dictionary.jpa.repository.ITUtil.generateLexicalItem;
 
 public class ExplanationRepositoryReadIT extends AbstractDatabaseConfiguration {
 

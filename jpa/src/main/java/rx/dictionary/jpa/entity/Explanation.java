@@ -30,13 +30,17 @@ public class Explanation {
     @ElementCollection(fetch = EAGER)
     @CollectionTable(name = "sentence")
     private Set<String> sentences = new HashSet<>();
-
+    @Embedded
     private DateAttributes dateAttributes;
 
-    public Explanation(Long id) {
+    public Explanation(Long id, DictionaryEntry dictionaryEntry) {
         this.id = id;
+        this.dictionaryEntry = dictionaryEntry;
     }
-    public Explanation() {
+    public Explanation() {}
+
+    public DictionaryEntry getDictionaryEntry() {
+        return dictionaryEntry;
     }
 
     public Long getId() {

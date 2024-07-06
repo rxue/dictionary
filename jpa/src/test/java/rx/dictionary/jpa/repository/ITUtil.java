@@ -1,19 +1,13 @@
-package rx.dictionary.jpa;
+package rx.dictionary.jpa.repository;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.EntityTransaction;
 import rx.dictionary.jpa.entity.DictionaryEntry;
 import rx.dictionary.jpa.entity.Explanation;
-import rx.dictionary.jpa.repository.DictionaryEntryRepository;
 import rx.transaction.jdbc.PreparedStatementExecutor;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
-import java.util.function.Consumer;
 
 class ITUtil {
     private ITUtil() {
@@ -37,8 +31,9 @@ class ITUtil {
         return localeString.replace("_", "-");
     }
 
-    static DictionaryEntry getFirstLexicalItem(PreparedStatementExecutor preparedStatementExecutor) {
-        final DictionaryEntry existingSingleItem = preparedStatementExecutor.executeAndReturn("select * from lexical_item", preparedStatement -> {
+    static DictionaryEntry getLexicalItem(PreparedStatementExecutor preparedStatementExecutor, String lexicalItemValue) {
+        final DictionaryEntry existingItem = preparedStatementExecutor.executeAndReturn("select * from lexical_item where value = ?", preparedStatement -> {
+            preparedStatement.setString(1, lexicalItemValue);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
                     DictionaryEntry lexicalItem = new DictionaryEntry(resultSet.getLong("id"));
@@ -50,11 +45,11 @@ class ITUtil {
             }
         });
         final Set<Explanation> explanations = preparedStatementExecutor.executeAndReturn("select * from explanation where lexical_item_id = ?", preparedStatement -> {
-            preparedStatement.setLong(1, existingSingleItem.getId());
+            preparedStatement.setLong(1, existingItem.getId());
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 Set<Explanation> result = new HashSet<>();
                 while (resultSet.next()) {
-                    Explanation explanation = new Explanation(resultSet.getLong("id"));
+                    Explanation explanation = new Explanation(resultSet.getLong("id"), existingItem);
                     String localeTag = localeStringToTag(resultSet.getString("language"));
                     explanation.setLanguage(Locale.forLanguageTag(localeTag));
                     explanation.setExplanation(resultSet.getString("explanation"));
@@ -63,7 +58,7 @@ class ITUtil {
                 return result;
             }
         });
-        explanations.forEach(existingSingleItem::addExplanation);
-        return existingSingleItem;
+        explanations.forEach(existingItem::addExplanation);
+        return existingItem;
     }
 }

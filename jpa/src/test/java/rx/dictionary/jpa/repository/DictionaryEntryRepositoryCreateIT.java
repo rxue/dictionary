@@ -1,9 +1,8 @@
-package rx.dictionary.jpa;
+package rx.dictionary.jpa.repository;
 
 import org.junit.jupiter.api.Test;
 import rx.dictionary.jpa.entity.Explanation;
 import rx.dictionary.jpa.entity.DictionaryEntry;
-import rx.dictionary.jpa.repository.DictionaryEntryRepository;
 
 import java.util.Locale;
 
@@ -26,10 +25,11 @@ public class DictionaryEntryRepositoryCreateIT extends AbstractDatabaseConfigura
             out.add(l);
         });
         //ASSERT
-        final DictionaryEntry createdLexicalItem = ITUtil.getFirstLexicalItem(preparedStatementExecutor);
+        final DictionaryEntry createdLexicalItem = ITUtil.getLexicalItem(preparedStatementExecutor, "take");
         assertEquals("take", createdLexicalItem.getValue());
         Explanation explanation = createdLexicalItem.getExplanations().stream().findAny().get();
         assertEquals(Locale.SIMPLIFIED_CHINESE, explanation.getLanguage());
         assertEquals("行动", explanation.getExplanation());
+
     }
 }
