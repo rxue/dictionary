@@ -28,4 +28,9 @@ public class ExplanationRepository {
     public void cascadeUpdate(List<Explanation> explanations) {
         explanations.forEach(entityManager::merge);
     }
+
+    public void deleteById(Long id) {
+        Explanation managedExplanation = entityManager.find(Explanation.class, id);
+        entityManager.remove(managedExplanation);
+    }
 }
