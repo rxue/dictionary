@@ -1,0 +1,43 @@
+# Repository Design with JPA
+## Interface design: `LexicalItemRepository` and `ExplanationRepository`
+
+Think first from the frontend point of view:
+
+**CREATE**
+ * ~add a full *lexical entry* including *lexical item*, *defintion*, *part of speech*, *example sentences* etc.~
+ * ~add a single *explanation* to an existing *lexical entry*~
+
+**READ** 
+
+ * Given an keyword with value, language and definition language, get all the possible results along with all meanings
+ * ~Given a *lexical item id* get the all the explanations~ (no real case realized yet)
+
+**UPDATE**
+
+ * ~Given a *lexical item*, update it (explanations can be added or removed)~
+ * ~Given an *explanation*, update it~
+
+**DELETE**
+
+ * Given a *lexical item* delete it (not implemented yet)
+ * ~Given an *explanation*, delete it~
+
+**Unidirectional `@ManyToOne` Association (`Explanation` > `LexicalItem`)**
+
+**CREATE**
+ * add a full *lexical entry* including *lexical item*, *defintion*, *part of speech*, *example sentences* etc. : (can be done purely through `ExplanationRepository`)
+
+**READ** 
+
+ * Given an input, get all the possible results along with all meanings: OK (can be done purely through `ExplanationRepository`)
+ * ~Given a *lexical item id* get the all the explanations : OK but the query on `ExplanationRepository` is not trivial~
+
+**UPDATE**
+
+ * ~Given a *lexical item*, update it (explanations can be added or removed) : need separate merge on both `LexicalItem` and `Explanation`~
+
+**DELETE**
+
+ * ~Given a *lexical item* delete it : need first `LexicalItemRepository.find`/`EntityManager.find` to search for the managed entity and thEN call `EntityManager.remove`~
+
+~This design strategy cannot simply meet the repositories.~
