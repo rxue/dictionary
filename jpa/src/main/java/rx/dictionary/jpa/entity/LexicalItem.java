@@ -11,16 +11,16 @@ import java.util.Locale;
 uniqueConstraints = {
         @UniqueConstraint(columnNames = {"language", "value"})
 })
-public class DictionaryEntry extends AbstractEntity {
+public class LexicalItem extends AbstractEntity {
     @Column(nullable=false)
     private Locale language;
     @Column(nullable=false)
     private String value;
     //Merely for testing purpose
-    public DictionaryEntry(Long id) {
+    public LexicalItem(Long id) {
         this.id = id;
     }
-    public DictionaryEntry() {
+    public LexicalItem() {
     }
 
     public Long getId() {

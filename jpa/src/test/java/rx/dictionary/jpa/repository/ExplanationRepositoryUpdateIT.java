@@ -1,13 +1,10 @@
 package rx.dictionary.jpa.repository;
 
-import java.sql.ResultSet;
-import java.util.HashSet;
-import java.util.Locale;
 import java.util.Set;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import rx.dictionary.jpa.entity.DictionaryEntry;
+import rx.dictionary.jpa.entity.LexicalItem;
 import rx.dictionary.jpa.entity.Explanation;
 
 import org.junit.jupiter.api.Test;
@@ -22,24 +19,8 @@ public class ExplanationRepositoryUpdateIT extends AbstractDatabaseConfiguration
     }
 
     @AfterEach
-    public void truncate() {
-        preparedStatementExecutor.execute("delete from explanation", statement -> {
-            statement.executeUpdate();
-        });
-        preparedStatementExecutor.execute("delete from lexical_item", statement -> {
-            statement.executeUpdate();
-        });
-        //ensure truncate success
-        preparedStatementExecutor.execute("select * from lexical_item", preparedStatement -> {
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                assertFalse(resultSet.next());
-            }
-        });
-        preparedStatementExecutor.execute("select * from explanation", preparedStatement -> {
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                assertFalse(resultSet.next());
-            }
-        });
+    public void truncateTables() {
+        ITUtil.truncateTables(preparedStatementExecutor);
     }
 
     @Test
@@ -49,14 +30,14 @@ public class ExplanationRepositoryUpdateIT extends AbstractDatabaseConfiguration
         Explanation explanationToUpdate = explanations.stream().findAny().get();
         //ACT
         userTransactionExecutor.execute(entityManager -> {
-            DictionaryEntry dictionaryEntry = explanationToUpdate.getDictionaryEntry();
-            dictionaryEntry.setValue("test after update");
-            explanationToUpdate.setExplanation("updated explanation");
+            LexicalItem lexicalItem = explanationToUpdate.getDictionaryEntry();
+            lexicalItem.setValue("test after update");
+            explanationToUpdate.setDefinition("updated explanation");
             ExplanationRepository out = new ExplanationRepository(entityManager);
             out.cascadeUpdate(explanations.stream().toList());
         });
         //ASSERT
         final Set<Explanation> updatedExplanations = ITUtil.getAllExplanations(preparedStatementExecutor, "test after update");
-        assertTrue(updatedExplanations.stream().anyMatch(e -> "updated explanation".equals(e.getExplanation())));
+        assertTrue(updatedExplanations.stream().anyMatch(e -> "updated explanation".equals(e.getDefinition())));
     }
 }

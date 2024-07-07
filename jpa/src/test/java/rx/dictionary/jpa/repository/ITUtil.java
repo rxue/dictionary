@@ -1,6 +1,6 @@
 package rx.dictionary.jpa.repository;
 
-import rx.dictionary.jpa.entity.DictionaryEntry;
+import rx.dictionary.jpa.entity.LexicalItem;
 import rx.dictionary.jpa.entity.Explanation;
 import rx.transaction.jdbc.PreparedStatementExecutor;
 
@@ -8,6 +8,8 @@ import java.sql.ResultSet;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 class ITUtil {
     private ITUtil() {
@@ -32,11 +34,11 @@ class ITUtil {
     }
 
     static Set<Explanation> getAllExplanations(PreparedStatementExecutor preparedStatementExecutor, String lexicalItemValue) {
-        final DictionaryEntry existingItem = preparedStatementExecutor.executeAndReturn("select * from lexical_item where value = ?", preparedStatement -> {
+        final LexicalItem existingItem = preparedStatementExecutor.executeAndReturn("select * from lexical_item where value = ?", preparedStatement -> {
             preparedStatement.setString(1, lexicalItemValue);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
-                    DictionaryEntry lexicalItem = new DictionaryEntry(resultSet.getLong("id"));
+                    LexicalItem lexicalItem = new LexicalItem(resultSet.getLong("id"));
                     lexicalItem.setLanguage(Locale.forLanguageTag(resultSet.getString("language")));
                     lexicalItem.setValue(resultSet.getString("value"));
                     return lexicalItem;
@@ -52,10 +54,29 @@ class ITUtil {
                     Explanation explanation = new Explanation(resultSet.getLong("id"), existingItem);
                     String localeTag = localeStringToTag(resultSet.getString("language"));
                     explanation.setLanguage(Locale.forLanguageTag(localeTag));
-                    explanation.setExplanation(resultSet.getString("explanation"));
+                    explanation.setDefinition(resultSet.getString("definition"));
                     result.add(explanation);
                 }
                 return result;
+            }
+        });
+    }
+    public static void truncateTables(PreparedStatementExecutor preparedStatementExecutor) {
+        preparedStatementExecutor.execute("delete from explanation", statement -> {
+            statement.executeUpdate();
+        });
+        preparedStatementExecutor.execute("delete from lexical_item", statement -> {
+            statement.executeUpdate();
+        });
+        //ensure truncate success
+        preparedStatementExecutor.execute("select * from lexical_item", preparedStatement -> {
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                assertFalse(resultSet.next());
+            }
+        });
+        preparedStatementExecutor.execute("select * from explanation", preparedStatement -> {
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                assertFalse(resultSet.next());
             }
         });
     }

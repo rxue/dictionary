@@ -16,8 +16,8 @@ public class ExplanationRepository {
 
     public List<Explanation> findLike(Keyword keyword, Locale definitionLanguage) {
         String jpql = "select e from Explanation e where " +
-                "e.dictionaryEntry.language =: language and " +
-                "e.dictionaryEntry.value like :value and " +
+                "e.lexicalItem.language =: language and " +
+                "e.lexicalItem.value like :value and " +
                 "e.language =: definitionLanguage";
         return entityManager.createQuery(jpql, Explanation.class)
                 .setParameter("language", keyword.language())
@@ -36,6 +36,6 @@ public class ExplanationRepository {
     }
 
     public void cascadeAdd(Collection<Explanation> explanations) {
-        explanations.forEach(entityManager::persist);
+        explanations.forEach(entityManager::merge);
     }
 }

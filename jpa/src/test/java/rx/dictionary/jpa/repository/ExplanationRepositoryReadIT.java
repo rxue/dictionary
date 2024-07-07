@@ -17,7 +17,7 @@ public class ExplanationRepositoryReadIT extends AbstractDatabaseConfiguration {
     @BeforeAll
     public static void insert() {
         final Long generatedId = generateLexicalItem(preparedStatementExecutor, Locale.ENGLISH, "test");
-        preparedStatementExecutor.execute("insert into explanation (id, lexical_item_id, language, partOfSpeech, explanation) value (NEXT VALUE FOR explanation_id_seq,?,?,?,?)", statement -> {
+        preparedStatementExecutor.execute("insert into explanation (id, lexical_item_id, language, partOfSpeech, definition) value (NEXT VALUE FOR explanation_id_seq,?,?,?,?)", statement -> {
             statement.setLong(1, generatedId); // Set value for column1
             statement.setString(2, Locale.SIMPLIFIED_CHINESE.toString());
             statement.setString(3, "N");
@@ -36,7 +36,7 @@ public class ExplanationRepositoryReadIT extends AbstractDatabaseConfiguration {
             statement.executeBatch();
         });
         final Long generatedId2 = generateLexicalItem(preparedStatementExecutor, Locale.ENGLISH, "other");
-        preparedStatementExecutor.execute("insert into explanation (id, lexical_item_id, language, partOfSpeech, explanation) value (NEXT VALUE FOR explanation_id_seq,?,?,?,?)", statement -> {
+        preparedStatementExecutor.execute("insert into explanation (id, lexical_item_id, language, partOfSpeech, definition) value (NEXT VALUE FOR explanation_id_seq,?,?,?,?)", statement -> {
             statement.setLong(1, generatedId2); // Set value for column1
             statement.setString(2, Locale.SIMPLIFIED_CHINESE.toString());
             statement.setString(3, "N");
@@ -56,7 +56,7 @@ public class ExplanationRepositoryReadIT extends AbstractDatabaseConfiguration {
             assertAll("",
                     () -> {
                         Explanation first = result.get(0);
-                        assertEquals("测试 1", first.getExplanation());
+                        assertEquals("测试 1", first.getDefinition());
                     });
         });
     }
