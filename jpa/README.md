@@ -40,4 +40,9 @@ Think first from the frontend point of view:
 
  * ~Given a *lexical item* delete it : need first `LexicalItemRepository.find`/`EntityManager.find` to search for the managed entity and thEN call `EntityManager.remove`~
 
-~This design strategy cannot simply meet the repositories.~
+~This design strategy cannot simply meet the repositories.~ 
+
+## Current Design Conclusion on base of *prototyping* trial
+
+After trying the bidirectional `@ManyToOne` association from `Explanation` back to `DictionaryEntry`, and then gradually tweaking back to unidirectional, unidirectional `@ManyToOne` association is eventually decided to be used
+
