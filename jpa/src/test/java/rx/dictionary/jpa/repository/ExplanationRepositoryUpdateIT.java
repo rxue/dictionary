@@ -41,40 +41,11 @@ public class ExplanationRepositoryUpdateIT extends AbstractDatabaseConfiguration
             }
         });
     }
-    private DictionaryEntry getLexicalItem() {
-        final DictionaryEntry existingSingleItem = preparedStatementExecutor.executeAndReturn("select * from lexical_item", preparedStatement -> {
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                if (resultSet.next()) {
-                    DictionaryEntry lexicalItem = new DictionaryEntry(resultSet.getLong("id"));
-                    lexicalItem.setLanguage(Locale.forLanguageTag(resultSet.getString("language")));
-                    lexicalItem.setValue(resultSet.getString("value"));
-                    return lexicalItem;
-                }
-                throw new IllegalArgumentException(preparedStatement + " does not return any result");
-            }
-        });
-        final Set<Explanation> explanations = preparedStatementExecutor.executeAndReturn("select * from explanation where lexical_item_id = ?", preparedStatement -> {
-            preparedStatement.setLong(1, existingSingleItem.getId());
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                Set<Explanation> result = new HashSet<>();
-                while (resultSet.next()) {
-                    Explanation explanation = new Explanation(resultSet.getLong("id"), existingSingleItem);
-                    explanation.setLanguage(Locale.forLanguageTag(resultSet.getString("language")));
-                    explanation.setExplanation(resultSet.getString("explanation"));
-                    result.add(explanation);
-                }
-                return result;
-            }
-        });
-        explanations.forEach(existingSingleItem::addExplanation);
-        return existingSingleItem;
-    }
 
     @Test
     public void cascadeUpdate_base() {
         //PREPARE
-        final Set<Explanation> explanations = ITUtil.getLexicalItem(preparedStatementExecutor, "test")
-                .getExplanations();
+        final Set<Explanation> explanations = ITUtil.getAllExplanations(preparedStatementExecutor, "test");
         Explanation explanationToUpdate = explanations.stream().findAny().get();
         //ACT
         userTransactionExecutor.execute(entityManager -> {
@@ -85,8 +56,7 @@ public class ExplanationRepositoryUpdateIT extends AbstractDatabaseConfiguration
             out.cascadeUpdate(explanations.stream().toList());
         });
         //ASSERT
-        final Set<Explanation> updatedExplanations = ITUtil.getLexicalItem(preparedStatementExecutor, "test after update")
-                .getExplanations();
+        final Set<Explanation> updatedExplanations = ITUtil.getAllExplanations(preparedStatementExecutor, "test after update");
         assertTrue(updatedExplanations.stream().anyMatch(e -> "updated explanation".equals(e.getExplanation())));
     }
 }

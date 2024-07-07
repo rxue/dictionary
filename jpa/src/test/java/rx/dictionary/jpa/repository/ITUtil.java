@@ -31,7 +31,7 @@ class ITUtil {
         return localeString.replace("_", "-");
     }
 
-    static DictionaryEntry getLexicalItem(PreparedStatementExecutor preparedStatementExecutor, String lexicalItemValue) {
+    static Set<Explanation> getAllExplanations(PreparedStatementExecutor preparedStatementExecutor, String lexicalItemValue) {
         final DictionaryEntry existingItem = preparedStatementExecutor.executeAndReturn("select * from lexical_item where value = ?", preparedStatement -> {
             preparedStatement.setString(1, lexicalItemValue);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -44,7 +44,7 @@ class ITUtil {
                 throw new IllegalArgumentException(preparedStatement + " does not return any result");
             }
         });
-        final Set<Explanation> explanations = preparedStatementExecutor.executeAndReturn("select * from explanation where lexical_item_id = ?", preparedStatement -> {
+        return preparedStatementExecutor.executeAndReturn("select * from explanation where lexical_item_id = ?", preparedStatement -> {
             preparedStatement.setLong(1, existingItem.getId());
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 Set<Explanation> result = new HashSet<>();
@@ -58,7 +58,5 @@ class ITUtil {
                 return result;
             }
         });
-        explanations.forEach(existingItem::addExplanation);
-        return existingItem;
     }
 }

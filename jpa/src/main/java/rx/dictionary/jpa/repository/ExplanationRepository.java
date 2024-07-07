@@ -4,6 +4,7 @@ import jakarta.persistence.EntityManager;
 import rx.dictionary.jpa.entity.Explanation;
 import rx.dictionary.jpa.repository.input.Keyword;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 
@@ -25,12 +26,16 @@ public class ExplanationRepository {
                 .getResultList();
     }
 
-    public void cascadeUpdate(List<Explanation> explanations) {
+    public void cascadeUpdate(Collection<Explanation> explanations) {
         explanations.forEach(entityManager::merge);
     }
 
     public void deleteById(Long id) {
         Explanation managedExplanation = entityManager.find(Explanation.class, id);
         entityManager.remove(managedExplanation);
+    }
+
+    public void cascadeAdd(Collection<Explanation> explanations) {
+        explanations.forEach(entityManager::persist);
     }
 }

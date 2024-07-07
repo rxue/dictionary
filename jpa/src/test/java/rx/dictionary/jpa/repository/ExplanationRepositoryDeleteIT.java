@@ -17,8 +17,7 @@ public class ExplanationRepositoryDeleteIT extends AbstractDatabaseConfiguration
     }
     @Test
     public void deleteExplanationById() {
-        final Set<Explanation> explanations = ITUtil.getLexicalItem(preparedStatementExecutor, "test")
-                .getExplanations();
+        final Set<Explanation> explanations = ITUtil.getAllExplanations(preparedStatementExecutor, "test");
         final int originalExplanationSize = explanations.size();
         Explanation explanationToDelete = explanations.stream().findAny().get();
         //ACT
@@ -27,8 +26,7 @@ public class ExplanationRepositoryDeleteIT extends AbstractDatabaseConfiguration
             out.deleteById(explanationToDelete.getId());
         });
         //ASSERT
-        Set<Explanation> explanationsAfterDelete = ITUtil.getLexicalItem(preparedStatementExecutor, "test")
-                .getExplanations();
+        Set<Explanation> explanationsAfterDelete = ITUtil.getAllExplanations(preparedStatementExecutor, "test");
         assertEquals(originalExplanationSize-1, explanationsAfterDelete.size());
     }
 }

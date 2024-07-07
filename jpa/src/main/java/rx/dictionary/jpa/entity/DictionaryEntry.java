@@ -3,9 +3,7 @@ package rx.dictionary.jpa.entity;
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 
-import java.util.HashSet;
 import java.util.Locale;
-import java.util.Set;
 
 @EqualsAndHashCode
 @Entity
@@ -18,9 +16,6 @@ public class DictionaryEntry extends AbstractEntity {
     private Locale language;
     @Column(nullable=false)
     private String value;
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name="lexical_item_id")
-    private Set<Explanation> explanations = new HashSet<>();
     //Merely for testing purpose
     public DictionaryEntry(Long id) {
         this.id = id;
@@ -48,12 +43,6 @@ public class DictionaryEntry extends AbstractEntity {
         this.value = value;
     }
 
-    public Set<Explanation> getExplanations() {
-        return explanations;
-    }
-    public void addExplanation(Explanation explanation) {
-        explanations.add(explanation);
-    }
     @Override
     public boolean equals(Object obj) {
         return false;
