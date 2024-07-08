@@ -1,8 +1,8 @@
 package rx.dictionary.jpa.repository;
 
 import jakarta.persistence.EntityManager;
+import rx.dictionary.data.LexicalItem;
 import rx.dictionary.jpa.entity.Explanation;
-import rx.dictionary.jpa.repository.input.Keyword;
 
 import java.util.Collection;
 import java.util.List;
@@ -14,14 +14,14 @@ public class ExplanationRepository {
         this.entityManager = entityManager;
     }
 
-    public List<Explanation> findLike(Keyword keyword, Locale definitionLanguage) {
+    public List<Explanation> findLike(LexicalItem keyword, Locale definitionLanguage) {
         String jpql = "select e from Explanation e where " +
-                "e.lexicalItem.language =: language and " +
-                "e.lexicalItem.value like :value and " +
+                "e.lexicalItemEntity.language =: language and " +
+                "e.lexicalItemEntity.value like :value and " +
                 "e.language =: definitionLanguage";
         return entityManager.createQuery(jpql, Explanation.class)
-                .setParameter("language", keyword.language())
-                .setParameter("value", "test%")
+                .setParameter("language", keyword.getLanguage())
+                .setParameter("value", keyword.getValue() + "%")
                 .setParameter("definitionLanguage", definitionLanguage)
                 .getResultList();
     }

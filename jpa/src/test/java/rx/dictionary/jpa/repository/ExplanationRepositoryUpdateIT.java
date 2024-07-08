@@ -4,7 +4,7 @@ import java.util.Set;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import rx.dictionary.jpa.entity.LexicalItem;
+import rx.dictionary.jpa.entity.LexicalItemEntity;
 import rx.dictionary.jpa.entity.Explanation;
 
 import org.junit.jupiter.api.Test;
@@ -30,7 +30,7 @@ public class ExplanationRepositoryUpdateIT extends AbstractDatabaseConfiguration
         Explanation explanationToUpdate = explanations.stream().findAny().get();
         //ACT
         userTransactionExecutor.execute(entityManager -> {
-            LexicalItem lexicalItem = explanationToUpdate.getDictionaryEntry();
+            LexicalItemEntity lexicalItem = explanationToUpdate.getLexicalItemEntity();
             lexicalItem.setValue("test after update");
             explanationToUpdate.setDefinition("updated explanation");
             ExplanationRepository out = new ExplanationRepository(entityManager);

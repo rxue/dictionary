@@ -20,7 +20,7 @@ public class Explanation {
     private Long id;
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name="lexical_item_id")
-    private LexicalItem lexicalItem;
+    private LexicalItemEntity lexicalItemEntity;
     @Column(nullable = false)
     private Locale language;
     @Enumerated(EnumType.STRING)
@@ -33,14 +33,14 @@ public class Explanation {
     @Embedded
     private DateAttributes dateAttributes;
 
-    public Explanation(Long id, LexicalItem lexicalItem) {
+    public Explanation(Long id, LexicalItemEntity lexicalItemEntity) {
         this.id = id;
-        this.lexicalItem = lexicalItem;
+        this.lexicalItemEntity = lexicalItemEntity;
     }
     public Explanation() {}
 
-    public LexicalItem getDictionaryEntry() {
-        return lexicalItem;
+    public LexicalItemEntity getLexicalItemEntity() {
+        return lexicalItemEntity;
     }
 
     public Long getId() {

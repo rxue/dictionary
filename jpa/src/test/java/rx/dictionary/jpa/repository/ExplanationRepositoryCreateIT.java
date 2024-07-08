@@ -2,7 +2,7 @@ package rx.dictionary.jpa.repository;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
-import rx.dictionary.jpa.entity.LexicalItem;
+import rx.dictionary.jpa.entity.LexicalItemEntity;
 import rx.dictionary.jpa.entity.Explanation;
 import rx.dictionary.jpa.entity.PartOfSpeech;
 
@@ -22,7 +22,7 @@ public class ExplanationRepositoryCreateIT extends AbstractDatabaseConfiguration
     public void testCreate_addNewLexicalItemWithOneExplanation() {
         //ACT
         userTransactionExecutor.execute(entityManager -> {
-                    LexicalItem l = new LexicalItem();
+                    LexicalItemEntity l = new LexicalItemEntity();
                     l.setLanguage(Locale.ENGLISH);
                     l.setValue("take");
                     Explanation explanation = new Explanation(null, l);
@@ -34,7 +34,7 @@ public class ExplanationRepositoryCreateIT extends AbstractDatabaseConfiguration
         //ASSERT
         final Explanation explanation = ITUtil.getAllExplanations(preparedStatementExecutor, "take")
                 .stream().findAny().get();
-        final LexicalItem createdLexicalItem = explanation.getDictionaryEntry();
+        final LexicalItemEntity createdLexicalItem = explanation.getLexicalItemEntity();
         assertEquals("take", createdLexicalItem.getValue());
         assertAll("assert explanation",
                 () -> assertEquals(Locale.SIMPLIFIED_CHINESE, explanation.getLanguage()),
@@ -44,7 +44,7 @@ public class ExplanationRepositoryCreateIT extends AbstractDatabaseConfiguration
     public void testCreate_addNewLexicalItemWith2Explanations() {
         //PREPARE
         Supplier<Collection<Explanation>> prepareExplanations = () -> {
-            LexicalItem l = new LexicalItem();
+            LexicalItemEntity l = new LexicalItemEntity();
             l.setLanguage(Locale.ENGLISH);
             l.setValue("take");
             Explanation explanation = new Explanation(null, l);
@@ -62,11 +62,11 @@ public class ExplanationRepositoryCreateIT extends AbstractDatabaseConfiguration
             out.cascadeAdd(prepareExplanations.get());
         });
         //ASSERT
-        final List<LexicalItem> existingItems = preparedStatementExecutor.executeAndReturn("select * from lexical_item", preparedStatement -> {
+        final List<LexicalItemEntity> existingItems = preparedStatementExecutor.executeAndReturn("select * from lexical_item", preparedStatement -> {
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                List<LexicalItem> createdItems = new ArrayList<>();
+                List<LexicalItemEntity> createdItems = new ArrayList<>();
                 while (resultSet.next()) {
-                    LexicalItem lexicalItem = new LexicalItem(resultSet.getLong("id"));
+                    LexicalItemEntity lexicalItem = new LexicalItemEntity(resultSet.getLong("id"));
                     lexicalItem.setLanguage(Locale.forLanguageTag(resultSet.getString("language")));
                     lexicalItem.setValue(resultSet.getString("value"));
                     createdItems.add(lexicalItem);

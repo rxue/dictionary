@@ -1,6 +1,6 @@
 package rx.dictionary.jpa.repository;
 
-import rx.dictionary.jpa.entity.LexicalItem;
+import rx.dictionary.jpa.entity.LexicalItemEntity;
 import rx.dictionary.jpa.entity.Explanation;
 import rx.transaction.jdbc.PreparedStatementExecutor;
 
@@ -34,11 +34,11 @@ class ITUtil {
     }
 
     static Set<Explanation> getAllExplanations(PreparedStatementExecutor preparedStatementExecutor, String lexicalItemValue) {
-        final LexicalItem existingItem = preparedStatementExecutor.executeAndReturn("select * from lexical_item where value = ?", preparedStatement -> {
+        final LexicalItemEntity existingItem = preparedStatementExecutor.executeAndReturn("select * from lexical_item where value = ?", preparedStatement -> {
             preparedStatement.setString(1, lexicalItemValue);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
-                    LexicalItem lexicalItem = new LexicalItem(resultSet.getLong("id"));
+                    LexicalItemEntity lexicalItem = new LexicalItemEntity(resultSet.getLong("id"));
                     lexicalItem.setLanguage(Locale.forLanguageTag(resultSet.getString("language")));
                     lexicalItem.setValue(resultSet.getString("value"));
                     return lexicalItem;

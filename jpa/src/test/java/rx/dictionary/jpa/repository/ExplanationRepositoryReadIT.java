@@ -2,8 +2,8 @@ package rx.dictionary.jpa.repository;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import rx.dictionary.data.LexicalItem;
 import rx.dictionary.jpa.entity.Explanation;
-import rx.dictionary.jpa.repository.input.Keyword;
 
 import java.util.List;
 import java.util.Locale;
@@ -51,7 +51,18 @@ public class ExplanationRepositoryReadIT extends AbstractDatabaseConfiguration {
         //ACT
         userTransactionExecutor.execute(entityManager -> {
             ExplanationRepository out = new ExplanationRepository(entityManager);
-            List<Explanation> result = out.findLike(new Keyword("test", Locale.ENGLISH), Locale.SIMPLIFIED_CHINESE);
+            LexicalItem keyword = new LexicalItem() {
+                @Override
+                public Locale getLanguage() {
+                    return Locale.ENGLISH;
+                }
+
+                @Override
+                public String getValue() {
+                    return "test";
+                }
+            };
+            List<Explanation> result = out.findLike(keyword, Locale.SIMPLIFIED_CHINESE);
             assertEquals(2, result.size());
             assertAll("",
                     () -> {
