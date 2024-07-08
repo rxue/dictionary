@@ -1,17 +1,41 @@
 package rx.dictionary.jpa.repository;
 
+import jakarta.persistence.EntityManager;
+import rx.dictionary.data.LexicalItem;
 import rx.dictionary.jpa.entity.Explanation;
-import rx.dictionary.jpa.repository.input.Keyword;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 
-public interface ExplanationRepository {
-    List<Explanation> findLike(Keyword keyword, Locale explanationLanguage);
+public class ExplanationRepository {
+    private final EntityManager entityManager;
+    public ExplanationRepository(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
 
-    void create(List<Explanation> explanation1);
+    public List<Explanation> findLike(LexicalItem keyword, Locale definitionLanguage) {
+        String jpql = "select e from Explanation e where " +
+                "e.lexicalItemEntity.language =: language and " +
+                "e.lexicalItemEntity.value like :value and " +
+                "e.language =: definitionLanguage";
+        return entityManager.createQuery(jpql, Explanation.class)
+                .setParameter("language", keyword.getLanguage())
+                .setParameter("value", keyword.getValue() + "%")
+                .setParameter("definitionLanguage", definitionLanguage)
+                .getResultList();
+    }
 
-    void update(List<Explanation> existingExplanations);
+    public void cascadeUpdate(Collection<Explanation> explanations) {
+        explanations.forEach(entityManager::merge);
+    }
 
-    void deleteById(Long id);
+    public void deleteById(Long id) {
+        Explanation managedExplanation = entityManager.find(Explanation.class, id);
+        entityManager.remove(managedExplanation);
+    }
+
+    public void cascadeAdd(Collection<Explanation> explanations) {
+        explanations.forEach(entityManager::merge);
+    }
 }

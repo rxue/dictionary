@@ -7,9 +7,8 @@
     <persistence-unit name="dictionary-mariadb-test" transaction-type="JTA">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <jta-data-source>mariaDBDataSource</jta-data-source>
-        <class>rx.dictionary.jpa.entity.LexicalItem</class>
+        <class>rx.dictionary.jpa.entity.LexicalItemEntity</class>
         <class>rx.dictionary.jpa.entity.Explanation</class>
-        <class>rx.dictionary.jpa.entity.TestEntity</class>
         <properties>
             <property name="jakarta.persistence.jdbc.user" value="root"/>
             <property name="jakarta.persistence.jdbc.password" value="test"/>

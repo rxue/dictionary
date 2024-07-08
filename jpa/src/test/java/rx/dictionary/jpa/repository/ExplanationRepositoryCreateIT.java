@@ -2,92 +2,89 @@ package rx.dictionary.jpa.repository;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
-import rx.dictionary.jpa.AbstractDatabaseConfiguration;
+import rx.dictionary.jpa.entity.LexicalItemEntity;
 import rx.dictionary.jpa.entity.Explanation;
-import rx.dictionary.jpa.entity.LexicalItem;
 import rx.dictionary.jpa.entity.PartOfSpeech;
 
-import java.sql.*;
-import java.util.List;
-import java.util.Locale;
+import java.sql.ResultSet;
+import java.util.*;
+import java.util.function.Supplier;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static rx.dictionary.jpa.ITUtil.newExplanationWithoutIds;
-import static rx.dictionary.jpa.ITUtil.newLexicalItem;
 
 public class ExplanationRepositoryCreateIT extends AbstractDatabaseConfiguration {
-    private static LexicalItem getAnyLexicalItem() {
-        final LexicalItem existingSingleItem = preparedStatementExecutor.executeAndReturn("select * from lexical_item", preparedStatement -> {
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                if (resultSet.next()) {
-                    LexicalItem lexicalItem = new LexicalItem(resultSet.getLong("id"));
-                    lexicalItem.setLanguage(Locale.forLanguageTag(resultSet.getString("language")));
-                    lexicalItem.setValue(resultSet.getString("value"));
-                    return lexicalItem;
-                }
-                throw new IllegalArgumentException(preparedStatement + " does not return any result");
-            }
-        });
-        return existingSingleItem;
-    }
     @AfterEach
     public void truncateTables() {
-        List<String> tableNames = List.of("explanation", "lexical_item");
-        for (String table : tableNames) {
-            preparedStatementExecutor.execute("delete from " + table, preparedStatement -> {
-                preparedStatement.execute();
-            });
-        }
-    }
-    @Test
-    public void create_newLexicalItem() {
-        //ACT
-        userTransactionExecutor.execute(entityManager -> {
-            ExplanationRepository out = new ExplanationRepositoryImpl(entityManager);
-            LexicalItem lexicalItem = newLexicalItem(Locale.ENGLISH, "test");
-            Explanation explanation1 = newExplanationWithoutIds(Locale.SIMPLIFIED_CHINESE, PartOfSpeech.N, "测试");
-            explanation1.setLexicalItem(lexicalItem);
-            Explanation explanation2 = newExplanationWithoutIds(Locale.SIMPLIFIED_CHINESE, PartOfSpeech.N, "测试 2");
-            explanation2.setLexicalItem(lexicalItem);
-            out.create(List.of(explanation1, explanation2));
-        });
-        LexicalItem createdLexicalItem = getAnyLexicalItem();
-        assertNotNull(createdLexicalItem);
-        final int rows = countExplanationRows();
-        assertEquals(2, rows);
-    }
-    @Test
-    public void create_lexicalItemExisted() {
-        //PREPARE
-        preparedStatementExecutor.execute("insert into lexical_item (language,value) values ('EN','test')", preparedStatement -> {
-            preparedStatement.execute();
-        });
-        final LexicalItem existingLexicalItem = getAnyLexicalItem();
-        //ACT
-        userTransactionExecutor.execute(entityManager -> {
-            ExplanationRepository out = new ExplanationRepositoryImpl(entityManager);
-            Explanation explanation1 = newExplanationWithoutIds(Locale.SIMPLIFIED_CHINESE, PartOfSpeech.N, "测试");
-            explanation1.setLexicalItem(existingLexicalItem);
-            Explanation explanation2 = newExplanationWithoutIds(Locale.SIMPLIFIED_CHINESE, PartOfSpeech.N, "测试 2");
-            explanation2.setLexicalItem(existingLexicalItem);
-            out.create(List.of(explanation1, explanation2));
-        });
-        //ASSERT
-        LexicalItem createdLexicalItem = getAnyLexicalItem();
-        assertNotNull(createdLexicalItem);
-        final int rows = countExplanationRows();
-        assertEquals(2, rows);
+        ITUtil.truncateTables(preparedStatementExecutor);
     }
 
-    static Integer countExplanationRows() {
-        return preparedStatementExecutor.executeAndReturn("select * from explanation", prearedStatement -> {
-            int rowCount = 0;
-            try (ResultSet resultSet = prearedStatement.executeQuery()) {
-                while (resultSet.next()) {
-                    rowCount++;
-                }
-            }
-            return rowCount;
+    @Test
+    public void testCreate_addNewLexicalItemWithOneExplanation() {
+        //ACT
+        userTransactionExecutor.execute(entityManager -> {
+                    LexicalItemEntity l = new LexicalItemEntity();
+                    l.setLanguage(Locale.ENGLISH);
+                    l.setValue("take");
+                    Explanation explanation = new Explanation(null, l);
+                    explanation.setLanguage(Locale.SIMPLIFIED_CHINESE);
+                    explanation.setDefinition("行动");
+            ExplanationRepository out = new ExplanationRepository(entityManager);
+            out.cascadeAdd(List.of(explanation));
         });
+        //ASSERT
+        final Explanation explanation = ITUtil.getAllExplanations(preparedStatementExecutor, "take")
+                .stream().findAny().get();
+        final LexicalItemEntity createdLexicalItem = explanation.getLexicalItemEntity();
+        assertEquals("take", createdLexicalItem.getValue());
+        assertAll("assert explanation",
+                () -> assertEquals(Locale.SIMPLIFIED_CHINESE, explanation.getLanguage()),
+                () -> assertEquals("行动", explanation.getDefinition()));
     }
+    @Test
+    public void testCreate_addNewLexicalItemWith2Explanations() {
+        //PREPARE
+        Supplier<Collection<Explanation>> prepareExplanations = () -> {
+            LexicalItemEntity l = new LexicalItemEntity();
+            l.setLanguage(Locale.ENGLISH);
+            l.setValue("take");
+            Explanation explanation = new Explanation(null, l);
+            explanation.setLanguage(Locale.SIMPLIFIED_CHINESE);
+            explanation.setDefinition("行动");
+            Explanation explanation2 = new Explanation(null, l);
+            explanation2.setLanguage(Locale.SIMPLIFIED_CHINESE);
+            explanation2.setPartOfSpeech(PartOfSpeech.N);
+            explanation2.setDefinition("见解");
+            return List.of(explanation, explanation2);
+        };
+        //ACT
+        userTransactionExecutor.execute(entityManager -> {
+            ExplanationRepository out = new ExplanationRepository(entityManager);
+            out.cascadeAdd(prepareExplanations.get());
+        });
+        //ASSERT
+        final List<LexicalItemEntity> existingItems = preparedStatementExecutor.executeAndReturn("select * from lexical_item", preparedStatement -> {
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                List<LexicalItemEntity> createdItems = new ArrayList<>();
+                while (resultSet.next()) {
+                    LexicalItemEntity lexicalItem = new LexicalItemEntity(resultSet.getLong("id"));
+                    lexicalItem.setLanguage(Locale.forLanguageTag(resultSet.getString("language")));
+                    lexicalItem.setValue(resultSet.getString("value"));
+                    createdItems.add(lexicalItem);
+                }
+                return createdItems;
+            }
+        });
+        Set<Explanation> addedExplanations = ITUtil.getAllExplanations(preparedStatementExecutor, "take");
+        assertAll("",
+                () -> assertEquals(1, existingItems.size()),
+                () -> assertEquals(2, addedExplanations.size()),
+                () -> {
+                    String addedExplanationValue = addedExplanations.stream().findAny()
+                            .get().
+                            getDefinition();
+                    assertTrue("行动".equals(addedExplanationValue) || "见解".equals(addedExplanationValue));
+                });
+
+    }
+
 }

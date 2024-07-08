@@ -10,7 +10,7 @@ import java.util.Set;
 import static jakarta.persistence.FetchType.EAGER;
 
 @EqualsAndHashCode
-@Table(name = "explanation", uniqueConstraints = { @UniqueConstraint(columnNames = {"lexical_item_id", "language", "partofspeech", "definition"}) })
+@Table(name = "explanation", uniqueConstraints = { @UniqueConstraint(columnNames = { "lexical_item_id", "language", "partofspeech", "definition"}) })
 @SequenceGenerator(sequenceName = "explanation_id_seq", initialValue=1, name = "explanation_sequence", allocationSize = 4)
 @Entity
 public class Explanation {
@@ -18,9 +18,9 @@ public class Explanation {
     @Id
     @GeneratedValue(generator="explanation_sequence", strategy=GenerationType.SEQUENCE)
     private Long id;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name="lexical_item_id")
-    private LexicalItem lexicalItem;
+    private LexicalItemEntity lexicalItemEntity;
     @Column(nullable = false)
     private Locale language;
     @Enumerated(EnumType.STRING)
@@ -30,25 +30,21 @@ public class Explanation {
     @ElementCollection(fetch = EAGER)
     @CollectionTable(name = "sentence")
     private Set<String> sentences = new HashSet<>();
-
+    @Embedded
     private DateAttributes dateAttributes;
 
-    public Explanation(Long id) {
+    public Explanation(Long id, LexicalItemEntity lexicalItemEntity) {
         this.id = id;
+        this.lexicalItemEntity = lexicalItemEntity;
     }
-    public Explanation() {
+    public Explanation() {}
+
+    public LexicalItemEntity getLexicalItemEntity() {
+        return lexicalItemEntity;
     }
 
     public Long getId() {
         return id;
-    }
-
-    public LexicalItem getLexicalItem() {
-        return lexicalItem;
-    }
-
-    public void setLexicalItem(LexicalItem lexicalItem) {
-        this.lexicalItem = lexicalItem;
     }
 
     public Locale getLanguage() {

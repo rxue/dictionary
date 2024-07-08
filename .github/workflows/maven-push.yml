@@ -17,18 +17,16 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: Set up JDK 17
+    - name: Set up JDK 8
       uses: actions/setup-java@v3
       with:
-        java-version: '17'
+        java-version: '8'
         distribution: 'temurin'
         server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
         settings-path: ${{ github.workspace }} # location for the settings.xml file
 
-    - name: Build jpa project with Maven
-      run: mvn --batch-mode clean install integration-test --file jpa/pom.xml
-    - name: Build web project
-      run: mvn --batch-mode clean package --file web/java/pom.xml
+    - name: Build with Maven
+      run: mvn -B package --file web/java/pom.xml
 
       #    - name: Publish to GitHub Packages Apache Maven
       # run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml

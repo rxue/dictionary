@@ -1,6 +1,4 @@
-on:
-  push:
-    branches: [ master ]
+on: [push]
 
 jobs:
   ci_test_job:
