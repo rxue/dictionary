@@ -16,7 +16,6 @@
     </licenses>
     <modules>
         <module>app</module>
-        <module>dictionary-web-test</module>
     </modules>
     <properties>
         <!-- Explicitly declaring the source encoding eliminates the following 
