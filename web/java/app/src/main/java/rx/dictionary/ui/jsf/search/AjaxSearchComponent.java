@@ -33,12 +33,12 @@ public class AjaxSearchComponent extends InputComponent implements Serializable 
 		String requestPath = externalContext.getRequestServletPath();
 		System.out.println("::::::::::::::::::::::request path is " + requestPath);
 	}
-
+/*
 	public void searchCandidates() {
 		LexicalItemVO keyword = new LexicalItemVO(super.language, getWord());
 		resultCandidates = searchService.searchCandidates(keyword, super.explainLanguage);
 	}
-	
+*/
 	public void redirectToSearch() throws IOException {
 		FacesContext facesContext = FacesContext.getCurrentInstance();
 		System.out.println("JSF phase is " + facesContext.getCurrentPhaseId());
@@ -56,6 +56,7 @@ public class AjaxSearchComponent extends InputComponent implements Serializable 
 	/**
 	 * Pre-render view Action
 	 */
+	/*
 	public void search() {
 		String keywordValue = getWord();
 		if (keywordValue != null) {
@@ -63,7 +64,7 @@ public class AjaxSearchComponent extends InputComponent implements Serializable 
 			searchEvent.fire(keyword);
 			searchResult = searchService.search(keyword, explainLanguage);
 		}
-	}
+	}*/
 	
 	public boolean hasResultCandidates() {
 		return !resultCandidates.isEmpty();

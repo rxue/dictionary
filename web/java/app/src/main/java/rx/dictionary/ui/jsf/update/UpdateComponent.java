@@ -8,7 +8,6 @@ import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
-import rx.dictionary.ExplanationsService;
 import rx.dictionary.vo.LexicalItemVO;
 import rx.dictionary.jpa.entity.Explanation;
 import rx.dictionary.ui.jsf.addorupdate.AddOrUpdateInputComponent;
@@ -17,6 +16,7 @@ import rx.dictionary.ui.jsf.addorupdate.JSFExplanationDTO;
 @Named
 @ViewScoped
 public class UpdateComponent extends AddOrUpdateInputComponent implements Serializable {
+	/*
 	@Inject
 	private ExplanationsService explanationsService;
 	private List<Explanation> explanations = Collections.emptyList();
@@ -41,4 +41,5 @@ public class UpdateComponent extends AddOrUpdateInputComponent implements Serial
 	public boolean hasExplanations() {
 		return !explanationDTOs.isEmpty();
 	}
+	*/
 }

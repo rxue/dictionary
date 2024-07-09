@@ -16,6 +16,7 @@
     </licenses>
     <modules>
         <module>app</module>
+        <module>rest-api</module>
     </modules>
     <properties>
         <!-- Explicitly declaring the source encoding eliminates the following 
