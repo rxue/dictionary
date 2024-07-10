@@ -2,7 +2,7 @@ package rx.dictionary.jpa.repository;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import rx.dictionary.data.LexicalItem;
+import rx.dictionary.vo.LexicalItem;
 import rx.dictionary.jpa.entity.Explanation;
 
 import java.util.List;

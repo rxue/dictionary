@@ -1,4 +1,4 @@
-package rx.dictionary.data;
+package rx.dictionary.vo;
 
 import java.util.Locale;
 

@@ -1,7 +1,7 @@
 package rx.dictionary.jpa.repository;
 
 import jakarta.persistence.EntityManager;
-import rx.dictionary.data.LexicalItem;
+import rx.dictionary.vo.LexicalItem;
 import rx.dictionary.jpa.entity.Explanation;
 
 import java.util.Collection;
