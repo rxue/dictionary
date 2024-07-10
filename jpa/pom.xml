@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>rx</groupId>
-    <artifactId>dictionary.jpa</artifactId>
+    <artifactId>dictionary-jpa</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>

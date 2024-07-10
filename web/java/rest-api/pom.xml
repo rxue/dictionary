@@ -46,7 +46,7 @@
 		<!-- Pure third party dependencies -->
         <dependency>
             <groupId>rx</groupId>
-            <artifactId>dictionary.jpa</artifactId>
+            <artifactId>dictionary-jpa</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <!-- Needed for running tests (you may also use TestNG) -->
