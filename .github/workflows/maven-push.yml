@@ -26,7 +26,7 @@ jobs:
         settings-path: ${{ github.workspace }} # location for the settings.xml file
 
     - name: Build dictionary-jpa with Maven
-      run: mvn -B package --file jpa/pom.xml
+      run: mvn --file jpa/pom.xml -B install
 
 
     - name: Build EST-API with Maven
