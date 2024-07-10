@@ -18,9 +18,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>app</artifactId>
+    <artifactId>rest-api</artifactId>
     <packaging>war</packaging>
-    <name>Dictionary Other Web App</name>
+    <name>Dictionary REST API</name>
     <description>A starter Java EE 7 webapp project for use on JBoss WildFly / WildFly, generated from the jboss-javaee7-webapp archetype</description>
     <url>http://wildfly.org</url>
     <parent>
@@ -44,11 +44,6 @@
             <scope>provided</scope>
         </dependency>
 		<!-- Pure third party dependencies -->
- 		<dependency>
-		    <groupId>org.apache.commons</groupId>
-		    <artifactId>commons-lang3</artifactId>
-		    <version>3.12.0</version>
-		</dependency>
         <dependency>
             <groupId>rx</groupId>
             <artifactId>dictionary.jpa</artifactId>
