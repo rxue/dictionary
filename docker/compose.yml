@@ -28,11 +28,12 @@ services:
   web-test:
     build: 
       context: ../web
-      dockerfile: ci-test/Dockerfile
+      dockerfile: Dockerfile
     ports:
     - "8080:8080"
     - "9998:9998"
     container_name: dictionary-web-test
+
   mariadb:
     image: mariadb:10.8.2
     restart: always
@@ -40,8 +41,8 @@ services:
       MARIADB_ROOT_PASSWORD: test
       MARIADB_DATABASE: dictionary
     ports:
-    -  "3306:3306"
-    container_name: mariadb
+    -  ${DB_PORT_MAPPING}
+    container_name: ${DB_CONTAINER_NAME}
     networks:
     - dictionary-network
 networks:

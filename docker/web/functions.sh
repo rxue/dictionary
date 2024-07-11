@@ -1,6 +1,6 @@
 waitBySleep() {
   while true; do
-    if [[ -n $(eval $1) ]]; then
+    if [[ -n $(eval "$1") ]]; then
       echo "GREAT! got the needed terminate output"
       break
     else

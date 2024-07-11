@@ -1,9 +1,10 @@
 #!/bin/bash
 # Component test
-docker-compose up -d --build web-test
+docker compose up -d --build web-test
 sleep 10
 trap "docker-compose kill web-test" RETURN
-mvn -f ../web/java/pom.xml clean verify -Parq-wildfly-remote
+mvn -f ../jpa clean verify
+mvn -f ../web/java clean verify
 exit_code=$?
 if [ ${exit_code} -ne 0 ];
 then
