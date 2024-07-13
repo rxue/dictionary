@@ -6,6 +6,9 @@ jobs:
     name: CI Test
     steps:
       - uses: actions/checkout@v3.1.0
+        with:
+          java-version: '17'
+          distribution: 'temurin'
       - name: start Docker container with Dockerfile for CI test
         run: |
           cd docker
