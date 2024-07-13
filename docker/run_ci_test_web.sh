@@ -2,7 +2,8 @@
 # 1. start database (Docker container) and create users
 . web/start_mariadb.sh
 # 2. build schema and insert test data by running jpa project's main method
-mvn -f ../jpa exec:java -Dexec.mainClass="rx.dictionary.jpa.Main"
+mvn -B clean -f ../jpa install
+mvn -B -f ../jpa exec:java -Dexec.mainClass="rx.dictionary.jpa.Main"
 # 3. build rest-api app war and deploy it to Wildfly
 # Component test
 docker compose up -d --build rest-api
