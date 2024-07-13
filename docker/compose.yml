@@ -25,14 +25,16 @@ services:
     networks:
     - dictionary-network
 
-  web-test:
+  rest-api:
     build: 
       context: ../web
       dockerfile: Dockerfile
     ports:
     - "8080:8080"
     - "9998:9998"
-    container_name: dictionary-web-test
+    container_name: dictionary-web
+    networks:
+    - dictionary-network
 
   mariadb:
     image: mariadb:10.8.2
