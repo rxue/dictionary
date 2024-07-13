@@ -4,12 +4,13 @@ jobs:
   ci_test_job:
     runs-on: ubuntu-latest
     name: CI Test
-    with:
-      java-version: '17'
-      distribution: 'temurin'
     steps:
       - uses: actions/checkout@v3.1.0
       - name: start Docker container with Dockerfile for CI test
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
         run: |
           cd docker
           source run_ci_test_web.sh
