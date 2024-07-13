@@ -6,11 +6,12 @@ jobs:
     name: CI Test
     steps:
       - uses: actions/checkout@v3.1.0
-      - name: start Docker container with Dockerfile for CI test
+      - name: Setup JDK Java 17
         uses: actions/setup-java@v3
         with:
           java-version: '17'
           distribution: 'temurin'
+      - name: start Docker container with Dockerfile for CI test
         run: |
           cd docker
           source run_ci_test_web.sh
