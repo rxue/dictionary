@@ -6,8 +6,8 @@ mvn -B clean -f ../jpa install
 mvn -B -f ../jpa exec:java -Dexec.mainClass="rx.dictionary.jpa.Main"
 # 3. build rest-api app war and deploy it to Wildfly
 # Component test
-export $(cat ci_test.env | xargs)
-docker compose up -d --build --remove-orphans rest-api
+mvn -B -f ../web/java --projects rest-api --also-make clean package
+docker compose up -d --build rest-api
 #sleep 10
 #trap "docker-compose kill web-test" RETURN
 #mvn -f ../jpa clean verify

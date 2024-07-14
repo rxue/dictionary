@@ -30,9 +30,9 @@ services:
       context: ../web
       dockerfile: Dockerfile
     ports:
-    - "8080:8080"
+    - ${REST_API_PORT_MAPPING}
     - "9998:9998"
-    container_name: dictionary-web
+    container_name: dictionary-rest-api
     networks:
     - dictionary-network
 

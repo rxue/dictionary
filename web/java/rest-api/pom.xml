@@ -60,7 +60,7 @@
     <build>
         <!-- Maven will append the version to the finalName (which is the name 
             given to the generated war, and hence the context root) -->
-        <finalName>dictionary</finalName>
+        <finalName>dictionary-rest-api</finalName>
         <plugins>
             <plugin>
                 <artifactId>maven-war-plugin</artifactId>
