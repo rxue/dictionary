@@ -11,7 +11,7 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-      - name: start Docker container with Dockerfile for CI test
+      - name: start Docker container with Dockerfile and run REST API test by using the container
         run: |
           cd docker
-          source run_ci_test_web.sh
+          source rest_test.sh
