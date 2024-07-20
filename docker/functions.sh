@@ -13,5 +13,5 @@ waitBySleep() {
   done
 }
 set -a
-source ${env_file_name}§
+source ${env_file_name}
 set +a
