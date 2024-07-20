@@ -1,4 +1,6 @@
-on: [push]
+on:
+  schedule:
+    cron: "0 16 * * *"
 
 jobs:
   ci_test_job:
