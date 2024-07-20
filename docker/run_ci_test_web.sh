@@ -8,8 +8,8 @@ mvn -B -f ../jpa exec:java -Dexec.mainClass="rx.dictionary.jpa.Main"
 # 3. build rest-api app war and deploy it to Wildfly
 # Component test
 source web/deploy_2_wildfly.sh
+npm --prefix=../web/ci-test/node install
 npm --prefix=../web/ci-test/node test
-#sleep 10
 #trap "docker-compose kill web-test" RETURN
 #mvn -f ../jpa clean verify
 #mvn -f ../web/java clean verify
