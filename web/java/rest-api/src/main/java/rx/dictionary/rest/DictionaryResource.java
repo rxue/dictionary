@@ -14,6 +14,7 @@ public class DictionaryResource {
     @Path("{language}")
     @Produces(MediaType.APPLICATION_JSON)
     public DictionaryEntryByLanguage getDictionaryEntry(@PathParam("language") Locale language) {
+        System.out.println("DEBUG::DEBUG::DEBUG::DEBUG");
         return new DictionaryEntryByLanguage(Locale.ENGLISH, "test");
     }
 }

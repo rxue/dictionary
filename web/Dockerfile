@@ -7,4 +7,6 @@ COPY docker_config/*.jar $MARIADB_MODULE_DIR/
 COPY docker_config/standalone.xml $WILDFLY_DIR/standalone/configuration/
 COPY java/rest-api/target/dictionary-rest-api.war $WILDFLY_DIR/standalone/deployments/
 COPY docker_config/standalone.conf $WILDFLY_DIR/bin/
-ENTRYPOINT ["/opt/jboss/wildfly/bin/standalone.sh", "-c", "standalone.xml", "-Djboss.http.port=8080", "-b", "0.0.0.0", "-bmanagement", "0.0.0.0"]
+#ENTRYPOINT ["/opt/jboss/wildfly/bin/standalone.sh", "-c", "standalone.xml", "${portAssignment}", "-b", "0.0.0.0", "-bmanagement", "0.0.0.0"]
+ENTRYPOINT /opt/jboss/wildfly/bin/standalone.sh -c standalone.xml $portAssignment -b 0.0.0.0 -bmanagement 0.0.0.0
+
