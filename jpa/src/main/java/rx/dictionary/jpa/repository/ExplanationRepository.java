@@ -1,8 +1,8 @@
 package rx.dictionary.jpa.repository;
 
 import jakarta.persistence.EntityManager;
-import rx.dictionary.vo.LexicalItem;
-import rx.dictionary.jpa.entity.Explanation;
+import rx.dictionary.jpa.entity.ExplanationEntity;
+import rx.dictionary.vo.Keyword;
 
 import java.util.Collection;
 import java.util.List;
@@ -14,28 +14,33 @@ public class ExplanationRepository {
         this.entityManager = entityManager;
     }
 
-    public List<Explanation> findLike(LexicalItem keyword, Locale definitionLanguage) {
-        String jpql = "select e from Explanation e where " +
+    public List<ExplanationEntity> findLike(Keyword keyword, Locale definitionLanguage) {
+        String jpql = "select e from ExplanationEntity e where " +
                 "e.lexicalItemEntity.language =: language and " +
                 "e.lexicalItemEntity.value like :value and " +
                 "e.language =: definitionLanguage";
-        return entityManager.createQuery(jpql, Explanation.class)
-                .setParameter("language", keyword.getLanguage())
+        return entityManager.createQuery(jpql, ExplanationEntity.class)
+                .setParameter("language", toLanguageLocale(keyword.getLanguage()))
                 .setParameter("value", keyword.getValue() + "%")
                 .setParameter("definitionLanguage", definitionLanguage)
                 .getResultList();
     }
 
-    public void cascadeUpdate(Collection<Explanation> explanations) {
-        explanations.forEach(entityManager::merge);
+    public void cascadeUpdate(Collection<ExplanationEntity> explanationEntities) {
+        explanationEntities.forEach(entityManager::merge);
     }
 
     public void deleteById(Long id) {
-        Explanation managedExplanation = entityManager.find(Explanation.class, id);
-        entityManager.remove(managedExplanation);
+        ExplanationEntity managedExplanationEntity = entityManager.find(ExplanationEntity.class, id);
+        entityManager.remove(managedExplanationEntity);
     }
 
-    public void cascadeAdd(Collection<Explanation> explanations) {
-        explanations.forEach(entityManager::merge);
+    public void cascadeAdd(Collection<ExplanationEntity> explanationEntities) {
+        explanationEntities.forEach(entityManager::merge);
     }
+    private static Locale toLanguageLocale(String languageLocaleString) {
+        String languageTag = languageLocaleString.replace("_", "-");
+        return Locale.forLanguageTag(languageTag);
+    }
+
 }

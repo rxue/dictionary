@@ -1,15 +1,15 @@
 package rx.dictionary.jpa.repository;
 
+import rx.dictionary.jpa.entity.ExplanationEntity;
 import rx.dictionary.jpa.entity.LexicalItemEntity;
-import rx.dictionary.jpa.entity.Explanation;
+import rx.dictionary.jpa.entity.PartOfSpeech;
 import rx.transaction.jdbc.PreparedStatementExecutor;
 
 import java.sql.ResultSet;
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Set;
+import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ITUtil {
     private ITUtil() {
@@ -29,17 +29,18 @@ class ITUtil {
         });
     }
 
-    static String localeStringToTag(String localeString) {
+    static String languageLocaleStringToTag(String localeString) {
         return localeString.replace("_", "-");
     }
 
-    static Set<Explanation> getAllExplanations(PreparedStatementExecutor preparedStatementExecutor, String lexicalItemValue) {
+    static List<ExplanationEntity> getAllExplanations(PreparedStatementExecutor preparedStatementExecutor, String lexicalItemValue) {
         final LexicalItemEntity existingItem = preparedStatementExecutor.executeAndReturn("select * from lexical_item where value = ?", preparedStatement -> {
             preparedStatement.setString(1, lexicalItemValue);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
                     LexicalItemEntity lexicalItem = new LexicalItemEntity(resultSet.getLong("id"));
-                    lexicalItem.setLanguage(Locale.forLanguageTag(resultSet.getString("language")));
+                    String languageTag = languageLocaleStringToTag(resultSet.getString("language"));
+                    lexicalItem.setLanguage(Locale.forLanguageTag(languageTag));
                     lexicalItem.setValue(resultSet.getString("value"));
                     return lexicalItem;
                 }
@@ -49,15 +50,17 @@ class ITUtil {
         return preparedStatementExecutor.executeAndReturn("select * from explanation where lexical_item_id = ?", preparedStatement -> {
             preparedStatement.setLong(1, existingItem.getId());
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                Set<Explanation> result = new HashSet<>();
+                List<ExplanationEntity> result = new ArrayList<>();
                 while (resultSet.next()) {
-                    Explanation explanation = new Explanation(resultSet.getLong("id"), existingItem);
-                    String localeTag = localeStringToTag(resultSet.getString("language"));
-                    explanation.setLanguage(Locale.forLanguageTag(localeTag));
-                    explanation.setDefinition(resultSet.getString("definition"));
-                    result.add(explanation);
+                    ExplanationEntity explanationEntity = new ExplanationEntity(resultSet.getLong("id"), existingItem);
+                    String languageTag = languageLocaleStringToTag(resultSet.getString("language"));
+                    explanationEntity.setLanguage(Locale.forLanguageTag(languageTag));
+                    explanationEntity.setPartOfSpeech(PartOfSpeech.valueOf(resultSet.getString("partOfSpeech")));
+                    explanationEntity.setDefinition(resultSet.getString("definition"));
+                    result.add(explanationEntity);
                 }
-                return result;
+                return result.stream().sorted(Comparator.comparing(ExplanationEntity::getDefinition))
+                        .toList();
             }
         });
     }
@@ -79,5 +82,10 @@ class ITUtil {
                 assertFalse(resultSet.next());
             }
         });
+    }
+    static ExplanationVO toExplanationVO(ExplanationEntity explanationEntity) {
+        LexicalItemEntity lexicalItemEntity = explanationEntity.getLexicalItemEntity();
+        LexicalItemVO lexicalItemVO = new LexicalItemVO(lexicalItemEntity.getLanguage(), lexicalItemEntity.getValue());
+        return new ExplanationVO(lexicalItemVO, explanationEntity.getLanguage(), explanationEntity.getPartOfSpeech(), explanationEntity.getDefinition());
     }
 }

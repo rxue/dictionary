@@ -2,6 +2,7 @@ package rx.dictionary.jpa.entity;
 
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
+import rx.dictionary.vo.LexicalItem;
 
 import java.util.Locale;
 
@@ -11,7 +12,7 @@ import java.util.Locale;
 uniqueConstraints = {
         @UniqueConstraint(columnNames = {"language", "value"})
 })
-public class LexicalItemEntity extends AbstractEntity {
+public class LexicalItemEntity extends AbstractEntity implements LexicalItem {
     @Column(nullable=false)
     private Locale language;
     @Column(nullable=false)
@@ -27,8 +28,8 @@ public class LexicalItemEntity extends AbstractEntity {
         return id;
     }
 
-    public Locale getLanguage() {
-        return language;
+    public String getLanguage() {
+        return language.toString();
     }
 
     public String getValue() {

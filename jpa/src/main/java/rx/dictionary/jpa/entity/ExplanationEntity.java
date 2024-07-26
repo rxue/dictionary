@@ -2,6 +2,7 @@ package rx.dictionary.jpa.entity;
 
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
+import rx.dictionary.vo.Explanation;
 
 import java.util.HashSet;
 import java.util.Locale;
@@ -13,7 +14,7 @@ import static jakarta.persistence.FetchType.EAGER;
 @Table(name = "explanation", uniqueConstraints = { @UniqueConstraint(columnNames = { "lexical_item_id", "language", "partofspeech", "definition"}) })
 @SequenceGenerator(sequenceName = "explanation_id_seq", initialValue=1, name = "explanation_sequence", allocationSize = 4)
 @Entity
-public class Explanation {
+public class ExplanationEntity implements Explanation {
 
     @Id
     @GeneratedValue(generator="explanation_sequence", strategy=GenerationType.SEQUENCE)
@@ -33,32 +34,34 @@ public class Explanation {
     @Embedded
     private DateAttributes dateAttributes;
 
-    public Explanation(Long id, LexicalItemEntity lexicalItemEntity) {
+    public ExplanationEntity(Long id, LexicalItemEntity lexicalItemEntity) {
         this.id = id;
         this.lexicalItemEntity = lexicalItemEntity;
     }
-    public Explanation() {}
+    public ExplanationEntity() {}
 
     public LexicalItemEntity getLexicalItemEntity() {
         return lexicalItemEntity;
     }
-
+    @Override
     public Long getId() {
         return id;
     }
 
-    public Locale getLanguage() {
-        return language;
+    public String getLanguage() {
+        return language.toString();
     }
     public void setLanguage(Locale language) {
         this.language = language;
     }
+    @Override
     public PartOfSpeech getPartOfSpeech() {
         return partOfSpeech;
     }
     public void setPartOfSpeech(PartOfSpeech partOfSpeech) {
         this.partOfSpeech = partOfSpeech;
     }
+    @Override
     public String getDefinition() {
         return definition;
     }

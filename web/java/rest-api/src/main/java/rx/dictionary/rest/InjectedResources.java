@@ -18,4 +18,6 @@ public class InjectedResources {
     public EntityManager createEntityManager() {
         return entityManagerFactory.createEntityManager();
     }
+
+
 }

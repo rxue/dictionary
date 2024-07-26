@@ -18,6 +18,7 @@ public class PreparedStatementExecutor {
         try (EntityManager em = entityManagerFactory.createEntityManager()) {
             Session session = em.unwrap(Session.class);
             return session.doReturningWork(conn -> {
+                System.out.println("DEBUG::Isolation Level of the current JDBC connection is " + conn.getTransactionIsolation());
                 try (PreparedStatement statement = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
                     return operations.execute(statement);
                 } catch (SQLException e) {

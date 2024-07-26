@@ -2,17 +2,18 @@ package rx.dictionary.jpa.repository;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import rx.dictionary.vo.LexicalItem;
-import rx.dictionary.jpa.entity.Explanation;
+import rx.dictionary.jpa.entity.ExplanationEntity;
+import rx.dictionary.jpa.entity.LexicalItemEntity;
+import rx.dictionary.jpa.entity.PartOfSpeech;
+import rx.dictionary.vo.Keyword;
 
 import java.util.List;
 import java.util.Locale;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static rx.dictionary.jpa.repository.ITUtil.generateLexicalItem;
+import static org.junit.jupiter.api.Assertions.*;
+import static rx.dictionary.jpa.repository.ITUtil.*;
 
-public class ExplanationRepositoryReadIT extends AbstractDatabaseConfiguration {
+public class ExplanationEntityRepositoryReadIT extends AbstractDatabaseConfiguration {
 
     @BeforeAll
     public static void insert() {
@@ -51,10 +52,11 @@ public class ExplanationRepositoryReadIT extends AbstractDatabaseConfiguration {
         //ACT
         userTransactionExecutor.execute(entityManager -> {
             ExplanationRepository out = new ExplanationRepository(entityManager);
-            LexicalItem keyword = new LexicalItem() {
+            Keyword keyword = new Keyword() {
+
                 @Override
-                public Locale getLanguage() {
-                    return Locale.ENGLISH;
+                public String getLanguage() {
+                    return Locale.ENGLISH.toString();
                 }
 
                 @Override
@@ -62,13 +64,13 @@ public class ExplanationRepositoryReadIT extends AbstractDatabaseConfiguration {
                     return "test";
                 }
             };
-            List<Explanation> result = out.findLike(keyword, Locale.SIMPLIFIED_CHINESE);
+            List<ExplanationEntity> result = out.findLike(keyword, Locale.SIMPLIFIED_CHINESE);
             assertEquals(2, result.size());
-            assertAll("",
-                    () -> {
-                        Explanation first = result.get(0);
-                        assertEquals("测试 1", first.getDefinition());
-                    });
+            final ExplanationEntity firstExplanationEntity = result.get(0);
+            LexicalItemVO expectedLexicalItem = new LexicalItemVO(Locale.ENGLISH.toString(), "test");
+            assertEquals(new ExplanationVO(expectedLexicalItem,
+                    Locale.SIMPLIFIED_CHINESE.toString(), PartOfSpeech.N, "测试 1"), toExplanationVO(firstExplanationEntity));
         });
     }
+
 }

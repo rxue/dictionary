@@ -11,5 +11,15 @@ function getHeaders() {
 test("base GET request ", async () => {
     const requestURL = endpointURL + "/en";
     const resp = await axios.get(requestURL, getHeaders());
+    const expectedResponseData = {
+      language: "en",
+      explanationLanguage: "en",
+      value : "dry",
+      definitions: {
+        "ADJ" : ["dull"]
+      }
+    };
     expect(resp.status).toBe(200);
+    expect(resp.data).toEqual(expectedResponseData);
+
 });
