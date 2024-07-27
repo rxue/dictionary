@@ -23,6 +23,7 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
+        submodules: recursive
         settings-path: ${{ github.workspace }} # location for the settings.xml file
 
     - name: Build submodule
