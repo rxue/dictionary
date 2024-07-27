@@ -27,7 +27,7 @@ jobs:
         settings-path: ${{ github.workspace }} # location for the settings.xml file
 
     - name: Build submodule
-      run: mvn -B test --file jpa/pom.xml
+      run: mvn -B test --file dictionary-jpa/pom.xml
 
     - name: Build REST-API with Maven
       run: mvn -B test --file web/java/pom.xml
