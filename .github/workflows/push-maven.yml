@@ -17,10 +17,11 @@ jobs:
 
     steps:
     - name: Set up Submodule
-    - uses: actions/checkout@v3
+      uses: actions/checkout@v3
       with:
         submodules: true
-    - uses: actions/setup-java@v3
+    - name: Set up JDK
+      uses: actions/setup-java@v3
       with:
         java-version: '17'
         distribution: 'temurin'
