@@ -1,8 +1,7 @@
 package rx.dictionary.rest.vo;
 
-import rx.dictionary.jpa.entity.PartOfSpeech;
-
 import java.util.*;
+import io.github.rxue.dictionary.jpa.entity.PartOfSpeech;
 
 public final class ExplanationsByLanguage {
     private final Long lexicalItemId;

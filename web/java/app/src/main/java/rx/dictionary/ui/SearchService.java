@@ -1,12 +1,6 @@
 package rx.dictionary.ui;
 
 import java.io.Serializable;
-import java.util.*;
-
-import jakarta.inject.Inject;
-
-import rx.dictionary.vo.LexicalItemVO;
-import rx.dictionary.jpa.entity.Explanation;
 
 public class SearchService implements Serializable {
 	/*

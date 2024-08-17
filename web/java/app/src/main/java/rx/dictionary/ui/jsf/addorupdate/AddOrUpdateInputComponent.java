@@ -4,9 +4,9 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import io.github.rxue.dictionary.jpa.entity.PartOfSpeech;
 import jakarta.inject.Inject;
 
-import rx.dictionary.jpa.entity.PartOfSpeech;
 import rx.dictionary.ui.jsf.InputComponent;
 
 public abstract class AddOrUpdateInputComponent extends InputComponent {

@@ -1,8 +1,9 @@
 package rx.dictionary.ui.jsf.search;
 
+import io.github.rxue.dictionary.jpa.entity.PartOfSpeech;
+
 import java.util.List;
 
-import rx.dictionary.jpa.entity.PartOfSpeech;
 
 public class ExplanationItemViewDTO {
 	private final PartOfSpeech partOfSpeech;

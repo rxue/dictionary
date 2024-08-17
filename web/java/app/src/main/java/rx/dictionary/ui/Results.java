@@ -1,20 +1,16 @@
 package rx.dictionary.ui;
 
+import io.github.rxue.dictionary.jpa.entity.ExplanationEntity;
+
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
-import rx.dictionary.jpa.entity.Explanation;
-import rx.dictionary.jpa.entity.PartOfSpeech;
-import rx.dictionary.ui.jsf.search.ExplanationItemViewDTO;
 
 public final class Results {
 	//private final Map<String,List<Explanation>> explanationCandidates;
 	public Results() {
 		this(Collections.EMPTY_LIST);
 	}
-	public Results(List<Explanation> explanationCandidates) {
+	public Results(List<ExplanationEntity> explanationCandidates) {
 		/*
 		this.explanationCandidates = Collections.unmodifiableMap(explanationCandidates.stream()
 				.collect(Collectors.groupingBy(exp -> exp.getLexicalItem().getValue())));

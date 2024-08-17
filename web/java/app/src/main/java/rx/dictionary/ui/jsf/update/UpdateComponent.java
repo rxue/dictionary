@@ -2,16 +2,10 @@ package rx.dictionary.ui.jsf.update;
 
 
 import java.io.Serializable;
-import java.util.Collections;
-import java.util.List;
 import jakarta.faces.view.ViewScoped;
-import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
-import rx.dictionary.vo.LexicalItemVO;
-import rx.dictionary.jpa.entity.Explanation;
 import rx.dictionary.ui.jsf.addorupdate.AddOrUpdateInputComponent;
-import rx.dictionary.ui.jsf.addorupdate.JSFExplanationDTO;
 
 @Named
 @ViewScoped

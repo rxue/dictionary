@@ -1,9 +1,9 @@
 package rx.dictionary.ui.jsf.addorupdate;
 
+import io.github.rxue.dictionary.jpa.entity.PartOfSpeech;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Named;
 
-import rx.dictionary.jpa.entity.PartOfSpeech;
 @RequestScoped
 @Named
 public class JSFExplanationDTO {

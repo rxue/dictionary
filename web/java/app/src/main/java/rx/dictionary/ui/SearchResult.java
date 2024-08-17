@@ -1,13 +1,5 @@
 package rx.dictionary.ui;
 
-import java.util.List;
-import static java.util.stream.Collectors.*;
-
-import java.util.AbstractList;
-
-import rx.dictionary.jpa.entity.Explanation;
-import rx.dictionary.ui.jsf.search.ExplanationItemViewDTO;
-
 public final class SearchResult {
 	/*
 	private final List<ExplanationItemViewDTO> explanationItemViewDTOs;
