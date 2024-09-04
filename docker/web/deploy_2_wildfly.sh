@@ -8,5 +8,5 @@ if [[ 0 -eq $? ]]; then
   docker compose up -d rest-api
   waitBySleep 3 'docker logs dictionary-rest-api |grep "Admin console listening on http://"'
 else
-  echo "Failure on mvn package, script terminating"
+  echo "ERROR: Failure: mvn package, script terminating"
 fi
