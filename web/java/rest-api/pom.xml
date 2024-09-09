@@ -32,7 +32,6 @@
     <properties>
         <version.wildfly.maven.plugin>1.0.2.Final</version.wildfly.maven.plugin>
         <version.wildfly>25.0.0.Final</version.wildfly>
-
         <!-- Define the version of the JBoss BOMs we want to import to specify 
             tested stacks. -->
     </properties>
@@ -42,12 +41,6 @@
             <groupId>jakarta.platform</groupId>
             <artifactId>jakarta.jakartaee-api</artifactId>
             <scope>provided</scope>
-        </dependency>
-		<!-- Pure third party dependencies -->
-        <dependency>
-            <groupId>io.github.rxue</groupId>
-            <artifactId>dictionary-jpa</artifactId>
-            <version>1.0</version>
         </dependency>
         <!-- Needed for running tests (you may also use TestNG) -->
         <dependency>

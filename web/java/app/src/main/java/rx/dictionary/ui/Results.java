@@ -1,6 +1,6 @@
 package rx.dictionary.ui;
 
-import io.github.rxue.dictionary.jpa.entity.ExplanationEntity;
+import io.github.rxue.dictionary.jpa.entity.Explanation;
 
 import java.util.Collections;
 import java.util.List;
@@ -9,8 +9,9 @@ public final class Results {
 	//private final Map<String,List<Explanation>> explanationCandidates;
 	public Results() {
 		this(Collections.EMPTY_LIST);
+		
 	}
-	public Results(List<ExplanationEntity> explanationCandidates) {
+	public Results(List<Explanation> explanationCandidates) {
 		/*
 		this.explanationCandidates = Collections.unmodifiableMap(explanationCandidates.stream()
 				.collect(Collectors.groupingBy(exp -> exp.getLexicalItem().getValue())));

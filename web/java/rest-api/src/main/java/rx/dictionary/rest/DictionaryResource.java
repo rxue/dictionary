@@ -1,18 +1,19 @@
 package rx.dictionary.rest;
 
-import io.github.rxue.dictionary.jpa.entity.ExplanationEntity;
-import io.github.rxue.dictionary.jpa.entity.LexicalItemEntity;
+import io.github.rxue.dictionary.jpa.entity.Explanation;
+import io.github.rxue.dictionary.jpa.entity.LexicalItem;
 import jakarta.annotation.PostConstruct;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import io.github.rxue.dictionary.jpa.repository.ExplanationRepository;
-import rx.dictionary.rest.vo.ExplanationsByLanguage;
+import rx.dictionary.rest.dto.ExplanationDTO;
+import rx.dictionary.rest.dto.ExplanationsByLexicalItemDTO;
+import rx.dictionary.rest.vo.ExplanationVO;
+import rx.dictionary.rest.vo.ExplanationsByLexicalItemVO;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 @Path("glossary")
@@ -25,19 +26,45 @@ public class DictionaryResource {
         explanationRepository = new ExplanationRepository(em);
     }
     @GET
-    @Path("{language}")
+    @Path("{language}/{keywordValue}")
     @Produces(MediaType.APPLICATION_JSON)
-    public ExplanationsByLanguage getDictionaryEntry(@PathParam("language") Locale language) {
+    public ExplanationsByLexicalItemDTO getExplanationsByLexicalItemDTO(@PathParam("language") Locale language, @PathParam("keywordValue") String keywordValue) {
         System.out.println("DEBUG::DEBUG::DEBUG::DEBUG");
-        LexicalItemEntity keyword = new LexicalItemEntity();
-        List<ExplanationEntity> explanations = explanationRepository.findLike(keyword, Locale.ENGLISH);
+        LexicalItem keyword = new LexicalItem();
+        keyword.setLanguage(language);
+        keyword.setValue(keywordValue);
+        List<Explanation> result = explanationRepository.findLike(keyword, Locale.ENGLISH);
+        List<ExplanationDTO> explanationDTOs = result.stream()
+                .map(DictionaryResource::toExplanationDTO)
+                .toList();
 
-        ExplanationsByLanguage.Builder outputBuilder = new ExplanationsByLanguage.Builder(1L, Locale.forLanguageTag(keyword.getLanguage()), keyword.getValue())
-                .setExplanationLanguage(Locale.ENGLISH);
-        for (ExplanationEntity exp : explanations) {
-            outputBuilder.addDefinition(exp.getPartOfSpeech(), 1L, exp.getDefinition());
-        }
-
-        return outputBuilder.build();
+        return new ExplanationsByLexicalItemDTO(result.get(0).getLexicalItem(), explanationDTOs);
     }
+    private static ExplanationDTO toExplanationDTO(Explanation explanation) {
+        return new ExplanationDTO.Builder()
+                .setId(explanation.getId())
+                .setExplanationLanguage(explanation.getLanguage().toLanguageTag())
+                .setPartOfSpeech(explanation.getPartOfSpeech().toString())
+                .setDefinition(explanation.getDefinition())
+                .build();
+    }
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public ExplanationsByLexicalItemDTO createExplanationsByLexicalItemDTO(ExplanationsByLexicalItemVO explanations) {
+        LexicalItem newLexicalItem = new LexicalItem();
+        newLexicalItem.setLanguage(Locale.forLanguageTag(explanations.getLexicalItemLanguage()));
+        newLexicalItem.setValue(explanations.getLexicalItemValue());
+        System.out.println("Got language Locale of Lexical Item: " + Locale.forLanguageTag(explanations.getLexicalItemLanguage()));
+        List<Explanation> newExplanations = new ArrayList<>();
+        for (ExplanationVO explanationVO : explanations.getExplanations()) {
+            newExplanations.add(explanationVO.toExplanation(newLexicalItem));
+        }
+        List<Explanation> addedExplanations = explanationRepository.cascadeAdd(newExplanations);
+        List<ExplanationDTO> responseExplanationDTOs = addedExplanations.stream()
+                .map(DictionaryResource::toExplanationDTO)
+                .toList();
+        return new ExplanationsByLexicalItemDTO(addedExplanations.get(0).getLexicalItem(), responseExplanationDTOs);
+    }
+
 }
