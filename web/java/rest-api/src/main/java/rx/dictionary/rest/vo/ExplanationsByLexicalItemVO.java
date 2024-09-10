@@ -1,5 +1,7 @@
 package rx.dictionary.rest.vo;
 
+
+
 import java.util.List;
 
 public class ExplanationsByLexicalItemVO {
@@ -14,7 +16,6 @@ public class ExplanationsByLexicalItemVO {
     public void setLexicalItemLanguage(String lexicalItemLanguage) {
         this.lexicalItemLanguage = lexicalItemLanguage;
     }
-
     public String getLexicalItemValue() {
         return lexicalItemValue;
     }
