@@ -5,7 +5,6 @@ import io.github.rxue.dictionary.jpa.entity.LexicalItem;
 import jakarta.annotation.PostConstruct;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
-import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import io.github.rxue.dictionary.jpa.repository.ExplanationRepository;
@@ -14,7 +13,7 @@ import org.apache.logging.log4j.Logger;
 import rx.dictionary.rest.dto.ExplanationDTO;
 import rx.dictionary.rest.dto.ExplanationsByLexicalItemDTO;
 import rx.dictionary.rest.vo.ExplanationVO;
-import rx.dictionary.rest.vo.ExplanationsByLexicalItemVO;
+import rx.dictionary.rest.dto.NewExplanationsByLexicalItemInputDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,12 +58,12 @@ public class DictionaryResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public ExplanationsByLexicalItemDTO createExplanationsByLexicalItemDTO(ExplanationsByLexicalItemVO explanations) {
-        LOGGER.info("Going to create a new list of explanations with a new lexical item with value `{}`", explanations.getLexicalItemValue());
+    public ExplanationsByLexicalItemDTO createExplanationsByLexicalItemDTO(NewExplanationsByLexicalItemInputDTO explanations) {
+        LOGGER.info("Going to create a new list of explanations with a new lexical item with value `{}`", explanations.getValue());
         LexicalItem newLexicalItem = new LexicalItem();
-        newLexicalItem.setLanguage(Locale.forLanguageTag(explanations.getLexicalItemLanguage()));
-        newLexicalItem.setValue(explanations.getLexicalItemValue());
-        System.out.println("Got language Locale of Lexical Item: " + Locale.forLanguageTag(explanations.getLexicalItemLanguage()));
+        newLexicalItem.setLanguage(Locale.forLanguageTag(explanations.getLanguage()));
+        newLexicalItem.setValue(explanations.getValue());
+        System.out.println("Got language Locale of Lexical Item: " + Locale.forLanguageTag(explanations.getLanguage()));
         List<Explanation> newExplanations = new ArrayList<>();
         for (ExplanationVO explanationVO : explanations.getExplanations()) {
             newExplanations.add(explanationVO.toExplanation(newLexicalItem));

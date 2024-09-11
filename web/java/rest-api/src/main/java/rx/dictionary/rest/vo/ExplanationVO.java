@@ -7,16 +7,16 @@ import io.github.rxue.dictionary.jpa.entity.PartOfSpeech;
 import java.util.Locale;
 
 public class ExplanationVO {
-    private String explanationLanguageTag;
+    private String languageTag;
     private String partOfSpeech;
     private String definition;
 
-    public String getExplanationLanguageTag() {
-        return explanationLanguageTag;
+    public String getLanguageTag() {
+        return languageTag;
     }
 
-    public void setExplanationLanguageTag(String explanationLanguageTag) {
-        this.explanationLanguageTag = explanationLanguageTag;
+    public void setLanguageTag(String languageTag) {
+        this.languageTag = languageTag;
     }
 
     public String getPartOfSpeech() {
@@ -37,7 +37,7 @@ public class ExplanationVO {
 
     public Explanation toExplanation(LexicalItem lexicalItem) {
         Explanation explanation = new Explanation(lexicalItem);
-        explanation.setLanguage(Locale.forLanguageTag(explanationLanguageTag));
+        explanation.setLanguage(Locale.forLanguageTag(languageTag));
         explanation.setPartOfSpeech(PartOfSpeech.valueOf(PartOfSpeech.class,partOfSpeech));
         explanation.setDefinition(definition);
         return explanation;
