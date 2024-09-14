@@ -28,7 +28,7 @@ public final class ExplanationDTO {
     public String getDefinition() {
         return definition;
     }
-    public static class Builder {
+    static class Builder {
         private Long id;
         private String explanationLanguage;
         private String partOfSpeech;
@@ -38,21 +38,21 @@ public final class ExplanationDTO {
             return this;
         }
 
-        public Builder setExplanationLanguage(String explanationLanguage) {
+        Builder setExplanationLanguage(String explanationLanguage) {
             this.explanationLanguage = explanationLanguage;
             return this;
         }
 
-        public Builder setPartOfSpeech(String partOfSpeech) {
+        Builder setPartOfSpeech(String partOfSpeech) {
             this.partOfSpeech = partOfSpeech;
             return this;
         }
 
-        public Builder setDefinition(String definition) {
+        Builder setDefinition(String definition) {
             this.definition = definition;
             return this;
         }
-        public ExplanationDTO build() {
+        ExplanationDTO build() {
             return new ExplanationDTO(this);
         }
     }

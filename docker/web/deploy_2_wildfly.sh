@@ -6,7 +6,7 @@ mvn -B -f ../web/java --projects rest-api --also-make clean package
 if [[ 0 -eq $? ]]; then
   docker compose build --build-arg portAssignment="-Djboss.http.port=${REST_API_PORT}" rest-api
   docker compose up -d rest-api
-  waitBySleep 3 'docker logs dictionary-rest-api |grep "Admin console listening on http://"'
+  waitBySleep 4 'docker logs dictionary-rest-api |grep "Admin console listening on http://"'
 else
   echo "ERROR: Failure: mvn package, script terminating"
 fi

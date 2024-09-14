@@ -1,33 +1,23 @@
 package rx.dictionary.rest.dto;
 
-
-
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import rx.dictionary.rest.vo.ExplanationVO;
 
 import java.util.List;
 
 public class NewExplanationsByLexicalItemInputDTO {
-    private Long lexicalItemId;
     @NotNull
-    private String language;
-    @NotNull
-    private String value;
+    private LexicalItemDTO lexicalItemDTO;
+    @NotEmpty
     private List<ExplanationVO> explanations;
 
-    public String getLanguage() {
-        return language;
+    public LexicalItemDTO getLexicalItemDTO() {
+        return lexicalItemDTO;
     }
 
-    public void setLanguage(String language) {
-        this.language = language;
-    }
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
+    public void setLexicalItemDTO(LexicalItemDTO lexicalItemDTO) {
+        this.lexicalItemDTO = lexicalItemDTO;
     }
 
     public List<ExplanationVO> getExplanations() {

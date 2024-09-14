@@ -3,12 +3,15 @@ package rx.dictionary.rest.vo;
 import io.github.rxue.dictionary.jpa.entity.Explanation;
 import io.github.rxue.dictionary.jpa.entity.LexicalItem;
 import io.github.rxue.dictionary.jpa.entity.PartOfSpeech;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.Locale;
 
 public class ExplanationVO {
+    @NotNull
     private String languageTag;
     private String partOfSpeech;
+    @NotNull
     private String definition;
 
     public String getLanguageTag() {

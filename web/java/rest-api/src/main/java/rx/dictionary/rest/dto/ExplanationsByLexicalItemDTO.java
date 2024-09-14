@@ -1,31 +1,33 @@
 package rx.dictionary.rest.dto;
 
-import io.github.rxue.dictionary.jpa.entity.LexicalItem;
+import io.github.rxue.dictionary.jpa.entity.Explanation;
 
 import java.util.*;
 
 public final class ExplanationsByLexicalItemDTO {
-    private final Long lexicalItemId;
-    private final String language;
-    private final String value;
-    private final List<ExplanationDTO> explanations;
-    public ExplanationsByLexicalItemDTO(LexicalItem lexicalItem, List<ExplanationDTO> explanations) {
-        this.lexicalItemId = lexicalItem.getId();
-        this.language = lexicalItem.getLanguage().toLanguageTag();
-        this.value = lexicalItem.getValue();
-        this.explanations = explanations;
+    private final LexicalItemDTO lexicalItemDTO;
+    private final List<ExplanationDTO> explanationDTOs;
+
+    private ExplanationsByLexicalItemDTO(LexicalItemDTO lexicalItemDTO, List<ExplanationDTO> explanationDTOs) {
+        this.lexicalItemDTO = lexicalItemDTO;
+        this.explanationDTOs = explanationDTOs;
     }
 
-    public Long getLexicalItemId() {
-        return lexicalItemId;
-    }
-    public String getLanguage() {
-        return language;
-    }
-    public String getValue() {
-        return value;
+    public LexicalItemDTO getLexicalItemDTO() {
+        return lexicalItemDTO;
     }
     public List<ExplanationDTO> getExplanations() {
-        return explanations;
+        return explanationDTOs;
+    }
+    public static ExplanationsByLexicalItemDTO create(List<Explanation> explanations) {
+        List<ExplanationDTO> explanationDTOs = explanations.stream()
+                .map(e -> new ExplanationDTO.Builder()
+                        .setId(e.getId())
+                        .setExplanationLanguage(e.getLanguage().toLanguageTag())
+                        .setPartOfSpeech(e.getPartOfSpeech().toString())
+                        .setDefinition(e.getDefinition())
+                        .build()
+                ).toList();
+        return new ExplanationsByLexicalItemDTO(LexicalItemDTO.create(explanations.get(0).getLexicalItem()), explanationDTOs);
     }
 }
