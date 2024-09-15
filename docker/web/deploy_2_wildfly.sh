@@ -7,6 +7,11 @@ if [[ 0 -eq $? ]]; then
   docker compose build --build-arg portAssignment="-Djboss.http.port=${REST_API_PORT}" rest-api
   docker compose up -d rest-api
   waitBySleep 4 'docker logs dictionary-rest-api |grep "Admin console listening on http://"'
+  if [[ `docker logs dictionary-rest-api |grep "ERROR"` ]]; then
+    docker logs dictionary-rest-api
+    echo
+    echo -e "\tERROR ENCOUNTERED! Failure: Wildfly started with ERROR"
+  fi
 else
   echo "ERROR: Failure: mvn package, script terminating"
 fi
