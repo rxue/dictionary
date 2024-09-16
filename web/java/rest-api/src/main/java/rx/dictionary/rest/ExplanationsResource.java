@@ -11,6 +11,7 @@ import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import io.github.rxue.dictionary.jpa.repository.ExplanationRepository;
+import jakarta.ws.rs.core.Response;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import rx.dictionary.rest.dto.ExplanationsByLexicalItemDTO;
@@ -48,7 +49,7 @@ public class ExplanationsResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public ExplanationsByLexicalItemDTO createExplanationsByLexicalItemDTO(@Valid NewExplanationsByLexicalItemInputDTO explanationsByLexicalItem) {
+    public Response createExplanationsByLexicalItemDTO(@Valid NewExplanationsByLexicalItemInputDTO explanationsByLexicalItem) {
         final LexicalItemDTO lexicalItemDTO = explanationsByLexicalItem.getLexicalItemDTO();
         LexicalItem lexicalItem = lexicalItemDTO.toLexicalItem();
         LOGGER.info("new lexical item ID is `{}`", lexicalItem.getId());
@@ -61,8 +62,10 @@ public class ExplanationsResource {
         List<Explanation> addedExplanations = explanationService.create(newExplanations);
         LexicalItem persistedLexicalitem = addedExplanations.get(0).getLexicalItem();
         LOGGER.info("Persisted lexical item has id {}", persistedLexicalitem.getId());
-        //List<Explanation> foundAddedExplanations = explanationRepository.findLike(lexicalItem, Locale.ENGLISH);
-        return ExplanationsByLexicalItemDTO.create(addedExplanations);
+        return Response
+                .status(jakarta.ws.rs.core.Response.Status.CREATED)
+                .entity(ExplanationsByLexicalItemDTO.create(addedExplanations))
+                .build();
     }
 
 }

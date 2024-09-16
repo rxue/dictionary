@@ -73,7 +73,7 @@ test(failureMessage + "base case", async () => {
   const inputData = {
     lexicalItemDTO : {
       languageTag : "en",
-      value : "test c"
+      value : "test"
     },
     explanations : [
       {
@@ -90,5 +90,6 @@ test(failureMessage + "base case", async () => {
     });
   const responseData = resp.data;
   console.log(responseData);
+  expect(resp.status).toBe(201);
   expect(responseData.lexicalItemDTO.id).toBeDefined();  
 });
