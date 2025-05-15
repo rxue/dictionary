@@ -1,10 +1,8 @@
 package rx.dictionary.rest;
 
-import io.github.rxue.dictionary.Keyword;
 import io.github.rxue.dictionary.jpa.entity.Explanation;
 import io.github.rxue.dictionary.jpa.entity.LexicalItem;
 import jakarta.annotation.PostConstruct;
-import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.validation.Valid;
