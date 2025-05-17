@@ -10,7 +10,7 @@ public class LexicalItem extends AbstractEntity {
     @Column(nullable=false)
     private Locale language;
     @Column(nullable=false)
-    private String itemValue;
+    private String value;
     //Merely for testing purpose
     public LexicalItem(Long id) {
         this.id = id;
@@ -29,12 +29,12 @@ public class LexicalItem extends AbstractEntity {
     }
 
     //@Override
-    public String getItemValue() {
-        return itemValue;
+    public String getValue() {
+        return value;
     }
 
 
-    public void setItemValue(String itemValue) {
-        this.itemValue = itemValue;
+    public void setValue(String value) {
+        this.value = value;
     }
 }
