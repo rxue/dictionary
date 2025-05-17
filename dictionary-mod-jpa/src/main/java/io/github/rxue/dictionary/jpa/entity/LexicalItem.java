@@ -1,12 +1,13 @@
 package io.github.rxue.dictionary.jpa.entity;
 
+import io.github.rxue.dictionary.Keyword;
 import jakarta.persistence.*;
 
 import java.util.Locale;
 
 @Entity
 @Table(name = "lexical_item")
-public class LexicalItem extends AbstractEntity {
+public class LexicalItem extends AbstractEntity implements Keyword {
     @Column(nullable=false)
     private Locale language;
     @Column(nullable=false)
@@ -19,7 +20,7 @@ public class LexicalItem extends AbstractEntity {
     }
 
 
-    //@Override
+    @Override
     public Locale getLanguage() {
         return language;
     }
@@ -28,7 +29,7 @@ public class LexicalItem extends AbstractEntity {
         this.language = language;
     }
 
-    //@Override
+    @Override
     public String getValue() {
         return value;
     }

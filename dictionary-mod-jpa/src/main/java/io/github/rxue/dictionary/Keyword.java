@@ -4,5 +4,5 @@ import java.util.Locale;
 
 public interface Keyword {
     Locale getLanguage();
-    String getItemValue();
+    String getValue();
 }
