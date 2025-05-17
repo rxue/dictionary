@@ -1,9 +1,7 @@
 package io.github.rxue;
 
-import io.github.rxue.dictionary.jpa.entity.TestEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.PersistenceUnit;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;

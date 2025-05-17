@@ -8,6 +8,7 @@ import java.util.Locale;
 @Entity
 @Table(name = "lexical_item")
 public class LexicalItem extends AbstractEntity implements Keyword {
+
     @Column(nullable=false)
     private Locale language;
     @Column(nullable=false)
@@ -18,7 +19,8 @@ public class LexicalItem extends AbstractEntity implements Keyword {
     }
     public LexicalItem() {
     }
-
+    @Embedded
+    private DateAttributes dateAttributes;
 
     @Override
     public Locale getLanguage() {
