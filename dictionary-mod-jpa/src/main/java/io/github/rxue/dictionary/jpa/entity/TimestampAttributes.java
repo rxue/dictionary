@@ -9,11 +9,11 @@ import java.time.LocalDate;
 import java.time.ZonedDateTime;
 
 @Embeddable
-public class DateAttributes {
+public class TimestampAttributes {
     @Column(name="creation_date")
-    private LocalDate creationDate;
+    public LocalDate creationDate;
     @Column(name="last_update_time")
-    private ZonedDateTime lastUpdateTime;
+    public ZonedDateTime lastUpdateTime;
 
     public LocalDate getCreationDate() {
         return creationDate;

@@ -19,8 +19,7 @@ public class LexicalItem extends AbstractEntity implements Keyword {
     }
     public LexicalItem() {
     }
-    @Embedded
-    private DateAttributes dateAttributes;
+    private TimestampAttributes dateAttributes;
 
     @Override
     public Locale getLanguage() {
@@ -39,5 +38,13 @@ public class LexicalItem extends AbstractEntity implements Keyword {
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    public TimestampAttributes getDateAttributes() {
+        return dateAttributes;
+    }
+
+    public void setDateAttributes(TimestampAttributes dateAttributes) {
+        this.dateAttributes = dateAttributes;
     }
 }
