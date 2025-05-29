@@ -7,19 +7,26 @@ import java.util.Locale;
 
 @Entity
 @Table(name = "lexical_item")
-public class LexicalItem extends AbstractEntity implements Keyword {
+public class LexicalItem implements Keyword {
+
+    @Id
+    @GeneratedValue(generator="lexical_item_seq", strategy=GenerationType.SEQUENCE)
+    private Long id;
 
     @Column(nullable=false)
     private Locale language;
     @Column(nullable=false)
     private String value;
+    private TimestampAttributes dateAttributes;
     //Merely for testing purpose
     public LexicalItem(Long id) {
-        super.id = id;
+        this.id = id;
     }
     public LexicalItem() {
     }
-    private TimestampAttributes dateAttributes;
+    public Long getId() {
+        return id;
+    }
 
     @Override
     public Locale getLanguage() {
