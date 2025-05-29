@@ -15,7 +15,7 @@ public class LexicalItem extends AbstractEntity implements Keyword {
     private String value;
     //Merely for testing purpose
     public LexicalItem(Long id) {
-        this.id = id;
+        super.id = id;
     }
     public LexicalItem() {
     }

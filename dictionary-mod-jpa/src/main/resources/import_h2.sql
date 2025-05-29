@@ -1,0 +1,1 @@
+INSERT INTO LEXICAL_ITEM (language, value, creation_date) values('en_US', 'curate', '2025-05-29');
