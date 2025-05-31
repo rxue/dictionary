@@ -9,6 +9,7 @@ import jakarta.ws.rs.core.MediaType;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 @Path("/lexical-items")
 public class LexicalItemResource {
@@ -18,7 +19,7 @@ public class LexicalItemResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<LexicalItem> getAllItems() {
-        List<LexicalItem> lexicalItems = entityManager.createQuery("SELECT l FROM LexicalItem l", LexicalItem.class)
+        List<LexicalItem> lexicalItems = entityManager.createQuery("SELECT l FROM LexicalItem l")
                 .getResultList();
         return lexicalItems;
     }
@@ -27,12 +28,14 @@ public class LexicalItemResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Explanation> getExplanationsByLanguage(@PathParam("word") String word,
-                                                       @MatrixParam("language") String languageLocaleTag,
-                                                       @QueryParam("explanation-language") Locale explanationLanguageLocaleTag) {
-        System.out.println("word: " + word);
-        System.out.println("language: " + languageLocaleTag);
-        System.out.println("explanation in language Locale " + explanationLanguageLocaleTag);
-        List<Explanation> explanations = entityManager.createQuery("SELECT e FROM Explanation e", Explanation.class)
+                                                       @MatrixParam("language") String languageTag,
+                                                       @QueryParam("explanation-language") String explanationLanguageTag) {
+        System.out.println(Objects.equals(Locale.forLanguageTag(languageTag), Locale.US));
+        System.out.println(Objects.equals(Locale.forLanguageTag(explanationLanguageTag), Locale.SIMPLIFIED_CHINESE));
+        List<Explanation> explanations = entityManager.createQuery("SELECT e FROM LexicalItem l LEFT JOIN Explanation e ON l = e.lexicalItem WHERE l.value = :word AND l.language = :language and e.language =:explanationLanguage", Explanation.class)
+                .setParameter("word", word)
+                .setParameter("language", Locale.forLanguageTag(languageTag))
+                .setParameter("explanationLanguage", Locale.forLanguageTag(explanationLanguageTag))
                 .getResultList();
         return explanations;
     }

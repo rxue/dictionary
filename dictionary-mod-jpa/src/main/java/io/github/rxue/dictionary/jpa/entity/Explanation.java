@@ -14,7 +14,7 @@ import static jakarta.persistence.FetchType.EAGER;
 @Entity
 public class Explanation extends AbstractEntity {
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name="lexical_item_id")
     private LexicalItem lexicalItem;
     @Column(nullable = false)
