@@ -6,6 +6,8 @@ import io.github.rxue.dictionary.jpa.entity.Explanation;
 import io.github.rxue.dictionary.jpa.entity.LexicalItem;
 import io.github.rxue.dictionary.jpa.entity.PartOfSpeech;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 
@@ -18,10 +20,12 @@ import static java.util.stream.Collectors.groupingBy;
 @ApplicationScoped
 public class DictionaryService {
 
-    @PersistenceContext
     private EntityManager entityManager;
+    public DictionaryService(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
 
-    List<LexicalItem> getAllLexicalItems(LexicalItemResource lexicalItemResource) {
+    List<LexicalItem> getAllLexicalItems() {
         return entityManager.createQuery("SELECT l FROM LexicalItem l")
                 .getResultList();
     }
