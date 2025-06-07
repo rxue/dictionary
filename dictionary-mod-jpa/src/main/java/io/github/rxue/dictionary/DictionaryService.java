@@ -14,6 +14,7 @@ import jakarta.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 
 import static java.util.stream.Collectors.groupingBy;
 
@@ -30,19 +31,22 @@ public class DictionaryService {
                 .getResultList();
     }
 
-    ExplanationsByLanguageDTO getExplanationsByLanguage(Locale language, String word, Locale explanationLanguage) {
+    Optional<ExplanationsByLanguageDTO> getExplanationsByLanguage(Locale language, String word, Locale explanationLanguage) {
         Map<PartOfSpeech, List<Explanation>> partOfSpeechToExplanations = entityManager.createQuery("SELECT e FROM LexicalItem l LEFT JOIN Explanation e ON l = e.lexicalItem WHERE l.value = :word AND l.language = :language and e.language =:explanationLanguage", Explanation.class)
                 .setParameter("word", word)
                 .setParameter("language", language)
                 .setParameter("explanationLanguage", explanationLanguage)
                 .getResultStream()
                 .collect(groupingBy(Explanation::getPartOfSpeech));
-        return ExplanationsByLanguageDTO.builder()
+        if (partOfSpeechToExplanations.isEmpty())
+            return Optional.empty();
+        else return Optional.of(ExplanationsByLanguageDTO.builder()
                 .language(language.toLanguageTag())
                 .lexicalItem(word)
                 .explanationInLanguage(explanationLanguage.toLanguageTag())
                 .explanations(toExplanationsByPartOfSpeechList(partOfSpeechToExplanations))
-                .build();
+                .build());
+
     }
     private List<ExplanationsByPartOfSpeech> toExplanationsByPartOfSpeechList(Map<PartOfSpeech, List<Explanation>> partOfSpeechToExplanations) {
         return partOfSpeechToExplanations.keySet().stream()

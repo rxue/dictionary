@@ -66,7 +66,7 @@ class LexicalItemRepositoryIT {
             }
 
     }
-    
+
     @Test
     public void addLexicalItem() throws SystemException, NotSupportedException, HeuristicRollbackException, HeuristicMixedException, RollbackException {
         userTransaction.begin();
