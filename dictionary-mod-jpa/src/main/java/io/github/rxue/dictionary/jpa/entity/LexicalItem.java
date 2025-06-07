@@ -7,10 +7,11 @@ import java.util.Locale;
 
 @Entity
 @Table(name = "lexical_item")
+@SequenceGenerator(sequenceName = "lexical_item_seq", initialValue=1, name = "lexical_item_id_sequence", allocationSize = 1)
 public class LexicalItem implements Keyword {
 
     @Id
-    @GeneratedValue(generator="lexical_item_seq", strategy=GenerationType.SEQUENCE)
+    @GeneratedValue(generator="lexical_item_id_sequence", strategy=GenerationType.SEQUENCE)
     private Long id;
 
     @Column(nullable=false)

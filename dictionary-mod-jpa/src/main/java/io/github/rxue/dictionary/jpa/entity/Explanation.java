@@ -10,7 +10,6 @@ import static jakarta.persistence.FetchType.EAGER;
 
 @EqualsAndHashCode
 @Table(name = "explanation", uniqueConstraints = { @UniqueConstraint(columnNames = { "lexical_item_id", "language", "partofspeech", "definition"}) })
-@SequenceGenerator(sequenceName = "explanation_id_seq", initialValue=1, name = "explanation_sequence", allocationSize = 4)
 @Entity
 public class Explanation extends AbstractEntity {
 
