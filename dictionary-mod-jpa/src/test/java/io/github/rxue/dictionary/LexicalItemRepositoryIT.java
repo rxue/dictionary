@@ -6,13 +6,13 @@ import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import org.hibernate.Session;
+import org.hibernate.jdbc.Work;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
@@ -41,7 +41,10 @@ class LexicalItemRepositoryIT {
             lexicalItemRepository = new LexicalItemRepository(entityManager);
         if (session == null)
             session = entityManager.unwrap(Session.class);
-        session.doWork(connection -> {
+        session.doWork(LexicalItemRepositoryIT::truncateTables);
+    }
+
+    private static void truncateTables(Connection connection) {
             List<String> deleteStatements = List.of("DELETE FROM explanation", "DELETE FROM LEXICAL_ITEM", "TRUNCATE TABLE SENTENCE");
             try (Statement batchStatement = connection.createStatement()) {
                 deleteStatements.forEach(s -> {
@@ -52,10 +55,12 @@ class LexicalItemRepositoryIT {
                     }
                 });
                 batchStatement.executeBatch();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
             }
 
-        });
     }
+
     @AfterAll
     public static void clean() {
         session.close();
