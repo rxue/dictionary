@@ -2,7 +2,7 @@
 https://quarkus.io/guides/getting-started
 
 # Example request
-``
+`curl "http://localhost:8080/lexical-items/curate;language=en-US/explanations?language=zh-CN"`
 
 
 # Quarkus Cheatsheet: Practical lessons learnt
