@@ -3,6 +3,7 @@ package io.github.rxue.dictionary;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -15,6 +16,10 @@ public class DictionaryServiceIT {
     @Inject
     private EntityManager entityManager;
     private static DictionaryService dictionaryService;
+    @BeforeAll
+    public static void initOnce() {
+        System.out.println("FIRST IT TEST");
+    }
 
     @BeforeEach
     public void init() {
