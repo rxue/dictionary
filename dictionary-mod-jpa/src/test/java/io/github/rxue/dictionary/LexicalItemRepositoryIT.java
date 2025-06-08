@@ -6,7 +6,6 @@ import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.*;
 import org.hibernate.Session;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -81,9 +80,9 @@ class LexicalItemRepositoryIT {
 
     @Transactional
     @Test
-    public void check() {
+    public void verify_LexicalItem_table_without_any_operation() {
         List<LexicalItem> allLexicalItems = entityManager.createQuery("SELECT l FROM LexicalItem l")
                 .getResultList();
-        assertThat(allLexicalItems, hasSize(0));
+        assertThat("In this case LexicalItem table should be empty", allLexicalItems, hasSize(0));
     }
 }

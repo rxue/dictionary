@@ -13,7 +13,7 @@ describe('Error case', () => {
       expect(response.status).toBe(200);
       expect(response.data).not.toBeNull();
     } catch(error) {
-      expect(error.response.status).toBe(422);
+      fail('Never expected to throw error', error.message);
     }
   });
 });
