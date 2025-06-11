@@ -1,13 +1,11 @@
 on:
   schedule:
-    - cron: '0 21 28 * *'
+    - cron: '37 3 * * *'
 
 jobs:
   ci_test_job:
     runs-on: ubuntu-latest
     name: CI Test
-    env:
-      TZ: Europe/Helsinki
     steps:
       - uses: actions/checkout@v3.1.0
       - name: Setup JDK Java 17
