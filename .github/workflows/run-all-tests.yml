@@ -1,0 +1,19 @@
+on:
+  schedule:
+    - cron: '37 3 * * *'
+
+jobs:
+  ci_test_job:
+    runs-on: ubuntu-latest
+    name: CI Test
+    steps:
+      - uses: actions/checkout@v3.1.0
+      - name: Setup JDK Java 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+      - name: run all tests by means of scripts
+        run: |
+          cd dictionary-mod-jpa/test
+          source run.sh
