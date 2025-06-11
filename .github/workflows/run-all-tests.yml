@@ -13,6 +13,10 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-      - name: run all tests by means of scripts
+      - name: run unit tests and integration tests
         run: |
           mvn -f dictionary-mod-jpa/pom.xml clean verify -DskipITs=false
+      - name: run end-to-end tests
+        run: |
+          cd dictionary-mod-jpa/end2end-tests
+          source run.sh
