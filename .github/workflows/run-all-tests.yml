@@ -15,5 +15,5 @@ jobs:
           distribution: 'temurin'
       - name: run all tests by means of scripts
         run: |
-          cd dictionary-mod-jpa/test
+          cd dictionary-mod-jpa/tests
           source run.sh
