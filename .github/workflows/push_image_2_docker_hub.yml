@@ -33,7 +33,7 @@ jobs:
     - name: Build and then push Docker image
       uses: docker/build-push-action@v4
       with:
-          context: ./dictionary-mod-jp
+          context: ./dictionary-mod-jpa
           file: ./src/main/docker/Dockerfile   # specify your Dockerfile path here
           tags: ruixue/dictionary-mod-jpa:0.1
           push: true   # true if you want to push to Docker Hub or registry
