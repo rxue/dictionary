@@ -39,3 +39,5 @@ jobs:
           context: ./dictionary-mod-jpa
           tags: ruixue/dictionary-mod-jpa:0.1
           push: true   # true if you want to push to Docker Hub or registry
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
