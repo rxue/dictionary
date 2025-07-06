@@ -43,5 +43,5 @@ jobs:
       uses: docker/build-push-action@v5
       with:
           context: ./dictionary-mod-jpa
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/dictionary-mod-jpa:0.1
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/dictionary-rest-api:1.0
           push: true   # true if you want to push to Docker Hub or registry
