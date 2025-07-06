@@ -80,9 +80,6 @@
 ###
 FROM registry.access.redhat.com/ubi9/openjdk-17:1.21
 
-USER root
-RUN microdnf install -y gzip && microdnf clean all
-
 ENV LANGUAGE='en_US:en'
 
 
