@@ -28,10 +28,10 @@ jobs:
         settings-path: ${{ github.workspace }} # location for the settings.xml file
 
     - name: Build dictionary-mod-jpa module
-      run: mvn -B --file dictionary-mod-jpa/pom.xml clean package
+      run: mvn -B --file dictionary-mod-jpa/pom.xml clean package -Dquarkus.package.jar.type=legacy-jar
 
     - name: Copy the Dockerfile to the context directory so that it can be built
-      run: cp dictionary-mod-jpa/src/main/docker/Dockerfile dictionary-mod-jpa/
+      run: cp dictionary-mod-jpa/src/main/docker/Dockerfile.legacy-jar dictionary-mod-jpa/Dockerfile
 
     - name: Build and then push Docker image
       uses: docker/build-push-action@v4
