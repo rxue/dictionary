@@ -41,3 +41,7 @@ reference: https://www.vocabulary.com/dictionary/lexical%20entry
 
 New entity `Explanation` is introduced to aggregate *defintion* , *part of speech* , *pronunciation* etc. along with `LexicalItem` as *foreign key*. There is an **invariant** relationship from *lexical item* to *explanation*, i.e. *one-to-many*. However, when implementing it with JPA/Hibernate, there are at least three ways
 
+# Daybook
+## 20250706
+### Github Action workflow
+#### trigger is compulsory
