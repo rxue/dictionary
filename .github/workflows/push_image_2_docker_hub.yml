@@ -34,7 +34,7 @@ jobs:
       run: cp dictionary-mod-jpa/src/main/docker/Dockerfile.legacy-jar dictionary-mod-jpa/Dockerfile
 
     - name: Log in to Docker Hub
-      uses: docker/login-action@v4
+      uses: docker/login-action@v3
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
