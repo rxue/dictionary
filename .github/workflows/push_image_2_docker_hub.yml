@@ -1,0 +1,36 @@
+# This workflow will build a package using Maven and then publish it to GitHub packages when a release is created
+# For more information see: https://github.com/actions/setup-java/blob/main/docs/advanced-usage.md#apache-maven-with-a-settings-path
+
+name: Push Docker image to Docker Hub
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+    - name: Set up Submodule
+      uses: actions/checkout@v3
+      with:
+        submodules: true
+    - name: Set up JDK
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
+        settings-path: ${{ github.workspace }} # location for the settings.xml file
+
+    - name: Build dictionary-mod-jpa module
+      run: mvn -B --file dictionary-mod-jpa/pom.xml clean package
+
+    - name: Build and then push Docker image
+      uses: docker/build-push-action@v4
+      with:
+          context: dictionary-mod-jpa
+          file: ./src/main/docker/Dockerfile   # specify your Dockerfile path here
+          tags: ruixue/dictionary-mod-jpa:0.1
+          push: true   # true if you want to push to Docker Hub or registry
