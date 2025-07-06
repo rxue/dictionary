@@ -79,6 +79,8 @@
 #
 ###
 FROM registry.access.redhat.com/ubi9/openjdk-17:1.21
+# Build
+RUN mvn clean package -DskipTests
 
 ENV LANGUAGE='en_US:en'
 
