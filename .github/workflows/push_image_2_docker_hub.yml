@@ -30,6 +30,9 @@ jobs:
     - name: Build dictionary-mod-jpa module
       run: mvn -B --file dictionary-mod-jpa/pom.xml clean package
 
+    - name: Copy the Dockerfile to the context directory so that it can be built
+      run: cp dictionary-mod-jpa/src/main/docker/Dockerfile dictionary-mod-jpa/
+
     - name: Build and then push Docker image
       uses: docker/build-push-action@v4
       with:
