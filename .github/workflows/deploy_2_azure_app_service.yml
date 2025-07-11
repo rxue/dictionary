@@ -12,7 +12,7 @@ permissions:
 
 
 jobs:
-  build:
+  build-and-deploy:
 
     runs-on: ubuntu-latest  
     environment: DEPLOYMENT_2_AZURE
