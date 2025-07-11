@@ -17,6 +17,9 @@ jobs:
     runs-on: ubuntu-latest  
     environment: DEPLOYMENT_2_AZURE
     steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
     - name: Azure Login
       uses: azure/login@v1
       with:
