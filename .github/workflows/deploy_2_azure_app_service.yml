@@ -20,17 +20,12 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
 
-    - name: Print to debug GitHub OIDC subject
-      run: |
-        echo "Subject: repo=${{ github.repository }} ref=${{ github.ref }}"
-
     - name: Azure Login
       uses: azure/login@v1
       with:
         client-id: ${{ secrets.AZURE_CLIENT_ID }}
         tenant-id: ${{ secrets.AZURE_TENANT_ID }}
         subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-        enable-oidc: true
 
     - name: Deploy Docker image to Azure Web App
       uses: azure/webapps-deploy@v2
