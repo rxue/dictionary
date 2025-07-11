@@ -6,6 +6,11 @@ name: Deploy Docker image to Azure App Service
 on:
   workflow_dispatch:
 
+permissions:
+  id-tokens: write
+  contents: read
+
+
 jobs:
   build:
 
