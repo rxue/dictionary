@@ -1,0 +1,18 @@
+# This workflow will build a package using Maven and then publish it to GitHub packages when a release is created
+# For more information see: https://github.com/actions/setup-java/blob/main/docs/advanced-usage.md#apache-maven-with-a-settings-path
+
+name: Deploy Docker image to Azure App Service
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest  
+    steps:
+    - name: Deploy Docker image to Azure Web App
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: dictionary-rest-api
+        images: ${{ secrets.DOCKERHUB_USERNAME }}/dictionary-rest-api:1.0
