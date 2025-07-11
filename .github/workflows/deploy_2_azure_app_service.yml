@@ -20,6 +20,9 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
 
+    - name: Print to debug GitHub OIDC subject
+      run: echo "Subject: repo=${{ github.repository }} ref=${{ github.ref }}"
+
     - name: Azure Login
       uses: azure/login@v1
       with:
