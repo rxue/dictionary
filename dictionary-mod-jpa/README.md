@@ -24,4 +24,21 @@ When using `quarkus-resteasy-jsonb` to make REST API endpoint, the attribute ann
 ## Keyboard shortcut
 ### "Alt + Insert" to *create a New* class/package etc.
 
-
+# Daybook
+## 20250715
+### `az postgresql`
+#### Create a Postgresql Flexible Server
+```
+az postgres flexible-server create \
+  --name dictionary-db \
+  --resource-group $resourceGroupName \
+  --location $locationName \
+  --admin-user $username \
+  --admin-password $password \
+  --sku-name Standard_B1ms \
+  --tier Burstable \
+  --storage-size 32 \
+  --version 15 \
+  --public-access 0.0.0.0-255.255.255.255
+```
+Knowledge resource on free trial: https://learn.microsoft.com/en-us/azure/postgresql/flexible-server/how-to-deploy-on-azure-free-account
