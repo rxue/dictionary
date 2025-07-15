@@ -58,3 +58,30 @@ Relevant knowledge resources
 * on free trial: https://learn.microsoft.com/en-us/azure/postgresql/flexible-server/how-to-deploy-on-azure-free-account
 * CapEx: https://www.youtube.com/watch?v=WiwV9wb0GMo
 * Flexible Server for PostgreSQL on Azure: https://www.youtube.com/watch?v=damXLEH0VTQ
+#### After the Postgresql flexible server is created, it is in *Ready* state, then find its connection string
+```
+az postgres flexible-server show-connection-string \
+  --server-name dictionary-db \
+  --admin-user admin_rui
+```
+The output looks like
+```
+{
+  "connectionStrings": {
+    "ado.net": "Server=dictionary-db.postgres.database.azure.com;Database={database};Port=5432;User Id=admin_rui;Password={password};Ssl Mode=Require;",
+    "jdbc": "jdbc:postgresql://dictionary-db.postgres.database.azure.com:5432/{database}?user=admin_rui&password={password}&sslmode=require",
+    "jdbc Spring": "spring.datasource.url=jdbc:postgresql://dictionary-db.postgres.database.azure.com:5432/{database}  spring.datasource.username=admin_rui  spring.datasource.password={password}",
+    "node.js": "var conn= new Client({host:'dictionary-db.postgres.database.azure.com', user:'admin_rui', password:'{password}', database:'{database}', port:5432, ssl:{ca:fs.readFileSync(\"{ca-cert filename}\")}});",
+    "php": "pg_connect(\"host=dictionary-db.postgres.database.azure.com port=5432 dbname={database} user=admin_rui password={password}\");",
+    "psql_cmd": "postgresql://admin_rui:{password}@dictionary-db.postgres.database.azure.com/{database}?sslmode=require",
+    "python": "cnx = psycopg2.connect(user='admin_rui', password='{password}', host='dictionary-db.postgres.database.azure.com', port=5432, database='{database}')",
+    "ruby": "connection = PG::Connection.new(user => \"admin_rui\", password => \"{password}\", database => \"{database}\", host => \"dictionary-db.postgres.database.azure.com\", port => '5432')"
+  }
+}
+```
+
+When connecting to the database with `psql` command, the placeholder `{password}` can be ignored and then the password is asked interactively
+##### How to install PostgreSQL client on MacOS with `brew`
+`brew install libpq` and then `brew link --force libpq`
+
+
