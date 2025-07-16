@@ -37,6 +37,16 @@ az appservice plan create \
   --is-linux
 ```
 Knowledge resource: https://www.youtube.com/watch?v=kIHC94k1Zb4
+#### `az webapp create`
+```
+az webapp create \
+  --name dictionary-rest-api \
+  --plan dictionary-service-plan \
+  --resource-group dictionary-rest-api_group \
+  --deployment-container-image-name ruixue/dictionary-rest-api:1.0
+```
+
+Note that if an `webapp` is `delete`, its App Service Plan is deleted cascadely
 
 ## 20250715
 ### `az postgresql`
@@ -84,4 +94,13 @@ When connecting to the database with `psql` command, the placeholder `{password}
 ##### How to install PostgreSQL client on MacOS with `brew`
 `brew install libpq` and then `brew link --force libpq`
 
+#### Configure database connection settings with `az webapp config appsettings set` command
+```
+az webapp config appsettings set \
+  --resource-group myResourceGroup \
+  --name myWebApp \
+  --settings QUARKUS_DATASOURCE_USERNAME=myuser \
+             QUARKUS_DATASOURCE_PASSWORD=mypass \
+             QUARKUS_DATASOURCE_JDBC_URL=jdbc:postgresql://...
+```
 
