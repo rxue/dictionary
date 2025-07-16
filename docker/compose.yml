@@ -1,22 +1,13 @@
 version: '3.4'
 services:
-  web:
+  rest-api:
     build:
-      context: ../web
-    ports:
-    - "80:80"
-    - "8787:8787"
+      context: ../dictionary-mod-jpa
+      dockerfile: src/main/docker/Dockerfile.legacy-jar
     container_name: dictionary-web
     networks:
-    - dictionary-network 
-  mom:
-    build: ../mom
-    ports:
-    - "8081:8081"
-    - "9990:9990"
-    container_name: mom
-    networks:
     - dictionary-network
+ 
   backoffice:
     build: ../backoffice
     ports:
@@ -25,26 +16,12 @@ services:
     networks:
     - dictionary-network
 
-  rest-api:
-    build: 
-      context: ../web
-      dockerfile: Dockerfile
-    ports:
-    - ${REST_API_PORT_MAPPING}
-    - "9998:9998"
-    container_name: dictionary-rest-api
-    networks:
-    - dictionary-network
-
-  mariadb:
-    image: mariadb:10.8.2
+  dictionary-postgresql-db:
+    image: postgres:17.5-alpine3.22
     restart: always
     environment:
-      MARIADB_ROOT_PASSWORD: test
-      MARIADB_DATABASE: dictionary
-    ports:
-    -  ${DB_PORT_MAPPING}
-    container_name: ${DB_CONTAINER_NAME}
+      - POSTGRES_PASSWORD=test
+    container_name: dictionary-db
     networks:
     - dictionary-network
 networks:
