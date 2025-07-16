@@ -5,7 +5,11 @@ name: Push Docker image to Docker Hub
 
 on:
   workflow_dispatch:
-
+    inputs:
+      tag:
+        description: "tag of the image"
+        required: true
+        default: 'latest'
 jobs:
   build:
 
@@ -44,5 +48,5 @@ jobs:
       uses: docker/build-push-action@v5
       with:
           context: ./dictionary-mod-jpa
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/dictionary-rest-api:1.0
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/dictionary-rest-api:${{ inputs.tag }}
           push: true   # true if you want to push to Docker Hub or registry
