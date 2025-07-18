@@ -103,4 +103,31 @@ az webapp config appsettings set \
              QUARKUS_DATASOURCE_PASSWORD=mypass \
              QUARKUS_DATASOURCE_JDBC_URL=jdbc:postgresql://...
 ```
+## 20250716
+### Make use of Azure Vault to store database connection properties
+#### 1. `az keyvault create`
+```
+az keyvault create \
+  --name $vaultName \
+  --resource-group $resourceGroup \
+  --location $location
+```
+#### 2. `az keyvault secret set`
+```
+az keyvault secret set \
+  --vault-name $vaultName \
+  --name "JdbcUrl" \
+  --value "$value"
+  --value "jdbc:postgresql://dictionary-db.postgres.database.azure.com:5432/postgres?sslmode=require"
+```
+##### 2.1 `az keyvault secret show`
+```
+az keyvault secret show \
+  --vault-name $vaultName \
+  --name "$key" \
+  --query value
+```
+
+#### 3. `az webapp config appsettings set` to set the Quarkus environment variables
+values of each environment variable can be retrived by means of `az keyvault secrete show`
 
