@@ -16,11 +16,13 @@ services:
     networks:
     - dictionary-network
 
-  dictionary-postgresql-db:
+  dictionary-db:
     image: postgres:17.5-alpine3.22
     restart: always
     environment:
       - POSTGRES_PASSWORD=test
+    ports:
+      - "5432:5432"
     container_name: dictionary-db
     networks:
     - dictionary-network
