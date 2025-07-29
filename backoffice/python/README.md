@@ -1,6 +1,26 @@
 # command to run tests
 PYTHONPATH=src python3 -m unittest tests/importsql/test_importsql.py
 
+# Design
+## csv
+### example
+**header**
+`*lexical_item.language,*lexical_item.value,*explanation.language,*explanation.serial_number,explanation.partofspeech,explanation.definition`
+* relation names in the header are *lexical_item* and *explanation*
+* `*`  means the unique fields. E.g. in *lexical_item* the *unique key* is `language` and `value`
+
+**row**
+`en_US,test,,en_US,N,"definition of test"`
+
+### Logic 
+#### Dependencies on *Relations* - **left <- right**
+example: *Relation* `explanation` is dependent on its **left** neighor *Relation* `lexical_item`
+* Default *primary key* of a *relation* is `id`
+* Default *foreign key* in a *relation* is *referenced relation* + `_id`. e.g. in the example above, the default foreign key in `explanaiton` referencing `lexical_item` is `lexical_item_id`
+
+## Parser
+**Separation of Concern** : parse the csv to SQL `merge` statement without concerns on database connection, i.e. database should not be connected during the whole parsing process
+
 # Daybook
 ## 20250726
 ### `pycharm` : How to configure pycharm so that it runs tests with a structure - tests are in `tests` directory and source code is in `src` directory
