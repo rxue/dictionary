@@ -1,8 +1,8 @@
-MERGE INTO LEXICAL_ITEM AS target
-USING (SELECT 'en_US' AS language, 'curate' AS value) AS source
-ON target.language = source.language and target.value = source.value
+MERGE INTO LEXICAL_ITEM
+USING (SELECT 'en_US' AS language, 'curate' AS value) AS u
+    ON LEXICAL_ITEM.language = u.language and LEXICAL_ITEM.value = u.value
 WHEN MATCHED THEN
-    UPDATE SET language = source.language, value = source.value, last_update_time = CURRENT_TIMESTAMP
+    UPDATE SET language = 'en_US', value = 'curate', last_update_time = CURRENT_TIMESTAMP
 WHEN NOT MATCHED THEN
     INSERT (language, value, creation_date, last_update_time) VALUES ('en_US', 'curate', CURRENT_DATE, CURRENT_TIMESTAMP);
 
