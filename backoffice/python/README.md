@@ -26,3 +26,7 @@ example: *Relation* `explanation` is dependent on its **left** neighor *Relation
 ### `pycharm` : How to configure pycharm so that it runs tests with a structure - tests are in `tests` directory and source code is in `src` directory
 Settings > Project Structure
 ![Project Structure](https://private-user-images.githubusercontent.com/3033388/471044662-96120ce1-5266-48ba-b1be-3f145c8876b3.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NTM1MDYyMTUsIm5iZiI6MTc1MzUwNTkxNSwicGF0aCI6Ii8zMDMzMzg4LzQ3MTA0NDY2Mi05NjEyMGNlMS01MjY2LTQ4YmEtYjFiZS0zZjE0NWM4ODc2YjMucG5nP1gtQW16LUFsZ29yaXRobT1BV1M0LUhNQUMtU0hBMjU2JlgtQW16LUNyZWRlbnRpYWw9QUtJQVZDT0RZTFNBNTNQUUs0WkElMkYyMDI1MDcyNiUyRnVzLWVhc3QtMSUyRnMzJTJGYXdzNF9yZXF1ZXN0JlgtQW16LURhdGU9MjAyNTA3MjZUMDQ1ODM1WiZYLUFtei1FeHBpcmVzPTMwMCZYLUFtei1TaWduYXR1cmU9OTE3OWM4NDc0YTg3YmY4NGFjNmMxZjIzY2E0YmUyMjEwZGIxOTQxMzlhY2VhYzFhYzQ5MWVmNDE0MzhlODgxNSZYLUFtei1TaWduZWRIZWFkZXJzPWhvc3QifQ.jxKg7Z0cU6_aRVx3xiccnPPSrlC83Gb8lKKOAs_b-WI)
+
+## 20250801
+### Detail about [`csv.DictReader`](https://docs.python.org/3/library/csv.html#module-contents)
+As to the returned collection of `dict`, it is `OrderedDict`, i.e. loop on the `dict` is in the same order as the header defined in the csv
