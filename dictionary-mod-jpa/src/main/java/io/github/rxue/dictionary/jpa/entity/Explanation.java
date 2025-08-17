@@ -9,7 +9,7 @@ import java.util.Set;
 import static jakarta.persistence.FetchType.EAGER;
 
 @EqualsAndHashCode
-@Table(name = "explanation", uniqueConstraints = { @UniqueConstraint(columnNames = { "lexical_item_id", "language", "partofspeech", "definition"}) })
+@Table(name = "explanation", uniqueConstraints = { @UniqueConstraint(columnNames = { "lexical_item_id", "language", "partofspeech", "serialNumber"}) })
 @Entity
 public class Explanation extends AbstractEntity {
 
@@ -20,6 +20,8 @@ public class Explanation extends AbstractEntity {
     private Locale language;
     @Enumerated(EnumType.STRING)
     private PartOfSpeech partOfSpeech;
+    @Column(nullable = false)
+    private Integer serialNumber;
     @Column(nullable = false)
     private String definition;
     @ElementCollection(fetch = EAGER)
@@ -58,6 +60,15 @@ public class Explanation extends AbstractEntity {
     public void setPartOfSpeech(PartOfSpeech partOfSpeech) {
         this.partOfSpeech = partOfSpeech;
     }
+
+    public Integer getSerialNumber() {
+        return serialNumber;
+    }
+
+    public void setSerialNumber(Integer serialNumber) {
+        this.serialNumber = serialNumber;
+    }
+
     public String getDefinition() {
         return definition;
     }
