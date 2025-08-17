@@ -24,10 +24,10 @@ def table_column_name(header_column:str) -> str:
 def is_foreign_key(header_column:str) -> bool:
     return re.fullmatch(r'^[^()]+ \([^()]+\)$', header_column)
 
-def reference_column(header_column:str) -> str:
+def reference_column(reference_header_column:str) -> str:
     """
-    :param header_column: column in the header. NOTE that the column must be a foreign key
+    :param reference_header_column: column in the header. NOTE that the column must be a foreign key
     :return:
     """
-    foreign_key_part = header_column.split('(')[1]
+    foreign_key_part = reference_header_column.split('(')[1]
     return foreign_key_part.split('.')[1][:-1]
