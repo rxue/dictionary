@@ -56,9 +56,6 @@ def _to_using_on_clause(single_table_record:dict, cte_prefix:str, alias:str) -> 
         return ' AND '.join(condition)
     return "USING (" + _to_select_clause() + ") AS " + alias, 'ON ' + _on_condition()
 
-def _get_unique_columns(single_table_record:dict) -> list[str]:
-    return [table_column_name(c) for c, v in single_table_record.items() if c.startswith("*")]
-
 def _to_update_clause(single_table_record: dict[str,str]) -> str:
     set_list = [table_column_name(c) + " = " + _quote(v) for c, v in single_table_record.items() if not _is_composite_key(c)]
     return "UPDATE SET " + ','.join(set_list)
