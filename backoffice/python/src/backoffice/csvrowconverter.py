@@ -1,7 +1,9 @@
+from typing import Optional
+
 from backoffice.headerparser import *
 
 
-def _divide(row:dict[str,str], foreign_keys:list[ForeignKey]) -> list[tuple[dict,str]]:
+def _divide(row:dict[str,str], foreign_keys:list[ForeignKey]) -> list[tuple[dict[str,str],str]]:
     """
     divide the given row input into a multiple parts, each of which is input to one relational table
     :param row:
@@ -74,32 +76,38 @@ def _to_insert_clause(single_table_record: dict[str,str], reference_cte_prefix:s
     return "INSERT (" + get_columns() + ") VALUES(" + values + ")"
 
 
-def _to_merge_statement(single_table_row_record:dict, reference_cte_prefix:str, returning_value:str=None) -> str:
+def _to_merge_statement(single_table_row_record:dict, reference_cte_prefix:str, returning_value:str=None) -> list[str]:
     statement_rows = []
     table_name = _table_name(single_table_row_record)
     statement_rows.append("MERGE INTO " + table_name)
     using_on_clause = _to_using_on_clause(single_table_row_record, reference_cte_prefix, 'u')
     statement_rows.append(using_on_clause[0])
-    statement_rows.append("    " + using_on_clause[1])
+    space = "    "
+    statement_rows.append(space + using_on_clause[1])
     statement_rows.append("WHEN MATCHED THEN")
-    statement_rows.append("    " + _to_update_clause(single_table_row_record))
+    statement_rows.append(space + _to_update_clause(single_table_row_record))
     if returning_value is not None:
         statement_rows.append("    RETURNING " + returning_value)
     statement_rows.append("WHEN NOT MATCHED THEN")
-    statement_rows.append("    " + _to_insert_clause(single_table_row_record, reference_cte_prefix))
+    statement_rows.append(space + _to_insert_clause(single_table_row_record, reference_cte_prefix))
     if returning_value is not None:
         statement_rows.append("    RETURNING " + returning_value)
-    return '\n'.join(statement_rows) + ';'
+    return statement_rows
 
 
 class RowConverter:
-    def __init__(self, row:dict[str,str], foreign_keys:list[ForeignKey]):
-        self.row = row
-        self.foreign_keys = foreign_keys
-    def convert(self) -> list[str]:
+    def convert(self, row:dict[str,str]) -> str:
         """
         :param row:
-        :return: list of SQL merge statements. NOTE that statements corresponding to one csv row have dependencies on each other
+        :return: combination of several merge statements. NOTE that statements corresponding to one csv row have dependencies on each other
         """
-        row_input_list = _divide(self.row, self.foreign_keys)
+        foreign_keys = [ForeignKey(c) for c, v in row.items() if is_foreign_key(c)]
+        single_table_record_list = _divide(row, foreign_keys)
+        reference_table_prefix = 'merged_'
+        for single_table_record in single_table_record_list:
+            returning_column = single_table_record[1]
+            statement = _to_merge_statement(single_table_record[0], reference_table_prefix, returning_column)
+            return statement
+
+
 
