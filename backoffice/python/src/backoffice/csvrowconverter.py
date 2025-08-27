@@ -2,7 +2,7 @@ from typing import Optional
 
 from backoffice.headerparser import *
 
-
+INDENTATION_SPACES = "    "
 def _divide(row:dict[str,str], foreign_keys:list[ForeignKey]) -> list[tuple[dict[str,str],str]]:
     """
     divide the given row input into a multiple parts, each of which is input to one relational table
@@ -68,8 +68,7 @@ def _to_insert_clause(single_table_record: dict[str,str], reference_cte_prefix:s
         return ','.join(column_list)
     def get_value(column:str,value:str) -> str:
         if is_foreign_key(column):
-            foreign_key = ForeignKey(column)
-            return reference_cte_prefix + foreign_key.reference()
+            return table_column_name(column)
         return _quote(value)
     value_list = [get_value(c,v) for c,v in single_table_record.items()]
     values = ','.join(value_list)
@@ -82,16 +81,14 @@ def _to_merge_statement(single_table_row_record:dict, reference_cte_prefix:str, 
     statement_rows.append("MERGE INTO " + table_name)
     using_on_clause = _to_using_on_clause(single_table_row_record, reference_cte_prefix, 'u')
     statement_rows.append(using_on_clause[0])
-    space = "    "
-    statement_rows.append(space + using_on_clause[1])
+
+    statement_rows.append(INDENTATION_SPACES + using_on_clause[1])
     statement_rows.append("WHEN MATCHED THEN")
-    statement_rows.append(space + _to_update_clause(single_table_row_record))
-    if returning_value is not None:
-        statement_rows.append("    RETURNING " + returning_value)
+    statement_rows.append(INDENTATION_SPACES + _to_update_clause(single_table_row_record))
     statement_rows.append("WHEN NOT MATCHED THEN")
-    statement_rows.append(space + _to_insert_clause(single_table_row_record, reference_cte_prefix))
+    statement_rows.append(INDENTATION_SPACES + _to_insert_clause(single_table_row_record, reference_cte_prefix))
     if returning_value is not None:
-        statement_rows.append("    RETURNING " + returning_value)
+        statement_rows.append("RETURNING " + returning_value)
     return statement_rows
 
 
@@ -104,10 +101,19 @@ class RowConverter:
         foreign_keys = [ForeignKey(c) for c, v in row.items() if is_foreign_key(c)]
         single_table_record_list = _divide(row, foreign_keys)
         reference_table_prefix = 'merged_'
-        for single_table_record in single_table_record_list:
-            returning_column = single_table_record[1]
-            statement = _to_merge_statement(single_table_record[0], reference_table_prefix, returning_column)
-            return statement
+        statements_lines = []
+        for single_table_input in single_table_record_list:
+            returning_column = single_table_input[1]
+            merge_statement_lines = _to_merge_statement(single_table_input[0], reference_table_prefix, returning_column)
+            if returning_column is not None:
+                statements_lines.append("WITH " + reference_table_prefix + _table_name(single_table_input[0]) + " AS (")
+                for line in merge_statement_lines:
+                    statements_lines.append(INDENTATION_SPACES + line)
+                statements_lines[-1] = statements_lines[-1] + ")"
+            else:
+                statements_lines.extend(merge_statement_lines)
+                statements_lines[-1] = statements_lines[-1] + ";"
+        return '\n'.join(statements_lines)
 
 
 

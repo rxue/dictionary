@@ -70,6 +70,6 @@ class RowConverterTest(unittest.TestCase):
             for row in reader:
                 result = row_converter.convert(row)
                 expected = None
-                with open("tests/data/expected_sql_statement", "r", encoding="utf-8") as text_file:
+                with open("tests/data/expected_sql_statements.sql", "r", encoding="utf-8") as text_file:
                     expected = text_file.read()
                 self.assertEqual(expected, result)

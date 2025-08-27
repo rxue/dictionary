@@ -1,2 +1,2 @@
-"*lexical_item.language","*lexical_item.value","lexical_item.last_update_time","*explanation.lexical_item_id (lexical_item.id)","*explanation.language","*explanation.partofspeech","explanation.definition","explanation.last_update_time"
-"en","test","2025-08-17 00:00:12","","en","N","test definition","2025-08-14 08:00:00"
+"*lexical_item.language","*lexical_item.value","lexical_item.last_update_time","*explanation.lexical_item_id (lexical_item.id)","*explanation.language","*explanation.partofspeech","*explanation.serialnumber","explanation.definition","explanation.last_update_time"
+"en","test","2025-08-17 00:00:12","","en","N","1","test definition","2025-08-14 08:00:00"
