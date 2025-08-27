@@ -14,4 +14,4 @@ USING (SELECT id AS lexical_item_id,'en' AS language, 'N' AS partofspeech FROM m
 WHEN MATCHED THEN
     UPDATE SET definition = 'test', last_update_time = '2025-08-15 08:00:00+00'
 WHEN NOT MATCHED THEN
-    INSERT (lexical_item_id,language,partofspeech,serialnumber,definition,last_update_time) VALUES(merged_lexical_item.id,'en','N','1', 'test','2025-08-15 08:00:00+00');
+    INSERT (lexical_item_id,language,partofspeech,serialnumber,definition,last_update_time) VALUES(lexical_item_id,'en','N','1', 'test','2025-08-15 08:00:00+00');
