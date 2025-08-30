@@ -13,13 +13,14 @@ class ForeignKey:
         foreign_key_part = self.header_field.split('(')[1]
         return foreign_key_part.split('.')[1][:-1]
 
-def get_table_name(header_column:str) -> str:
+def table_name(header_column:str) -> str:
     full_table_name = header_column.split('.')[0]
     return full_table_name[1:] if full_table_name.startswith("*") else full_table_name
 
 def table_column_name(header_column:str) -> str:
     column_name_part = header_column.split('.')[1]
-    return column_name_part.split('(')[0].strip() if ' (' in column_name_part else column_name_part
+    result = column_name_part.split('(')[0].strip() if ' (' in column_name_part else column_name_part
+    return result.split(' ')[0] if result.endswith('#') else result
 
 def is_foreign_key(header_column:str) -> bool:
     return re.fullmatch(r'^[^()]+ \([^()]+\)$', header_column)

@@ -1,6 +1,6 @@
 import csv
 from typing import NamedTuple
-from backoffice.headerparser import ForeignKey
+from backoffice.headercolumnparser import ForeignKey
 
 class TableMetadata(NamedTuple):
     header_fields:list[str]
@@ -12,7 +12,7 @@ def to_sql_statements(csv_file_path:str) -> list[str]:
     :return: list of SQL elements
     """
     with open(csv_file_path, mode='r', encoding='utf-8') as file:
-        from backoffice.headerparser import is_foreign_key
+        from backoffice.headercolumnparser import is_foreign_key
         reader = csv.DictReader(file)
         foreign_keys = [ForeignKey(f) for f in reader.fieldnames if is_foreign_key(f)]
         result = []

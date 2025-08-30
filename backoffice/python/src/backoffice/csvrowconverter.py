@@ -1,6 +1,6 @@
 from typing import Optional
 
-from backoffice.headerparser import *
+from backoffice.headercolumnparser import *
 
 INDENTATION_SPACES = "    "
 def _divide(row:dict[str,str], foreign_keys:list[ForeignKey]) -> list[tuple[dict[str,str],str]]:
@@ -13,7 +13,7 @@ def _divide(row:dict[str,str], foreign_keys:list[ForeignKey]) -> list[tuple[dict
     result_list = []
     previous_table_name = None
     for c,v in row.items():
-        current_table_name = get_table_name(c)
+        current_table_name = table_name(c)
         if current_table_name != previous_table_name and len(current_table) > 0:
             returning_columns = [f.reference_column() for f in foreign_keys if f.reference_table() == previous_table_name]
             result_list.append((current_table, None if len(returning_columns) == 0 else returning_columns[0]))
@@ -29,7 +29,7 @@ def _quote(value:str):
     return "'" + value + "'"
 
 def _table_name(single_table_record: dict[str,str]) -> str:
-    return get_table_name(next(iter(single_table_record)))
+    return table_name(next(iter(single_table_record)))
 
 def _is_composite_key(header_column: str) -> bool:
     return header_column.startswith("*")
@@ -40,10 +40,12 @@ def _to_using_on_clause(single_table_record:dict, cte_prefix:str, alias:str) -> 
     :param alias:
     :return: USING ..., ON ...
     """
-    def _to_select_clause() -> str:
+    def _select_clause() -> str:
         def _as_clause(column:str, value:str) -> str:
             if is_foreign_key(column):
                 return ForeignKey(column).reference_column() + ' AS ' + table_column_name(column)
+            elif column.endswith('#'):
+                return value + ' AS ' + table_column_name(column)
             else:
                 return _quote(value) + ' AS ' + table_column_name(column)
         as_list = [ _as_clause(c,v) for c,v in single_table_record.items() if _is_composite_key(c)]
@@ -56,7 +58,7 @@ def _to_using_on_clause(single_table_record:dict, cte_prefix:str, alias:str) -> 
         table_name = _table_name(single_table_record)
         condition = [table_name + '.' + table_column_name(c) + " = u." + table_column_name(c) for c,v in single_table_record.items() if _is_composite_key(c)]
         return ' AND '.join(condition)
-    return "USING (" + _to_select_clause() + ") AS " + alias, 'ON ' + _on_condition()
+    return "USING (" + _select_clause() + ") AS " + alias, 'ON ' + _on_condition()
 
 def _to_update_clause(single_table_record: dict[str,str]) -> str:
     set_list = [table_column_name(c) + " = " + _quote(v) for c, v in single_table_record.items() if not _is_composite_key(c)]
