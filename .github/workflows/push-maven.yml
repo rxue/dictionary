@@ -32,7 +32,8 @@ jobs:
       run: mvn -B --file dictionary-mod-jpa/pom.xml clean test
     
     - name: Execute Python tests in backoffice
-      run: python -m unittest discover
+      run: PYTHONPATH=src python -m unittest discover -s tests
+      working-directory: backoffice/python
 
       #    - name: Publish to GitHub Packages Apache Maven
       # run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml
