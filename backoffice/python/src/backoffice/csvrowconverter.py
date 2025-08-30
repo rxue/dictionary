@@ -95,12 +95,14 @@ def _to_merge_statement(single_table_row_record:dict, reference_cte_prefix:str, 
 
 
 class RowConverter:
-    def convert(self, row:dict[str,str]) -> str:
+    def convert(self, row:dict[str,str], foreign_keys:list[ForeignKey]=None) -> str:
         """
         :param row:
+        :param foreign_keys: optional
         :return: combination of several merge statements. NOTE that statements corresponding to one csv row have dependencies on each other
         """
-        foreign_keys = [ForeignKey(c) for c, v in row.items() if is_foreign_key(c)]
+        if foreign_keys is None:
+            foreign_keys = [ForeignKey(c) for c, v in row.items() if is_foreign_key(c)]
         single_table_record_list = _divide(row, foreign_keys)
         reference_table_prefix = 'merged_'
         statements_lines = []

@@ -1,8 +1,9 @@
 import csv
 from typing import NamedTuple
 from backoffice.headercolumnparser import ForeignKey
+from backoffice.csvrowconverter import RowConverter
 
-class TableMetadata(NamedTuple):
+class FileConverter(NamedTuple):
     header_fields:list[str]
     referenced_primary_key:str=None
 def to_sql_statements(csv_file_path:str) -> list[str]:
@@ -11,10 +12,12 @@ def to_sql_statements(csv_file_path:str) -> list[str]:
     :param csv_file_path:
     :return: list of SQL elements
     """
+    row_converter = RowConverter()
     with open(csv_file_path, mode='r', encoding='utf-8') as file:
         from backoffice.headercolumnparser import is_foreign_key
         reader = csv.DictReader(file)
         foreign_keys = [ForeignKey(f) for f in reader.fieldnames if is_foreign_key(f)]
         result = []
-        # Process each row
-        pass
+        for row in reader:
+            result.append(row_converter.convert(row, foreign_keys))
+        return result
