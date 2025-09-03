@@ -43,7 +43,8 @@ def _to_using_on_clause(single_table_record:dict, cte_prefix:str, alias:str) -> 
     def _select_clause() -> str:
         def _as_clause(column:str, value:str) -> str:
             if is_foreign_key(column):
-                return ForeignKey(column).reference_column() + ' AS ' + table_column_name(column)
+                foreign_key = ForeignKey(column)
+                return cte_prefix + foreign_key.reference() + ' AS ' + table_column_name(column)
             elif column.endswith('#'):
                 return value + ' AS ' + table_column_name(column)
             else:

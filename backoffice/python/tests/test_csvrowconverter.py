@@ -39,7 +39,7 @@ class CSVRowConverterUtilityFunctionsTest(unittest.TestCase):
     def test__to_using_on_clause_with_foreign_key(self):
         from backoffice.csvrowconverter import _to_using_on_clause
         key_value_pairs = {'*explanation.lexical_item_id (lexical_item.id)':'', '*explanation.language':'en_US', '*explanation.partofspeech':'N', '*explanation.serialnumber #':'1', 'explanation.definition':'test'}
-        expected_using_clause = ("USING (SELECT id AS lexical_item_id,'en_US' AS language,'N' AS partofspeech,1 AS serialnumber FROM merged_lexical_item) AS u",
+        expected_using_clause = ("USING (SELECT merged_lexical_item.id AS lexical_item_id,'en_US' AS language,'N' AS partofspeech,1 AS serialnumber FROM merged_lexical_item) AS u",
                                  "ON explanation.lexical_item_id = u.lexical_item_id AND explanation.language = u.language AND explanation.partofspeech = u.partofspeech AND explanation.serialnumber = u.serialnumber")
         self.assertEqual(expected_using_clause, _to_using_on_clause(key_value_pairs, 'merged_', 'u'))
 
