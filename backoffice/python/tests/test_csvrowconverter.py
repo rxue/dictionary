@@ -49,11 +49,11 @@ class CSVRowConverterUtilityFunctionsTest(unittest.TestCase):
             '*explanation.lexical_item_id (lexical_item.id)': '',
             '*explanation.language': 'en',
             '*explanation.partofspeech': 'N',
-            '*explanation.serialnumber': '1',
+            '*explanation.serialnumber #': '1',
             'explanation.definition': 'test',
             'explanation.last_update_time': '2025-08-15 00:00:00+00'}
         expected_statement = ["MERGE INTO explanation",
-                              "USING (SELECT id AS lexical_item_id,'en' AS language,'N' AS partofspeech,'1' AS serialnumber FROM merged_lexical_item) AS u",
+                              "USING (SELECT merged_lexical_item.id AS lexical_item_id,'en' AS language,'N' AS partofspeech,1 AS serialnumber FROM merged_lexical_item) AS u",
                               "    ON explanation.lexical_item_id = u.lexical_item_id AND explanation.language = u.language AND explanation.partofspeech = u.partofspeech AND explanation.serialnumber = u.serialnumber",
                               "WHEN MATCHED THEN",
                               "    UPDATE SET definition = 'test',last_update_time = '2025-08-15 00:00:00+00'",
