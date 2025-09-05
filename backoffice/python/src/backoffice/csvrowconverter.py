@@ -61,10 +61,6 @@ def _to_using_on_clause(single_table_record:dict, cte_prefix:str, alias:str) -> 
         return ' AND '.join(condition)
     return "USING (" + _select_clause() + ") AS " + alias, 'ON ' + _on_condition()
 
-def _to_update_clause(single_table_record: dict[str,str]) -> str:
-    set_list = [table_column_name(c) + " = " + _quote(v) for c, v in single_table_record.items() if not _is_composite_key(c)]
-    return "UPDATE SET " + ','.join(set_list)
-
 def _to_insert_clause(single_table_record: dict[str,str], reference_cte_prefix:str) -> str:
     def get_columns() -> str:
         column_list = [table_column_name(c) for c in single_table_record.keys()]
@@ -86,8 +82,17 @@ def _to_merge_statement(single_table_row_record:dict, reference_cte_prefix:str, 
     statement_rows.append(using_on_clause[0])
 
     statement_rows.append(INDENTATION_SPACES + using_on_clause[1])
-    statement_rows.append("WHEN MATCHED THEN")
-    statement_rows.append(INDENTATION_SPACES + _to_update_clause(single_table_row_record))
+    def _to_update_clause(single_table_record: dict[str, str]) -> str:
+        set_list = [table_column_name(c) + " = " + _quote(v) for c, v in single_table_record.items() if
+                    not _is_composite_key(c)]
+        if not set_list:
+            return None
+        return "UPDATE SET " + ','.join(set_list)
+
+    update_clause = _to_update_clause(single_table_row_record)
+    if update_clause is not None:
+        statement_rows.append("WHEN MATCHED THEN")
+        statement_rows.append(INDENTATION_SPACES + update_clause)
     statement_rows.append("WHEN NOT MATCHED THEN")
     statement_rows.append(INDENTATION_SPACES + _to_insert_clause(single_table_row_record, reference_cte_prefix))
     if returning_value is not None:

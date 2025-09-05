@@ -60,6 +60,15 @@ class CSVRowConverterUtilityFunctionsTest(unittest.TestCase):
                               "WHEN NOT MATCHED THEN",
                               "    INSERT (lexical_item_id,language,partofspeech,serialnumber,definition,last_update_time) VALUES(lexical_item_id,'en','N','1','test','2025-08-15 00:00:00+00')"]
         self.assertEqual(expected_statement, _to_merge_statement(key_value_pairs, 'merged_'))
+    def test__to_merge_statement_with_no_update(self):
+        from backoffice.csvrowconverter import _to_merge_statement
+        key_value_pairs = {'*explanation_sentence.explanation_id (explanation.id)': '','*explanation_sentence.sentence_id (sentence.id)': ''}
+        expected_statement = ["MERGE INTO explanation_sentence",
+                              "USING (SELECT merged_explanation.id AS explanation_id,merged_sentence.id AS sentence_id FROM merged_explanation,merged_sentence) AS u",
+                              "    ON explanation_sentence.explanation_id = u.explanation_id AND explanation_sentence.sentence_id = u.sentence_id",
+                              "WHEN NOT MATCHED THEN",
+                              "    INSERT (explanation_id,sentence_id) VALUES(explanation_id,sentence_id)"]
+        self.assertEqual(expected_statement, _to_merge_statement(key_value_pairs, 'merged_'))
 
 class RowConverterTest(unittest.TestCase):
     def test_convert(self):
