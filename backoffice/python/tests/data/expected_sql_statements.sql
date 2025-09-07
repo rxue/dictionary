@@ -9,7 +9,7 @@ WITH merged_lexical_item AS (
     RETURNING id),
 merged_explanation AS (
     MERGE INTO explanation
-    USING (SELECT id AS lexical_item_id,'en' AS language,'N' AS partofspeech,1 AS serialnumber FROM merged_lexical_item) AS u
+    USING (SELECT merged_lexical_item.id AS lexical_item_id,'en' AS language,'N' AS partofspeech,1 AS serialnumber FROM merged_lexical_item) AS u
         ON explanation.lexical_item_id = u.lexical_item_id AND explanation.language = u.language AND explanation.partofspeech = u.partofspeech AND explanation.serialnumber = u.serialnumber
     WHEN MATCHED THEN
         UPDATE SET definition = 'test definition',last_update_time = '2025-08-14 08:00:00'

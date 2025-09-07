@@ -1,6 +1,6 @@
-from typing import Optional
-
 from backoffice.headercolumnparser import *
+
+RETURNING = "RETURNING"
 
 INDENTATION_SPACES = "    "
 def _divide(row:dict[str,str], foreign_keys:list[ForeignKey]) -> list[tuple[dict[str,str],str]]:
@@ -74,7 +74,7 @@ def _to_insert_clause(single_table_record: dict[str,str], reference_cte_prefix:s
     return "INSERT (" + get_columns() + ") VALUES(" + values + ")"
 
 
-def _to_merge_statement(single_table_row_record:dict, reference_cte_prefix:str, returning_value:str=None) -> list[str]:
+def _to_merge_statement(single_table_row_record:dict, reference_cte_prefix:str, returning_column:str=None) -> list[str]:
     statement_rows = []
     table_name = _table_name(single_table_row_record)
     statement_rows.append("MERGE INTO " + table_name)
@@ -95,8 +95,8 @@ def _to_merge_statement(single_table_row_record:dict, reference_cte_prefix:str, 
         statement_rows.append(INDENTATION_SPACES + update_clause)
     statement_rows.append("WHEN NOT MATCHED THEN")
     statement_rows.append(INDENTATION_SPACES + _to_insert_clause(single_table_row_record, reference_cte_prefix))
-    if returning_value is not None:
-        statement_rows.append("RETURNING " + returning_value)
+    if returning_column is not None:
+        statement_rows.append("RETURNING " + returning_column)
     return statement_rows
 
 
@@ -111,19 +111,40 @@ class RowConverter:
             foreign_keys = [ForeignKey(c) for c, v in row.items() if is_foreign_key(c)]
         single_table_record_list = _divide(row, foreign_keys)
         reference_table_prefix = 'merged_'
-        statements_lines = []
+        merge_statement_list = []
         for single_table_input in single_table_record_list:
             returning_column = single_table_input[1]
-            merge_statement_lines = _to_merge_statement(single_table_input[0], reference_table_prefix, returning_column)
-            if returning_column is not None:
-                statements_lines.append("WITH " + reference_table_prefix + _table_name(single_table_input[0]) + " AS (")
-                for line in merge_statement_lines:
-                    statements_lines.append(INDENTATION_SPACES + line)
-                statements_lines[-1] = statements_lines[-1] + ")"
-            else:
-                statements_lines.extend(merge_statement_lines)
-                statements_lines[-1] = statements_lines[-1] + ";"
-        return '\n'.join(statements_lines)
+            merge_statement_list.append(_to_merge_statement(single_table_input[0], reference_table_prefix, returning_column))
+        def _decorate(merge_stmt:list[str], idx:int, next_is_merge:bool | None = None) -> list[str]:
+            def merge_table_name() -> str:
+                return merge_stmt[0].split(" ")[2]
+            result = []
+            if idx == 0 and RETURNING in merge_stmt[-1]:
+                result.append("WITH " + reference_table_prefix + merge_table_name() + " AS (")
+            elif RETURNING in merge_stmt[-1]:
+                result.append(reference_table_prefix + merge_table_name() + " AS (")
+            for line in merge_stmt:
+                if RETURNING in merge_stmt[-1]:
+                    result.append(INDENTATION_SPACES + line)
+                else:
+                    result.append(line)
+            if RETURNING in merge_stmt[-1]:
+                result[-1] += ")"
+                if next_is_merge:
+                    pass
+                else:
+                    result[-1] += ","
+            return result
+        index = 0
+        result_lines = []
+        for merge_statement in merge_statement_list:
+            next_is_merge = None
+            if index < len(merge_statement_list)-1:
+                next_is_merge = not RETURNING in merge_statement_list[index+1][-1]
+            result_lines.extend(_decorate(merge_statement, index, next_is_merge))
+            index += 1
+        return '\n'.join(result_lines) + ";"
+
 
 
 
