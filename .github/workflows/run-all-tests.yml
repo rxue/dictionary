@@ -15,8 +15,8 @@ jobs:
           distribution: 'temurin'
       - name: run unit tests and integration tests
         run: |
-          mvn -f dictionary-mod-jpa/pom.xml clean verify -DskipITs=false
+          mvn -f dictionary-rest-api/pom.xml clean verify -DskipITs=false
       - name: run end-to-end tests
         run: |
-          cd dictionary-mod-jpa/end2end-tests
+          cd dictionary-rest-api/end2end-tests
           source run.sh
