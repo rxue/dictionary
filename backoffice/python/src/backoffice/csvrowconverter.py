@@ -101,7 +101,7 @@ def _to_merge_statement(single_table_row_record:dict, reference_cte_prefix:str, 
 
 
 class RowConverter:
-    def convert(self, row:dict[str,str], foreign_keys:list[ForeignKey]=None) -> str:
+    def convert(self, row:dict[str,str], foreign_keys:list[ForeignKey]=None) -> list[str]:
         """
         :param row:
         :param foreign_keys: optional
@@ -143,7 +143,7 @@ class RowConverter:
                 next_is_merge = not RETURNING in merge_statement_list[index+1][-1]
             result_lines.extend(_decorate(merge_statement, index, next_is_merge))
             index += 1
-        return '\n'.join(result_lines) + ";"
+        return result_lines
 
 
 

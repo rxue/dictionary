@@ -78,7 +78,8 @@ class RowConverterTest(unittest.TestCase):
             reader = csv.DictReader(f)
             for row in reader:
                 result = row_converter.convert(row)
-                expected = None
+                expected_lines = None
                 with open("tests/data/expected_sql_statements.sql", "r", encoding="utf-8") as text_file:
-                    expected = text_file.read()
-                self.assertEqual(expected, result)
+                    expected_lines = text_file.readlines()
+                expected_lines = [ l[:-1] for l in expected_lines]
+                self.assertEqual(expected_lines, result)
