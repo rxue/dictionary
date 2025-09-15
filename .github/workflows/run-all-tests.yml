@@ -8,14 +8,14 @@ jobs:
     name: CI Test
     steps:
       - uses: actions/checkout@v3.1.0
-      - name: Setup JDK Java 17
+      - name: Setup JDK Java 21
         uses: actions/setup-java@v3
         with:
           java-version: '21'
           distribution: 'temurin'
       - name: run unit tests and integration tests
         run: |
-          mvn -f dictionary-rest-api/pom.xml clean verify -DskipITs=false
+          mvn -B -f dictionary-rest-api/pom.xml clean verify -DskipITs=false
       - name: run end-to-end tests
         run: |
           cd dictionary-rest-api/end2end-tests
