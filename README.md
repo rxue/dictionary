@@ -45,3 +45,6 @@ New entity `Explanation` is introduced to aggregate *defintion* , *part of speec
 ## 20250706
 ### Github Action workflow
 #### trigger is compulsory
+## 20250914
+
+

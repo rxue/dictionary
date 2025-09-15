@@ -17,7 +17,7 @@ public class ExplanationsByPartOfSpeech {
 
     public static ExplanationsByPartOfSpeech toExpalantionsByPartOfSpeech(List<Explanation> explanationsWithTheSamePartOfSpeech) {
         List<String> explanationValues = explanationsWithTheSamePartOfSpeech.stream()
-                .map(Explanation::getDefinition)
+                .map(Explanation::getExplanation)
                 .toList();
         PartOfSpeech partOfSpeech = explanationsWithTheSamePartOfSpeech.stream()
                 .findAny().map(Explanation::getPartOfSpeech)

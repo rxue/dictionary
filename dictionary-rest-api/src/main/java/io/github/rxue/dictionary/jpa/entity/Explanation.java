@@ -6,10 +6,8 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
 
-import static jakarta.persistence.FetchType.EAGER;
-
 @EqualsAndHashCode
-@Table(name = "Explanation", uniqueConstraints = { @UniqueConstraint(columnNames = { "lexical_item_id", "language", "partofspeech", "serialNumber"}) })
+@Table(name = "Explanation", uniqueConstraints = { @UniqueConstraint(columnNames = { "explanation"}) })
 @Entity
 public class Explanation extends AbstractEntity {
 
@@ -21,9 +19,7 @@ public class Explanation extends AbstractEntity {
     @Enumerated(EnumType.STRING)
     private PartOfSpeech partOfSpeech;
     @Column(nullable = false)
-    private Integer serialNumber;
-    @Column(nullable = false)
-    private String definition;
+    private String explanation;
     @ManyToMany
     private Set<Sentence> sentences = new HashSet<>();
     @Embedded
@@ -60,19 +56,11 @@ public class Explanation extends AbstractEntity {
         this.partOfSpeech = partOfSpeech;
     }
 
-    public Integer getSerialNumber() {
-        return serialNumber;
+    public String getExplanation() {
+        return explanation;
     }
-
-    public void setSerialNumber(Integer serialNumber) {
-        this.serialNumber = serialNumber;
-    }
-
-    public String getDefinition() {
-        return definition;
-    }
-    public void setDefinition(String definition) {
-        this.definition = definition;
+    public void setExplanation(String explanation) {
+        this.explanation = explanation;
     }
 
     public Set<Sentence> getSentences() {
