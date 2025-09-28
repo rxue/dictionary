@@ -7,7 +7,7 @@ import java.util.Locale;
 import java.util.Set;
 
 @EqualsAndHashCode
-@Table(name = "Explanation", uniqueConstraints = { @UniqueConstraint(columnNames = { "explanation"}) })
+@Table(name = "Explanation", uniqueConstraints = { @UniqueConstraint(columnNames = {"explanation"}) })
 @Entity
 public class Explanation extends AbstractEntity {
 
