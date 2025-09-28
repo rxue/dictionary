@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.sql.BatchUpdateException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -46,11 +47,11 @@ class LexicalItemRepositoryIT {
 
     private static void truncateTables(Connection connection) {
             List<String> deleteStatements = List.of(
-                    "DELETE FROM explanation;--x",
+                    "DELETE FROM explanation",
                     "DELETE FROM LEXICAL_ITEM",
-                    "TRUNCATE TABLE SENTENCE",
+                    "TRUNCATE TABLE SENTENCE CASCADE",
                     "ALTER TABLE Explanation ALTER COLUMN id RESTART WITH 1",
-                    "ALTER SEQUENCE lexical_item_seq RESTART WITH 1");
+                    "ALTER TABLE LEXICAL_ITEM ALTER COLUMN id RESTART WITH 1");
             try (Statement batchStatement = connection.createStatement()) {
                 deleteStatements.forEach(s -> {
                     try {
@@ -67,7 +68,7 @@ class LexicalItemRepositoryIT {
     }
 
     @Test
-    public void addLexicalItem() throws SystemException, NotSupportedException, HeuristicRollbackException, HeuristicMixedException, RollbackException {
+    void addLexicalItem() throws SystemException, NotSupportedException, HeuristicRollbackException, HeuristicMixedException, RollbackException {
         userTransaction.begin();
         LexicalItem lexicalItem = new LexicalItem();
         lexicalItem.setLanguage(Locale.US);
@@ -80,7 +81,7 @@ class LexicalItemRepositoryIT {
 
     @Transactional
     @Test
-    public void verify_LexicalItem_table_without_any_operation() {
+    void verify_LexicalItem_table_without_any_operation() {
         List<LexicalItem> allLexicalItems = entityManager.createQuery("SELECT l FROM LexicalItem l")
                 .getResultList();
         assertThat("In this case LexicalItem table should be empty", allLexicalItems, hasSize(0));
