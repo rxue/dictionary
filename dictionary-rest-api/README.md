@@ -131,3 +131,12 @@ az keyvault secret show \
 #### 3. `az webapp config appsettings set` to set the Quarkus environment variables
 values of each environment variable can be retrived by means of `az keyvault secrete show`
 
+## 20251002
+### `mvn quarkus:dev` execute IT and unit tests by force
+Solution: `-Dquarkus.test.continuous-testing=disabled`
+Reference of solution: https://quarkus.io/guides/continuous-testing
+### `mvn quarkus:dev -Dquarkus.test.continuous-testing=disabled` does not execute IT and unit tests by force but *test container* is still started
+reference to read: https://quarkus.io/guides/databases-dev-services
+
+
+
