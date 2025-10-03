@@ -135,7 +135,9 @@ values of each environment variable can be retrived by means of `az keyvault sec
 ### `mvn quarkus:dev` execute IT and unit tests by force
 Solution: `-Dquarkus.test.continuous-testing=disabled`
 Reference of solution: https://quarkus.io/guides/continuous-testing
-### `mvn quarkus:dev -Dquarkus.test.continuous-testing=disabled` does not execute IT and unit tests by force but *test container* is still started
+### problem: `mvn quarkus:dev -Dquarkus.test.continuous-testing=disabled` does not execute IT and unit tests by force but *test container* is still started
+> Dev Services for databases automatically starts a database server in dev mode and when running tests. So, you don’t have to start a server manually. The application is configured automatically.
+
 reference to read: https://quarkus.io/guides/databases-dev-services
 
 
