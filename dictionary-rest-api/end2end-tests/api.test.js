@@ -7,13 +7,13 @@ const config = {
 };
 
 describe('Error case', () => {
-  it('get get Simplified Chinese explanation of US English word, curate', async () => {
+  it('get English explanation of English word, test', async () => {
     try {
-      const response = await axios.get(url + "/lexical-items/curate;language=en-US/explanations?language=zh-CN", config);
+      const response = await axios.get(url + "/lexical-items/test;language=en/explanations?language=en", config);
       expect(response.status).toBe(200);
       expect(response.data).not.toBeNull();
     } catch(error) {
-      fail('Never expected to throw error', error.message);
+      throw new Error('Never expected to throw error: ' + error.message);
     }
   });
 });
