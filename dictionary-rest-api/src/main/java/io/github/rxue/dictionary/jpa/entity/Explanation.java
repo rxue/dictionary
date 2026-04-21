@@ -19,6 +19,8 @@ public class Explanation extends AbstractEntity {
     @Enumerated(EnumType.STRING)
     private PartOfSpeech partOfSpeech;
     @Column(nullable = false)
+    private Short serialNumber;
+    @Column(nullable = false)
     private String explanation;
     @ManyToMany
     private Set<Sentence> sentences = new HashSet<>();
@@ -54,6 +56,13 @@ public class Explanation extends AbstractEntity {
     }
     public void setPartOfSpeech(PartOfSpeech partOfSpeech) {
         this.partOfSpeech = partOfSpeech;
+    }
+
+    public Short getSerialNumber() {
+        return serialNumber;
+    }
+    public void setSerialNumber(Short serialNumber) {
+        this.serialNumber = serialNumber;
     }
 
     public String getExplanation() {

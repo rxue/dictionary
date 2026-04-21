@@ -27,6 +27,7 @@ public class LexicalItemResource {
     public ExplanationsByLanguageDTO getExplanationsByLanguage(@PathParam("word") String word,
                                                                @MatrixParam("language") String languageTag,
                                                                @QueryParam("language") String explanationLanguageTag) {
+        System.out.println(":::::::::::::::::::::::::::::::::::");
         return dictionaryService.getExplanationsByLanguage(Locale.forLanguageTag(languageTag), word, Locale.forLanguageTag(explanationLanguageTag))
                 .orElseThrow(() -> new WebApplicationException(Response.Status.NOT_FOUND));
     }
