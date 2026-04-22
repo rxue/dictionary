@@ -13,7 +13,6 @@ public class LexicalItem extends AbstractEntity implements Keyword {
     private Locale language;
     @Column(nullable=false)
     private String value;
-    private TimestampAttributes dateAttributes;
     //Merely for testing purpose
     public LexicalItem(Long id) {
         this.id = id;
@@ -43,11 +42,4 @@ public class LexicalItem extends AbstractEntity implements Keyword {
         this.value = value;
     }
 
-    public TimestampAttributes getDateAttributes() {
-        return dateAttributes;
-    }
-
-    public void setDateAttributes(TimestampAttributes dateAttributes) {
-        this.dateAttributes = dateAttributes;
-    }
 }

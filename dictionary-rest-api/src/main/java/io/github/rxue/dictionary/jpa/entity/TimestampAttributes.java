@@ -10,10 +10,10 @@ import java.time.ZonedDateTime;
 
 @Embeddable
 public class TimestampAttributes {
-    @Column(name="creation_date")
-    public LocalDate creationDate;
-    @Column(name="last_update_time")
-    public ZonedDateTime lastUpdateTime;
+    @Column(name = "creation_date")
+    private LocalDate creationDate;
+    @Column(name = "last_update_time")
+    private ZonedDateTime lastUpdateTime;
 
     public LocalDate getCreationDate() {
         return creationDate;
@@ -32,11 +32,12 @@ public class TimestampAttributes {
     }
 
     @PrePersist
-    public void setCreationDate() {
+    public void onPrePersist() {
         this.creationDate = LocalDate.now();
     }
+
     @PreUpdate
-    public void setLastUpdateTime() {
+    public void onPreUpdate() {
         this.lastUpdateTime = ZonedDateTime.now();
     }
 }

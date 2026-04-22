@@ -24,9 +24,6 @@ public class Explanation extends AbstractEntity {
     private String explanation;
     @ManyToMany
     private Set<Sentence> sentences = new HashSet<>();
-    @Embedded
-    private TimestampAttributes timeStampAttributes;
-
     public Explanation(Long id, LexicalItem lexicalItem) {
         this.id = id;
         this.lexicalItem = lexicalItem;

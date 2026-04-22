@@ -9,6 +9,13 @@
 ## Critical questions
 ### Does Quarkus framework have embedded server like the embedded Tomcat inside Spring Boot (20260421)
 Yes. [Vert.x](https://quarkus.io/guides/vertx-reference)
+## Caveats
+### `@Embedded` annotation
+#### From https://github.com/rxue/dictionary/issues/172 (revised on 20260421)
+~`@Embedded` class is not supported to be in an abstract `@Entity` class. This kinda just obey the "composition over inheritance rule"~
+
+#### From https://github.com/rxue/dictionary/issues/174 on 20250529 (revised on 20260421)
+~When using `quarkus-resteasy-jsonb` to make REST API endpoint, the attribute annotated with `@Embedded` inside a *JPA entity* will not be visible in the implemented REST API endpoint response JSON. This is a bit different from that when using `resteasy` of *WildFly* to implement the REST API. In order to make the `@Embedded` attribute visible in the response JSON, add *getter* and *setter* to that `@Embedded` field.~ Moreover, the `@Embedded` annotation is not compulsory, i.e. it can be removed
 
 # 20260420
 ## Problem encountered

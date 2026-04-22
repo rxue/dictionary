@@ -5,7 +5,7 @@ WITH merged_lexical_item AS (
     WHEN MATCHED THEN
         UPDATE SET last_update_time = '2025-08-17 00:00:12'
     WHEN NOT MATCHED THEN
-        INSERT (language,value,last_update_time) VALUES('en','test','2025-08-17 00:00:12')
+        INSERT (language,value,creation_date,last_update_time) VALUES('en','test',CURRENT_DATE,'2025-08-17 00:00:12')
     RETURNING id),
 merged_explanation AS (
     MERGE INTO explanation
@@ -14,7 +14,7 @@ merged_explanation AS (
     WHEN MATCHED THEN
         UPDATE SET explanation = 'test definition',last_update_time = '2025-08-14 08:00:00'
     WHEN NOT MATCHED THEN
-        INSERT (lexical_item_id,language,partofspeech,serialnumber,explanation,last_update_time) VALUES(lexical_item_id,'en','N','1','test definition','2025-08-14 08:00:00')
+        INSERT (lexical_item_id,language,partofspeech,serialnumber,explanation,creation_date,last_update_time) VALUES(lexical_item_id,'en','N','1','test definition',CURRENT_DATE,'2025-08-14 08:00:00')
     RETURNING id),
 merged_sentence AS (
     MERGE INTO sentence
